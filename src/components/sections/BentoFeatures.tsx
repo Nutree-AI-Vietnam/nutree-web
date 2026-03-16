@@ -17,8 +17,8 @@ interface FeatureItem {
 const FEATURES: FeatureItem[] = [
   {
     id: 'ai-scanning',
-    title: 'AI Meal Scanning',
-    description: 'Point your camera at any meal and get instant nutrition data with 95% accuracy.',
+    title: 'Effortless Food Logging',
+    description: 'Photo scan, barcode, or describe in plain text. AI decomposes every ingredient and derives fiber-aware calories from your macros.',
     screenshot: '/images/meal-scanning.png',
     icon: (
       <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
@@ -28,20 +28,9 @@ const FEATURES: FeatureItem[] = [
     ),
   },
   {
-    id: 'edit',
-    title: 'Edit & Refine',
-    description: 'Adjust portions and fine-tune your meal data anytime.',
-    screenshot: '/images/edit-meal.png',
-    icon: (
-      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
-      </svg>
-    ),
-  },
-  {
     id: 'meal-suggestions',
-    title: 'Smart Meal Suggestions',
-    description: 'Get personalized meal ideas based on your nutrition goals and preferences.',
+    title: 'Daily Meal Guidance',
+    description: 'Personalized meals with exact portions, a meal prep calendar for your week, and step-by-step recipe instructions.',
     screenshot: '/images/meal-suggestions.png',
     icon: (
       <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
@@ -51,8 +40,8 @@ const FEATURES: FeatureItem[] = [
   },
   {
     id: 'dashboard',
-    title: 'Real-Time Dashboard',
-    description: 'Track macros with beautiful visualizations and progress insights.',
+    title: 'No Guilt. Ever.',
+    description: 'Cheat day? Nutree rebalances your weekly budget and adjusts tomorrow\'s target automatically. Life happens — Nutree adapts.',
     screenshot: '/images/dashboard.png',
     icon: (
       <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
@@ -61,9 +50,20 @@ const FEATURES: FeatureItem[] = [
     ),
   },
   {
+    id: 'edit',
+    title: 'Science-Based Goals',
+    description: 'Cut, bulk, or recomposition — weight-based macros (g/kg) grounded in evidence, with TDEE personalized to your body.',
+    screenshot: '/images/edit-meal.png',
+    icon: (
+      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+      </svg>
+    ),
+  },
+  {
     id: 'languages',
-    title: '2 Languages',
-    description: 'Available in English & Vietnamese.',
+    title: '7 Languages',
+    description: 'Available in 7 languages with dark/light themes and redesigned onboarding. Your AI Nutrition Assistant, your way.',
     icon: (
       <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 016-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 01-3.827-5.802" />
@@ -72,8 +72,8 @@ const FEATURES: FeatureItem[] = [
   },
   {
     id: 'reports',
-    title: 'Weekly Reports',
-    description: 'Get insights and trends on your nutrition journey.',
+    title: 'Weekly Nutrition Budget',
+    description: 'Adaptive targets that update daily based on your real consumption. Next-day preview so you always know what\'s coming.',
     icon: (
       <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />

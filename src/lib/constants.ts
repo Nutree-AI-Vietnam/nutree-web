@@ -1,7 +1,7 @@
 export const SITE_CONFIG = {
   name: 'Nutree',
-  tagline: 'Your AI Nutrition Assistant in Your Pocket',
-  description: 'AI-powered nutrition tracking with instant meal scanning, personalized meal suggestions, and real-time macro tracking.',
+  tagline: 'Not another calorie counter. An AI Nutrition Assistant that adapts.',
+  description: 'Not another calorie counter. Nutree is an AI Nutrition Assistant that adapts your daily targets, plans meals, and tracks every macro automatically.',
   url: 'https://nutreeai.com',
   supportEmail: 'nutreeaidev@gmail.com',
   github: {
@@ -29,32 +29,32 @@ export const NAV_LINKS = [
 export const FEATURES = [
   {
     id: 'ai-scanning',
-    title: 'AI Meal Scanning',
-    description: 'Point your camera at any meal for instant nutritional analysis powered by Google Gemini AI.',
+    title: 'Effortless Food Logging',
+    description: 'Photo scan, barcode, or describe in plain text. AI decomposes every ingredient and derives fiber-aware calories from your macros automatically.',
     icon: 'camera',
   },
   {
     id: 'meal-suggestions',
-    title: 'Smart Meal Suggestions',
-    description: 'Get personalized meal ideas based on your nutrition goals and preferences.',
+    title: 'Daily Meal Guidance',
+    description: 'Personalized meals with exact portions, a meal prep calendar to plan your week, and step-by-step recipe instructions.',
     icon: 'sparkles',
   },
   {
     id: 'dashboard',
-    title: 'Real-Time Dashboard',
-    description: 'Visual macro tracking with progress accountability. See your nutrition at a glance.',
+    title: 'Adaptive Daily Targets',
+    description: 'Your weekly nutrition budget rebalances automatically. Cheat day? Nutree adjusts tomorrow\'s target so you stay on track without guilt.',
     icon: 'chart',
   },
   {
     id: 'edit',
-    title: 'Edit with Confidence',
-    description: 'Adjust portions and items post-scan. Fine-tune your meal data anytime.',
+    title: 'Science-Based Nutrition',
+    description: 'Weight-based macros (g/kg) grounded in evidence. Cut, bulk, or recomposition goals with TDEE personalized to your body and activity level.',
     icon: 'pencil',
   },
   {
     id: 'personalize',
-    title: 'Personalize Everything',
-    description: 'Goals, 2 languages (EN, VI), light/dark theme, metric/imperial. Your app, your way.',
+    title: 'Built Around You',
+    description: '7 languages, dark/light themes, metric/imperial, redesigned onboarding. Your AI Nutrition Assistant, your way.',
     icon: 'settings',
   },
 ] as const;

@@ -86,9 +86,9 @@ export function DownloadCTA() {
               Start Your Free Trial Today
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-lg text-white/80">
-              Download Nutree and get {SITE_CONFIG.trial.days} days free access to all standard features.
+              Download Nutree and get {SITE_CONFIG.trial.days} days free access to all features.
               <br className="hidden sm:block" />
-              No credit card required.
+              No credit card required. Life happens — Nutree adapts.
             </p>
 
             {/* Platform CTAs */}
@@ -146,6 +146,7 @@ export function DownloadCTA() {
                 <div className="font-display text-3xl font-bold text-white">7</div>
                 <div className="text-sm">Languages</div>
               </div>
+
               <div className="h-8 w-px bg-white/20" />
               <div className="text-center">
                 <div className="font-display text-3xl font-bold text-white">AI</div>

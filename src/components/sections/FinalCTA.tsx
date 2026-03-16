@@ -104,7 +104,7 @@ export function FinalCTA() {
                 transition={{ duration: 0.5, delay: 0.2 }}
                 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4"
               >
-                Ready to transform your health?
+                Life happens. Cheat days happen. Nutree makes sure they don&apos;t matter.
               </motion.h2>
 
               {/* Subtext */}
@@ -114,7 +114,7 @@ export function FinalCTA() {
                 transition={{ duration: 0.5, delay: 0.3 }}
                 className="text-lg text-white/80 max-w-lg mx-auto lg:mx-0 mb-8"
               >
-                Download Nutree and get {SITE_CONFIG.trial.days} days free access to all standard features. No credit card required.
+                Start your {SITE_CONFIG.trial.days}-day free trial. No credit card required. Your AI Nutrition Assistant adapts, so you never have to start over.
               </motion.p>
 
               {/* CTA Buttons with Confetti */}
@@ -223,7 +223,7 @@ export function FinalCTA() {
               </div>
               <div className="h-8 w-px bg-white/20" />
               <div className="text-center">
-                <div className="font-display text-3xl font-bold text-white">2</div>
+                <div className="font-display text-3xl font-bold text-white">7</div>
                 <div className="text-sm">Languages</div>
               </div>
               <div className="h-8 w-px bg-white/20" />

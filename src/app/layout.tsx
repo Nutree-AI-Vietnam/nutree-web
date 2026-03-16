@@ -20,9 +20,9 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: 'Nutree | Download Today',
-  description: 'AI-powered nutrition tracking with instant meal scanning, personalized meal suggestions, and real-time macro tracking. Open source, free to use.',
-  keywords: ['nutrition tracking', 'AI meal scanner', 'calorie counter', 'macro tracking', 'meal suggestions', 'open source'],
+  title: 'Nutree | AI Nutrition Assistant',
+  description: 'Not another calorie counter. Nutree is an AI Nutrition Assistant that adapts your daily targets, plans meals, and tracks every macro automatically.',
+  keywords: ['AI nutrition assistant', 'nutrition tracking', 'meal planning', 'macro tracking', 'calorie tracker', 'cheat day rebalancing', 'adaptive targets', 'meal prep'],
   authors: [{ name: 'Nutree Team' }],
   icons: {
     icon: [
@@ -32,8 +32,8 @@ export const metadata: Metadata = {
     apple: '/apple-touch-icon.png',
   },
   openGraph: {
-    title: 'Nutree - Your AI Nutrition Assistant in Your Pocket',
-    description: 'AI-powered nutrition tracking with instant meal scanning, personalized meal suggestions, and real-time macro tracking.',
+    title: 'Nutree - AI Nutrition Assistant That Adapts',
+    description: 'Not another calorie counter. Nutree adapts your daily targets, plans meals, and tracks every macro automatically.',
     url: 'https://nutreeai.com',
     siteName: 'Nutree',
     type: 'website',
@@ -49,8 +49,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Nutree - Your AI Nutrition Assistant in Your Pocket',
-    description: 'AI-powered nutrition tracking with instant meal scanning and personalized meal suggestions.',
+    title: 'Nutree - AI Nutrition Assistant That Adapts',
+    description: 'Not another calorie counter. Nutree adapts your daily targets, plans meals, and tracks every macro automatically.',
     images: ['/logo-512.png'],
   },
   robots: {

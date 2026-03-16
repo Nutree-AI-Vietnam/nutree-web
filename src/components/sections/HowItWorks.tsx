@@ -14,8 +14,8 @@ interface Step {
 const STEPS: Step[] = [
   {
     number: 1,
-    title: 'Snap',
-    description: 'Point camera at any meal',
+    title: 'Log',
+    description: 'Snap a photo, scan a barcode, or describe your meal in plain text',
     gradient: 'from-primary-teal to-primary-emerald',
     icon: (
       <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
@@ -26,8 +26,8 @@ const STEPS: Step[] = [
   },
   {
     number: 2,
-    title: 'Analyze',
-    description: 'AI breaks down nutrition instantly',
+    title: 'Adapt',
+    description: 'AI breaks down macros and rebalances your weekly budget automatically',
     gradient: 'from-primary-emerald to-energy-lime',
     icon: (
       <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
@@ -38,7 +38,7 @@ const STEPS: Step[] = [
   {
     number: 3,
     title: 'Achieve',
-    description: 'Track progress & hit your goals',
+    description: 'Cut, bulk, or recomp — hit your goals without guilt',
     gradient: 'from-energy-lime to-primary-forest',
     icon: (
       <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">

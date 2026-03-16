@@ -23,11 +23,11 @@ export function Features() {
             Features
           </span>
           <h2 className="font-display text-3xl font-bold text-foreground md:text-4xl lg:text-5xl">
-            Everything You Need to{' '}
-            <span className="gradient-text">Track Smarter</span>
+            Built to{' '}
+            <span className="gradient-text">Adapt to Your Life</span>
           </h2>
           <p className="mt-4 text-lg text-muted">
-            Powerful AI features that make nutrition tracking effortless and insightful.
+            Not another calorie counter. An AI Nutrition Assistant that plans, tracks, and rebalances — automatically.
           </p>
         </motion.div>
 
