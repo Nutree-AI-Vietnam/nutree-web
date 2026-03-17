@@ -74,7 +74,7 @@ Enable health-conscious users worldwide to effortlessly track nutrition through 
 - **Scope**: Mobile app feature showcased on landing page
 
 #### 5. Personalize Everything
-- **Description**: Customizable goals, 7 languages, light/dark theme, unit preferences (metric/imperial)
+- **Description**: Customizable goals, 2 languages (EN, VI), light/dark theme, unit preferences (metric/imperial)
 - **Key Benefits**: Tailored to user preferences, accessible globally
 - **Scope**: Mobile app feature showcased on landing page
 
@@ -246,7 +246,7 @@ Enable health-conscious users worldwide to effortlessly track nutrition through 
 - Sitemap generation
 - Analytics integration (Plausible or Fathom)
 - A/B testing framework
-- Internationalization (i18n) setup for 7 languages
+- Internationalization (i18n) setup for 2 languages (EN, VI)
 
 **Output**: Optimized, SEO-ready, multilingual landing page
 

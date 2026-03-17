@@ -692,7 +692,7 @@ NEXT_PUBLIC_API_URL=https://api.nutree.ai
 
 ### Phase 5 TODOs
 
-- [ ] Internationalization (i18n) - 7 languages
+- [ ] Internationalization (i18n) - 2 languages (EN, VI)
 - [ ] Analytics integration
 - [ ] A/B testing framework
 - [ ] Advanced SEO (schema.org)

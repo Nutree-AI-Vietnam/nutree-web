@@ -139,7 +139,7 @@ function getFeatureHighlights(icon: string): string[] {
     sparkles: ['Personalized suggestions', 'Dietary preference aware', 'Weekly meal plans'],
     chart: ['Visual macro breakdown', 'Daily/weekly trends', 'Goal tracking'],
     pencil: ['Adjust portions easily', 'Add/remove items', 'Nutrition auto-updates'],
-    settings: ['7 language options', 'Light & dark themes', 'Metric or imperial'],
+    settings: ['2 languages (EN, VI)', 'Light & dark themes', 'Metric or imperial'],
   };
   return highlights[icon] || [];
 }

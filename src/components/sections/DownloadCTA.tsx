@@ -143,7 +143,7 @@ export function DownloadCTA() {
               </div>
               <div className="h-8 w-px bg-white/20" />
               <div className="text-center">
-                <div className="font-display text-3xl font-bold text-white">7</div>
+                <div className="font-display text-3xl font-bold text-white">2</div>
                 <div className="text-sm">Languages</div>
               </div>
               <div className="h-8 w-px bg-white/20" />
