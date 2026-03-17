@@ -5,11 +5,11 @@ export const SITE_CONFIG = {
   url: 'https://nutreeai.com',
   supportEmail: 'nutreeaidev@gmail.com',
   stores: {
-    appStore: '#app-store', // Placeholder - replace with actual App Store URL
+    appStore: 'https://apps.apple.com/vn/app/nutree-eat-with-science/id6751159552',
   },
   trial: {
     days: 7,
-    message: 'Start with 7 days free. No credit card required.',
+    message: 'Start with 7 days free.',
   },
 } as const;
 

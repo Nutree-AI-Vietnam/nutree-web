@@ -192,8 +192,8 @@ export const translations: Record<Locale, TranslationStrings> = {
       downloadOnThe: 'Download on the',
       appStore: 'App Store',
       subtext:
-        'Start your 7-day free trial. No credit card required. Your AI Nutrition Assistant adapts, so you never have to start over.',
-      trustMessage: '7-Day Free Trial \u2022 No Credit Card Required',
+        'Start your 7-day free trial. Your AI Nutrition Assistant adapts, so you never have to start over.',
+      trustMessage: '7-Day Free Trial',
       stats: {
         daysFree: 'Days Free',
         languages: 'Languages',
@@ -214,148 +214,148 @@ export const translations: Record<Locale, TranslationStrings> = {
   },
   vi: {
     nav: {
-      howItWorks: 'Cách hoạt động',
+      howItWorks: 'Cách dùng',
       features: 'Tính năng',
-      download: 'Tải về',
+      download: 'Tải app',
     },
     hero: {
-      badge: 'Trợ Lý Dinh Dưỡng AI',
-      headlines: ['Ý TƯỞNG.', 'THEO DÕI.', 'PHÁT TRIỂN.'],
+      badge: 'Trợ lý dinh dưỡng AI',
+      headlines: ['GỢI Ý.', 'THEO DÕI.', 'ĐẠT GOAL.'],
       subheadline:
-        'Không chỉ là đếm calo. Nutree tự động điều chỉnh mục tiêu hàng ngày, lên kế hoạch bữa ăn và theo dõi từng chỉ số dinh dưỡng — hoàn toàn tự động.',
-      downloadFree: 'Tải Miễn Phí',
-      scroll: 'Cuộn',
+        'Không phải app đếm calo bình thường. Nutree tự điều chỉnh mục tiêu mỗi ngày, gợi ý bữa ăn và track macro giúp bạn — tự động hoàn toàn.',
+      downloadFree: 'Tải miễn phí',
+      scroll: 'Kéo xuống',
       tagline: 'Tăng Cơ Giảm Mỡ',
       trustBadges: {
-        rating: 'Đánh giá 4.9',
+        rating: '4.9 sao',
         freeTrial: 'Dùng thử 7 ngày',
-        languages: '7 Ngôn ngữ',
+        languages: '7 ngôn ngữ',
       },
     },
     socialProof: {
-      mealsTracked: 'Bữa ăn đã theo dõi',
+      mealsTracked: 'Bữa ăn đã track',
       rating: 'Đánh giá App Store',
       accuracy: 'Độ chính xác AI',
-      languages: 'Ngôn ngữ được hỗ trợ',
+      languages: 'Ngôn ngữ hỗ trợ',
     },
     howItWorks: {
-      title: '{Nutree} hoạt động như thế nào',
+      title: '{Nutree} dùng thế nào',
       steps: [
         {
-          title: 'Ghi chép',
-          description: 'Chụp ảnh, quét mã vạch hoặc mô tả bữa ăn bằng văn bản thông thường',
+          title: 'Chụp',
+          description: 'Chụp ảnh, scan mã vạch, hoặc gõ tên món — tuỳ bạn',
         },
         {
-          title: 'Điều chỉnh',
-          description: 'AI phân tích macro và tự động cân bằng lại ngân sách tuần của bạn',
+          title: 'Tự động',
+          description: 'AI tính macro, cân bằng lại ngân sách tuần cho bạn luôn',
         },
         {
-          title: 'Đạt mục tiêu',
-          description: 'Giảm mỡ, tăng cơ hoặc tái cân bằng — đạt mục tiêu mà không lo lắng',
+          title: 'Đạt goal',
+          description: 'Giảm mỡ, tăng cơ hay recomp — cứ ăn, Nutree lo',
         },
       ],
     },
     features: {
-      title: '{Nutree} bao gồm những gì?',
-      swipeHint: 'Vuốt để xem tính năng',
+      title: '{Nutree} có gì?',
+      swipeHint: 'Vuốt để xem thêm',
       items: [
         {
           id: 'ai-scanning',
-          title: 'Ghi Chép Thực Phẩm Dễ Dàng',
+          title: 'Ghi bữa ăn siêu nhanh',
           description:
-            'Chụp ảnh, quét mã vạch hoặc mô tả bằng văn bản. AI phân tích từng nguyên liệu và tính calo từ macro có tính đến chất xơ.',
+            'Chụp ảnh, scan mã vạch hoặc gõ tên món. AI tự tách từng nguyên liệu và tính calo chính xác đến cả chất xơ.',
         },
         {
           id: 'meal-suggestions',
-          title: 'Hướng Dẫn Bữa Ăn Hàng Ngày',
+          title: 'Gợi ý bữa ăn mỗi ngày',
           description:
-            'Bữa ăn cá nhân hóa với khẩu phần chính xác, lịch chuẩn bị bữa ăn cho cả tuần và hướng dẫn nấu ăn từng bước.',
+            'Món ăn phù hợp mục tiêu với khẩu phần cụ thể, lịch meal prep cả tuần và hướng dẫn nấu từng bước.',
         },
         {
           id: 'dashboard',
-          title: 'Không Lo Lắng. Mãi Mãi.',
+          title: 'Cheat day? Kệ đi.',
           description:
-            'Ngày ăn kiêng thất bại? Nutree tự động cân bằng lại ngân sách tuần và điều chỉnh mục tiêu ngày mai. Cuộc sống xảy ra — Nutree thích nghi.',
+            'Hôm nay ăn quá? Nutree tự cân bằng lại ngân sách tuần và chỉnh mục tiêu ngày mai. Sống thoải mái — Nutree lo.',
         },
         {
           id: 'edit',
-          title: 'Mục Tiêu Dựa Trên Khoa Học',
+          title: 'Mục tiêu theo khoa học',
           description:
-            'Giảm mỡ, tăng cơ hoặc tái cân bằng — macro dựa trên cân nặng (g/kg) có căn cứ khoa học, TDEE được cá nhân hóa theo cơ thể bạn.',
+            'Cut, bulk hay recomp — macro tính theo cân nặng (g/kg) dựa trên nghiên cứu, TDEE riêng cho cơ thể bạn.',
         },
         {
           id: 'languages',
-          title: '7 Ngôn Ngữ',
+          title: '7 ngôn ngữ',
           description:
-            'Hỗ trợ 7 ngôn ngữ với giao diện tối/sáng và trải nghiệm khởi đầu được thiết kế lại. Trợ lý dinh dưỡng AI theo cách của bạn.',
+            'Dùng được 7 ngôn ngữ, giao diện tối/sáng, onboarding mới tinh. Trợ lý dinh dưỡng AI — theo cách của bạn.',
         },
         {
           id: 'reports',
-          title: 'Ngân Sách Dinh Dưỡng Tuần',
+          title: 'Ngân sách dinh dưỡng tuần',
           description:
-            'Mục tiêu thích ứng cập nhật hàng ngày dựa trên lượng tiêu thụ thực tế. Xem trước ngày hôm sau để luôn biết kế hoạch tiếp theo.',
+            'Mục tiêu tự cập nhật mỗi ngày dựa trên những gì bạn đã ăn. Xem trước ngày mai để luôn chủ động.',
         },
       ],
     },
     testimonials: {
-      title: 'Tại sao chọn {Nutree}?',
+      title: 'Sao mọi người chọn {Nutree}?',
       items: [
         {
           id: '1',
           quote:
-            'Nutree hoàn toàn thay đổi cách tôi theo dõi thức ăn. AI cực kỳ chính xác và tiết kiệm rất nhiều thời gian mỗi ngày. Cuối cùng tôi cũng đạt được mục tiêu protein!',
+            'Nutree thay đổi hoàn toàn cách mình track đồ ăn. AI chính xác cực kỳ, tiết kiệm bao nhiêu thời gian. Giờ mình hit protein target đều đều!',
           author: 'Sarah M.',
-          role: 'Người đam mê thể hình',
+          role: 'Gymer',
           achievement: 'Giảm 7kg trong 3 tháng',
         },
         {
           id: '2',
           quote:
-            'Là một người bận rộn, tôi không bao giờ có thời gian ghi chép bữa ăn. Giờ chỉ cần chụp ảnh là xong. Tính năng gợi ý bữa ăn thực sự tuyệt vời.',
+            'Bận rộn nên trước giờ lười ghi bữa ăn lắm. Giờ chỉ cần chụp ảnh là xong. Tính năng gợi ý món ăn cứu mình mỗi tuần meal prep.',
           author: 'David K.',
-          role: 'Kỹ sư phần mềm',
-          achievement: 'Tăng 5kg cơ bắp',
+          role: 'Dân IT',
+          achievement: 'Tăng 5kg cơ',
         },
         {
           id: '3',
           quote:
-            'Tôi đã thử mọi ứng dụng dinh dưỡng. Nutree chính xác nhất và dễ sử dụng nhất. Hỗ trợ tiếng Việt hoàn hảo cho gia đình tôi.',
+            'Thử đủ app dinh dưỡng rồi. Nutree chính xác nhất mà dùng lại dễ nhất. Có tiếng Việt nên cả nhà mình xài chung luôn.',
           author: 'Linh T.',
-          role: 'Mẹ bận rộn',
-          achievement: 'Cả gia đình cùng theo dõi',
+          role: 'Mẹ bỉm sữa',
+          achievement: 'Cả nhà cùng dùng',
         },
         {
           id: '4',
           quote:
-            'Gợi ý bữa ăn AI rất chuẩn. Nó nhanh chóng học được sở thích của tôi và gợi ý những bữa ăn tôi thực sự muốn ăn. Đã giảm 9kg!',
+            'Gợi ý bữa ăn chuẩn xỉu. Nó học sở thích mình nhanh lắm, toàn gợi ý mấy món mình thích ăn thiệt. Giảm 9kg rồi nè!',
           author: 'Marcus J.',
-          role: 'Huấn luyện viên cá nhân',
-          achievement: 'Giới thiệu cho học viên',
+          role: 'PT cá nhân',
+          achievement: 'Recommend cho học viên',
         },
       ],
     },
     finalCta: {
-      badge: 'Bắt đầu thay đổi',
-      headline: 'Cuộc sống xảy ra. Ngày ăn kiêng thất bại xảy ra. Nutree đảm bảo chúng không quan trọng.',
-      downloadOnThe: 'Tải về trên',
+      badge: 'Bắt đầu ngay',
+      headline: 'Cheat day? Bận rộn? Kệ hết. Nutree lo cho bạn.',
+      downloadOnThe: 'Tải trên',
       appStore: 'App Store',
       subtext:
-        'Bắt đầu dùng thử 7 ngày miễn phí. Không cần thẻ tín dụng. Trợ lý dinh dưỡng AI của bạn tự thích nghi, để bạn không bao giờ phải bắt đầu lại.',
-      trustMessage: 'Dùng thử 7 ngày \u2022 Không cần thẻ tín dụng',
+        'Dùng thử 7 ngày miễn phí. Nutree tự thích nghi theo bạn, không cần bắt đầu lại từ đầu.',
+      trustMessage: 'Dùng thử 7 ngày miễn phí',
       stats: {
-        daysFree: 'Ngày miễn phí',
+        daysFree: 'Ngày free',
         languages: 'Ngôn ngữ',
         aiPowered: 'AI',
         rating: 'Đánh giá',
       },
     },
     footer: {
-      quickLinks: 'Liên kết nhanh',
+      quickLinks: 'Liên kết',
       getInTouch: 'Liên hệ',
       contactPrompt:
-        'Bạn có câu hỏi hoặc góp ý? Chúng tôi rất muốn nghe từ bạn.',
+        'Có thắc mắc hay góp ý gì không? Inbox mình nhé!',
       contactSupport: 'Liên hệ hỗ trợ',
-      copyright: 'Nutree. Mọi quyền được bảo lưu.',
+      copyright: 'Nutree. Bảo lưu mọi quyền.',
       privacyPolicy: 'Chính sách bảo mật',
       termsOfService: 'Điều khoản sử dụng',
     },
