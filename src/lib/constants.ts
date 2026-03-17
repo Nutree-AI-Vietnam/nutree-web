@@ -4,12 +4,6 @@ export const SITE_CONFIG = {
   description: 'AI-powered nutrition tracking with instant meal scanning, personalized meal suggestions, and real-time macro tracking.',
   url: 'https://nutreeai.com',
   supportEmail: 'nutreeaidev@gmail.com',
-  github: {
-    repo: 'https://github.com/trandactri/nutree-web',
-    owner: 'trandactri',
-    repoName: 'nutree-web',
-  },
-  license: 'BSD-3-Clause',
   stores: {
     appStore: '#app-store', // Placeholder - replace with actual App Store URL
     googlePlay: '#google-play', // Placeholder - replace with actual Google Play URL

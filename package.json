@@ -10,7 +10,6 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@octokit/rest": "^21.1.1",
     "@posthog/nextjs-config": "^1.8.11",
     "clsx": "^2.1.0",
     "framer-motion": "^11.0.0",
