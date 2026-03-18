@@ -12,24 +12,24 @@ interface LocaleContextValue {
 }
 
 const LocaleContext = createContext<LocaleContextValue>({
-  locale: 'en',
+  locale: 'vi',
   setLocale: () => {},
-  t: translations.en,
+  t: translations.vi,
 });
 
 function getStoredLocale(): Locale {
-  if (typeof window === 'undefined') return 'en';
+  if (typeof window === 'undefined') return 'vi';
   const stored = localStorage.getItem(LOCALE_KEY);
-  return stored === 'vi' ? 'vi' : 'en';
+  return stored === 'en' ? 'en' : 'vi';
 }
 
 export function LocaleProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>('en');
+  const [locale, setLocaleState] = useState<Locale>('vi');
 
   // Hydrate from localStorage after mount
   useEffect(() => {
     const stored = getStoredLocale();
-    if (stored !== 'en') {
+    if (stored !== 'vi') {
       setLocaleState(stored);
       document.documentElement.lang = stored;
     }

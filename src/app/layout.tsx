@@ -66,7 +66,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${plusJakarta.variable} ${dmSans.variable}`}>
+    <html lang="vi" className={`${plusJakarta.variable} ${dmSans.variable}`}>
       <head>
         <meta name="theme-color" content="#1A4739" />
       </head>
