@@ -115,37 +115,37 @@ export const translations: Record<Locale, TranslationStrings> = {
           id: 'ai-scanning',
           title: 'Effortless Food Logging',
           description:
-            'Photo scan, barcode, or describe in plain text. AI decomposes every ingredient and derives fiber-aware calories from your macros.',
+            'Snap a photo, scan a barcode, or type what you ate. AI breaks down every ingredient automatically.',
         },
         {
           id: 'meal-suggestions',
           title: 'Daily Meal Guidance',
           description:
-            'Personalized meals with exact portions, a meal prep calendar for your week, and step-by-step recipe instructions.',
+            'Personalized meals with exact portions and step-by-step recipes tailored to your goals.',
         },
         {
           id: 'dashboard',
           title: 'No Guilt. Ever.',
           description:
-            "Cheat day? Nutree rebalances your weekly budget and adjusts tomorrow's target automatically. Life happens — Nutree adapts.",
+            "Cheat day? Nutree rebalances your weekly budget and adjusts tomorrow's target automatically.",
         },
         {
           id: 'edit',
           title: 'Science-Based Goals',
           description:
-            'Cut, bulk, or recomposition — weight-based macros (g/kg) grounded in evidence, with TDEE personalized to your body.',
+            'Cut, bulk, or recomp — weight-based macros (g/kg) with TDEE personalized to your body.',
         },
         {
           id: 'languages',
           title: '7 Languages',
           description:
-            'Available in 7 languages with dark/light themes and redesigned onboarding. Your AI Nutrition Assistant, your way.',
+            'EN, VI, ES, FR, DE, JA, ZH — with dark/light themes and metric/imperial support.',
         },
         {
           id: 'reports',
           title: 'Weekly Nutrition Budget',
           description:
-            "Adaptive targets that update daily based on your real consumption. Next-day preview so you always know what's coming.",
+            "Adaptive targets that update daily. Next-day preview so you always know what's coming.",
         },
       ],
     },
@@ -263,37 +263,37 @@ export const translations: Record<Locale, TranslationStrings> = {
           id: 'ai-scanning',
           title: 'Ghi bữa ăn siêu nhanh',
           description:
-            'Chụp ảnh, scan mã vạch hoặc gõ tên món. AI tự tách từng nguyên liệu và tính calo chính xác đến cả chất xơ.',
+            'Chụp ảnh, scan mã vạch hoặc gõ tên món. AI tự tách từng nguyên liệu và tính calo.',
         },
         {
           id: 'meal-suggestions',
           title: 'Gợi ý bữa ăn mỗi ngày',
           description:
-            'Món ăn phù hợp mục tiêu với khẩu phần cụ thể, lịch meal prep cả tuần và hướng dẫn nấu từng bước.',
+            'Món ăn phù hợp mục tiêu, khẩu phần cụ thể và hướng dẫn nấu từng bước.',
         },
         {
           id: 'dashboard',
           title: 'Cheat day? Kệ đi.',
           description:
-            'Hôm nay ăn quá? Nutree tự cân bằng lại ngân sách tuần và chỉnh mục tiêu ngày mai. Sống thoải mái — Nutree lo.',
+            'Ăn quá? Nutree tự cân bằng ngân sách tuần và chỉnh mục tiêu ngày mai.',
         },
         {
           id: 'edit',
           title: 'Mục tiêu theo khoa học',
           description:
-            'Cut, bulk hay recomp — macro tính theo cân nặng (g/kg) dựa trên nghiên cứu, TDEE riêng cho cơ thể bạn.',
+            'Cut, bulk hay recomp — macro theo cân nặng (g/kg), TDEE riêng cho cơ thể bạn.',
         },
         {
           id: 'languages',
           title: '7 ngôn ngữ',
           description:
-            'Dùng được 7 ngôn ngữ, giao diện tối/sáng, onboarding mới tinh. Trợ lý dinh dưỡng AI — theo cách của bạn.',
+            'EN, VI, ES, FR, DE, JA, ZH — giao diện tối/sáng, đơn vị tùy chọn.',
         },
         {
           id: 'reports',
           title: 'Ngân sách dinh dưỡng tuần',
           description:
-            'Mục tiêu tự cập nhật mỗi ngày dựa trên những gì bạn đã ăn. Xem trước ngày mai để luôn chủ động.',
+            'Mục tiêu tự cập nhật mỗi ngày. Xem trước ngày mai để luôn chủ động.',
         },
       ],
     },
