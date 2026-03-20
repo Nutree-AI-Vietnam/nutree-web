@@ -1,7 +1,5 @@
 import type { Metadata } from 'next';
 import { Plus_Jakarta_Sans, DM_Sans } from 'next/font/google';
-import { Header } from '@/components/layout/Header';
-import { Footer } from '@/components/layout/Footer';
 import { PostHogProvider } from '@/components/providers/PostHogProvider';
 import { LocaleProvider } from '@/lib/locale-context';
 import './globals.css';
@@ -21,6 +19,7 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://nutreeai.com'),
   title: 'Nutree | AI Nutrition Assistant',
   description: 'Not another calorie counter. Nutree is an AI Nutrition Assistant that adapts your daily targets, plans meals, and tracks every macro automatically.',
   keywords: ['AI nutrition assistant', 'nutrition tracking', 'meal planning', 'macro tracking', 'calorie tracker', 'cheat day rebalancing', 'adaptive targets', 'meal prep'],
@@ -73,9 +72,7 @@ export default function RootLayout({
       <body className="flex min-h-screen flex-col">
         <PostHogProvider>
           <LocaleProvider>
-            <Header />
-            <main className="flex-1">{children}</main>
-            <Footer />
+            {children}
           </LocaleProvider>
         </PostHogProvider>
       </body>
