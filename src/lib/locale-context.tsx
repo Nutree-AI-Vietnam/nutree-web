@@ -12,9 +12,9 @@ interface LocaleContextValue {
 }
 
 const LocaleContext = createContext<LocaleContextValue>({
-  locale: 'vi',
+  locale: 'en',
   setLocale: () => {},
-  t: translations.vi,
+  t: translations.en,
 });
 
 /** Detect locale from browser language (Vietnamese browser → 'vi') */
@@ -22,9 +22,9 @@ function detectLocale(): Locale {
   return navigator.language.startsWith('vi') ? 'vi' : 'en';
 }
 
-/** Get locale: localStorage (user choice) > browser detection > 'vi' fallback */
+/** Get locale: localStorage (user choice) > browser detection > 'en' fallback */
 function getInitialLocale(): Locale {
-  if (typeof window === 'undefined') return 'vi';
+  if (typeof window === 'undefined') return 'en';
   const stored = localStorage.getItem(LOCALE_KEY);
   if (stored === 'vi' || stored === 'en') return stored;
   // First visit: detect from browser language, persist so detection runs once
@@ -34,12 +34,12 @@ function getInitialLocale(): Locale {
 }
 
 export function LocaleProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>('vi');
+  const [locale, setLocaleState] = useState<Locale>('en');
 
-  // Hydrate locale after mount (localStorage > browser detection > 'vi')
+  // Hydrate locale after mount (localStorage > browser detection > 'en')
   useEffect(() => {
     const initial = getInitialLocale();
-    if (initial !== 'vi') {
+    if (initial !== 'en') {
       setLocaleState(initial);
       document.documentElement.lang = initial;
     }
