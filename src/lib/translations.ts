@@ -141,12 +141,6 @@ export const translations: Record<Locale, TranslationStrings> = {
           description:
             'EN, VI, ES, FR, DE, JA, ZH — with dark/light themes and metric/imperial support.',
         },
-        {
-          id: 'reports',
-          title: 'Weekly Nutrition Budget',
-          description:
-            "Adaptive targets that update daily. Next-day preview so you always know what's coming.",
-        },
       ],
     },
     testimonials: {
@@ -288,12 +282,6 @@ export const translations: Record<Locale, TranslationStrings> = {
           title: '7 ngôn ngữ',
           description:
             'EN, VI, ES, FR, DE, JA, ZH — giao diện tối/sáng, đơn vị tùy chọn.',
-        },
-        {
-          id: 'reports',
-          title: 'Ngân sách dinh dưỡng tuần',
-          description:
-            'Mục tiêu tự cập nhật mỗi ngày. Xem trước ngày mai để luôn chủ động.',
         },
       ],
     },
