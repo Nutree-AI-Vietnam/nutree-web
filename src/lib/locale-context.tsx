@@ -12,26 +12,36 @@ interface LocaleContextValue {
 }
 
 const LocaleContext = createContext<LocaleContextValue>({
-  locale: 'vi',
+  locale: 'en',
   setLocale: () => {},
-  t: translations.vi,
+  t: translations.en,
 });
 
-function getStoredLocale(): Locale {
-  if (typeof window === 'undefined') return 'vi';
+/** Detect locale from browser language (Vietnamese browser → 'vi') */
+function detectLocale(): Locale {
+  return navigator.language.startsWith('vi') ? 'vi' : 'en';
+}
+
+/** Get locale: localStorage (user choice) > browser detection > 'en' fallback */
+function getInitialLocale(): Locale {
+  if (typeof window === 'undefined') return 'en';
   const stored = localStorage.getItem(LOCALE_KEY);
-  return stored === 'en' ? 'en' : 'vi';
+  if (stored === 'vi' || stored === 'en') return stored;
+  // First visit: detect from browser language, persist so detection runs once
+  const detected = detectLocale();
+  localStorage.setItem(LOCALE_KEY, detected);
+  return detected;
 }
 
 export function LocaleProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>('vi');
+  const [locale, setLocaleState] = useState<Locale>('en');
 
-  // Hydrate from localStorage after mount
+  // Hydrate locale after mount (localStorage > browser detection > 'en')
   useEffect(() => {
-    const stored = getStoredLocale();
-    if (stored !== 'vi') {
-      setLocaleState(stored);
-      document.documentElement.lang = stored;
+    const initial = getInitialLocale();
+    if (initial !== 'en') {
+      setLocaleState(initial);
+      document.documentElement.lang = initial;
     }
   }, []);
 
