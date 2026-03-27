@@ -80,7 +80,7 @@ export const translations: Record<Locale, TranslationStrings> = {
       scroll: 'Scroll',
       trustBadges: {
         rating: '4.9 Rating',
-        freeTrial: '7-Day Free Trial',
+        freeTrial: '3-Day Free Trial',
         languages: '7 Languages',
       },
     },
@@ -186,8 +186,8 @@ export const translations: Record<Locale, TranslationStrings> = {
       downloadOnThe: 'Download on the',
       appStore: 'App Store',
       subtext:
-        'Start your 7-day free trial. Your AI Nutrition Assistant adapts, so you never have to start over.',
-      trustMessage: '7-Day Free Trial',
+        'Start your 3-day free trial. Your AI Nutrition Assistant adapts, so you never have to start over.',
+      trustMessage: '3-Day Free Trial',
       stats: {
         daysFree: 'Days Free',
         languages: 'Languages',
@@ -222,7 +222,7 @@ export const translations: Record<Locale, TranslationStrings> = {
       tagline: 'Tăng Cơ Giảm Mỡ',
       trustBadges: {
         rating: '4.9 sao',
-        freeTrial: 'Dùng thử 7 ngày',
+        freeTrial: 'Dùng thử 3 ngày',
         languages: '7 ngôn ngữ',
       },
     },
@@ -328,8 +328,8 @@ export const translations: Record<Locale, TranslationStrings> = {
       downloadOnThe: 'Tải trên',
       appStore: 'App Store',
       subtext:
-        'Dùng thử 7 ngày miễn phí. Nutree tự thích nghi theo bạn, không cần bắt đầu lại từ đầu.',
-      trustMessage: 'Dùng thử 7 ngày miễn phí',
+        'Dùng thử 3 ngày miễn phí. Nutree tự thích nghi theo bạn, không cần bắt đầu lại từ đầu.',
+      trustMessage: 'Dùng thử 3 ngày miễn phí',
       stats: {
         daysFree: 'Ngày free',
         languages: 'Ngôn ngữ',

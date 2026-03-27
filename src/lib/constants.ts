@@ -8,8 +8,8 @@ export const SITE_CONFIG = {
     appStore: 'https://apps.apple.com/vn/app/nutree-eat-with-science/id6751159552',
   },
   trial: {
-    days: 7,
-    message: 'Start with 7 days free.',
+    days: 3,
+    message: 'Start with 3 days free.',
   },
 } as const;
 
