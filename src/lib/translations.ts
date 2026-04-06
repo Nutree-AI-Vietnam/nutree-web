@@ -8,6 +8,16 @@ export function getNavLabel(href: string, nav: { howItWorks: string; features: s
   return '';
 }
 
+export interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+export interface FaqSection {
+  title: string;
+  items: FaqItem[];
+}
+
 interface TranslationStrings {
   nav: { howItWorks: string; features: string; download: string };
   hero: {
@@ -61,6 +71,11 @@ interface TranslationStrings {
     copyright: string;
     privacyPolicy: string;
     termsOfService: string;
+  };
+  faq: {
+    pageTitle: string;
+    pageDescription: string;
+    sections: FaqSection[];
   };
 }
 
@@ -205,6 +220,151 @@ export const translations: Record<Locale, TranslationStrings> = {
       privacyPolicy: 'Privacy Policy',
       termsOfService: 'Terms of Service',
     },
+    faq: {
+      pageTitle: 'Frequently Asked Questions',
+      pageDescription: 'Find answers to common questions about Nutree.',
+      sections: [
+        {
+          title: 'Getting Started',
+          items: [
+            {
+              question: 'What is Nutree AI?',
+              answer: 'Nutree is an AI nutrition assistant that tracks your macros, plans meals, and adapts your daily targets automatically. It is not just a calorie counter — it understands your goals and adjusts your weekly budget so you stay on track even on cheat days.',
+            },
+            {
+              question: 'How do I create an account?',
+              answer: 'Download the Nutree app, then sign in with your Google or Apple account. No email or password required.',
+            },
+            {
+              question: 'What languages does Nutree support?',
+              answer: 'Nutree supports 7 languages: English, Vietnamese, Spanish, French, German, Japanese, and Chinese.',
+            },
+          ],
+        },
+        {
+          title: 'Meal Tracking',
+          items: [
+            {
+              question: 'How do I log a meal?',
+              answer: 'You can log a meal by taking a photo, scanning a barcode, or describing your meal in plain text. The AI decomposes ingredients and calculates macros automatically.',
+            },
+            {
+              question: 'How accurate is the AI meal scan?',
+              answer: 'The AI analyzes each ingredient separately for high accuracy. You can always review and edit the results after scanning.',
+            },
+            {
+              question: 'Can I edit a meal after scanning?',
+              answer: 'Yes. Tap any logged meal to edit ingredients, adjust portions, or add missing items.',
+            },
+            {
+              question: "What if the AI doesn't recognize my food?",
+              answer: 'Use manual text entry to describe your meal. The AI handles most food descriptions in all 7 supported languages.',
+            },
+            {
+              question: 'How many meals can I scan per day?',
+              answer: 'Free plan: 3 AI scans per day. Premium plan: unlimited scans.',
+            },
+          ],
+        },
+        {
+          title: 'Nutrition & Goals',
+          items: [
+            {
+              question: 'How are my daily targets calculated?',
+              answer: 'Daily targets are based on your body metrics, activity level, and goal using TDEE (Total Daily Energy Expenditure) with evidence-based formulas.',
+            },
+            {
+              question: 'What is the weekly budget feature?',
+              answer: 'Your weekly nutrition budget rebalances automatically. If you eat more one day, tomorrow\'s target adjusts so you stay on track without guilt.',
+            },
+            {
+              question: 'Can I adjust my nutrition goals?',
+              answer: 'Yes. Update your goal (cut, bulk, or recomposition) and body metrics anytime in Settings → My Plan.',
+            },
+            {
+              question: 'How does Nutree handle cheat days?',
+              answer: 'Automatically. Your weekly budget absorbs the overshoot and redistributes the difference across your remaining days.',
+            },
+          ],
+        },
+        {
+          title: 'Meal Suggestions',
+          items: [
+            {
+              question: 'How do AI meal suggestions work?',
+              answer: 'Suggestions are generated based on your remaining daily macros, cooking time preference, and available ingredients. Each suggestion includes portions and step-by-step recipes.',
+            },
+            {
+              question: 'Can I get suggestions in my language?',
+              answer: 'Yes. Meal names, descriptions, and recipes are generated in your selected app language.',
+            },
+            {
+              question: 'Can I filter by cooking time or ingredients?',
+              answer: 'Yes. Set your available cooking time and list ingredients you have on hand before generating suggestions.',
+            },
+          ],
+        },
+        {
+          title: 'Subscription & Pricing',
+          items: [
+            {
+              question: 'Is Nutree free to use?',
+              answer: 'Yes, with limits. The free plan includes 3 AI scans per day. Premium unlocks unlimited scans, meal suggestions, and full features.',
+            },
+            {
+              question: "What's included in the free trial?",
+              answer: 'A 3-day free trial with full premium access. Cancel anytime before the trial ends.',
+            },
+            {
+              question: 'How do I cancel my subscription?',
+              answer: 'iOS: Settings → Apple ID → Subscriptions → Nutree → Cancel. Android: Play Store → Subscriptions → Nutree → Cancel.',
+            },
+            {
+              question: 'Will I be charged after the trial?',
+              answer: 'Only if you do not cancel before the 3-day trial ends. You will receive a reminder before any charges begin.',
+            },
+            {
+              question: 'How do I restore my purchase on a new device?',
+              answer: 'Sign in with the same Google or Apple account. Your subscription restores automatically.',
+            },
+          ],
+        },
+        {
+          title: 'Privacy & Data',
+          items: [
+            {
+              question: 'Is my food data private?',
+              answer: 'Yes. Your data is stored securely on our cloud servers and never shared with third parties.',
+            },
+            {
+              question: 'Do you store my meal photos?',
+              answer: 'Yes, meal photos are saved to our cloud for your meal history and re-analysis. They are deleted when you delete your account.',
+            },
+            {
+              question: 'How do I delete my account?',
+              answer: 'Go to Settings → Account Management → Delete Account. All your data is permanently removed.',
+            },
+          ],
+        },
+        {
+          title: 'Troubleshooting',
+          items: [
+            {
+              question: "The meal scan isn't working — what should I do?",
+              answer: 'Ensure good lighting, hold your phone steady, and keep the full plate in frame. If it still fails, try manual text entry.',
+            },
+            {
+              question: 'My daily targets seem wrong.',
+              answer: 'Check your body metrics and goal in Settings → My Plan. Targets update automatically when you make changes.',
+            },
+            {
+              question: 'How do I contact support?',
+              answer: 'Email us at nutreeaidev@gmail.com, message us on Facebook Messenger, or follow us on TikTok @nutree.ai.',
+            },
+          ],
+        },
+      ],
+    },
   },
   vi: {
     nav: {
@@ -346,6 +506,151 @@ export const translations: Record<Locale, TranslationStrings> = {
       copyright: 'Nutree. Bảo lưu mọi quyền.',
       privacyPolicy: 'Chính sách bảo mật',
       termsOfService: 'Điều khoản sử dụng',
+    },
+    faq: {
+      pageTitle: 'Câu hỏi thường gặp',
+      pageDescription: 'Giải đáp các câu hỏi phổ biến về Nutree.',
+      sections: [
+        {
+          title: 'Bắt đầu',
+          items: [
+            {
+              question: 'Nutree AI là gì?',
+              answer: 'Nutree là trợ lý dinh dưỡng AI giúp theo dõi macro, gợi ý bữa ăn và tự điều chỉnh mục tiêu hằng ngày. Không chỉ đếm calo — Nutree hiểu mục tiêu của bạn và cân bằng lại ngân sách tuần kể cả khi có cheat day.',
+            },
+            {
+              question: 'Làm sao để tạo tài khoản?',
+              answer: 'Tải app Nutree, sau đó đăng nhập bằng tài khoản Google hoặc Apple. Không cần email hay mật khẩu.',
+            },
+            {
+              question: 'Nutree hỗ trợ những ngôn ngữ nào?',
+              answer: 'Nutree hỗ trợ 7 ngôn ngữ: Tiếng Anh, Tiếng Việt, Tiếng Tây Ban Nha, Tiếng Pháp, Tiếng Đức, Tiếng Nhật và Tiếng Trung.',
+            },
+          ],
+        },
+        {
+          title: 'Ghi bữa ăn',
+          items: [
+            {
+              question: 'Làm sao để ghi một bữa ăn?',
+              answer: 'Bạn có thể chụp ảnh, scan mã vạch, hoặc mô tả bữa ăn bằng văn bản. AI sẽ tự phân tích thành phần và tính macro.',
+            },
+            {
+              question: 'AI scan bữa ăn có chính xác không?',
+              answer: 'AI phân tích từng nguyên liệu riêng biệt để đảm bảo độ chính xác. Bạn có thể xem lại và chỉnh sửa kết quả sau khi scan.',
+            },
+            {
+              question: 'Tôi có thể chỉnh sửa bữa ăn sau khi đã scan không?',
+              answer: 'Được. Nhấn vào bữa ăn đã ghi để chỉnh sửa nguyên liệu, khẩu phần, hoặc thêm món còn thiếu.',
+            },
+            {
+              question: 'AI không nhận ra món ăn của tôi thì sao?',
+              answer: 'Dùng chức năng nhập văn bản thủ công để mô tả bữa ăn. AI xử lý được hầu hết các mô tả thức ăn trong 7 ngôn ngữ được hỗ trợ.',
+            },
+            {
+              question: 'Mỗi ngày tôi có thể scan bao nhiêu bữa?',
+              answer: 'Gói miễn phí: 3 lần scan AI mỗi ngày. Gói Premium: không giới hạn.',
+            },
+          ],
+        },
+        {
+          title: 'Dinh dưỡng & Mục tiêu',
+          items: [
+            {
+              question: 'Mục tiêu hằng ngày của tôi được tính như thế nào?',
+              answer: 'Mục tiêu được tính dựa trên chỉ số cơ thể, mức độ hoạt động và mục tiêu của bạn thông qua công thức TDEE (Tổng năng lượng tiêu hao mỗi ngày) theo bằng chứng khoa học.',
+            },
+            {
+              question: 'Tính năng ngân sách tuần là gì?',
+              answer: 'Ngân sách dinh dưỡng tuần tự cân bằng lại. Hôm nay ăn nhiều hơn, ngày mai mục tiêu tự điều chỉnh để bạn vẫn đi đúng hướng.',
+            },
+            {
+              question: 'Tôi có thể thay đổi mục tiêu dinh dưỡng không?',
+              answer: 'Được. Cập nhật mục tiêu (giảm mỡ, tăng cơ hay recomp) và chỉ số cơ thể bất cứ lúc nào trong Cài đặt → Kế hoạch của tôi.',
+            },
+            {
+              question: 'Nutree xử lý cheat day như thế nào?',
+              answer: 'Tự động. Ngân sách tuần sẽ hấp thụ lượng ăn vượt và phân bổ lại cho các ngày còn lại.',
+            },
+          ],
+        },
+        {
+          title: 'Gợi ý bữa ăn',
+          items: [
+            {
+              question: 'Gợi ý bữa ăn AI hoạt động thế nào?',
+              answer: 'Gợi ý được tạo dựa trên macro còn lại trong ngày, thời gian nấu và nguyên liệu bạn có. Mỗi gợi ý bao gồm khẩu phần và hướng dẫn nấu từng bước.',
+            },
+            {
+              question: 'Tôi có thể nhận gợi ý bằng tiếng Việt không?',
+              answer: 'Được. Tên món, mô tả và công thức nấu ăn được tạo bằng ngôn ngữ bạn đang dùng trong app.',
+            },
+            {
+              question: 'Có thể lọc theo thời gian nấu hoặc nguyên liệu không?',
+              answer: 'Được. Đặt thời gian nấu và liệt kê nguyên liệu bạn có trước khi tạo gợi ý.',
+            },
+          ],
+        },
+        {
+          title: 'Gói đăng ký & Giá',
+          items: [
+            {
+              question: 'Nutree có miễn phí không?',
+              answer: 'Có, nhưng có giới hạn. Gói miễn phí gồm 3 lần scan AI mỗi ngày. Premium mở khóa scan không giới hạn, gợi ý bữa ăn và toàn bộ tính năng.',
+            },
+            {
+              question: 'Dùng thử miễn phí bao gồm gì?',
+              answer: 'Dùng thử 3 ngày với toàn bộ tính năng Premium. Hủy bất cứ lúc nào trước khi hết hạn.',
+            },
+            {
+              question: 'Làm sao để hủy gói đăng ký?',
+              answer: 'iOS: Cài đặt → Apple ID → Đăng ký → Nutree → Hủy. Android: Play Store → Đăng ký → Nutree → Hủy.',
+            },
+            {
+              question: 'Tôi có bị tính tiền sau khi hết dùng thử không?',
+              answer: 'Chỉ khi bạn không hủy trước khi hết 3 ngày dùng thử. Bạn sẽ nhận thông báo nhắc trước khi bị tính phí.',
+            },
+            {
+              question: 'Làm sao khôi phục gói đăng ký trên thiết bị mới?',
+              answer: 'Đăng nhập bằng cùng tài khoản Google hoặc Apple. Gói đăng ký sẽ tự động khôi phục.',
+            },
+          ],
+        },
+        {
+          title: 'Quyền riêng tư & Dữ liệu',
+          items: [
+            {
+              question: 'Dữ liệu bữa ăn của tôi có được bảo mật không?',
+              answer: 'Có. Dữ liệu của bạn được lưu trữ an toàn trên máy chủ đám mây và không bao giờ được chia sẻ với bên thứ ba.',
+            },
+            {
+              question: 'Nutree có lưu ảnh bữa ăn của tôi không?',
+              answer: 'Có, ảnh bữa ăn được lưu trên đám mây để phục vụ lịch sử và phân tích lại. Ảnh sẽ bị xóa khi bạn xóa tài khoản.',
+            },
+            {
+              question: 'Làm sao để xóa tài khoản?',
+              answer: 'Vào Cài đặt → Quản lý tài khoản → Xóa tài khoản. Toàn bộ dữ liệu của bạn sẽ bị xóa vĩnh viễn.',
+            },
+          ],
+        },
+        {
+          title: 'Xử lý sự cố',
+          items: [
+            {
+              question: 'Scan bữa ăn không hoạt động — phải làm gì?',
+              answer: 'Đảm bảo đủ ánh sáng, giữ điện thoại thẳng, và chụp toàn bộ đĩa ăn trong khung hình. Nếu vẫn không được, thử nhập văn bản thủ công.',
+            },
+            {
+              question: 'Mục tiêu hằng ngày của tôi có vẻ sai.',
+              answer: 'Kiểm tra chỉ số cơ thể và mục tiêu trong Cài đặt → Kế hoạch của tôi. Mục tiêu sẽ tự cập nhật khi bạn thay đổi thông tin.',
+            },
+            {
+              question: 'Làm sao để liên hệ hỗ trợ?',
+              answer: 'Gửi email đến nutreeaidev@gmail.com, nhắn tin qua Facebook Messenger, hoặc theo dõi chúng tôi trên TikTok @nutree.ai.',
+            },
+          ],
+        },
+      ],
     },
   },
 };

@@ -68,6 +68,31 @@ export function Footer() {
                 />
               </svg>
             </Link>
+            {/* Social Links */}
+            <div className="flex items-center gap-3 mt-1">
+              <a
+                href={SITE_CONFIG.social.facebookMessenger}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook Messenger"
+                className="text-muted transition-colors hover:text-primary-teal"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5">
+                  <path d="M12 2C6.477 2 2 6.145 2 11.243c0 2.942 1.47 5.567 3.773 7.28V22l3.446-1.897c.92.255 1.894.393 2.9.393C17.523 20.496 22 16.35 22 11.243 22 6.145 17.523 2 12 2zm1.22 12.285l-2.584-2.76-5.043 2.76 5.544-5.893 2.65 2.76 4.977-2.76-5.544 5.893z" />
+                </svg>
+              </a>
+              <a
+                href={SITE_CONFIG.social.tiktok}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="TikTok"
+                className="text-muted transition-colors hover:text-primary-teal"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5">
+                  <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.67a8.18 8.18 0 004.78 1.52V6.74a4.85 4.85 0 01-1.01-.05z" />
+                </svg>
+              </a>
+            </div>
           </div>
         </div>
 
