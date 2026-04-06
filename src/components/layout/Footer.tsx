@@ -37,6 +37,12 @@ export function Footer() {
                   {getNavLabel(link.href, t.nav)}
                 </Link>
               ))}
+              <Link
+                href="/faq"
+                className="text-sm text-muted transition-colors hover:text-foreground"
+              >
+                {t.footer.faq}
+              </Link>
             </nav>
           </div>
 

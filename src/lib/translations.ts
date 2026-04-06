@@ -71,6 +71,7 @@ interface TranslationStrings {
     copyright: string;
     privacyPolicy: string;
     termsOfService: string;
+    faq: string;
   };
   faq: {
     pageTitle: string;
@@ -219,6 +220,7 @@ export const translations: Record<Locale, TranslationStrings> = {
       copyright: 'Nutree. All rights reserved.',
       privacyPolicy: 'Privacy Policy',
       termsOfService: 'Terms of Service',
+      faq: 'FAQ',
     },
     faq: {
       pageTitle: 'Frequently Asked Questions',
@@ -506,6 +508,7 @@ export const translations: Record<Locale, TranslationStrings> = {
       copyright: 'Nutree. Bảo lưu mọi quyền.',
       privacyPolicy: 'Chính sách bảo mật',
       termsOfService: 'Điều khoản sử dụng',
+      faq: 'Câu hỏi thường gặp',
     },
     faq: {
       pageTitle: 'Câu hỏi thường gặp',
