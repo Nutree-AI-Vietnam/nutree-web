@@ -11,6 +11,10 @@ export const SITE_CONFIG = {
     days: 3,
     message: 'Start with 3 days free.',
   },
+  social: {
+    facebookMessenger: 'https://m.me/1019820571221637',
+    tiktok: 'https://www.tiktok.com/@nutree.ai',
+  },
 } as const;
 
 export const NAV_LINKS = [
