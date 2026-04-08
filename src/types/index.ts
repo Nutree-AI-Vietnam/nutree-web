@@ -12,3 +12,14 @@ export interface NavLink {
   external?: boolean;
 }
 
+export type LinkIconType = 'globe' | 'apple' | 'facebook' | 'tiktok';
+
+export interface SocialLink {
+  id: string;
+  label: string;
+  url: string;
+  icon: LinkIconType;
+  description?: string;
+  isAppStore?: boolean;
+}
+
