@@ -159,7 +159,7 @@ export const translations: Record<Locale, TranslationStrings> = {
     },
     hero: {
       badge: 'AI Nutrition Assistant',
-      headlines: ['SOLUTION FOR', 'SKINNY FAT', 'BODY TYPE.'],
+      headlines: ['IDEAS.', 'TRACK.', 'THRIVE.'],
       subheadline:
         'Not another calorie counter. Nutree adapts your daily targets, plans your meals, and tracks every macro — automatically.',
       downloadFree: 'Free Trial',
@@ -592,7 +592,7 @@ export const translations: Record<Locale, TranslationStrings> = {
     },
     hero: {
       badge: 'Trợ lý dinh dưỡng AI',
-      headlines: ['GIẢI PHÁP CHO', 'DÁNG NGƯỜI', 'SKINNY FAT.'],
+      headlines: ['GỢI Ý.', 'THEO DÕI.', 'ĐẠT GOAL.'],
       subheadline:
         'Không phải app đếm calo bình thường. Nutree tự điều chỉnh mục tiêu mỗi ngày, gợi ý bữa ăn và track macro giúp bạn — tự động hoàn toàn.',
       downloadFree: 'Dùng thử miễn phí',

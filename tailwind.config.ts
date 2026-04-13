@@ -47,8 +47,8 @@ const config: Config = {
         },
       },
       fontFamily: {
-        display: ['var(--font-plus-jakarta)', 'system-ui', 'sans-serif'],
-        body: ['var(--font-dm-sans)', 'system-ui', 'sans-serif'],
+        display: ['var(--font-be-vietnam)', 'system-ui', 'sans-serif'],
+        body: ['var(--font-be-vietnam)', 'system-ui', 'sans-serif'],
       },
       backgroundImage: {
         'gradient-brand': 'linear-gradient(135deg, #1A4739 0%, #29B6A1 100%)',

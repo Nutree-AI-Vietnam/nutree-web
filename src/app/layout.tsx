@@ -1,23 +1,16 @@
 import type { Metadata } from 'next';
-import { Plus_Jakarta_Sans, DM_Sans } from 'next/font/google';
+import { Be_Vietnam_Pro } from 'next/font/google';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { PostHogProvider } from '@/components/providers/PostHogProvider';
 import { LocaleProvider } from '@/lib/locale-context';
 import './globals.css';
 
-const plusJakarta = Plus_Jakarta_Sans({
+const beVietnamPro = Be_Vietnam_Pro({
   subsets: ['latin', 'vietnamese'],
-  variable: '--font-plus-jakarta',
+  variable: '--font-be-vietnam',
   display: 'swap',
   weight: ['400', '500', '600', '700', '800'],
-});
-
-const dmSans = DM_Sans({
-  subsets: ['latin'],
-  variable: '--font-dm-sans',
-  display: 'swap',
-  weight: ['400', '500', '700'],
 });
 
 export const metadata: Metadata = {
@@ -66,7 +59,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${plusJakarta.variable} ${dmSans.variable}`}>
+    <html lang="en" className={beVietnamPro.variable}>
       <head>
         <meta name="theme-color" content="#1A4739" />
       </head>

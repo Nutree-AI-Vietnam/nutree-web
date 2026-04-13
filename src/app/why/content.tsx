@@ -7,6 +7,7 @@ import { useInView } from '@/hooks/useInView';
 import { SITE_CONFIG } from '@/lib/constants';
 import { useLocale } from '@/lib/locale-context';
 import { AppleIcon } from '@/components/ui/AppleIcon';
+import { AutoplayVideo } from '@/components/ui/AutoplayVideo';
 
 /**
  * Locale-aware feature demo videos, keyed by solution.features array index.
@@ -251,14 +252,9 @@ export function WhyNutreeContent() {
                   {video && (
                     <div className="mt-6 mx-auto max-w-xs">
                       <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-primary-forest/10 bg-black">
-                        <video
+                        <AutoplayVideo
                           key={video}
                           src={video}
-                          autoPlay
-                          muted
-                          loop
-                          playsInline
-                          preload="metadata"
                           className="w-full h-auto block"
                         />
                       </div>
