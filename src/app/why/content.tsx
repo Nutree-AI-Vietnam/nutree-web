@@ -7,17 +7,17 @@ import { useInView } from '@/hooks/useInView';
 import { SITE_CONFIG } from '@/lib/constants';
 import { useLocale } from '@/lib/locale-context';
 import { AppleIcon } from '@/components/ui/AppleIcon';
-import { AutoplayVideo } from '@/components/ui/AutoplayVideo';
 
 /**
- * Locale-aware feature demo videos, keyed by solution.features array index.
- * Swap the en/vi files independently per language.
+ * Locale-aware feature demo clips, keyed by solution.features array index.
+ * Uses animated WebP so it plays in-app browsers (TikTok, IG, etc.)
+ * that block <video> autoplay.
  */
 const FEATURE_VIDEOS: Record<number, Record<string, string>> = {
-  0: { en: '/videos/scanning-en.mp4', vi: '/videos/scanning-vi.mp4' },       // Snap your meal
-  1: { en: '/videos/macro-en.mp4', vi: '/videos/macro-vi.mp4' },             // Targets adapt in real time
-  2: { en: '/videos/cheatmeal-en.mp4', vi: '/videos/cheatmeal-vi.mp4' },     // Cheat days rebalance
-  3: { en: '/videos/mealsuggest-en.mp4', vi: '/videos/mealsuggest-vi.mp4' }, // Know exactly what to eat
+  0: { en: '/videos/scanning-en.webp', vi: '/videos/scanning-vi.webp' },       // Snap your meal
+  1: { en: '/videos/macro-en.webp', vi: '/videos/macro-vi.webp' },             // Targets adapt in real time
+  2: { en: '/videos/cheatmeal-en.webp', vi: '/videos/cheatmeal-vi.webp' },     // Cheat days rebalance
+  3: { en: '/videos/mealsuggest-en.webp', vi: '/videos/mealsuggest-vi.webp' }, // Know exactly what to eat
 };
 
 /* ─── animation helpers ─── */
@@ -248,14 +248,17 @@ export function WhyNutreeContent() {
                     </div>
                   </div>
 
-                  {/* Feature demo video (if one is configured for this index) */}
+                  {/* Feature demo clip (animated WebP — autoplays everywhere) */}
                   {video && (
                     <div className="mt-6 mx-auto max-w-xs">
                       <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-primary-forest/10 bg-black">
-                        <AutoplayVideo
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
                           key={video}
                           src={video}
+                          alt={`${item.title} demo`}
                           className="w-full h-auto block"
+                          loading="lazy"
                         />
                       </div>
                     </div>
