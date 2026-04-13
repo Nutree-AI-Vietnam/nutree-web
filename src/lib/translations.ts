@@ -887,7 +887,7 @@ export const translations: Record<Locale, TranslationStrings> = {
       heroSubtitle:
         'Bạn không thiếu kỷ luật. Bạn thiếu một hệ thống hoạt động mà không vắt kiệt chút năng lượng tinh thần ít ỏi còn lại của bạn.',
       problem: {
-        titleLead: 'Không phải do ý chí.',
+        titleLead: 'Thất bại của việc giảm mỡ không tới từ ý chí.',
         titleAccent: 'Là do não bạn hết pin.',
         p1: 'Mỗi ngày bạn ra khoảng 35.000 quyết định. Mặc gì, trả lời email nào trước, việc nào ưu tiên ở công ty, đi đường kẹt xe xử lý sao, trong cuộc họp nói gì. Mỗi cái đều ngốn một chút năng lượng tinh thần.',
         p2Before: 'Tới chiều tối, não bạn cạn sạch pin. Thứ cuối cùng nó muốn là thêm một quyết định nữa — đặc biệt là câu hỏi phức tạp như ',
