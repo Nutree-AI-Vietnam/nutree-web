@@ -31,7 +31,7 @@ const config: Config = {
         // Semantic
         background: '#FAFCFB',
         foreground: '#0F1F1A',
-        muted: '#6B7B75',
+        muted: '#3F4A45',
         border: '#D4E5DE',
         // Nutrition
         nutrition: {

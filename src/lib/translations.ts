@@ -448,35 +448,35 @@ export const translations: Record<Locale, TranslationStrings> = {
       subtitle: 'One photo. Every macro. Watch how effortless logging really is.',
     },
     whyNutree: {
-      badge: 'Fat Loss Guide',
-      heroTitle: 'Why Nutree Is the Best Solution for People Who Want to Lose Fat',
+      badge: 'Escape Skinny Fat',
+      heroTitle: 'Why Nutree Is the Best Solution for People Who Want to Escape Skinny Fat',
       heroSubtitle:
-        "You don't lack discipline. You lack a system that works without draining the little mental energy you have left.",
+        "You don't lack discipline. You lack a system built for body recomposition — where fat goes down AND muscle goes up at the same time.",
       problem: {
-        titleLead: "It's not about willpower.",
-        titleAccent: "It's about bandwidth.",
+        titleLead: "Skinny fat isn't your fault.",
+        titleAccent: "It's a bandwidth problem.",
         p1: 'You make roughly 35,000 decisions every single day. What to wear, which emails to answer first, what to prioritize at work, how to handle traffic, what to say in that meeting. Each one chips away at your mental energy.',
         p2Before: 'By the time evening hits, your brain is running on empty. The last thing it wants is another decision — especially one as complex as ',
-        p2Emphasis: '"what should I eat to stay in a calorie deficit while hitting my protein target?"',
-        p3: "So you grab whatever's easy. Not because you're lazy. Because you're human.",
+        p2Emphasis: '"what should I eat tonight to stay in a slight deficit, hit my protein target, AND still progress at the gym tomorrow?"',
+        p3: "So you grab whatever's easy. You skip the gym. The scale stays the same but you still look soft in a t-shirt. That's the skinny fat trap.",
       },
       compound: {
-        titleLead: "One bad meal doesn't matter.",
+        titleLead: "One skipped lift doesn't matter.",
         titleAccent: 'The pattern does.',
-        p1: 'A single pizza night won\'t ruin your progress. But weeks of "whatever\'s easy" compound silently — weight creeps up, energy crashes, clothes fit tighter, and the guilt cycle starts.',
+        p1: 'One missed workout, one snacky week — not the end of the world. But months of "whatever\'s easy" is exactly how skinny fat gets locked in. The scale barely moves. Your body stays soft. Your reflection stays the same.',
         p2Before: 'You ',
-        p2Emphasis: "know what you should eat. You just don't have the mental space to plan it, track it, and adjust it every single day.",
+        p2Emphasis: "know what you should eat and how you should train. You just don't have the mental space to run both systems, every single day.",
         stats: [
           { stat: '35,000', label: 'decisions per day' },
-          { stat: '70%', label: 'of diets fail in the first 3 months' },
+          { stat: '70%', label: 'of recomp attempts stall in the first 3 months' },
           { stat: '#1', label: 'reason: too much mental effort' },
         ],
       },
       friction: {
         titleLead: 'Calorie counters',
-        titleAccent: 'add more decisions, not fewer.',
+        titleAccent: "don't solve skinny fat.",
         intro:
-          "Most nutrition apps ask you to weigh every portion, scan every barcode, and manually log every ingredient. That's not removing friction — that's adding it. The tool meant to help your diet becomes another source of decision fatigue.",
+          "Most nutrition apps just count calories. But skinny fat isn't a calorie problem — it's a composition problem. You need enough protein to build muscle, a slight deficit to lose fat, and consistent training to actually see change. That's three systems running at once — and traditional apps add friction instead of removing it.",
         stepLabel: 'Step',
         steps: [
           'Weigh 150g of chicken breast',
@@ -486,23 +486,23 @@ export const translations: Record<Locale, TranslationStrings> = {
           'Repeat 3-5 times per day',
         ],
         outro:
-          'No wonder people quit within two weeks. The app that was supposed to make fat loss easier made it feel like a second job.',
+          "No wonder most people quit within two weeks. The app that was supposed to help you escape skinny fat ends up feeling like a second job.",
       },
       truth: {
-        titleLead: 'Fat loss is simple math.',
-        titleAccent: 'The hard part is doing it daily.',
-        p1: "Consistent calorie deficit + enough protein. That's the formula. Every nutritionist, every study, every coach agrees on this. The science isn't the problem.",
+        titleLead: 'Escaping skinny fat has a formula.',
+        titleAccent: 'Running it daily is the hard part.',
+        p1: "Slight calorie deficit + enough protein + consistent resistance training. That's recomp. Every coach, every study, every nutritionist agrees on this. The science isn't the problem.",
         p2Before: 'The problem is ',
-        p2Emphasis: 'executing it every single day',
+        p2Emphasis: 'running all three at once, every single day',
         p2After:
-          ' without burning out. You need a system that handles the math, the planning, and the adjustments — so the only thing left for you to do is eat.',
+          ' without burning out. You need a system that handles the math, planning, and adjustments — so the only thing left for you to do is eat and lift.',
       },
       solution: {
         badge: 'The Nutree difference',
         titleLead: 'One photo. Zero decisions.',
-        titleAccent: 'Fat loss on autopilot.',
+        titleAccent: 'Recomposition on autopilot.',
         intro:
-          'Nutree is an AI nutrition assistant that does the thinking for you. Snap a photo of your meal, and it handles everything — identifies every ingredient, calculates your macros, and adjusts your daily targets automatically.',
+          'Nutree is an AI nutrition assistant that does the thinking for you. Snap a photo of your meal and it handles everything — identifies every ingredient, calculates protein and deficit, and adjusts your daily targets automatically so recomp actually happens.',
         features: [
           {
             icon: '📸',
@@ -512,17 +512,17 @@ export const translations: Record<Locale, TranslationStrings> = {
           {
             icon: '🎯',
             title: 'Targets adapt in real time',
-            desc: 'Had a big lunch? Your dinner target adjusts automatically to keep you in deficit. No manual math, no guilt.',
+            desc: 'Ate lighter at lunch? Your dinner protein target scales up. Nutree keeps you in recomp range without manual math.',
           },
           {
             icon: '⚖️',
             title: 'Cheat days rebalance themselves',
-            desc: 'Went over on Saturday? Nutree redistributes your weekly budget across the next few days. You stay on track without punishment.',
+            desc: 'Went over on Saturday? Nutree redistributes your weekly budget so the deficit holds. You stay on recomp track without punishment.',
           },
           {
             icon: '🍽️',
             title: 'Know exactly what to eat',
-            desc: 'Personalized meal suggestions with exact portions, based on what you need to hit your deficit today. Decision eliminated.',
+            desc: 'Personalized meal suggestions with exact portions — protein-prioritized, deficit-aware, built for recomp. Decision eliminated.',
           },
         ],
       },
@@ -532,52 +532,52 @@ export const translations: Record<Locale, TranslationStrings> = {
         steps: [
           {
             time: 'Morning',
-            text: 'Open Nutree. See exactly what to eat for breakfast to start your deficit right. No Googling, no guessing.',
+            text: 'Open Nutree. See exactly what to eat for breakfast — enough protein, the right start to your deficit. No Googling, no guessing.',
           },
           {
             time: 'Lunch',
-            text: 'Snap a photo of your plate. Logged in 3 seconds. Your remaining budget updates instantly.',
+            text: 'Snap a photo of your plate. Logged in 3 seconds. Protein count and remaining macros update instantly.',
           },
           {
             time: 'Afternoon',
-            text: 'Craving a snack? Check your remaining macros. Nutree suggests options that fit your budget.',
+            text: 'Craving a snack? Check your remaining protein gap. Nutree suggests options that fit the budget and push recomp forward.',
           },
           {
             time: 'Dinner',
-            text: 'Targets already adjusted from earlier. Meal suggestions are ready. You eat, you enjoy, you stay in deficit.',
+            text: 'Targets already adjusted from earlier. Meal suggestions are ready. You eat, you enjoy, you stay on recomp.',
           },
         ],
         outro:
-          'Zero decisions about food. Your brain stays free for what actually matters. And the fat comes off — not because you tried harder, but because the system made it effortless.',
+          'Zero decisions about food. Your brain stays free for what actually matters — including showing up at the gym. And body composition shifts not because you tried harder, but because the system made it effortless.',
       },
       journey: {
         badge: 'Your 3-Month Path',
         titleLead: 'Here is what the next 3 months',
-        titleAccent: 'look like with Nutree.',
+        titleAccent: 'escaping skinny fat look like.',
         intro:
-          'Fat loss is not a 3-day sprint. It is a compounding system. Here is what changes, month by month, once the mental load is gone.',
+          'Escaping skinny fat is not a sprint. It is recomposition — slow, compounding, relentless. Here is what changes, month by month, once the mental load is gone.',
         weekLabel: 'Month',
         weeks: [
           {
             title: 'Foundation',
-            desc: 'Set up your profile in 90 seconds. Logging becomes a 3-second habit. You hit your deficit consistently and drop 2 to 3 kg of fat — without the mental load, without willpower fatigue.',
+            desc: 'Set up your profile in 90 seconds. Logging becomes a 3-second habit. You hit your protein target daily, stay in a slight deficit, and start training with structure. The scale barely moves — but composition is already shifting under the surface.',
           },
           {
-            title: 'Momentum',
-            desc: 'Habits are locked in. Body composition visibly shifts. Social meals feel normal again. Cheat days rebalance themselves. You are down 4 to 6 kg total and clothes fit different.',
+            title: 'Visible change',
+            desc: 'Clothes fit different, especially shoulders and arms. Your face looks sharper. You see your first real muscle definition. Body fat is down, lean mass is up. The scale might be exactly where it started — that is exactly how recomp works.',
           },
           {
-            title: 'Transformation',
-            desc: 'Fat loss is a background process now. You are 6 to 10 kg down, leaner, stronger, and free from food anxiety. The question is not whether it works — it is how far you want to take it.',
+            title: 'No longer skinny fat',
+            desc: 'Muscle shape is obvious in a t-shirt. Body fat sits in the lean range. You look strong, not soft. The mental load is gone, the habits are locked, and you finally understand your body.',
           },
         ],
         outro:
-          'Three months from now, you will have either spent the time or not. Nutree makes the time count — without the mental load.',
+          'Three months from now you will have either spent the time or not. Nutree makes sure the time actually builds the body you want — not just a smaller version of the old one.',
       },
       cta: {
-        title: 'Lose the mental load before you lose the fat.',
+        title: 'Escape skinny fat without losing your mind.',
         subtext:
-          'Try Nutree free for 3 days. No credit card. No commitment. Just a smarter way to lose fat.',
+          'Try Nutree free for 3 days. No credit card. No commitment. Just a smarter way out of skinny fat.',
         downloadOnThe: 'Download on the',
         appStore: 'App Store',
         fineprint: 'iOS only. 3-day free trial, then plans from $4.99/mo.',
@@ -882,36 +882,36 @@ export const translations: Record<Locale, TranslationStrings> = {
       subtitle: 'Một tấm ảnh. Đủ hết macro. Xem ghi bữa ăn dễ cỡ nào.',
     },
     whyNutree: {
-      badge: 'Hướng dẫn giảm mỡ',
-      heroTitle: 'Vì sao Nutree là giải pháp tốt nhất cho người muốn giảm mỡ',
+      badge: 'Thoát Skinny Fat',
+      heroTitle: 'Vì sao Nutree là giải pháp tốt nhất cho người bận rộn muốn thoát khỏi skinny fat',
       heroSubtitle:
-        'Bạn không thiếu kỷ luật. Bạn thiếu một hệ thống hoạt động mà không vắt kiệt chút năng lượng tinh thần ít ỏi còn lại của bạn.',
+        'Bạn không thiếu kỷ luật. Bạn thiếu một hệ thống được xây dựa trên giải pháp body recomposition, nơi mỡ giảm VÀ cơ tăng cùng lúc, mà không vắt kiệt năng lượng tinh thần còn lại của bạn.',
       problem: {
-        titleLead: 'Thất bại của việc giảm mỡ thường không tới từ ý chí.',
-        titleAccent: 'Mà do não bạn hết pin.',
-        p1: 'Mỗi ngày bạn ra khoảng 35.000 quyết định. Mặc gì, trả lời email nào trước, việc nào ưu tiên ở công ty, đi đường kẹt xe xử lý sao, trong cuộc họp nói gì. Mỗi cái đều ngốn một chút năng lượng tinh thần.',
-        p2Before: 'Tới chiều tối, não bạn cạn sạch pin. Thứ cuối cùng nó muốn là thêm một quyết định nữa — đặc biệt là câu hỏi phức tạp như ',
-        p2Emphasis: '"tối nay ăn gì để vừa giảm mỡ vừa đủ protein?"',
-        p3: 'Nên bạn chộp đại cái gì tiện nhất. Không phải vì lười. Mà vì bạn là con người.',
+        titleLead: 'Skinny fat không phải lỗi của bạn.',
+        titleAccent: 'Là vấn đề về năng lượng tinh thần.',
+        p1: 'Mỗi ngày một người trưởng thành ra khoảng 35.000 quyết định. Mặc gì, trả lời email nào trước, việc nào ưu tiên ở công ty, đi đường kẹt xe xử lý sao, trong cuộc họp nói gì. Mỗi cái đều ngốn một chút năng lượng tinh thần.',
+        p2Before: 'Tới chiều tối, não cạn sạch năng lượng. Thứ cuối cùng nó muốn là thêm một quyết định nữa, đặc biệt là câu hỏi phức tạp như ',
+        p2Emphasis: '"tối nay ăn gì để vừa thâm hụt calo nhẹ, vừa đủ protein, VÀ mai vẫn tập được ở phòng gym?"',
+        p3: 'Nên bạn chộp đại cái gì tiện nhất. Bỏ tập. Cân không đổi nhưng mặc áo thun nhìn vẫn mềm. Đó chính là cái bẫy skinny fat.',
       },
       compound: {
-        titleLead: 'Một bữa lỡ miệng không sao.',
+        titleLead: 'Một buổi bỏ tập không là vấn đề.',
         titleAccent: 'Thói quen mới là vấn đề.',
-        p1: 'Một đêm pizza không phá tiến trình của bạn. Nhưng nhiều tuần "ăn đại cho xong" cộng dồn âm thầm — cân nặng tăng lén, năng lượng tuột dốc, quần áo chật hơn, và vòng lặp tội lỗi bắt đầu.',
+        p1: 'Một buổi bỏ tập, một tuần ăn vặt, không phải tận thế. Nhưng nhiều tháng "tiện gì làm nấy" chính là cách skinny fat khóa chặt vào cơ thể bạn. Cân không đổi. Người vẫn mềm. Nhìn gương vẫn y nguyên.',
         p2Before: 'Bạn ',
-        p2Emphasis: 'biết mình nên ăn gì. Chỉ là bạn không có chỗ trong đầu để lên kế hoạch, track, và điều chỉnh nó mỗi ngày.',
+        p2Emphasis: 'biết mình nên ăn gì và nên tập gì. Chỉ là bạn không có chỗ trong đầu để chạy cả hai hệ thống, mỗi ngày.',
         stats: [
           { stat: '35.000', label: 'quyết định mỗi ngày' },
-          { stat: '70%', label: 'chế độ ăn thất bại trong 3 tháng đầu' },
+          { stat: '70%', label: 'nỗ lực recomp chững lại trong 3 tháng đầu' },
           { stat: '#1', label: 'lý do: tốn quá nhiều công sức' },
         ],
       },
       friction: {
         titleLead: 'App đếm calo',
-        titleAccent: 'thêm quyết định, chứ không bớt.',
+        titleAccent: 'không chữa được skinny fat.',
         intro:
-          'Đa số app dinh dưỡng bắt bạn cân từng phần, scan từng mã vạch, và ghi thủ công từng nguyên liệu. Đó không phải giảm ma sát — đó là thêm ma sát. Công cụ đáng lẽ giúp bạn ăn kiêng lại trở thành nguồn gốc của sự kiệt sức.',
-        stepLabel: 'Bước',
+          'Đa số app dinh dưỡng chỉ đếm calo. Nhưng skinny fat không phải vấn đề calo, mà là vấn đề cấu tạo cơ thể. Bạn cần đủ protein để tăng cơ, thâm hụt calo nhẹ để giảm mỡ, và tập đều để thấy kết quả. Đó là 3 hệ thống cùng lúc, và app truyền thống không được tạo ra để giải quyết vấn đề này.',
+        stepLabel: 'Cách truyền thống',
         steps: [
           'Cân 150g ức gà',
           'Scan mã vạch hộp cơm',
@@ -920,23 +920,23 @@ export const translations: Record<Locale, TranslationStrings> = {
           'Lặp lại 3-5 lần mỗi ngày',
         ],
         outro:
-          'Không lạ gì khi ai cũng bỏ cuộc sau 2 tuần. App đáng lẽ giúp giảm mỡ lại thành một công việc thứ hai.',
+          'Không lạ gì khi ai cũng bỏ cuộc sau 2 tuần. App đáng lẽ giúp bạn thoát skinny fat lại thành một công việc thứ hai.',
       },
       truth: {
-        titleLead: 'Giảm mỡ là bài toán đơn giản.',
-        titleAccent: 'Phần khó là làm đều mỗi ngày.',
-        p1: 'Giảm mỡ đều đặn + đủ protein. Đó là công thức. Chuyên gia dinh dưỡng, nghiên cứu, huấn luyện viên — ai cũng đồng ý. Khoa học không phải vấn đề.',
+        titleLead: 'Thoát skinny fat có công thức rõ ràng.',
+        titleAccent: 'Phần khó là làm mỗi ngày.',
+        p1: 'Thâm hụt calo nhẹ + đủ protein + tập tạ đều đặn. Đó là recomp. Huấn luyện viên, nghiên cứu, chuyên gia, ai cũng đồng ý. Khoa học không phải vấn đề.',
         p2Before: 'Vấn đề là ',
-        p2Emphasis: 'làm nó mỗi ngày',
+        p2Emphasis: 'chạy cả 3 cùng lúc, mỗi ngày',
         p2After:
-          ' mà không burnout. Bạn cần một hệ thống lo hết phần tính toán, lên kế hoạch, và điều chỉnh — để thứ duy nhất bạn phải làm là ăn.',
+          ' mà không burnout. Bạn cần một hệ thống lo phần tính toán, lên kế hoạch, và điều chỉnh, để việc duy nhất bạn làm là ăn và tập.',
       },
       solution: {
         badge: 'Điểm khác biệt của Nutree',
         titleLead: 'Một tấm ảnh. Không cần quyết định.',
-        titleAccent: 'Giảm mỡ tự động.',
+        titleAccent: 'Recomp tự động.',
         intro:
-          'Nutree là trợ lý dinh dưỡng AI lo phần suy nghĩ cho bạn. Chụp một tấm ảnh bữa ăn, và nó xử lý hết — nhận diện từng nguyên liệu, tính macro, điều chỉnh mục tiêu ngày — tự động luôn.',
+          'Nutree là trợ lý dinh dưỡng AI lo phần suy nghĩ cho bạn. Chụp một tấm ảnh bữa ăn, Nutree nhận diện nguyên liệu, tính protein + deficit, điều chỉnh mục tiêu tự động để recomp thực sự xảy ra.',
         features: [
           {
             icon: '📸',
@@ -946,17 +946,17 @@ export const translations: Record<Locale, TranslationStrings> = {
           {
             icon: '🎯',
             title: 'Mục tiêu tự điều chỉnh',
-            desc: 'Trưa ăn quá? Mục tiêu bữa tối tự động giảm xuống để giảm mỡ. Không cần tính toán, không áy náy.',
+            desc: 'Trưa ăn nhẹ? Mục tiêu protein bữa tối tự động tăng lên. Nutree giữ bạn đúng nhịp recomp mà không cần tính toán.',
           },
           {
             icon: '⚖️',
             title: 'Cheat day tự cân bằng',
-            desc: 'Thứ 7 ăn quá? Nutree phân phối lại ngân sách tuần qua vài ngày kế. Không bị phạt, không cần làm lại từ đầu.',
+            desc: 'Thứ 7 ăn quá? Nutree phân phối lại ngân sách tuần để deficit vẫn được giữ. Không bị phạt, không cần làm lại từ đầu.',
           },
           {
             icon: '🍽️',
-            title: 'Biết chính xác ăn gì',
-            desc: 'Tự xây dựng bữa ăn chuẩn calo dựa trên những gì bạn thích, vừa ăn ngon, vừa đạt mục tiêu với những món ăn đơn giản dễ nấu từ Nutree',
+            title: 'Tự xây dựng bữa ăn healthy',
+            desc: 'Tự xây dựng bữa ăn chuẩn calo dựa trên những gì bạn thích, ưu tiên protein, nhận thức deficit, xây cho recomp. Không cần nghĩ nữa.',
           },
         ],
       },
@@ -966,52 +966,52 @@ export const translations: Record<Locale, TranslationStrings> = {
         steps: [
           {
             time: 'Buổi sáng',
-            text: 'Mở Nutree. Biết ngay ăn bao nhiêu để bắt đầu ngày giảm mỡ đúng cách. Không Google, không đoán mò.',
+            text: 'Mở Nutree. Biết ngay ăn gì để bắt đầu ngày, đủ protein, deficit đúng cách. Không Google, không đoán mò.',
           },
           {
             time: 'Buổi trưa',
-            text: 'Chụp ảnh đĩa cơm. Log trong 3 giây. Ngân sách còn lại tự cập nhật.',
+            text: 'Chụp ảnh đĩa cơm. Log trong 3 giây. Protein và macro còn lại tự cập nhật ngay.',
           },
           {
             time: 'Buổi chiều',
-            text: 'Thèm snack? Check macro còn lại. Nutree gợi ý món vừa ngân sách của bạn.',
+            text: 'Thèm snack? Check protein còn thiếu. Nutree gợi ý món vừa ngân sách và đẩy recomp tiến thêm.',
           },
           {
             time: 'Buổi tối',
-            text: 'Mục tiêu đã tự điều chỉnh từ sáng. Gợi ý bữa tối ngon lành còn lại. Bạn cứ ăn, cứ enjoy, vẫn giảm mỡ.',
+            text: 'Mục tiêu đã tự điều chỉnh từ sáng. Gợi ý bữa tối ngon lành sẵn rồi. Bạn cứ ăn, cứ enjoy, vẫn đúng nhịp recomp.',
           },
         ],
         outro:
-          'Không cần quyết định gì về đồ ăn. Bạn rảnh hơn để lo việc thực sự quan trọng. Và mỡ biến mất — không phải vì bạn cố hơn, mà vì hệ thống làm cho nó dễ dàng.',
+          'Không cần quyết định gì về đồ ăn. Não rảnh hơn để lo việc thực sự quan trọng, kể cả việc đi tập. Và cấu tạo cơ thể thay đổi không phải vì bạn cố hơn, mà vì hệ thống làm cho nó dễ dàng.',
       },
       journey: {
         badge: 'Lộ trình 3 tháng',
         titleLead: '3 tháng tới của bạn',
-        titleAccent: 'với Nutree sẽ ra sao.',
+        titleAccent: 'thoát khỏi skinny fat sẽ ra sao.',
         intro:
-          'Giảm mỡ không phải sprint 3 ngày. Đó là một hệ thống cộng dồn. Đây là những gì sẽ thay đổi, từng tháng, khi gánh nặng tinh thần biến mất.',
+          'Thoát skinny fat không phải sprint. Đó là recomposition chậm, cộng dồn, bền bỉ. Đây là những gì sẽ thay đổi, từng tháng, khi gánh nặng tinh thần biến mất.',
         weekLabel: 'Tháng',
         weeks: [
           {
             title: 'Nền tảng',
-            desc: 'Set up hồ sơ trong 90 giây. Log bữa ăn thành thói quen 3 giây. Gợi ý món vừa khẩu vị, giảm đều đặn. Giảm 1-2 kg mỡ đầu tiên — không còn gánh nặng tinh thần.',
+            desc: 'Set up hồ sơ trong 90 giây. Log bữa ăn thành thói quen 3 giây. Bạn đạt protein target mỗi ngày, giữ thâm hụt nhẹ, bắt đầu tập có cấu trúc. Cân ít đổi — nhưng cấu tạo cơ thể đã chuyển.',
           },
           {
-            title: 'Đà tiến',
-            desc: 'Cân nặng tiếp tục giảm, quần áo rộng hơn. Bạn có vài cheat-day — Nutree tự cân bằng lại. Bạn tin vào hệ thống, vòng lặp tội lỗi biến mất. Tổng giảm 3-5 kg mỡ.',
+            title: 'Thay đổi thấy rõ',
+            desc: 'Quần áo vừa khác, đặc biệt ở vai và tay. Mặt sắc nét hơn. Bạn thấy đường nét cơ đầu tiên. Mỡ giảm, cơ tăng. Cân có thể y nguyên, đúng cách recomp hoạt động.',
           },
           {
-            title: 'Chuyển hóa',
-            desc: 'Ngoại hình thay đổi rõ rệt, bạn bè bắt đầu hỏi bạn làm gì khác. Thói quen đã khóa chặt. Giảm 5-8 kg mỡ. Giảm mỡ trở thành quá trình nền trong khi bạn sống cuộc sống của mình.',
+            title: 'Hết skinny fat',
+            desc: 'Hình dáng cơ rõ ràng trong áo thun. Mỡ ở mức lean. Nhìn khỏe, không còn mềm. Gánh nặng tinh thần biến mất, thói quen đã khóa, và bạn cuối cùng hiểu cơ thể mình.',
           },
         ],
         outro:
-          '3 Tháng. Nutree giúp thời gian đó có giá trị — lấy lại tự tin với cơ thể của mình.',
+          '3 tháng nữa bạn sẽ hoặc đã dùng thời gian đó, hoặc chưa. Nutree đảm bảo thời gian đó thực sự xây nên cơ thể bạn muốn, không phải chỉ là phiên bản nhỏ hơn của cơ thể cũ.',
       },
       cta: {
-        title: 'Giảm áp lực trước, rồi tự tin sẽ trở lại.',
+        title: 'Thoát skinny fat mà không cần mất trí.',
         subtext:
-          'Dùng thử Nutree miễn phí 3 ngày. Chỉ là cách thông minh hơn để giảm mỡ.',
+          'Dùng thử Nutree miễn phí 3 ngày. Chỉ là cách thông minh hơn để thoát khỏi skinny fat.',
         downloadOnThe: 'Tải trên',
         appStore: 'App Store',
         fineprint: 'Chỉ có ở iOS. Dùng thử 3 ngày miễn phí, sau đó từ 41.000đ/tháng.',

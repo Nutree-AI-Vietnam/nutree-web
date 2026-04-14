@@ -100,16 +100,16 @@ export function WhyNutreeContent() {
             <span className="text-primary-teal">{w.problem.titleAccent}</span>
           </motion.h2>
 
-          <motion.p variants={fadeUp} className="text-lg text-muted mb-6 leading-relaxed">
+          <motion.p variants={fadeUp} className="text-lg md:text-xl text-muted font-medium mb-6 leading-relaxed">
             {w.problem.p1}
           </motion.p>
 
-          <motion.p variants={fadeUp} className="text-lg text-muted mb-6 leading-relaxed">
+          <motion.p variants={fadeUp} className="text-lg md:text-xl text-muted font-medium mb-6 leading-relaxed">
             {w.problem.p2Before}
             <strong className="text-foreground">{w.problem.p2Emphasis}</strong>
           </motion.p>
 
-          <motion.p variants={fadeUp} className="text-lg text-muted leading-relaxed">
+          <motion.p variants={fadeUp} className="text-lg md:text-xl text-muted font-medium leading-relaxed">
             {w.problem.p3}
           </motion.p>
         </div>
@@ -126,11 +126,11 @@ export function WhyNutreeContent() {
             <span className="text-primary-teal">{w.compound.titleAccent}</span>
           </motion.h2>
 
-          <motion.p variants={fadeUp} className="text-lg text-muted mb-6 leading-relaxed">
+          <motion.p variants={fadeUp} className="text-lg md:text-xl text-muted font-medium mb-6 leading-relaxed">
             {w.compound.p1}
           </motion.p>
 
-          <motion.p variants={fadeUp} className="text-lg text-muted mb-8 leading-relaxed">
+          <motion.p variants={fadeUp} className="text-lg md:text-xl text-muted font-medium mb-8 leading-relaxed">
             {w.compound.p2Before}
             <em>{w.compound.p2Emphasis}</em>
           </motion.p>
@@ -162,7 +162,7 @@ export function WhyNutreeContent() {
             <span className="text-primary-teal">{w.friction.titleAccent}</span>
           </motion.h2>
 
-          <motion.p variants={fadeUp} className="text-lg text-muted mb-8 leading-relaxed">
+          <motion.p variants={fadeUp} className="text-lg md:text-xl text-muted font-medium mb-8 leading-relaxed">
             {w.friction.intro}
           </motion.p>
 
@@ -197,11 +197,11 @@ export function WhyNutreeContent() {
             <span className="text-primary-teal">{w.truth.titleAccent}</span>
           </motion.h2>
 
-          <motion.p variants={fadeUp} className="text-lg text-muted mb-6 leading-relaxed">
+          <motion.p variants={fadeUp} className="text-lg md:text-xl text-muted font-medium mb-6 leading-relaxed">
             {w.truth.p1}
           </motion.p>
 
-          <motion.p variants={fadeUp} className="text-lg text-muted leading-relaxed">
+          <motion.p variants={fadeUp} className="text-lg md:text-xl text-muted font-medium leading-relaxed">
             {w.truth.p2Before}
             <strong className="text-foreground">{w.truth.p2Emphasis}</strong>
             {w.truth.p2After}
@@ -229,7 +229,7 @@ export function WhyNutreeContent() {
             <span className="text-primary-teal">{w.solution.titleAccent}</span>
           </motion.h2>
 
-          <motion.p variants={fadeUp} className="text-lg text-muted mb-10 leading-relaxed">
+          <motion.p variants={fadeUp} className="text-lg md:text-xl text-muted font-medium mb-10 leading-relaxed">
             {w.solution.intro}
           </motion.p>
 
@@ -326,7 +326,7 @@ export function WhyNutreeContent() {
             <span className="text-primary-teal">{w.journey.titleAccent}</span>
           </motion.h2>
 
-          <motion.p variants={fadeUp} className="text-lg text-muted mb-12 leading-relaxed">
+          <motion.p variants={fadeUp} className="text-lg md:text-xl text-muted font-medium mb-12 leading-relaxed">
             {w.journey.intro}
           </motion.p>
 
