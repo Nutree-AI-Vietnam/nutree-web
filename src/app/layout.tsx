@@ -62,6 +62,7 @@ export default function RootLayout({
     <html lang="en" className={beVietnamPro.variable}>
       <head>
         <meta name="theme-color" content="#1A4739" />
+        <meta name="facebook-domain-verification" content="f0wc0i12b96y1yc0susyi4y57rdc6v" />
       </head>
       <body className="flex min-h-screen flex-col">
         <PostHogProvider>
