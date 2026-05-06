@@ -21,8 +21,21 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-border/50 pt-8 text-sm text-muted md:flex-row">
-          <p>&copy; {currentYear} {t.footer.copyright}</p>
+        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border/50 pt-8 text-sm text-muted md:flex-row">
+          <div className="flex flex-col items-center gap-2 md:items-start">
+            <p>&copy; {currentYear} {t.footer.copyright}</p>
+            <p className="text-xs">
+              Powered by{' '}
+              <a
+                href="https://platform.fatsecret.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline hover:text-foreground"
+              >
+                FatSecret Platform API
+              </a>
+            </p>
+          </div>
           <div className="flex items-center gap-4">
             <Link href="/privacy" className="hover:text-foreground">{t.footer.privacyPolicy}</Link>
             <Link href="/terms" className="hover:text-foreground">{t.footer.termsOfService}</Link>
