@@ -4,6 +4,7 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { PostHogProvider } from '@/components/providers/PostHogProvider';
 import { LocaleProvider } from '@/lib/locale-context';
+import { HERO_SCREENSHOTS } from '@/lib/screenshot-assets';
 import './globals.css';
 
 const beVietnamPro = Be_Vietnam_Pro({
@@ -63,6 +64,10 @@ export default function RootLayout({
       <head>
         <meta name="theme-color" content="#1A4739" />
         <meta name="facebook-domain-verification" content="f0wc0i12b96y1yc0susyi4y57rdc6v" />
+        {Object.values(HERO_SCREENSHOTS).flatMap(({ front, back }) => [
+          <link key={front} rel="preload" as="image" href={front} />,
+          <link key={back} rel="preload" as="image" href={back} />,
+        ])}
       </head>
       <body className="flex min-h-screen flex-col">
         <PostHogProvider>

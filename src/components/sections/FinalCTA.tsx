@@ -9,6 +9,7 @@ import { useInView } from '@/hooks/useInView';
 import { SITE_CONFIG } from '@/lib/constants';
 import { useLocale } from '@/lib/locale-context';
 import { AppleIcon } from '@/components/ui/AppleIcon';
+import { CTA_SCREENSHOT } from '@/lib/screenshot-assets';
 
 // Confetti particle
 function ConfettiParticle({ delay, x }: { delay: number; x: number }) {
@@ -169,7 +170,8 @@ export function FinalCTA() {
                 {/* Glow */}
                 <div className="absolute inset-0 bg-white/20 blur-3xl scale-150 rounded-full" />
                 <PhoneMockup
-                  backgroundImage="/images/cta-mockup.png"
+                  backgroundImage={CTA_SCREENSHOT}
+                  imageAlt="Nutree app onboarding screenshot"
                   className="transform hover:rotate-0 transition-transform duration-500"
                 />
               </div>

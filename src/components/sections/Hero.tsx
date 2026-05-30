@@ -7,14 +7,12 @@ import { FlipPhone } from '@/components/ui/FlipPhone';
 import { SITE_CONFIG } from '@/lib/constants';
 import { useLocale } from '@/lib/locale-context';
 import { AppleIcon } from '@/components/ui/AppleIcon';
+import { HERO_SCREENSHOTS } from '@/lib/screenshot-assets';
 
 export function HeroV2() {
   const { locale, t } = useLocale();
   const headlines = t.hero.headlines;
-  const heroScreens =
-    locale === 'vi'
-      ? { front: '/images/vi/dashboard.png', back: '/images/vi/onboarding.png' }
-      : { front: '/images/dashboard.png', back: '/images/onboarding.png' };
+  const heroScreens = HERO_SCREENSHOTS[locale];
 
   return (
     <section className="relative min-h-screen pt-20 md:pt-24 overflow-hidden">
@@ -134,6 +132,9 @@ export function HeroV2() {
             <FlipPhone
               frontImage={heroScreens.front}
               backImage={heroScreens.back}
+              frontImageAlt="Nutree daily dashboard screenshot"
+              backImageAlt="Nutree onboarding screenshot"
+              priority
               frontIcons={[
                 { emoji: '🍊', position: 'top-16 -right-8', delay: 0.5 },
                 { emoji: '🍋', position: 'top-1/2 -right-4', delay: 0.7 },

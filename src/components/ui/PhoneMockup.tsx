@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { cn } from '@/lib/cn';
 
 interface PhoneMockupProps {
@@ -7,9 +8,20 @@ interface PhoneMockupProps {
   children?: React.ReactNode;
   variant?: 'default' | 'floating';
   backgroundImage?: string;
+  imageAlt?: string;
+  imagePriority?: boolean;
+  imageSizes?: string;
 }
 
-export function PhoneMockup({ className, children, variant = 'default', backgroundImage }: PhoneMockupProps) {
+export function PhoneMockup({
+  className,
+  children,
+  variant = 'default',
+  backgroundImage,
+  imageAlt = '',
+  imagePriority = false,
+  imageSizes = '(max-width: 640px) 260px, (max-width: 768px) 280px, 300px',
+}: PhoneMockupProps) {
   return (
     <div
       className={cn(
@@ -23,10 +35,20 @@ export function PhoneMockup({ className, children, variant = 'default', backgrou
       <div className="absolute top-4 left-1/2 -translate-x-1/2 w-24 h-6 bg-foreground rounded-full z-10" />
 
       {/* Screen */}
-      <div
-        className="phone-screen flex items-center justify-center bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: backgroundImage ? `url(${backgroundImage})` : undefined }}
-      >
+      <div className="phone-screen relative flex items-center justify-center bg-white">
+        {backgroundImage ? (
+          <Image
+            src={backgroundImage}
+            alt={imageAlt}
+            fill
+            priority={imagePriority}
+            loading={imagePriority ? undefined : 'lazy'}
+            unoptimized
+            sizes={imageSizes}
+            className="object-cover"
+            draggable={false}
+          />
+        ) : null}
         {children || null}
       </div>
 

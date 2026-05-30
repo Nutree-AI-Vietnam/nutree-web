@@ -8,6 +8,7 @@ import { PhoneMockup } from '@/components/ui/PhoneMockup';
 import Image from 'next/image';
 import { useLocale } from '@/lib/locale-context';
 import { renderTitle } from '@/lib/render-title';
+import { FEATURE_SCREENSHOTS } from '@/lib/screenshot-assets';
 
 type LocaleScreenshot = string | { en: string; vi: string };
 
@@ -25,7 +26,7 @@ function resolveScreenshot(screenshot: LocaleScreenshot | undefined, locale: str
 
 const FEATURE_CONFIG: Record<string, Omit<FeatureConfig, 'id'>> = {
   'tdee': {
-    screenshot: { en: '/images/goals.png', vi: '/images/vi/tdee.png' },
+    screenshot: FEATURE_SCREENSHOTS.tdee,
     icon: (
       <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.047 8.287 8.287 0 009 9.601a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z" />
@@ -34,7 +35,7 @@ const FEATURE_CONFIG: Record<string, Omit<FeatureConfig, 'id'>> = {
     ),
   },
   'ai-scanning': {
-    screenshot: { en: '/images/meal-scanning.png', vi: '/images/vi/meal-scanning.png' },
+    screenshot: FEATURE_SCREENSHOTS.aiScanning,
     icon: (
       <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" />
@@ -43,7 +44,7 @@ const FEATURE_CONFIG: Record<string, Omit<FeatureConfig, 'id'>> = {
     ),
   },
   'meal-suggestions': {
-    screenshot: { en: '/images/meal-suggestions.png', vi: '/images/vi/meal-suggestions.png' },
+    screenshot: FEATURE_SCREENSHOTS.mealSuggestions,
     icon: (
       <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
@@ -51,7 +52,7 @@ const FEATURE_CONFIG: Record<string, Omit<FeatureConfig, 'id'>> = {
     ),
   },
   'dashboard': {
-    screenshot: { en: '/images/dashboard.png', vi: '/images/vi/dashboard.png' },
+    screenshot: FEATURE_SCREENSHOTS.dashboard,
     icon: (
       <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
@@ -59,7 +60,7 @@ const FEATURE_CONFIG: Record<string, Omit<FeatureConfig, 'id'>> = {
     ),
   },
   'edit': {
-    screenshot: { en: '/images/edit-meal.png', vi: '/images/vi/edit-meal.png' },
+    screenshot: FEATURE_SCREENSHOTS.edit,
     icon: (
       <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
@@ -155,6 +156,7 @@ export function BentoFeatures() {
                         fill
                         className="object-cover"
                         sizes="(max-width: 768px) 280px, 350px"
+                        unoptimized
                         draggable={false}
                       />
                     ) : (
