@@ -1,7 +1,7 @@
 ---
 title: Replace Web Screenshots With Light Theme Assets
 description: ''
-status: in-progress
+status: completed
 priority: P2
 branch: feat/update-web-screenshots-light-theme
 tags: []
@@ -25,7 +25,7 @@ Replace the web landing page screenshot assets with current light-theme Nutree a
 | 1 | [Map screenshot sources](./phase-01-map-screenshot-sources.md) | Completed |
 | 2 | [Replace public assets](./phase-02-replace-public-assets.md) | Completed |
 | 3 | [Verify web build](./phase-03-verify-web-build.md) | Completed |
-| 4 | [Prepare PR](./phase-04-prepare-pr.md) | In Progress |
+| 4 | [Prepare PR](./phase-04-prepare-pr.md) | Completed |
 
 ## Dependencies
 

@@ -1,7 +1,7 @@
 ---
 phase: 4
 title: Prepare PR
-status: in-progress
+status: completed
 effort: ''
 priority: P2
 dependencies:
