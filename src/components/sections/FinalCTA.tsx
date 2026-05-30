@@ -195,7 +195,7 @@ export function FinalCTA() {
               </div>
               <div className="h-8 w-px bg-white/20" />
               <div className="text-center">
-                <div className="font-display text-3xl font-bold text-white">4.9</div>
+                <div className="font-display text-3xl font-bold text-white">#1</div>
                 <div className="text-sm">{t.finalCta.stats.rating}</div>
               </div>
             </div>

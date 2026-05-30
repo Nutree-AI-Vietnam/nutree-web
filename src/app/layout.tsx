@@ -16,7 +16,7 @@ const beVietnamPro = Be_Vietnam_Pro({
 export const metadata: Metadata = {
   title: 'Nutree | AI Nutrition Assistant',
   description: 'Not another calorie counter. Nutree is an AI Nutrition Assistant that adapts your daily targets, plans meals, and tracks every macro automatically.',
-  keywords: ['AI nutrition assistant', 'nutrition tracking', 'meal planning', 'macro tracking', 'calorie tracker', 'cheat day rebalancing', 'adaptive targets', 'meal prep'],
+  keywords: ['AI nutrition assistant', 'nutrition tracking', 'meal planning', 'macro tracking', 'calorie tracker', 'weekly nutrition budget', 'adaptive targets', 'meal prep'],
   authors: [{ name: 'Nutree Team' }],
   icons: {
     icon: [

@@ -11,6 +11,10 @@ import { AppleIcon } from '@/components/ui/AppleIcon';
 export function HeroV2() {
   const { locale, t } = useLocale();
   const headlines = t.hero.headlines;
+  const heroScreens =
+    locale === 'vi'
+      ? { front: '/images/vi/dashboard.png', back: '/images/vi/onboarding.png' }
+      : { front: '/images/dashboard.png', back: '/images/onboarding.png' };
 
   return (
     <section className="relative min-h-screen pt-20 md:pt-24 overflow-hidden">
@@ -103,8 +107,8 @@ export function HeroV2() {
               className="flex flex-wrap items-center justify-center lg:justify-start gap-6 text-sm text-muted"
             >
               <div className="flex items-center gap-2">
-                <svg className="h-5 w-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                <svg className="h-5 w-5 text-amber-500" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c0-.621-.504-1.125-1.125-1.125h-6.75c-.621 0-1.125.504-1.125 1.125v3.375m9-13.5V6a3 3 0 01-3 3h-3a3 3 0 01-3-3v-.75m9 0h2.25A2.25 2.25 0 0121 7.5v.75a3.75 3.75 0 01-3.75 3.75H16.5m-9-6.75H5.25A2.25 2.25 0 003 7.5v.75A3.75 3.75 0 006.75 12H7.5" />
                 </svg>
                 <span>{t.hero.trustBadges.rating}</span>
               </div>
@@ -128,8 +132,8 @@ export function HeroV2() {
           {/* Right: Phone Mockup with Tap-to-Flip */}
           <div className="flex-1 relative flex justify-center items-center z-10 w-full max-w-md mx-auto">
             <FlipPhone
-              frontImage="/images/dashboard.png"
-              backImage="/images/goals.png"
+              frontImage={heroScreens.front}
+              backImage={heroScreens.back}
               frontIcons={[
                 { emoji: '🍊', position: 'top-16 -right-8', delay: 0.5 },
                 { emoji: '🍋', position: 'top-1/2 -right-4', delay: 0.7 },
