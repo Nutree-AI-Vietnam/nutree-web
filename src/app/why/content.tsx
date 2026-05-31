@@ -16,7 +16,7 @@ import { AppleIcon } from '@/components/ui/AppleIcon';
 const FEATURE_VIDEOS: Record<number, Record<string, string>> = {
   0: { en: '/videos/scanning-en.webp', vi: '/videos/scanning-vi.webp' },       // Snap your meal
   1: { en: '/videos/macro-en.webp', vi: '/videos/macro-vi.webp' },             // Targets adapt in real time
-  2: { en: '/videos/cheatmeal-en.webp', vi: '/videos/cheatmeal-vi.webp' },     // Cheat days rebalance
+  2: { en: '/videos/cheatmeal-en.webp', vi: '/videos/cheatmeal-vi.webp' },     // Weekly budget rebalances
   3: { en: '/videos/mealsuggest-en.webp', vi: '/videos/mealsuggest-vi.webp' }, // Know exactly what to eat
 };
 

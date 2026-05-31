@@ -8,11 +8,22 @@ import { FloatingIcon } from './FloatingIcon';
 interface FlipPhoneProps {
   frontImage: string;
   backImage: string;
+  frontImageAlt?: string;
+  backImageAlt?: string;
+  priority?: boolean;
   frontIcons?: { emoji: string; position: string; delay: number }[];
   backIcons?: { emoji: string; position: string; delay: number }[];
 }
 
-export function FlipPhone({ frontImage, backImage, frontIcons = [], backIcons = [] }: FlipPhoneProps) {
+export function FlipPhone({
+  frontImage,
+  backImage,
+  frontImageAlt = '',
+  backImageAlt = '',
+  priority = false,
+  frontIcons = [],
+  backIcons = [],
+}: FlipPhoneProps) {
   const [isFlipped, setIsFlipped] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -82,7 +93,12 @@ export function FlipPhone({ frontImage, backImage, frontIcons = [], backIcons = 
             <div
               className={`transition-opacity duration-400 ${isFlipped ? 'opacity-0' : 'opacity-100'}`}
             >
-              <PhoneMockup variant="floating" backgroundImage={frontImage} />
+              <PhoneMockup
+                variant="floating"
+                backgroundImage={frontImage}
+                imageAlt={frontImageAlt}
+                imagePriority={priority}
+              />
               {frontIcons.map((icon) => (
                 <FloatingIcon
                   key={`front-${icon.emoji}`}
@@ -97,7 +113,12 @@ export function FlipPhone({ frontImage, backImage, frontIcons = [], backIcons = 
             <div
               className={`absolute inset-0 transition-opacity duration-400 ${isFlipped ? 'opacity-100' : 'opacity-0'}`}
             >
-              <PhoneMockup variant="floating" backgroundImage={backImage} />
+              <PhoneMockup
+                variant="floating"
+                backgroundImage={backImage}
+                imageAlt={backImageAlt}
+                imagePriority={priority}
+              />
               {backIcons.map((icon) => (
                 <FloatingIcon
                   key={`back-${icon.emoji}`}
@@ -119,7 +140,12 @@ export function FlipPhone({ frontImage, backImage, frontIcons = [], backIcons = 
           >
             {/* Front */}
             <div className="relative backface-hidden">
-              <PhoneMockup variant="floating" backgroundImage={frontImage} />
+              <PhoneMockup
+                variant="floating"
+                backgroundImage={frontImage}
+                imageAlt={frontImageAlt}
+                imagePriority={priority}
+              />
               {frontIcons.map((icon) => (
                 <FloatingIcon
                   key={`front-${icon.emoji}`}
@@ -136,7 +162,12 @@ export function FlipPhone({ frontImage, backImage, frontIcons = [], backIcons = 
               className="absolute inset-0 backface-hidden"
               style={{ transform: 'rotateY(180deg)' }}
             >
-              <PhoneMockup variant="floating" backgroundImage={backImage} />
+              <PhoneMockup
+                variant="floating"
+                backgroundImage={backImage}
+                imageAlt={backImageAlt}
+                imagePriority={priority}
+              />
               {backIcons.map((icon) => (
                 <FloatingIcon
                   key={`back-${icon.emoji}`}

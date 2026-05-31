@@ -165,14 +165,14 @@ export const translations: Record<Locale, TranslationStrings> = {
       downloadFree: 'Free Trial',
       scroll: 'Scroll',
       trustBadges: {
-        rating: '4.9 Rating',
+        rating: '#1 Health & Fitness',
         freeTrial: '3-Day Free Trial',
         languages: '7 Languages',
       },
     },
     socialProof: {
       mealsTracked: 'Meals Tracked',
-      rating: 'App Store Rating',
+      rating: 'Health & Fitness App',
       accuracy: 'AI Accuracy',
       languages: 'Languages Supported',
     },
@@ -189,7 +189,7 @@ export const translations: Record<Locale, TranslationStrings> = {
         },
         {
           title: 'Achieve',
-          description: 'Cut, bulk, or recomp — hit your goals without guilt',
+          description: 'Cut, bulk, or recomp — hit your goals with adaptive daily targets',
         },
       ],
     },
@@ -217,9 +217,9 @@ export const translations: Record<Locale, TranslationStrings> = {
         },
         {
           id: 'dashboard',
-          title: 'No Guilt. Ever.',
+          title: 'Adaptive Daily Targets',
           description:
-            "Cheat day? Nutree rebalances your weekly budget and adjusts tomorrow's target automatically.",
+            "Nutree rebalances your weekly nutrition budget and adjusts tomorrow's target automatically.",
         },
         {
           id: 'edit',
@@ -274,7 +274,7 @@ export const translations: Record<Locale, TranslationStrings> = {
     },
     finalCta: {
       badge: 'Start Your Transformation',
-      headline: "Life happens. Cheat days happen. Nutree makes sure they don't matter.",
+      headline: 'Life gets busy. Nutree keeps your nutrition targets on track.',
       downloadOnThe: 'Download on the',
       appStore: 'App Store',
       subtext:
@@ -284,7 +284,7 @@ export const translations: Record<Locale, TranslationStrings> = {
         daysFree: 'Days Free',
         languages: 'Languages',
         aiPowered: 'Powered',
-        rating: 'Rating',
+        rating: 'Health & Fitness',
       },
     },
     footer: {
@@ -307,7 +307,7 @@ export const translations: Record<Locale, TranslationStrings> = {
           items: [
             {
               question: 'What is Nutree AI?',
-              answer: 'Nutree is an AI nutrition assistant that tracks your macros, plans meals, and adapts your daily targets automatically. It is not just a calorie counter — it understands your goals and adjusts your weekly budget so you stay on track even on cheat days.',
+              answer: 'Nutree is an AI nutrition assistant that tracks your macros, plans meals, and adapts your daily targets automatically. It is not just a calorie counter — it understands your goals and adjusts your weekly budget so you stay on track through real life.',
             },
             {
               question: 'How do I create an account?',
@@ -353,14 +353,14 @@ export const translations: Record<Locale, TranslationStrings> = {
             },
             {
               question: 'What is the weekly budget feature?',
-              answer: 'Your weekly nutrition budget rebalances automatically. If you eat more one day, tomorrow\'s target adjusts so you stay on track without guilt.',
+              answer: 'Your weekly nutrition budget rebalances automatically. If you eat more one day, tomorrow\'s target adjusts so you stay aligned with your plan.',
             },
             {
               question: 'Can I adjust my nutrition goals?',
               answer: 'Yes. Update your goal (cut, bulk, or recomposition) and body metrics anytime in Settings → My Plan.',
             },
             {
-              question: 'How does Nutree handle cheat days?',
+              question: 'How does Nutree adjust when my day changes?',
               answer: 'Automatically. Your weekly budget absorbs the overshoot and redistributes the difference across your remaining days.',
             },
           ],
@@ -516,8 +516,8 @@ export const translations: Record<Locale, TranslationStrings> = {
           },
           {
             icon: '⚖️',
-            title: 'Cheat days rebalance themselves',
-            desc: 'Went over on Saturday? Nutree redistributes your weekly budget so the deficit holds. You stay on recomp track without punishment.',
+            title: 'Weekly balance adjusts itself',
+            desc: 'A day runs higher than planned? Nutree redistributes your weekly budget so the deficit holds. You stay on recomp track without punishment.',
           },
           {
             icon: '🍽️',
@@ -599,14 +599,14 @@ export const translations: Record<Locale, TranslationStrings> = {
       scroll: 'Kéo xuống',
       tagline: 'Tăng Cơ Giảm Mỡ',
       trustBadges: {
-        rating: '4.9 sao',
+        rating: '#1 Sức khỏe & Thể hình',
         freeTrial: 'Dùng thử 3 ngày',
         languages: '7 ngôn ngữ',
       },
     },
     socialProof: {
       mealsTracked: 'Bữa ăn đã track',
-      rating: 'Đánh giá App Store',
+      rating: 'App Sức khỏe & Thể hình',
       accuracy: 'Độ chính xác AI',
       languages: 'Ngôn ngữ hỗ trợ',
     },
@@ -651,9 +651,9 @@ export const translations: Record<Locale, TranslationStrings> = {
         },
         {
           id: 'dashboard',
-          title: 'Cheat day? Kệ đi.',
+          title: 'Mục tiêu tự điều chỉnh',
           description:
-            'Ăn quá? Nutree tự cân bằng ngân sách tuần và chỉnh mục tiêu ngày mai.',
+            'Nutree tự cân bằng ngân sách dinh dưỡng tuần và chỉnh mục tiêu ngày mai.',
         },
         {
           id: 'edit',
@@ -708,7 +708,7 @@ export const translations: Record<Locale, TranslationStrings> = {
     },
     finalCta: {
       badge: 'Bắt đầu ngay',
-      headline: 'Cheat day? Bận rộn? Kệ hết. Nutree lo cho bạn.',
+      headline: 'Ngày bận rộn vẫn theo đúng plan. Nutree lo phần mục tiêu.',
       downloadOnThe: 'Tải trên',
       appStore: 'App Store',
       subtext:
@@ -718,7 +718,7 @@ export const translations: Record<Locale, TranslationStrings> = {
         daysFree: 'Ngày free',
         languages: 'Ngôn ngữ',
         aiPowered: 'AI',
-        rating: 'Đánh giá',
+        rating: 'Sức khỏe & Thể hình',
       },
     },
     footer: {
@@ -741,7 +741,7 @@ export const translations: Record<Locale, TranslationStrings> = {
           items: [
             {
               question: 'Nutree AI là gì?',
-              answer: 'Nutree là trợ lý dinh dưỡng AI giúp theo dõi macro, gợi ý bữa ăn và tự điều chỉnh mục tiêu hằng ngày. Không chỉ đếm calo — Nutree hiểu mục tiêu của bạn và cân bằng lại ngân sách tuần kể cả khi có cheat day.',
+              answer: 'Nutree là trợ lý dinh dưỡng AI giúp theo dõi macro, gợi ý bữa ăn và tự điều chỉnh mục tiêu hằng ngày. Không chỉ đếm calo — Nutree hiểu mục tiêu của bạn và cân bằng lại ngân sách tuần theo nhịp sống thực tế.',
             },
             {
               question: 'Làm sao để tạo tài khoản?',
@@ -794,7 +794,7 @@ export const translations: Record<Locale, TranslationStrings> = {
               answer: 'Được. Cập nhật mục tiêu (giảm mỡ, tăng cơ hay recomp) và chỉ số cơ thể bất cứ lúc nào trong Cài đặt → Kế hoạch của tôi.',
             },
             {
-              question: 'Nutree xử lý cheat day như thế nào?',
+              question: 'Nutree điều chỉnh khi lịch ăn thay đổi thế nào?',
               answer: 'Tự động. Ngân sách tuần sẽ hấp thụ lượng ăn vượt và phân bổ lại cho các ngày còn lại.',
             },
           ],
@@ -950,8 +950,8 @@ export const translations: Record<Locale, TranslationStrings> = {
           },
           {
             icon: '⚖️',
-            title: 'Cheat day tự cân bằng',
-            desc: 'Thứ 7 ăn quá? Nutree phân phối lại ngân sách tuần để deficit vẫn được giữ. Không bị phạt, không cần làm lại từ đầu.',
+            title: 'Ngân sách tuần tự cân bằng',
+            desc: 'Một ngày ăn nhiều hơn dự tính? Nutree phân phối lại ngân sách tuần để deficit vẫn được giữ. Không bị phạt, không cần làm lại từ đầu.',
           },
           {
             icon: '🍽️',
