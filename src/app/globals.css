@@ -211,7 +211,8 @@
     .animate-float,
     .aurora-bg::before,
     .aurora-bg::after,
-    .animate-pulse-soft {
+    .animate-pulse-soft,
+    .startup-logo-rail {
       animation: none !important;
       transition: none !important;
     }
@@ -251,4 +252,18 @@
       background: rgba(255, 255, 255, 0.95) !important;
     }
   }
+}
+
+@keyframes startup-logo-rail {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.startup-logo-rail {
+  animation: startup-logo-rail 32s linear infinite;
 }

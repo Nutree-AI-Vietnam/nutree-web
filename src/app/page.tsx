@@ -4,6 +4,7 @@ import { SocialProof } from '@/components/sections/SocialProof';
 import { HowItWorks } from '@/components/sections/HowItWorks';
 import { BentoFeatures } from '@/components/sections/BentoFeatures';
 import { Testimonials } from '@/components/sections/Testimonials';
+import { StartupPartners } from '@/components/sections/StartupPartners';
 import { FinalCTA } from '@/components/sections/FinalCTA';
 import { ScreenshotPreloader } from '@/components/providers/ScreenshotPreloader';
 
@@ -13,6 +14,7 @@ export default function Home() {
       <ScreenshotPreloader />
       <HeroV2 />
       <SocialProof />
+      <StartupPartners />
       <HowItWorks />
       <BentoFeatures />
       <Testimonials />
