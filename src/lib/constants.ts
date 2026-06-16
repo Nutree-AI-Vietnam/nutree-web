@@ -15,6 +15,11 @@ export const SITE_CONFIG = {
     facebookMessenger: 'https://m.me/1019820571221637',
     tiktok: 'https://www.tiktok.com/@nutree.ai',
   },
+  productHunt: {
+    badgeHref: 'https://www.producthunt.com/products/nutree?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-nutree',
+    badgeImage: 'https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1172301&theme=light&t=1781576784575',
+    badgeAlt: 'Nutree - Not another calorie counter | Product Hunt',
+  },
 } as const;
 
 export const NAV_LINKS = [

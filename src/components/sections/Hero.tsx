@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 import { FlipPhone } from '@/components/ui/FlipPhone';
@@ -96,6 +97,26 @@ export function HeroV2() {
                 </Button>
               </Link>
             </motion.div>
+
+            {/* Product Hunt Badge */}
+            <motion.a
+              href={SITE_CONFIG.productHunt.badgeHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="View Nutree on Product Hunt"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.55 }}
+              className="mb-8 inline-flex h-[54px] w-[250px] overflow-hidden rounded-md transition-transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-primary-teal focus:ring-offset-2 focus:ring-offset-background"
+            >
+              <Image
+                src={SITE_CONFIG.productHunt.badgeImage}
+                alt={SITE_CONFIG.productHunt.badgeAlt}
+                width={250}
+                height={54}
+                unoptimized
+              />
+            </motion.a>
 
             {/* Trust Badges */}
             <motion.div
