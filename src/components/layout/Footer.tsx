@@ -32,7 +32,7 @@ export function Footer() {
                 rel="noopener noreferrer"
                 className="underline hover:text-foreground"
               >
-                FatSecret Platform API
+                fatsecret Platform API
               </a>
             </p>
           </div>
