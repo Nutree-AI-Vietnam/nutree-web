@@ -7,7 +7,13 @@ const partners = [
   {
     name: 'Render',
     href: 'https://render.com',
-    logo: 'https://cdn.simpleicons.org/render/46E3B7',
+    logo: 'https://cdn.simpleicons.org/render/000000',
+  },
+  {
+    name: 'Cloudflare for Startups',
+    href: 'https://www.cloudflare.com/startups/',
+    logo: '/cloudflare-for-startups-logo.png',
+    wide: true,
   },
   {
     name: 'Neon',
