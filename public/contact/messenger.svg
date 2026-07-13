@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-labelledby="title">
+  <title id="title">Facebook Messenger</title>
+  <defs><linearGradient id="a" x1="8" y1="42" x2="40" y2="6" gradientUnits="userSpaceOnUse"><stop stop-color="#A033FF"/><stop offset=".5" stop-color="#0084FF"/><stop offset="1" stop-color="#00C6FF"/></linearGradient></defs>
+  <path d="M24 6C13.9 6 6 13.4 6 23.3c0 5.2 2.1 9.7 5.7 12.8V42l5.5-3c2.1.7 4.4 1.1 6.8 1.1 10.1 0 18-7.3 18-16.8S34.1 6 24 6Z" fill="url(#a)"/>
+  <path d="m14.8 28.5 7.2-7.7 4.2 3.1 7-3.9-7.2 7.7-4.2-3.1-7 3.9Z" fill="#fff"/>
+</svg>
