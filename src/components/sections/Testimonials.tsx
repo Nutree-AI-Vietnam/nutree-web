@@ -129,7 +129,7 @@ export function Testimonials() {
                 <button
                   onClick={prevTestimonial}
                   className="w-10 h-10 rounded-full border border-border hover:border-primary-forest hover:bg-primary-forest/5 flex items-center justify-center transition-colors"
-                  aria-label="Previous testimonial"
+                  aria-label={t.common.previousTestimonial}
                 >
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
@@ -138,7 +138,7 @@ export function Testimonials() {
                 <button
                   onClick={nextTestimonial}
                   className="w-10 h-10 rounded-full border border-border hover:border-primary-forest hover:bg-primary-forest/5 flex items-center justify-center transition-colors"
-                  aria-label="Next testimonial"
+                  aria-label={t.common.nextTestimonial}
                 >
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
@@ -158,7 +158,7 @@ export function Testimonials() {
                         ? 'w-6 bg-primary-teal'
                         : 'bg-border hover:bg-muted'
                     )}
-                    aria-label={`Go to testimonial ${index + 1}`}
+                    aria-label={t.common.goToTestimonial(index + 1)}
                   />
                 ))}
               </div>

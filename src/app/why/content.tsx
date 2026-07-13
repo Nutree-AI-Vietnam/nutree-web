@@ -256,7 +256,7 @@ export function WhyNutreeContent() {
                         <img
                           key={video}
                           src={video}
-                          alt={`${item.title} demo`}
+                          alt={t.common.featureScreenshotAlt(item.title)}
                           className="w-full h-auto block"
                           loading="lazy"
                         />
@@ -395,7 +395,7 @@ export function WhyNutreeContent() {
                 {w.cta.subtext}
               </p>
 
-              <Link href={SITE_CONFIG.stores.appStore} aria-label="Download on App Store">
+              <Link href={SITE_CONFIG.stores.appStore} aria-label={t.common.appStoreDownloadLabel}>
                 <Button
                   variant="secondary"
                   size="lg"

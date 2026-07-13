@@ -19,6 +19,23 @@ export interface FaqSection {
 }
 
 interface TranslationStrings {
+  common: {
+    backHome: string;
+    home: string;
+    appStoreDownloadLabel: string;
+    productHuntLabel: string;
+    startupPartners: string;
+    partnerWebsiteLabel: (name: string) => string;
+    goToFeature: (index: number) => string;
+    tapToFlip: string;
+    previousTestimonial: string;
+    nextTestimonial: string;
+    goToTestimonial: (index: number) => string;
+    dashboardScreenshotAlt: string;
+    onboardingScreenshotAlt: string;
+    featureScreenshotAlt: (title: string) => string;
+    ctaScreenshotAlt: string;
+  };
   nav: { howItWorks: string; features: string; download: string };
   hero: {
     badge: string;
@@ -64,6 +81,7 @@ interface TranslationStrings {
     stats: { daysFree: string; languages: string; aiPowered: string; rating: string };
   };
   footer: {
+    description: string;
     quickLinks: string;
     getInTouch: string;
     contactPrompt: string;
@@ -164,6 +182,23 @@ interface TranslationStrings {
 
 export const translations: Record<Locale, TranslationStrings> = {
   en: {
+    common: {
+      backHome: 'Back to Home',
+      home: 'Home',
+      appStoreDownloadLabel: 'Download on App Store',
+      productHuntLabel: 'View Nutree on Product Hunt',
+      startupPartners: 'Startup partners',
+      partnerWebsiteLabel: (name) => `${name} partner website`,
+      goToFeature: (index) => `Go to feature ${index}`,
+      tapToFlip: 'Tap to flip',
+      previousTestimonial: 'Previous testimonial',
+      nextTestimonial: 'Next testimonial',
+      goToTestimonial: (index) => `Go to testimonial ${index}`,
+      dashboardScreenshotAlt: 'Nutree daily dashboard screenshot',
+      onboardingScreenshotAlt: 'Nutree onboarding screenshot',
+      featureScreenshotAlt: (title) => `${title} screenshot`,
+      ctaScreenshotAlt: 'Nutree app onboarding screenshot',
+    },
     nav: {
       howItWorks: 'How it works',
       features: 'Features',
@@ -300,6 +335,8 @@ export const translations: Record<Locale, TranslationStrings> = {
       },
     },
     footer: {
+      description:
+        'Not another calorie counter. Nutree is an AI Nutrition Assistant that adapts your daily targets, plans meals, and tracks every macro automatically.',
       quickLinks: 'Quick Links',
       getInTouch: 'Get in Touch',
       contactPrompt:
@@ -621,6 +658,23 @@ export const translations: Record<Locale, TranslationStrings> = {
     },
   },
   vi: {
+    common: {
+      backHome: 'Về trang chủ',
+      home: 'Trang chủ',
+      appStoreDownloadLabel: 'Tải trên App Store',
+      productHuntLabel: 'Xem Nutree trên Product Hunt',
+      startupPartners: 'Đối tác startup',
+      partnerWebsiteLabel: (name) => `Trang đối tác ${name}`,
+      goToFeature: (index) => `Đi đến tính năng ${index}`,
+      tapToFlip: 'Chạm để lật',
+      previousTestimonial: 'Đánh giá trước',
+      nextTestimonial: 'Đánh giá tiếp theo',
+      goToTestimonial: (index) => `Đi đến đánh giá ${index}`,
+      dashboardScreenshotAlt: 'Ảnh màn hình dashboard hằng ngày của Nutree',
+      onboardingScreenshotAlt: 'Ảnh màn hình onboarding Nutree',
+      featureScreenshotAlt: (title) => `Ảnh màn hình ${title}`,
+      ctaScreenshotAlt: 'Ảnh màn hình onboarding app Nutree',
+    },
     nav: {
       howItWorks: 'Cách dùng',
       features: 'Tính năng',
@@ -758,6 +812,8 @@ export const translations: Record<Locale, TranslationStrings> = {
       },
     },
     footer: {
+      description:
+        'Không phải app đếm calo bình thường. Nutree là trợ lý dinh dưỡng AI tự điều chỉnh mục tiêu hằng ngày, gợi ý bữa ăn và track macro cho bạn.',
       quickLinks: 'Liên kết',
       getInTouch: 'Liên hệ',
       contactPrompt:

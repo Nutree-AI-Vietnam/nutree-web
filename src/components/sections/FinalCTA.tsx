@@ -126,7 +126,7 @@ export function FinalCTA() {
 
                 <Link
                   href={SITE_CONFIG.stores.appStore}
-                  aria-label="Download on App Store"
+                  aria-label={t.common.appStoreDownloadLabel}
                   onClick={triggerConfetti}
                   onMouseEnter={triggerConfetti}
                 >
@@ -171,7 +171,7 @@ export function FinalCTA() {
                 <div className="absolute inset-0 bg-white/20 blur-3xl scale-150 rounded-full" />
                 <PhoneMockup
                   backgroundImage={CTA_SCREENSHOT}
-                  imageAlt="Nutree app onboarding screenshot"
+                  imageAlt={t.common.ctaScreenshotAlt}
                   className="transform hover:rotate-0 transition-transform duration-500"
                 />
               </div>

@@ -86,7 +86,7 @@ export function HeroV2() {
               transition={{ duration: 0.6, delay: 0.5 }}
               className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8"
             >
-              <Link href={SITE_CONFIG.stores.appStore} aria-label="Download on App Store">
+              <Link href={SITE_CONFIG.stores.appStore} aria-label={t.common.appStoreDownloadLabel}>
                 <Button
                   variant="primary"
                   size="lg"
@@ -103,7 +103,7 @@ export function HeroV2() {
               href={SITE_CONFIG.productHunt.badgeHref}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="View Nutree on Product Hunt"
+              aria-label={t.common.productHuntLabel}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.55 }}
@@ -153,8 +153,9 @@ export function HeroV2() {
             <FlipPhone
               frontImage={heroScreens.front}
               backImage={heroScreens.back}
-              frontImageAlt="Nutree daily dashboard screenshot"
-              backImageAlt="Nutree onboarding screenshot"
+              frontImageAlt={t.common.dashboardScreenshotAlt}
+              backImageAlt={t.common.onboardingScreenshotAlt}
+              instruction={t.common.tapToFlip}
               priority
               frontIcons={[
                 { emoji: '🍊', position: 'top-16 -right-8', delay: 0.5 },

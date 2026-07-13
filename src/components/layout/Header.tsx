@@ -70,7 +70,7 @@ export function Header() {
 
               <Link
                 href={SITE_CONFIG.stores.appStore}
-                aria-label="Download on App Store"
+                aria-label={t.common.appStoreDownloadLabel}
               >
                 <Button
                   variant="secondary"

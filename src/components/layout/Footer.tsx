@@ -16,7 +16,7 @@ export function Footer() {
         <div className="space-y-4">
           <Logo size="md" linkHome={false} />
           <p className="max-w-xs text-sm text-muted">
-            {SITE_CONFIG.description}
+            {t.footer.description}
           </p>
         </div>
 

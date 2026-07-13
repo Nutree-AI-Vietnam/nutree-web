@@ -152,7 +152,7 @@ export function BentoFeatures() {
                     {selectedItem?.screenshot ? (
                       <Image
                         src={selectedItem.screenshot}
-                        alt={`${selectedItem.title} screenshot`}
+                        alt={t.common.featureScreenshotAlt(selectedItem.title)}
                         fill
                         className="object-cover"
                         sizes="(max-width: 768px) 280px, 350px"
@@ -184,7 +184,7 @@ export function BentoFeatures() {
                       ? 'w-6 bg-primary-teal'
                       : 'bg-border hover:bg-primary-teal/50'
                   )}
-                  aria-label={`Go to feature ${index + 1}`}
+                  aria-label={t.common.goToFeature(index + 1)}
                 />
               ))}
             </div>

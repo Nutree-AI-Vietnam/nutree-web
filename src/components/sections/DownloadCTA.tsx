@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 import { useInView } from '@/hooks/useInView';
 import { SITE_CONFIG } from '@/lib/constants';
+import { useLocale } from '@/lib/locale-context';
 
 // Apple App Store Icon
 function AppleIcon({ className }: { className?: string }) {
@@ -23,6 +24,7 @@ function AppleIcon({ className }: { className?: string }) {
 
 export function DownloadCTA() {
   const { ref, isInView } = useInView({ threshold: 0.2 });
+  const { t } = useLocale();
 
   return (
     <section
@@ -65,17 +67,15 @@ export function DownloadCTA() {
                 />
               </svg>
               <span className="text-sm font-medium text-white">
-                {SITE_CONFIG.trial.days}-Day Free Trial
+                {t.hero.trustBadges.freeTrial}
               </span>
             </motion.div>
 
             <h2 className="font-display text-3xl font-bold text-white md:text-4xl lg:text-5xl">
-              Start Your Free Trial Today
+              {t.finalCta.headline}
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-lg text-white/80">
-              Download Nutree and get {SITE_CONFIG.trial.days} days free access to all features.
-              <br className="hidden sm:block" />
-              No credit card required. Life happens — Nutree adapts.
+              {t.finalCta.subtext}
             </p>
 
             {/* Platform CTAs */}
@@ -83,7 +83,7 @@ export function DownloadCTA() {
               {/* iOS Download */}
               <Link
                 href={SITE_CONFIG.stores.appStore}
-                aria-label="Download on App Store"
+                aria-label={t.common.appStoreDownloadLabel}
               >
                 <Button
                   variant="secondary"
@@ -92,8 +92,8 @@ export function DownloadCTA() {
                 >
                   <AppleIcon className="h-6 w-6" />
                   <div className="text-left">
-                    <div className="text-xs font-normal opacity-80">Download on the</div>
-                    <div className="text-sm font-semibold -mt-0.5">App Store</div>
+                    <div className="text-xs font-normal opacity-80">{t.finalCta.downloadOnThe}</div>
+                    <div className="text-sm font-semibold -mt-0.5">{t.finalCta.appStore}</div>
                   </div>
                 </Button>
               </Link>
@@ -102,25 +102,25 @@ export function DownloadCTA() {
 
             {/* Trial Info */}
             <p className="mt-6 text-sm text-white/60">
-              Available on iOS and Android. After trial, subscription starts at $4.99/month.
+              {t.whyNutree.cta.fineprint}
             </p>
 
             {/* Stats */}
             <div className="mt-12 flex flex-wrap items-center justify-center gap-8 text-white/80">
               <div className="text-center">
                 <div className="font-display text-3xl font-bold text-white">{SITE_CONFIG.trial.days}</div>
-                <div className="text-sm">Days Free</div>
+                <div className="text-sm">{t.finalCta.stats.daysFree}</div>
               </div>
               <div className="h-8 w-px bg-white/20" />
               <div className="text-center">
                 <div className="font-display text-3xl font-bold text-white">2</div>
-                <div className="text-sm">Languages</div>
+                <div className="text-sm">{t.finalCta.stats.languages}</div>
               </div>
 
               <div className="h-8 w-px bg-white/20" />
               <div className="text-center">
                 <div className="font-display text-3xl font-bold text-white">AI</div>
-                <div className="text-sm">Powered</div>
+                <div className="text-sm">{t.finalCta.stats.aiPowered}</div>
               </div>
             </div>
           </div>

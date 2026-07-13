@@ -101,7 +101,7 @@ export function MobileMenu({ onClose }: MobileMenuProps) {
             <Link
               href={SITE_CONFIG.stores.appStore}
               onClick={onClose}
-              aria-label="Download on App Store"
+              aria-label={t.common.appStoreDownloadLabel}
             >
               <Button
                 variant="primary"

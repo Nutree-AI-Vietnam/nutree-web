@@ -1,3 +1,7 @@
+'use client';
+
+import { useLocale } from '@/lib/locale-context';
+
 const partners = [
   {
     name: 'Sentry',
@@ -35,6 +39,7 @@ const partners = [
 
 export function StartupPartners() {
   const logoRail = [...partners, ...partners];
+  const { t } = useLocale();
 
   return (
     <section aria-labelledby="startup-partners-title" className="relative pb-16 md:pb-20">
@@ -44,7 +49,7 @@ export function StartupPartners() {
             id="startup-partners-title"
             className="text-xs font-semibold uppercase tracking-[0.22em] text-primary-teal"
           >
-            Startup partners
+            {t.common.startupPartners}
           </h2>
         </div>
 
@@ -59,7 +64,7 @@ export function StartupPartners() {
                 href={partner.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={`${partner.name} partner website`}
+                aria-label={t.common.partnerWebsiteLabel(partner.name)}
                 aria-hidden={index >= partners.length}
                 tabIndex={index >= partners.length ? -1 : 0}
                 className="group flex h-24 min-w-72 items-center justify-center gap-6 rounded-3xl outline-none transition duration-200 hover:bg-white/80 focus-visible:ring-2 focus-visible:ring-primary-teal focus-visible:ring-offset-4 focus-visible:ring-offset-background"

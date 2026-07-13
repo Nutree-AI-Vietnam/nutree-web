@@ -10,6 +10,7 @@ interface FlipPhoneProps {
   backImage: string;
   frontImageAlt?: string;
   backImageAlt?: string;
+  instruction?: string;
   priority?: boolean;
   frontIcons?: { emoji: string; position: string; delay: number }[];
   backIcons?: { emoji: string; position: string; delay: number }[];
@@ -20,6 +21,7 @@ export function FlipPhone({
   backImage,
   frontImageAlt = '',
   backImageAlt = '',
+  instruction = 'Tap to flip',
   priority = false,
   frontIcons = [],
   backIcons = [],
@@ -56,7 +58,7 @@ export function FlipPhone({
             ease: 'easeInOut',
           }}
         >
-          Tap to flip
+          {instruction}
         </motion.span>
         {/* Down arrow emoji with bounce - disabled on mobile */}
         <motion.div

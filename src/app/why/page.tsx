@@ -2,13 +2,13 @@ import type { Metadata } from 'next';
 import { WhyNutreeContent } from './content';
 
 export const metadata: Metadata = {
-  title: 'Why Nutree Is the Best Solution for People Who Want to Escape Skinny Fat',
+  title: 'Vì sao Nutree giúp bạn thoát skinny fat',
   description:
-    'You don\'t lack discipline — you lack a system built for body recomposition. Nutree removes the mental load so fat goes down AND muscle goes up, at the same time.',
+    'Bạn không thiếu kỷ luật. Bạn cần một hệ thống cho body recomposition. Nutree giảm tải việc ăn uống để mỡ giảm và cơ tăng cùng lúc.',
   openGraph: {
-    title: 'Why Nutree Is the Best Solution for People Who Want to Escape Skinny Fat',
+    title: 'Vì sao Nutree giúp bạn thoát skinny fat',
     description:
-      'Escape skinny fat with a system built for recomposition — not just another calorie counter.',
+      'Thoát skinny fat bằng hệ thống được xây cho recomp, không chỉ là một app đếm calo.',
     type: 'article',
   },
 };

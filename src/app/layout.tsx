@@ -15,9 +15,9 @@ const beVietnamPro = Be_Vietnam_Pro({
 });
 
 export const metadata: Metadata = {
-  title: 'Nutree | AI Nutrition Assistant',
-  description: 'Not another calorie counter. Nutree is an AI Nutrition Assistant that adapts your daily targets, plans meals, and tracks every macro automatically.',
-  keywords: ['AI nutrition assistant', 'nutrition tracking', 'meal planning', 'macro tracking', 'calorie tracker', 'weekly nutrition budget', 'adaptive targets', 'meal prep'],
+  title: 'Nutree | Trợ lý dinh dưỡng AI',
+  description: 'Không phải app đếm calo bình thường. Nutree tự điều chỉnh mục tiêu hằng ngày, gợi ý bữa ăn và track macro cho bạn bằng AI.',
+  keywords: ['trợ lý dinh dưỡng AI', 'theo dõi dinh dưỡng', 'gợi ý bữa ăn', 'track macro', 'đếm calo', 'ngân sách dinh dưỡng tuần', 'mục tiêu tự điều chỉnh', 'meal prep'],
   authors: [{ name: 'Nutree Team' }],
   icons: {
     icon: [
@@ -27,25 +27,25 @@ export const metadata: Metadata = {
     apple: '/apple-touch-icon.png',
   },
   openGraph: {
-    title: 'Nutree - AI Nutrition Assistant That Adapts',
-    description: 'Not another calorie counter. Nutree adapts your daily targets, plans meals, and tracks every macro automatically.',
+    title: 'Nutree - Trợ lý dinh dưỡng AI tự thích nghi',
+    description: 'Nutree tự điều chỉnh mục tiêu hằng ngày, gợi ý bữa ăn và track macro cho bạn bằng AI.',
     url: 'https://nutreeai.com',
     siteName: 'Nutree',
     type: 'website',
-    locale: 'en_US',
+    locale: 'vi_VN',
     images: [
       {
         url: '/logo-512.png',
         width: 512,
         height: 512,
-        alt: 'Nutree Logo',
+        alt: 'Logo Nutree',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Nutree - AI Nutrition Assistant That Adapts',
-    description: 'Not another calorie counter. Nutree adapts your daily targets, plans meals, and tracks every macro automatically.',
+    title: 'Nutree - Trợ lý dinh dưỡng AI tự thích nghi',
+    description: 'Nutree tự điều chỉnh mục tiêu hằng ngày, gợi ý bữa ăn và track macro cho bạn bằng AI.',
     images: ['/logo-512.png'],
   },
   robots: {
@@ -60,7 +60,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={beVietnamPro.variable}>
+    <html lang="vi" className={beVietnamPro.variable}>
       <head>
         <meta name="theme-color" content="#1A4739" />
         <meta name="facebook-domain-verification" content="f0wc0i12b96y1yc0susyi4y57rdc6v" />
