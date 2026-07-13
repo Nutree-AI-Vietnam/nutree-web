@@ -72,6 +72,18 @@ interface TranslationStrings {
     privacyPolicy: string;
     termsOfService: string;
     faq: string;
+    contact: string;
+  };
+  contact: {
+    eyebrow: string;
+    title: string;
+    description: string;
+    responseNote: string;
+    backHome: string;
+    languageLabel: string;
+    email: { name: string; description: string; action: string };
+    messenger: { name: string; description: string; action: string };
+    tiktok: { name: string; description: string; action: string };
   };
   faq: {
     pageTitle: string;
@@ -297,6 +309,30 @@ export const translations: Record<Locale, TranslationStrings> = {
       privacyPolicy: 'Privacy Policy',
       termsOfService: 'Terms of Service',
       faq: 'FAQ',
+      contact: 'Contact Us',
+    },
+    contact: {
+      eyebrow: 'Talk to a real person',
+      title: 'How can we help?',
+      description: 'Questions, feedback, or something not working as expected? Choose the channel that suits you best and reach the Nutree team directly.',
+      responseNote: 'Email and Messenger are best for support requests. We usually reply as soon as we can.',
+      backHome: 'Back to home',
+      languageLabel: 'Switch language',
+      email: {
+        name: 'Email',
+        description: 'Best for account questions, detailed feedback, and technical support.',
+        action: 'Send an email',
+      },
+      messenger: {
+        name: 'Messenger',
+        description: 'Send us a quick message and chat with the Nutree team on Facebook.',
+        action: 'Open Messenger',
+      },
+      tiktok: {
+        name: 'TikTok',
+        description: 'Follow Nutree for nutrition tips, product updates, and short tutorials.',
+        action: 'Visit TikTok',
+      },
     },
     faq: {
       pageTitle: 'Frequently Asked Questions',
@@ -731,6 +767,30 @@ export const translations: Record<Locale, TranslationStrings> = {
       privacyPolicy: 'Chính sách bảo mật',
       termsOfService: 'Điều khoản sử dụng',
       faq: 'Câu hỏi thường gặp',
+      contact: 'Liên hệ',
+    },
+    contact: {
+      eyebrow: 'Trò chuyện trực tiếp với Nutree',
+      title: 'Nutree có thể giúp gì cho bạn?',
+      description: 'Bạn có câu hỏi, góp ý hoặc gặp vấn đề khi sử dụng? Chọn kênh phù hợp nhất để liên hệ trực tiếp với đội ngũ Nutree.',
+      responseNote: 'Email và Messenger là hai kênh phù hợp nhất để được hỗ trợ. Nutree sẽ phản hồi sớm nhất có thể.',
+      backHome: 'Về trang chủ',
+      languageLabel: 'Đổi ngôn ngữ',
+      email: {
+        name: 'Email',
+        description: 'Phù hợp với câu hỏi về tài khoản, góp ý chi tiết và hỗ trợ kỹ thuật.',
+        action: 'Gửi email',
+      },
+      messenger: {
+        name: 'Messenger',
+        description: 'Nhắn tin nhanh và trò chuyện với đội ngũ Nutree qua Facebook.',
+        action: 'Mở Messenger',
+      },
+      tiktok: {
+        name: 'TikTok',
+        description: 'Theo dõi Nutree để xem mẹo dinh dưỡng, cập nhật sản phẩm và hướng dẫn ngắn.',
+        action: 'Xem TikTok',
+      },
     },
     faq: {
       pageTitle: 'Câu hỏi thường gặp',
