@@ -5,12 +5,22 @@ import { useEffect } from 'react';
 declare global {
   interface Window {
     ttq?: {
-      track: (event: string, properties?: Record<string, string | number>, options?: { event_id: string }) => void;
+      track: (
+        event: string,
+        properties?: TikTokEventProperties,
+        options?: { event_id: string },
+      ) => void;
     };
   }
 }
 
 const APP_STORE_URL_PREFIX = 'https://apps.apple.com/';
+const APP_CONTENT_ID = 'nutree-ios-app';
+
+type TikTokEventProperties = Record<
+  string,
+  string | number | string[] | Array<Record<string, string | number>>
+>;
 
 function readCookie(name: string) {
   return document.cookie
@@ -20,8 +30,8 @@ function readCookie(name: string) {
 }
 
 function sendEvent(
-  event: 'ViewContent' | 'ClickButton',
-  properties: Record<string, string | number>,
+  event: 'ViewContent' | 'Download',
+  properties: TikTokEventProperties,
 ) {
   const eventId = crypto.randomUUID();
 
@@ -46,9 +56,20 @@ function sendEvent(
 export function TikTokEvents() {
   useEffect(() => {
     sendEvent('ViewContent', {
-      content_id: window.location.pathname || '/',
+      content_id: APP_CONTENT_ID,
+      content_ids: [APP_CONTENT_ID],
       content_type: 'product',
-      content_name: document.title,
+      content_name: 'Nutree iOS App',
+      description: document.title,
+      quantity: 1,
+      contents: [
+        {
+          content_id: APP_CONTENT_ID,
+          content_type: 'product',
+          content_name: 'Nutree iOS App',
+          quantity: 1,
+        },
+      ],
     });
 
     const handleClick = (event: MouseEvent) => {
@@ -56,10 +77,21 @@ export function TikTokEvents() {
 
       if (!link?.href.startsWith(APP_STORE_URL_PREFIX)) return;
 
-      sendEvent('ClickButton', {
-        content_id: 'app-store-download',
+      sendEvent('Download', {
+        content_id: APP_CONTENT_ID,
+        content_ids: [APP_CONTENT_ID],
         content_type: 'product',
         content_name: 'Download Nutree on App Store',
+        description: 'App Store download click',
+        quantity: 1,
+        contents: [
+          {
+            content_id: APP_CONTENT_ID,
+            content_type: 'product',
+            content_name: 'Nutree iOS App',
+            quantity: 1,
+          },
+        ],
       });
     };
 

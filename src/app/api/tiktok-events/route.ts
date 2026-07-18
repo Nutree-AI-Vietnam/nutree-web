@@ -3,7 +3,12 @@ import { NextRequest, NextResponse } from 'next/server';
 const TIKTOK_EVENTS_API_URL =
   'https://business-api.tiktok.com/open_api/v1.3/event/track/';
 
-const ALLOWED_EVENTS = new Set(['ViewContent', 'ClickButton']);
+const ALLOWED_EVENTS = new Set(['ViewContent', 'Download']);
+
+type TikTokEventProperties = Record<
+  string,
+  string | number | string[] | Array<Record<string, string | number>>
+>;
 
 type TikTokEventRequest = {
   event?: string;
@@ -12,7 +17,7 @@ type TikTokEventRequest = {
   referrer?: string;
   ttclid?: string;
   ttp?: string;
-  properties?: Record<string, string | number>;
+  properties?: TikTokEventProperties;
 };
 
 export async function POST(request: NextRequest) {
