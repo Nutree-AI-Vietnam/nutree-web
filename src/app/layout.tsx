@@ -4,6 +4,7 @@ import Script from 'next/script';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { PostHogProvider } from '@/components/providers/PostHogProvider';
+import { TikTokEvents } from '@/components/providers/TikTokEvents';
 import { LocaleProvider } from '@/lib/locale-context';
 import { HERO_SCREENSHOTS } from '@/lib/screenshot-assets';
 import './globals.css';
@@ -85,6 +86,7 @@ export default function RootLayout({
         <Script id="tiktok-pixel" strategy="beforeInteractive">
           {TIKTOK_PIXEL_SCRIPT}
         </Script>
+        <TikTokEvents />
         <PostHogProvider>
           <LocaleProvider>
             <Header />
