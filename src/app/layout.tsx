@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Be_Vietnam_Pro } from 'next/font/google';
+import Script from 'next/script';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { PostHogProvider } from '@/components/providers/PostHogProvider';
@@ -75,13 +76,15 @@ export default function RootLayout({
       <head>
         <meta name="theme-color" content="#1A4739" />
         <meta name="facebook-domain-verification" content="f0wc0i12b96y1yc0susyi4y57rdc6v" />
-        <script dangerouslySetInnerHTML={{ __html: TIKTOK_PIXEL_SCRIPT }} />
         {Object.values(HERO_SCREENSHOTS).flatMap(({ front, back }) => [
           <link key={front} rel="preload" as="image" href={front} />,
           <link key={back} rel="preload" as="image" href={back} />,
         ])}
       </head>
       <body className="flex min-h-screen flex-col">
+        <Script id="tiktok-pixel" strategy="beforeInteractive">
+          {TIKTOK_PIXEL_SCRIPT}
+        </Script>
         <PostHogProvider>
           <LocaleProvider>
             <Header />
