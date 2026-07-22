@@ -1,5 +1,8 @@
 const withPostHog = require('@posthog/nextjs-config').withPostHogConfig;
 
+const hasPostHogSourceMapConfig =
+  process.env.POSTHOG_PERSONAL_API_KEY && process.env.POSTHOG_ENV_ID;
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'standalone',
@@ -28,8 +31,10 @@ const nextConfig = {
   },
 };
 
-module.exports = withPostHog(nextConfig, {
-  personalApiKey: process.env.POSTHOG_PERSONAL_API_KEY,
-  envId: process.env.POSTHOG_ENV_ID,
-  host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
-});
+module.exports = hasPostHogSourceMapConfig
+  ? withPostHog(nextConfig, {
+      personalApiKey: process.env.POSTHOG_PERSONAL_API_KEY,
+      envId: process.env.POSTHOG_ENV_ID,
+      host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
+    })
+  : nextConfig;
