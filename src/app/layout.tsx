@@ -1,8 +1,7 @@
 import type { Metadata } from 'next';
 import { Be_Vietnam_Pro } from 'next/font/google';
 import Script from 'next/script';
-import { Header } from '@/components/layout/Header';
-import { Footer } from '@/components/layout/Footer';
+import { AppChrome } from '@/components/layout/AppChrome';
 import { PostHogProvider } from '@/components/providers/PostHogProvider';
 import { TikTokEvents } from '@/components/providers/TikTokEvents';
 import { LocaleProvider } from '@/lib/locale-context';
@@ -89,9 +88,7 @@ export default function RootLayout({
         <TikTokEvents />
         <PostHogProvider>
           <LocaleProvider>
-            <Header />
-            <main className="flex-1">{children}</main>
-            <Footer />
+            <AppChrome>{children}</AppChrome>
           </LocaleProvider>
         </PostHogProvider>
       </body>
