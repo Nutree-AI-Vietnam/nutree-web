@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { AdminLoginPanel } from '@/components/admin/AdminLoginPanel';
 import { AdminBanner } from '@/components/admin/AdminBanner';
 import { MealCatalogFilters } from '@/components/admin/MealCatalogFilters';
 import { MealCatalogPagination } from '@/components/admin/MealCatalogPagination';
@@ -12,6 +13,13 @@ import {
   generateMealCatalogImage,
   hasMealTrackApiUrl,
 } from '@/lib/mealtrack-admin-api';
+import {
+  type AdminAuthSession,
+  FirebaseAdminAuthError,
+  hasFirebaseAdminAuthConfig,
+  refreshAdminSession,
+  signInAdminWithEmailPassword,
+} from '@/lib/firebase-admin-auth';
 import type {
   HasImageFilter,
   MealCatalogItem,
@@ -21,6 +29,7 @@ import type {
 } from '@/types/meal-catalog';
 
 const PAGE_SIZE = 25;
+const SESSION_STORAGE_KEY = 'nutree-admin-auth-session';
 
 export function AdminMealCatalogPageClient() {
   const [q, setQ] = useState('');
@@ -28,7 +37,12 @@ export function AdminMealCatalogPageClient() {
   const [mealType, setMealType] = useState<MealType | ''>('');
   const [hasImage, setHasImage] = useState<HasImageFilter>('all');
   const [isActive, setIsActive] = useState<'all' | 'true' | 'false'>('true');
-  const [token, setToken] = useState('');
+  const [session, setSession] = useState<AdminAuthSession | null>(null);
+  const [loginEmail, setLoginEmail] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
+  const [loginError, setLoginError] = useState<string | null>(null);
+  const [isSigningIn, setIsSigningIn] = useState(false);
+  const [isRestoringSession, setIsRestoringSession] = useState(true);
   const [page, setPage] = useState(0);
   const [reloadKey, setReloadKey] = useState(0);
   const [data, setData] = useState<MealCatalogListResponse>(emptyData);
@@ -51,10 +65,42 @@ export function AdminMealCatalogPageClient() {
     [cuisine, hasImage, isActive, mealType, page, q]
   );
 
+  useEffect(() => {
+    const restored = readStoredSession();
+    if (restored) {
+      setSession(restored);
+      setLoginEmail(restored.email);
+    }
+    setIsRestoringSession(false);
+  }, []);
+
+  const getValidToken = useCallback(async (): Promise<string> => {
+    if (!session) {
+      throw new MealTrackAdminApiError('Sign in before calling MealTrack admin endpoints.', 401);
+    }
+    if (Date.now() < session.expiresAt - 60_000) {
+      return session.idToken;
+    }
+
+    const refreshed = await refreshAdminSession(session.refreshToken);
+    const nextSession = {
+      ...refreshed,
+      email: session.email,
+    };
+    storeSession(nextSession);
+    setSession(nextSession);
+    return nextSession.idToken;
+  }, [session]);
+
   const loadCatalog = useCallback(async () => {
+    if (!isPreviewMode && !session) {
+      setIsLoading(false);
+      return;
+    }
     setIsLoading(true);
     setError(null);
     try {
+      const token = isPreviewMode ? '' : await getValidToken();
       const response = await fetchMealCatalog(params, token);
       setData(response);
     } catch (requestError) {
@@ -62,7 +108,7 @@ export function AdminMealCatalogPageClient() {
     } finally {
       setIsLoading(false);
     }
-  }, [params, token]);
+  }, [getValidToken, isPreviewMode, params, session]);
 
   useEffect(() => {
     void loadCatalog();
@@ -78,6 +124,7 @@ export function AdminMealCatalogPageClient() {
       setGeneratingId(item.id);
       setActionMessage(null);
       try {
+        const token = await getValidToken();
         const response = await generateMealCatalogImage(item.id, token);
         setData((current) => ({
           ...current,
@@ -92,12 +139,58 @@ export function AdminMealCatalogPageClient() {
         setGeneratingId(null);
       }
     },
-    [token]
+    [getValidToken]
   );
+
+  const handleSignIn = useCallback(async () => {
+    setIsSigningIn(true);
+    setLoginError(null);
+    try {
+      const nextSession = await signInAdminWithEmailPassword(
+        loginEmail.trim(),
+        loginPassword
+      );
+      storeSession(nextSession);
+      setSession(nextSession);
+      setLoginPassword('');
+      setReloadKey((value) => value + 1);
+    } catch (requestError) {
+      setLoginError(toErrorMessage(requestError));
+    } finally {
+      setIsSigningIn(false);
+    }
+  }, [loginEmail, loginPassword]);
+
+  const handleSignOut = useCallback(() => {
+    sessionStorage.removeItem(SESSION_STORAGE_KEY);
+    setSession(null);
+    setData(emptyData);
+    setError(null);
+    setActionMessage(null);
+  }, []);
 
   const totalPages = Math.max(1, Math.ceil(data.total / PAGE_SIZE));
   const visibleStart = data.total === 0 ? 0 : data.offset + 1;
   const visibleEnd = Math.min(data.offset + data.items.length, data.total);
+
+  if (isRestoringSession) {
+    return <div className="min-h-screen bg-[#EEF3F0]" />;
+  }
+
+  if (!isPreviewMode && !session) {
+    return (
+      <AdminLoginPanel
+        email={loginEmail}
+        error={loginError}
+        isConfigured={hasFirebaseAdminAuthConfig()}
+        isSigningIn={isSigningIn}
+        onEmailChange={setLoginEmail}
+        onPasswordChange={setLoginPassword}
+        onSubmit={handleSignIn}
+        password={loginPassword}
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#EEF3F0] text-foreground">
@@ -112,8 +205,24 @@ export function AdminMealCatalogPageClient() {
               Review every catalog meal, spot missing images, and generate images once the backend endpoint is ready.
             </p>
           </div>
-          <div className="border border-border bg-background px-3 py-2 text-xs font-semibold text-muted">
-            {isPreviewMode ? 'Contract preview' : 'Connected to MealTrack'}
+          <div className="flex flex-wrap items-center gap-2">
+            {!isPreviewMode && session && (
+              <div className="border border-border bg-background px-3 py-2 text-xs font-semibold text-muted">
+                {session.email}
+              </div>
+            )}
+            {!isPreviewMode && (
+              <button
+                className="border border-border bg-white px-3 py-2 text-xs font-semibold text-muted transition-colors hover:border-primary-teal hover:text-primary-forest"
+                onClick={handleSignOut}
+                type="button"
+              >
+                Sign out
+              </button>
+            )}
+            <div className="border border-border bg-background px-3 py-2 text-xs font-semibold text-muted">
+              {isPreviewMode ? 'Contract preview' : 'Connected to MealTrack'}
+            </div>
           </div>
         </div>
       </header>
@@ -138,13 +247,11 @@ export function AdminMealCatalogPageClient() {
           mealType={mealType}
           hasImage={hasImage}
           isActive={isActive}
-          token={token}
           onQChange={(value) => resetPage(() => setQ(value))}
           onCuisineChange={(value) => resetPage(() => setCuisine(value))}
           onMealTypeChange={(value) => resetPage(() => setMealType(value))}
           onHasImageChange={(value) => resetPage(() => setHasImage(value))}
           onIsActiveChange={(value) => resetPage(() => setIsActive(value))}
-          onTokenChange={setToken}
           onRefresh={() => setReloadKey((value) => value + 1)}
         />
 
@@ -171,7 +278,7 @@ export function AdminMealCatalogPageClient() {
 }
 
 function toErrorMessage(error: unknown): string {
-  if (error instanceof MealTrackAdminApiError) {
+  if (error instanceof MealTrackAdminApiError || error instanceof FirebaseAdminAuthError) {
     return error.message;
   }
   if (error instanceof Error) {
@@ -186,3 +293,23 @@ const emptyData: MealCatalogListResponse = {
   limit: PAGE_SIZE,
   offset: 0,
 };
+
+function readStoredSession(): AdminAuthSession | null {
+  try {
+    const raw = sessionStorage.getItem(SESSION_STORAGE_KEY);
+    if (!raw) {
+      return null;
+    }
+    const session = JSON.parse(raw) as AdminAuthSession;
+    if (!session.idToken || !session.refreshToken || !session.email) {
+      return null;
+    }
+    return session;
+  } catch {
+    return null;
+  }
+}
+
+function storeSession(session: AdminAuthSession): void {
+  sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(session));
+}

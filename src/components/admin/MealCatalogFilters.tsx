@@ -6,13 +6,11 @@ interface MealCatalogFiltersProps {
   mealType: MealType | '';
   hasImage: HasImageFilter;
   isActive: 'all' | 'true' | 'false';
-  token: string;
   onQChange: (value: string) => void;
   onCuisineChange: (value: string) => void;
   onMealTypeChange: (value: MealType | '') => void;
   onHasImageChange: (value: HasImageFilter) => void;
   onIsActiveChange: (value: 'all' | 'true' | 'false') => void;
-  onTokenChange: (value: string) => void;
   onRefresh: () => void;
 }
 
@@ -30,13 +28,11 @@ export function MealCatalogFilters({
   mealType,
   hasImage,
   isActive,
-  token,
   onQChange,
   onCuisineChange,
   onMealTypeChange,
   onHasImageChange,
   onIsActiveChange,
-  onTokenChange,
   onRefresh,
 }: MealCatalogFiltersProps) {
   return (
@@ -110,21 +106,6 @@ export function MealCatalogFilters({
         >
           Refresh
         </button>
-      </div>
-
-      <div className="border-t border-border p-4">
-        <label className="block max-w-xl">
-          <span className="mb-1 block text-xs font-semibold uppercase text-muted">
-            Admin bearer token
-          </span>
-          <input
-            value={token}
-            onChange={(event) => onTokenChange(event.target.value)}
-            placeholder="Paste Firebase/admin token when backend is live"
-            type="password"
-            className="h-11 w-full border border-border bg-background px-3 text-sm text-foreground outline-none focus:border-primary-teal"
-          />
-        </label>
       </div>
     </section>
   );
