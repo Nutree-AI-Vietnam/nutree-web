@@ -40,7 +40,7 @@ App (Next.js 14 App Router)
 │   └── Footer
 ├── changelog/page.tsx
 │   └── ReleaseList (GitHub releases via API)
-├── research/page.tsx (EN/VI research and methodology page)
+├── research/page.tsx (EN/VI science and sources page)
 │   └── ResearchPageClient (implementation rules, bounded evidence, sources, disclaimer)
 ├── privacy/page.tsx (12-section policy)
 ├── terms/page.tsx (14-section terms)

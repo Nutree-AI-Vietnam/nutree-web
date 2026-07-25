@@ -2,11 +2,11 @@ import type { Metadata } from 'next';
 import { ResearchPageClient } from './research-page-client';
 
 export const metadata: Metadata = {
-  title: 'Research & Methodology | Nutree',
-  description: 'How Nutree estimates nutrition targets, the product rules it applies, and the evidence that provides context for them.',
+  title: 'Science & Sources | Nutree',
+  description: 'Peer-reviewed papers, public-health sources, and formulas that provide context for Nutree’s nutrition estimates.',
   openGraph: {
-    title: 'Research & Methodology | Nutree',
-    description: 'An explanation of Nutree’s estimation methods, product rules, limitations, and source material.',
+    title: 'Science & Sources | Nutree',
+    description: 'Peer-reviewed papers, public-health sources, formulas, limitations, and source material for Nutree’s nutrition estimates.',
     type: 'article',
   },
 };
