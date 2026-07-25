@@ -89,6 +89,7 @@ interface TranslationStrings {
     copyright: string;
     privacyPolicy: string;
     termsOfService: string;
+    research: string;
     faq: string;
     contact: string;
   };
@@ -345,6 +346,7 @@ export const translations: Record<Locale, TranslationStrings> = {
       copyright: 'Nutree. All rights reserved.',
       privacyPolicy: 'Privacy Policy',
       termsOfService: 'Terms of Service',
+      research: 'Research & Methodology',
       faq: 'FAQ',
       contact: 'Contact Us',
     },
@@ -822,6 +824,7 @@ export const translations: Record<Locale, TranslationStrings> = {
       copyright: 'Nutree. Bảo lưu mọi quyền.',
       privacyPolicy: 'Chính sách bảo mật',
       termsOfService: 'Điều khoản sử dụng',
+      research: 'Nghiên cứu & phương pháp',
       faq: 'Câu hỏi thường gặp',
       contact: 'Liên hệ',
     },

@@ -1,6 +1,6 @@
 # Nutree Web - Codebase Summary
 
-**Last Updated**: December 10, 2025
+**Last Updated**: July 25, 2026
 **Phase**: 3 of 5 (Features Showcase - COMPLETE)
 **Status**: Active Development
 **Code Quality**: 9.5/10
@@ -40,10 +40,17 @@ App (Next.js 14 App Router)
 │   └── Footer
 ├── changelog/page.tsx
 │   └── ReleaseList (GitHub releases via API)
+├── research/page.tsx (EN/VI research and methodology page)
+│   └── ResearchPageClient (implementation rules, bounded evidence, sources, disclaimer)
 ├── privacy/page.tsx (12-section policy)
 ├── terms/page.tsx (14-section terms)
 └── globals.css (animations, CSS layers)
 ```
+
+The shared footer includes a `/research` link alongside the legal routes. The
+research page is available in English and Vietnamese and describes Nutree's
+target-estimation rules, source context, and educational medical disclaimer;
+it does not present the cited literature as validation of every product rule.
 
 ### Data Flow Architecture
 

@@ -36,8 +36,9 @@ export function Footer() {
               </a>
             </p>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-center">
             <Link href="/contact" className="hover:text-foreground">{t.footer.contact}</Link>
+            <Link href="/research" className="hover:text-foreground">{t.footer.research}</Link>
             <Link href="/privacy" className="hover:text-foreground">{t.footer.privacyPolicy}</Link>
             <Link href="/terms" className="hover:text-foreground">{t.footer.termsOfService}</Link>
           </div>
