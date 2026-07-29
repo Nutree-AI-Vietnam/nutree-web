@@ -7,6 +7,7 @@ import type {
   MealCatalogImportRequest,
   MealCatalogImportResponse,
   MealCatalogEnrichmentResponse,
+  MealCatalogApproveFoodReferenceResponse,
 } from '@/types/meal-catalog';
 
 const USE_PROXY = process.env.NEXT_PUBLIC_MEALTRACK_ADMIN_USE_PROXY === 'true';
@@ -89,9 +90,20 @@ export async function enrichMealCatalogManifest(
   return postMealCatalogImportAction<MealCatalogEnrichmentResponse>('enrich', request, token);
 }
 
+export async function approveMealCatalogFoodReference(
+  foodReferenceId: number,
+  token: string
+): Promise<MealCatalogApproveFoodReferenceResponse> {
+  return postMealCatalogImportAction<MealCatalogApproveFoodReferenceResponse>(
+    'approve-food-reference',
+    { food_reference_id: foodReferenceId },
+    token
+  );
+}
+
 async function postMealCatalogImportAction<T>(
-  action: 'enrich' | 'resolve' | 'import',
-  request: MealCatalogImportRequest,
+  action: 'enrich' | 'resolve' | 'import' | 'approve-food-reference',
+  request: MealCatalogImportRequest | { food_reference_id: number },
   token: string
 ): Promise<T> {
   if (!USE_PROXY && !API_BASE_URL) {

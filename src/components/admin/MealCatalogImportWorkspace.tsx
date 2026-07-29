@@ -23,6 +23,7 @@ interface Props {
   onImport: (request: MealCatalogImportRequest) => void;
   onPreview: (request: MealCatalogImportRequest) => void;
   onResolve: (request: MealCatalogImportRequest) => void;
+  onApproveFoodReference: (foodReferenceId: number) => Promise<void>;
 }
 
 type ParsedManifest =
@@ -58,14 +59,17 @@ export function MealCatalogImportWorkspace(props: Props) {
     void file.text().then((text) => updateManifest(text)).catch(() => setInputError('Could not read that file.'));
   }
 
-  function approveCandidate(issue: MealCatalogResolutionIssue, candidate: MealCatalogResolutionCandidate): void {
+  async function approveCandidate(issue: MealCatalogResolutionIssue, candidate: MealCatalogResolutionCandidate): Promise<void> {
     if ('error' in parsed) {
       setInputError(parsed.error);
       return;
     }
+    if (!candidate.is_verified) {
+      await props.onApproveFoodReference(candidate.food_reference_id);
+    }
     const nextMap = { ...parsed.resolverMap, [issue.normalized_name]: candidate.food_reference_id };
     updateResolverMap(JSON.stringify(nextMap, null, 2));
-    setMappingMessage(`Mapped “${issue.normalized_name}” to ${candidate.name}. Re-run resolve before importing.`);
+    setMappingMessage(`${candidate.is_verified ? 'Mapped' : 'Verified and mapped'} “${issue.normalized_name}” to ${candidate.name}. Re-run resolve before importing.`);
   }
 
   function removeUnverifiedReferenceIds(): void {
@@ -127,7 +131,7 @@ export function MealCatalogImportWorkspace(props: Props) {
       <div className="border-y border-border bg-white p-4 md:p-5">
         <p className="text-xs font-bold uppercase tracking-[0.16em] text-primary-emerald">Catalog operations</p>
         <h2 className="mt-1 text-xl font-bold">Review and publish a manifest</h2>
-        <p className="mt-1 max-w-xl text-sm text-muted">Enrich missing names, approve candidate mappings, resolve again, then preview before applying.</p>
+        <p className="mt-1 max-w-xl text-sm text-muted">Resolve ingredients, explicitly approve any unverified reference, then preview and publish the exact reviewed manifest.</p>
         <label className="mt-5 block">
           <span className="mb-1 flex items-center justify-between text-xs font-bold uppercase text-muted">Manifest JSON <FilePicker onFile={chooseFile} /></span>
           <textarea value={manifestText} onChange={(event) => updateManifest(event.target.value)} className="min-h-[22rem] w-full border border-border bg-[#F7FAF8] p-3 font-mono text-xs text-foreground outline-none focus:border-primary-teal" spellCheck={false} />

@@ -128,3 +128,10 @@ export interface MealCatalogEnrichmentResponse {
   enriched: number;
   skipped_existing: number;
 }
+
+export interface MealCatalogApproveFoodReferenceResponse {
+  food_reference_id: number;
+  name: string;
+  source: string;
+  is_verified: boolean;
+}
