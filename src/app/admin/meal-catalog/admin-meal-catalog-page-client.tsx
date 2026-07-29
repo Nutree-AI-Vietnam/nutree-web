@@ -13,6 +13,7 @@ import {
   fetchMealCatalog,
   generateMealCatalogImage,
   hasMealTrackApiUrl,
+  enrichMealCatalogManifest,
   importMealCatalogManifest,
   resolveMealCatalogManifest,
 } from '@/lib/mealtrack-admin-api';
@@ -30,6 +31,7 @@ import type {
   MealCatalogListResponse,
   MealCatalogImportRequest,
   MealCatalogImportResponse,
+  MealCatalogEnrichmentResponse,
   MealType,
 } from '@/types/meal-catalog';
 
@@ -57,6 +59,8 @@ export function AdminMealCatalogPageClient() {
   const [generatingId, setGeneratingId] = useState<string | null>(null);
   const [activeView, setActiveView] = useState<'catalog' | 'import'>('catalog');
   const [importResult, setImportResult] = useState<MealCatalogImportResponse | null>(null);
+  const [enrichmentResult, setEnrichmentResult] = useState<MealCatalogEnrichmentResponse | null>(null);
+  const [lastImportAction, setLastImportAction] = useState<'enrich' | 'import' | 'preview' | 'resolve' | null>(null);
   const [importError, setImportError] = useState<string | null>(null);
   const [isImportBusy, setIsImportBusy] = useState(false);
 
@@ -177,19 +181,30 @@ export function AdminMealCatalogPageClient() {
     setError(null);
     setActionMessage(null);
     setImportResult(null);
+    setEnrichmentResult(null);
+    setLastImportAction(null);
     setImportError(null);
   }, []);
 
   const runImportAction = useCallback(
-    async (action: 'resolve' | 'import', request: MealCatalogImportRequest) => {
+    async (action: 'enrich' | 'resolve' | 'import', request: MealCatalogImportRequest) => {
       setIsImportBusy(true);
       setImportError(null);
       try {
         const token = await getValidToken();
+        if (action === 'enrich') {
+          const response = await enrichMealCatalogManifest(request, token);
+          setEnrichmentResult(response);
+          setImportResult(null);
+          setLastImportAction('enrich');
+          return;
+        }
+        setEnrichmentResult(null);
         const response = action === 'resolve'
           ? await resolveMealCatalogManifest(request, token)
           : await importMealCatalogManifest(request, token);
         setImportResult(response);
+        setLastImportAction(action === 'resolve' ? 'resolve' : request.dry_run ? 'preview' : 'import');
         if (response.applied) {
           setActionMessage(`Imported ${response.inserted} meal${response.inserted === 1 ? '' : 's'}.`);
           setReloadKey((value) => value + 1);
@@ -283,7 +298,10 @@ export function AdminMealCatalogPageClient() {
             isConnected={!isPreviewMode && Boolean(session)}
             isBusy={isImportBusy}
             result={importResult}
+            enrichment={enrichmentResult}
+            lastAction={lastImportAction}
             error={importError}
+            onEnrich={(request) => void runImportAction('enrich', request)}
             onResolve={(request) => void runImportAction('resolve', request)}
             onPreview={(request) => void runImportAction('import', request)}
             onImport={(request) => void runImportAction('import', request)}

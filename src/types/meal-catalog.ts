@@ -110,3 +110,10 @@ export interface MealCatalogImportResponse {
   issues: MealCatalogResolutionIssue[];
   review_required: MealCatalogReviewRequired[];
 }
+
+export interface MealCatalogEnrichmentResponse {
+  validation: MealCatalogImportResponse['validation'];
+  attempted: number;
+  enriched: number;
+  skipped_existing: number;
+}

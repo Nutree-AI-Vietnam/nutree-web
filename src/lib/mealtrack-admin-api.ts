@@ -6,6 +6,7 @@ import type {
   MealCatalogListResponse,
   MealCatalogImportRequest,
   MealCatalogImportResponse,
+  MealCatalogEnrichmentResponse,
 } from '@/types/meal-catalog';
 
 const USE_PROXY = process.env.NEXT_PUBLIC_MEALTRACK_ADMIN_USE_PROXY === 'true';
@@ -71,21 +72,28 @@ export async function resolveMealCatalogManifest(
   request: MealCatalogImportRequest,
   token: string
 ): Promise<MealCatalogImportResponse> {
-  return postMealCatalogImportAction('resolve', request, token);
+  return postMealCatalogImportAction<MealCatalogImportResponse>('resolve', request, token);
 }
 
 export async function importMealCatalogManifest(
   request: MealCatalogImportRequest,
   token: string
 ): Promise<MealCatalogImportResponse> {
-  return postMealCatalogImportAction('import', request, token);
+  return postMealCatalogImportAction<MealCatalogImportResponse>('import', request, token);
 }
 
-async function postMealCatalogImportAction(
-  action: 'resolve' | 'import',
+export async function enrichMealCatalogManifest(
   request: MealCatalogImportRequest,
   token: string
-): Promise<MealCatalogImportResponse> {
+): Promise<MealCatalogEnrichmentResponse> {
+  return postMealCatalogImportAction<MealCatalogEnrichmentResponse>('enrich', request, token);
+}
+
+async function postMealCatalogImportAction<T>(
+  action: 'enrich' | 'resolve' | 'import',
+  request: MealCatalogImportRequest,
+  token: string
+): Promise<T> {
   if (!USE_PROXY && !API_BASE_URL) {
     throw new MealTrackAdminApiError('Configure the MealTrack API before using catalog import.');
   }
@@ -97,7 +105,7 @@ async function postMealCatalogImportAction(
   if (!response.ok) {
     throw new MealTrackAdminApiError(await readError(response), response.status);
   }
-  return response.json() as Promise<MealCatalogImportResponse>;
+  return response.json() as Promise<T>;
 }
 
 function adminBasePath(): string {
