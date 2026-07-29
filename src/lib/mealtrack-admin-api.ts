@@ -4,6 +4,8 @@ import type {
   MealCatalogItem,
   MealCatalogListParams,
   MealCatalogListResponse,
+  MealCatalogImportRequest,
+  MealCatalogImportResponse,
 } from '@/types/meal-catalog';
 
 const USE_PROXY = process.env.NEXT_PUBLIC_MEALTRACK_ADMIN_USE_PROXY === 'true';
@@ -65,6 +67,39 @@ export async function generateMealCatalogImage(
   return response.json() as Promise<GenerateMealImageResponse>;
 }
 
+export async function resolveMealCatalogManifest(
+  request: MealCatalogImportRequest,
+  token: string
+): Promise<MealCatalogImportResponse> {
+  return postMealCatalogImportAction('resolve', request, token);
+}
+
+export async function importMealCatalogManifest(
+  request: MealCatalogImportRequest,
+  token: string
+): Promise<MealCatalogImportResponse> {
+  return postMealCatalogImportAction('import', request, token);
+}
+
+async function postMealCatalogImportAction(
+  action: 'resolve' | 'import',
+  request: MealCatalogImportRequest,
+  token: string
+): Promise<MealCatalogImportResponse> {
+  if (!USE_PROXY && !API_BASE_URL) {
+    throw new MealTrackAdminApiError('Configure the MealTrack API before using catalog import.');
+  }
+  const response = await fetch(`${adminBasePath()}/meal-catalog/${action}`, {
+    method: 'POST',
+    headers: { ...buildHeaders(token), 'Content-Type': 'application/json' },
+    body: JSON.stringify(request),
+  });
+  if (!response.ok) {
+    throw new MealTrackAdminApiError(await readError(response), response.status);
+  }
+  return response.json() as Promise<MealCatalogImportResponse>;
+}
+
 function adminBasePath(): string {
   return USE_PROXY ? '/api/mealtrack-admin' : `${API_BASE_URL}/v1/admin`;
 }
@@ -101,8 +136,11 @@ function appendIfPresent(search: URLSearchParams, key: string, value?: string): 
 
 async function readError(response: Response): Promise<string> {
   try {
-    const payload = (await response.json()) as { detail?: string; message?: string };
-    return payload.detail || payload.message || `MealTrack request failed (${response.status})`;
+    const payload = (await response.json()) as { detail?: unknown; message?: unknown };
+    const detail = payload.detail || payload.message;
+    if (typeof detail === 'string') return detail;
+    if (detail) return JSON.stringify(detail);
+    return `MealTrack request failed (${response.status})`;
   } catch {
     return `MealTrack request failed (${response.status})`;
   }

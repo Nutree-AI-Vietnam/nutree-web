@@ -7,11 +7,14 @@ import { MealCatalogFilters } from '@/components/admin/MealCatalogFilters';
 import { MealCatalogPagination } from '@/components/admin/MealCatalogPagination';
 import { MealCatalogStats } from '@/components/admin/MealCatalogStats';
 import { MealCatalogTable } from '@/components/admin/MealCatalogTable';
+import { MealCatalogImportWorkspace } from '@/components/admin/MealCatalogImportWorkspace';
 import {
   MealTrackAdminApiError,
   fetchMealCatalog,
   generateMealCatalogImage,
   hasMealTrackApiUrl,
+  importMealCatalogManifest,
+  resolveMealCatalogManifest,
 } from '@/lib/mealtrack-admin-api';
 import {
   type AdminAuthSession,
@@ -25,6 +28,8 @@ import type {
   MealCatalogItem,
   MealCatalogListParams,
   MealCatalogListResponse,
+  MealCatalogImportRequest,
+  MealCatalogImportResponse,
   MealType,
 } from '@/types/meal-catalog';
 
@@ -50,6 +55,10 @@ export function AdminMealCatalogPageClient() {
   const [error, setError] = useState<string | null>(null);
   const [actionMessage, setActionMessage] = useState<string | null>(null);
   const [generatingId, setGeneratingId] = useState<string | null>(null);
+  const [activeView, setActiveView] = useState<'catalog' | 'import'>('catalog');
+  const [importResult, setImportResult] = useState<MealCatalogImportResponse | null>(null);
+  const [importError, setImportError] = useState<string | null>(null);
+  const [isImportBusy, setIsImportBusy] = useState(false);
 
   const isPreviewMode = !hasMealTrackApiUrl();
   const params = useMemo<MealCatalogListParams>(
@@ -167,7 +176,32 @@ export function AdminMealCatalogPageClient() {
     setData(emptyData);
     setError(null);
     setActionMessage(null);
+    setImportResult(null);
+    setImportError(null);
   }, []);
+
+  const runImportAction = useCallback(
+    async (action: 'resolve' | 'import', request: MealCatalogImportRequest) => {
+      setIsImportBusy(true);
+      setImportError(null);
+      try {
+        const token = await getValidToken();
+        const response = action === 'resolve'
+          ? await resolveMealCatalogManifest(request, token)
+          : await importMealCatalogManifest(request, token);
+        setImportResult(response);
+        if (response.applied) {
+          setActionMessage(`Imported ${response.inserted} meal${response.inserted === 1 ? '' : 's'}.`);
+          setReloadKey((value) => value + 1);
+        }
+      } catch (requestError) {
+        setImportError(toErrorMessage(requestError));
+      } finally {
+        setIsImportBusy(false);
+      }
+    },
+    [getValidToken]
+  );
 
   const totalPages = Math.max(1, Math.ceil(data.total / PAGE_SIZE));
   const visibleStart = data.total === 0 ? 0 : data.offset + 1;
@@ -225,6 +259,10 @@ export function AdminMealCatalogPageClient() {
             </div>
           </div>
         </div>
+        <div className="mx-auto flex max-w-[1440px] gap-1 px-4 pb-4 md:px-6">
+          <button type="button" onClick={() => setActiveView('catalog')} className={`border px-3 py-2 text-xs font-bold ${activeView === 'catalog' ? 'border-primary-forest bg-primary-forest text-white' : 'border-border text-muted hover:border-primary-teal'}`}>Catalog viewer</button>
+          <button type="button" onClick={() => { setActiveView('import'); setImportError(null); }} className={`border px-3 py-2 text-xs font-bold ${activeView === 'import' ? 'border-primary-forest bg-primary-forest text-white' : 'border-border text-muted hover:border-primary-teal'}`}>Import &amp; resolve</button>
+        </div>
       </header>
 
       <main className="mx-auto grid max-w-[1440px] gap-4 px-4 py-5 md:px-6">
@@ -240,6 +278,17 @@ export function AdminMealCatalogPageClient() {
           <AdminBanner tone="info" title="Action status" message={actionMessage} />
         )}
 
+        {activeView === 'import' ? (
+          <MealCatalogImportWorkspace
+            isConnected={!isPreviewMode && Boolean(session)}
+            isBusy={isImportBusy}
+            result={importResult}
+            error={importError}
+            onResolve={(request) => void runImportAction('resolve', request)}
+            onPreview={(request) => void runImportAction('import', request)}
+            onImport={(request) => void runImportAction('import', request)}
+          />
+        ) : <>
         <MealCatalogStats items={data.items} total={data.total} isPreviewMode={isPreviewMode} />
         <MealCatalogFilters
           q={q}
@@ -272,6 +321,7 @@ export function AdminMealCatalogPageClient() {
           isPreviewMode={isPreviewMode}
           onGenerateImage={handleGenerateImage}
         />
+        </>}
       </main>
     </div>
   );
