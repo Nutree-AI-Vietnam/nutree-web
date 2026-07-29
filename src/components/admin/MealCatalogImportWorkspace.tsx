@@ -75,7 +75,7 @@ export function MealCatalogImportWorkspace(props: Props) {
     }
     const blockedIds = new Set((props.result?.unverified_references ?? []).map((reference) => reference.food_reference_id));
     if (!blockedIds.size || !Array.isArray(parsed.manifest.recipes)) return;
-    let removed = 0;
+    let removedReferences = 0;
     const recipes = parsed.manifest.recipes.map((recipe) => {
       if (!isRecord(recipe) || !Array.isArray(recipe.ingredients)) return recipe;
       return {
@@ -83,14 +83,19 @@ export function MealCatalogImportWorkspace(props: Props) {
         ingredients: recipe.ingredients.map((ingredient) => {
           if (!isRecord(ingredient) || !blockedIds.has(Number(ingredient.food_reference_id))) return ingredient;
           const { food_reference_id: _foodReferenceId, ...withoutReferenceId } = ingredient;
-          removed += 1;
+          removedReferences += 1;
           return withoutReferenceId;
         }),
       };
     });
-    if (!removed) return;
+    const nextResolverMap = Object.fromEntries(
+      Object.entries(parsed.resolverMap).filter(([, referenceId]) => !blockedIds.has(referenceId))
+    );
+    const removedMappings = Object.keys(parsed.resolverMap).length - Object.keys(nextResolverMap).length;
+    if (!removedReferences && !removedMappings) return;
     updateManifest(JSON.stringify({ ...parsed.manifest, recipes }, null, 2));
-    setMappingMessage(`Removed ${removed} blocked reference ID${removed === 1 ? '' : 's'}. Resolve ingredients to review verified candidates.`);
+    if (removedMappings) updateResolverMap(JSON.stringify(nextResolverMap, null, 2));
+    setMappingMessage(`Cleared ${removedReferences} pinned ID${removedReferences === 1 ? '' : 's'} and ${removedMappings} blocked mapping${removedMappings === 1 ? '' : 's'}. Resolve ingredients to review verified candidates.`);
   }
 
   function updateManifest(value: string): void { setManifestText(value); setDraftRevision((value) => value + 1); }
@@ -141,7 +146,7 @@ export function MealCatalogImportWorkspace(props: Props) {
           <ActionButton variant={resolvedCleanly ? 'primary' : 'secondary'} disabled={!props.isConnected || props.isBusy || !resolvedCleanly} onClick={() => requestAction('preview')}>Preview import</ActionButton>
           <ActionButton variant="danger" disabled={!props.isConnected || props.isBusy || !previewCleanly} onClick={() => { if (window.confirm('Apply this exact reviewed manifest to the meal catalog?')) requestAction('import'); }}>Apply import</ActionButton>
         </div>
-        {(props.result?.unverified_references?.length ?? 0) > 0 && <button type="button" disabled={props.isBusy} onClick={removeUnverifiedReferenceIds} className="mt-3 border border-energy-orange px-3 py-2 text-xs font-bold text-energy-orange hover:bg-energy-orange-soft disabled:cursor-not-allowed disabled:border-border disabled:text-muted">Remove blocked IDs and resolve again</button>}
+        {(props.result?.unverified_references?.length ?? 0) > 0 && <button type="button" disabled={props.isBusy} onClick={removeUnverifiedReferenceIds} className="mt-3 border border-energy-orange px-3 py-2 text-xs font-bold text-energy-orange hover:bg-energy-orange-soft disabled:cursor-not-allowed disabled:border-border disabled:text-muted">Clear blocked IDs &amp; mappings, then resolve</button>}
         <p className="mt-3 text-xs text-muted">Publish stays locked until the current JSON and resolver map complete a clean preview.</p>
       </div>
       <MealCatalogImportResults enrichment={props.enrichment} error={props.error} isBusy={props.isBusy} result={props.result} selectedMappings={'error' in parsed ? {} : parsed.resolverMap} onApproveCandidate={approveCandidate} />
