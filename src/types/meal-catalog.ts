@@ -84,6 +84,16 @@ export interface MealCatalogResolutionIssue {
   candidates: MealCatalogResolutionCandidate[];
 }
 
+export interface MealCatalogUnverifiedReference {
+  recipe_index: number;
+  recipe_key: string;
+  ingredient_index: number;
+  ingredient_name: string;
+  food_reference_id: number;
+  food_reference_name: string;
+  source: string;
+}
+
 export interface MealCatalogReviewRequired {
   recipe_index: number;
   recipe_key: string;
@@ -108,6 +118,7 @@ export interface MealCatalogImportResponse {
   applied: boolean;
   errors: string[];
   issues: MealCatalogResolutionIssue[];
+  unverified_references?: MealCatalogUnverifiedReference[];
   review_required: MealCatalogReviewRequired[];
 }
 

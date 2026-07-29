@@ -68,6 +68,31 @@ export function MealCatalogImportWorkspace(props: Props) {
     setMappingMessage(`Mapped “${issue.normalized_name}” to ${candidate.name}. Re-run resolve before importing.`);
   }
 
+  function removeUnverifiedReferenceIds(): void {
+    if ('error' in parsed) {
+      setInputError(parsed.error);
+      return;
+    }
+    const blockedIds = new Set((props.result?.unverified_references ?? []).map((reference) => reference.food_reference_id));
+    if (!blockedIds.size || !Array.isArray(parsed.manifest.recipes)) return;
+    let removed = 0;
+    const recipes = parsed.manifest.recipes.map((recipe) => {
+      if (!isRecord(recipe) || !Array.isArray(recipe.ingredients)) return recipe;
+      return {
+        ...recipe,
+        ingredients: recipe.ingredients.map((ingredient) => {
+          if (!isRecord(ingredient) || !blockedIds.has(Number(ingredient.food_reference_id))) return ingredient;
+          const { food_reference_id: _foodReferenceId, ...withoutReferenceId } = ingredient;
+          removed += 1;
+          return withoutReferenceId;
+        }),
+      };
+    });
+    if (!removed) return;
+    updateManifest(JSON.stringify({ ...parsed.manifest, recipes }, null, 2));
+    setMappingMessage(`Removed ${removed} blocked reference ID${removed === 1 ? '' : 's'}. Resolve ingredients to review verified candidates.`);
+  }
+
   function updateManifest(value: string): void { setManifestText(value); setDraftRevision((value) => value + 1); }
   function updateResolverMap(value: string): void { setResolverText(value); setDraftRevision((value) => value + 1); }
   function updateOptions(value: MealCatalogImportOptions): void { setOptions(value); setDraftRevision((current) => current + 1); }
@@ -116,6 +141,7 @@ export function MealCatalogImportWorkspace(props: Props) {
           <ActionButton variant={resolvedCleanly ? 'primary' : 'secondary'} disabled={!props.isConnected || props.isBusy || !resolvedCleanly} onClick={() => requestAction('preview')}>Preview import</ActionButton>
           <ActionButton variant="danger" disabled={!props.isConnected || props.isBusy || !previewCleanly} onClick={() => { if (window.confirm('Apply this exact reviewed manifest to the meal catalog?')) requestAction('import'); }}>Apply import</ActionButton>
         </div>
+        {(props.result?.unverified_references?.length ?? 0) > 0 && <button type="button" disabled={props.isBusy} onClick={removeUnverifiedReferenceIds} className="mt-3 border border-energy-orange px-3 py-2 text-xs font-bold text-energy-orange hover:bg-energy-orange-soft disabled:cursor-not-allowed disabled:border-border disabled:text-muted">Remove blocked IDs and resolve again</button>}
         <p className="mt-3 text-xs text-muted">Publish stays locked until the current JSON and resolver map complete a clean preview.</p>
       </div>
       <MealCatalogImportResults enrichment={props.enrichment} error={props.error} isBusy={props.isBusy} result={props.result} selectedMappings={'error' in parsed ? {} : parsed.resolverMap} onApproveCandidate={approveCandidate} />
@@ -162,6 +188,10 @@ function parseInputs(manifestText: string, resolverText: string): ParsedManifest
   } catch (error) {
     return { error: error instanceof Error ? error.message : 'Invalid JSON.' };
   }
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
 
 const defaultOptions: MealCatalogImportOptions = { partial: true, skip_exact_cuisine_count: false, expected_recipe_count: 180, min_per_cuisine_meal_type: 5, resolver_map: {}, auto_resolve_threshold: 0.92, resolve_all_best_effort: false };
