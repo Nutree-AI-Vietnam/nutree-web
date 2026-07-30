@@ -8,11 +8,13 @@ import { MealCatalogPagination } from '@/components/admin/MealCatalogPagination'
 import { MealCatalogStats } from '@/components/admin/MealCatalogStats';
 import { MealCatalogTable } from '@/components/admin/MealCatalogTable';
 import { MealCatalogImportWorkspace } from '@/components/admin/MealCatalogImportWorkspace';
+import { AdminEnvironmentSwitcher } from '@/components/admin/AdminEnvironmentSwitcher';
 import {
   MealTrackAdminApiError,
   fetchMealCatalog,
   generateMealCatalogImage,
   hasMealTrackApiUrl,
+  isMealTrackAdminProxyEnabled,
   enrichMealCatalogManifest,
   importMealCatalogManifest,
   approveMealCatalogFoodReference,
@@ -33,11 +35,13 @@ import type {
   MealCatalogImportRequest,
   MealCatalogImportResponse,
   MealCatalogEnrichmentResponse,
+  MealTrackAdminEnvironment,
   MealType,
 } from '@/types/meal-catalog';
 
 const PAGE_SIZE = 25;
 const SESSION_STORAGE_KEY = 'nutree-admin-auth-session';
+const ENVIRONMENT_STORAGE_KEY = 'nutree-admin-target-environment';
 
 export function AdminMealCatalogPageClient() {
   const [q, setQ] = useState('');
@@ -64,8 +68,10 @@ export function AdminMealCatalogPageClient() {
   const [lastImportAction, setLastImportAction] = useState<'enrich' | 'import' | 'preview' | 'resolve' | null>(null);
   const [importError, setImportError] = useState<string | null>(null);
   const [isImportBusy, setIsImportBusy] = useState(false);
+  const [environment, setEnvironment] = useState<MealTrackAdminEnvironment>('sit');
 
   const isPreviewMode = !hasMealTrackApiUrl();
+  const isProxyEnabled = isMealTrackAdminProxyEnabled();
   const params = useMemo<MealCatalogListParams>(
     () => ({
       q,
@@ -85,6 +91,7 @@ export function AdminMealCatalogPageClient() {
       setSession(restored);
       setLoginEmail(restored.email);
     }
+    setEnvironment(readStoredEnvironment());
     setIsRestoringSession(false);
   }, []);
 
@@ -115,14 +122,14 @@ export function AdminMealCatalogPageClient() {
     setError(null);
     try {
       const token = isPreviewMode ? '' : await getValidToken();
-      const response = await fetchMealCatalog(params, token);
+      const response = await fetchMealCatalog(params, token, environment);
       setData(response);
     } catch (requestError) {
       setError(toErrorMessage(requestError));
     } finally {
       setIsLoading(false);
     }
-  }, [getValidToken, isPreviewMode, params, session]);
+  }, [environment, getValidToken, isPreviewMode, params, session]);
 
   useEffect(() => {
     void loadCatalog();
@@ -139,7 +146,7 @@ export function AdminMealCatalogPageClient() {
       setActionMessage(null);
       try {
         const token = await getValidToken();
-        const response = await generateMealCatalogImage(item.id, token);
+        const response = await generateMealCatalogImage(item.id, token, environment);
         setData((current) => ({
           ...current,
           items: current.items.map((currentItem) =>
@@ -153,7 +160,7 @@ export function AdminMealCatalogPageClient() {
         setGeneratingId(null);
       }
     },
-    [getValidToken]
+    [environment, getValidToken]
   );
 
   const handleSignIn = useCallback(async () => {
@@ -194,7 +201,7 @@ export function AdminMealCatalogPageClient() {
       try {
         const token = await getValidToken();
         if (action === 'enrich') {
-          const response = await enrichMealCatalogManifest(request, token);
+          const response = await enrichMealCatalogManifest(request, token, environment);
           setEnrichmentResult(response);
           setImportResult(null);
           setLastImportAction('enrich');
@@ -202,8 +209,8 @@ export function AdminMealCatalogPageClient() {
         }
         setEnrichmentResult(null);
         const response = action === 'resolve'
-          ? await resolveMealCatalogManifest(request, token)
-          : await importMealCatalogManifest(request, token);
+          ? await resolveMealCatalogManifest(request, token, environment)
+          : await importMealCatalogManifest(request, token, environment);
         setImportResult(response);
         setLastImportAction(action === 'resolve' ? 'resolve' : request.dry_run ? 'preview' : 'import');
         if (response.applied) {
@@ -216,7 +223,7 @@ export function AdminMealCatalogPageClient() {
         setIsImportBusy(false);
       }
     },
-    [getValidToken]
+    [environment, getValidToken]
   );
 
   const approveFoodReference = useCallback(async (foodReferenceId: number): Promise<void> => {
@@ -224,7 +231,7 @@ export function AdminMealCatalogPageClient() {
     setImportError(null);
     try {
       const token = await getValidToken();
-      const response = await approveMealCatalogFoodReference(foodReferenceId, token);
+      const response = await approveMealCatalogFoodReference(foodReferenceId, token, environment);
       setActionMessage(`Verified ${response.name} for catalog publication.`);
     } catch (requestError) {
       setImportError(toErrorMessage(requestError));
@@ -232,7 +239,7 @@ export function AdminMealCatalogPageClient() {
     } finally {
       setIsImportBusy(false);
     }
-  }, [getValidToken]);
+  }, [environment, getValidToken]);
 
   const approveFoodReferences = useCallback(async (foodReferenceIds: number[]): Promise<void> => {
     const uniqueIds = Array.from(new Set(foodReferenceIds));
@@ -241,7 +248,7 @@ export function AdminMealCatalogPageClient() {
     try {
       const token = await getValidToken();
       for (const foodReferenceId of uniqueIds) {
-        await approveMealCatalogFoodReference(foodReferenceId, token);
+        await approveMealCatalogFoodReference(foodReferenceId, token, environment);
       }
       setActionMessage(`Verified ${uniqueIds.length} food reference${uniqueIds.length === 1 ? '' : 's'} for catalog publication.`);
     } catch (requestError) {
@@ -250,7 +257,23 @@ export function AdminMealCatalogPageClient() {
     } finally {
       setIsImportBusy(false);
     }
-  }, [getValidToken]);
+  }, [environment, getValidToken]);
+
+  const handleEnvironmentChange = useCallback((nextEnvironment: MealTrackAdminEnvironment) => {
+    if (nextEnvironment === environment) return;
+    if (nextEnvironment === 'prod' && !window.confirm('Switch to PROD? You will be viewing and operating on live production data.')) return;
+    sessionStorage.setItem(ENVIRONMENT_STORAGE_KEY, nextEnvironment);
+    setEnvironment(nextEnvironment);
+    setPage(0);
+    setData(emptyData);
+    setError(null);
+    setActionMessage(null);
+    setImportResult(null);
+    setEnrichmentResult(null);
+    setLastImportAction(null);
+    setImportError(null);
+    setReloadKey((value) => value + 1);
+  }, [environment]);
 
   const totalPages = Math.max(1, Math.ceil(data.total / PAGE_SIZE));
   const visibleStart = data.total === 0 ? 0 : data.offset + 1;
@@ -289,6 +312,7 @@ export function AdminMealCatalogPageClient() {
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-2">
+            <AdminEnvironmentSwitcher environment={environment} isProxyEnabled={isProxyEnabled} onChange={handleEnvironmentChange} />
             {!isPreviewMode && session && (
               <div className="border border-border bg-background px-3 py-2 text-xs font-semibold text-muted">
                 {session.email}
@@ -304,7 +328,13 @@ export function AdminMealCatalogPageClient() {
               </button>
             )}
             <div className="border border-border bg-background px-3 py-2 text-xs font-semibold text-muted">
-              {isPreviewMode ? 'Contract preview' : 'Connected to MealTrack'}
+              {isPreviewMode
+                ? 'Contract preview'
+                : !isProxyEnabled
+                  ? 'Direct API target'
+                  : environment === 'prod'
+                    ? 'PROD — live data'
+                    : 'SIT — test data'}
             </div>
           </div>
         </div>
@@ -416,4 +446,8 @@ function readStoredSession(): AdminAuthSession | null {
 
 function storeSession(session: AdminAuthSession): void {
   sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(session));
+}
+
+function readStoredEnvironment(): MealTrackAdminEnvironment {
+  return sessionStorage.getItem(ENVIRONMENT_STORAGE_KEY) === 'prod' ? 'prod' : 'sit';
 }

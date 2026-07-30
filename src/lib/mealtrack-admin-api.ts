@@ -8,6 +8,7 @@ import type {
   MealCatalogImportResponse,
   MealCatalogEnrichmentResponse,
   MealCatalogApproveFoodReferenceResponse,
+  MealTrackAdminEnvironment,
 } from '@/types/meal-catalog';
 
 const USE_PROXY = process.env.NEXT_PUBLIC_MEALTRACK_ADMIN_USE_PROXY === 'true';
@@ -27,16 +28,21 @@ export function hasMealTrackApiUrl(): boolean {
   return USE_PROXY || Boolean(API_BASE_URL);
 }
 
+export function isMealTrackAdminProxyEnabled(): boolean {
+  return USE_PROXY;
+}
+
 export async function fetchMealCatalog(
   params: MealCatalogListParams,
-  token: string
+  token: string,
+  environment: MealTrackAdminEnvironment
 ): Promise<MealCatalogListResponse> {
   if (!USE_PROXY && !API_BASE_URL) {
     return getPreviewMealCatalog(params);
   }
 
   const response = await fetch(`${adminBasePath()}/meal-catalog?${toQuery(params)}`, {
-    headers: buildHeaders(token),
+    headers: buildHeaders(token, environment),
   });
 
   if (!response.ok) {
@@ -48,7 +54,8 @@ export async function fetchMealCatalog(
 
 export async function generateMealCatalogImage(
   catalogId: string,
-  token: string
+  token: string,
+  environment: MealTrackAdminEnvironment
 ): Promise<GenerateMealImageResponse> {
   if (!USE_PROXY && !API_BASE_URL) {
     throw new MealTrackAdminApiError('Preview mode: backend generate endpoint is not configured.');
@@ -58,7 +65,7 @@ export async function generateMealCatalogImage(
     `${adminBasePath()}/meal-catalog/${encodeURIComponent(catalogId)}/generate-image`,
     {
       method: 'POST',
-      headers: buildHeaders(token),
+      headers: buildHeaders(token, environment),
     }
   );
 
@@ -71,47 +78,53 @@ export async function generateMealCatalogImage(
 
 export async function resolveMealCatalogManifest(
   request: MealCatalogImportRequest,
-  token: string
+  token: string,
+  environment: MealTrackAdminEnvironment
 ): Promise<MealCatalogImportResponse> {
-  return postMealCatalogImportAction<MealCatalogImportResponse>('resolve', request, token);
+  return postMealCatalogImportAction<MealCatalogImportResponse>('resolve', request, token, environment);
 }
 
 export async function importMealCatalogManifest(
   request: MealCatalogImportRequest,
-  token: string
+  token: string,
+  environment: MealTrackAdminEnvironment
 ): Promise<MealCatalogImportResponse> {
-  return postMealCatalogImportAction<MealCatalogImportResponse>('import', request, token);
+  return postMealCatalogImportAction<MealCatalogImportResponse>('import', request, token, environment);
 }
 
 export async function enrichMealCatalogManifest(
   request: MealCatalogImportRequest,
-  token: string
+  token: string,
+  environment: MealTrackAdminEnvironment
 ): Promise<MealCatalogEnrichmentResponse> {
-  return postMealCatalogImportAction<MealCatalogEnrichmentResponse>('enrich', request, token);
+  return postMealCatalogImportAction<MealCatalogEnrichmentResponse>('enrich', request, token, environment);
 }
 
 export async function approveMealCatalogFoodReference(
   foodReferenceId: number,
-  token: string
+  token: string,
+  environment: MealTrackAdminEnvironment
 ): Promise<MealCatalogApproveFoodReferenceResponse> {
   return postMealCatalogImportAction<MealCatalogApproveFoodReferenceResponse>(
     'approve-food-reference',
     { food_reference_id: foodReferenceId },
-    token
+    token,
+    environment
   );
 }
 
 async function postMealCatalogImportAction<T>(
   action: 'enrich' | 'resolve' | 'import' | 'approve-food-reference',
   request: MealCatalogImportRequest | { food_reference_id: number },
-  token: string
+  token: string,
+  environment: MealTrackAdminEnvironment
 ): Promise<T> {
   if (!USE_PROXY && !API_BASE_URL) {
     throw new MealTrackAdminApiError('Configure the MealTrack API before using catalog import.');
   }
   const response = await fetch(`${adminBasePath()}/meal-catalog/${action}`, {
     method: 'POST',
-    headers: { ...buildHeaders(token), 'Content-Type': 'application/json' },
+    headers: { ...buildHeaders(token, environment), 'Content-Type': 'application/json' },
     body: JSON.stringify(request),
   });
   if (!response.ok) {
@@ -124,10 +137,13 @@ function adminBasePath(): string {
   return USE_PROXY ? '/api/mealtrack-admin' : `${API_BASE_URL}/v1/admin`;
 }
 
-function buildHeaders(token: string): HeadersInit {
+function buildHeaders(token: string, environment?: MealTrackAdminEnvironment): HeadersInit {
   const headers: HeadersInit = { Accept: 'application/json' };
   if (token.trim()) {
     headers.Authorization = `Bearer ${token.trim()}`;
+  }
+  if (USE_PROXY && environment) {
+    headers['X-MealTrack-Environment'] = environment;
   }
   return headers;
 }

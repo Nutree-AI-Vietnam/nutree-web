@@ -2,6 +2,8 @@ export type MealType = 'breakfast' | 'lunch' | 'dinner' | 'snack';
 
 export type HasImageFilter = 'all' | 'true' | 'false';
 
+export type MealTrackAdminEnvironment = 'sit' | 'prod';
+
 export interface MealCatalogIngredient {
   display_name: string;
   quantity?: number | null;

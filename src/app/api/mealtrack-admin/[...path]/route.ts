@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const MEALTRACK_API_URL = (
+const LEGACY_MEALTRACK_API_URL = (
   process.env.MEALTRACK_API_URL ||
   process.env.NEXT_PUBLIC_MEALTRACK_API_URL ||
   ''
@@ -21,15 +21,16 @@ export async function POST(request: NextRequest, context: RouteContext) {
 }
 
 async function proxyMealTrackRequest(request: NextRequest, context: RouteContext) {
-  if (!MEALTRACK_API_URL) {
+  const backendUrl = getBackendUrl(request);
+  if (!backendUrl) {
     return NextResponse.json(
-      { detail: 'MEALTRACK_API_URL is not configured for admin proxy.' },
-      { status: 500 }
+      { detail: 'Selected MealTrack environment is not configured for the admin proxy.' },
+      { status: 503 }
     );
   }
 
   const path = context.params.path.join('/');
-  const target = new URL(`/v1/admin/${path}`, MEALTRACK_API_URL);
+  const target = new URL(`/v1/admin/${path}`, backendUrl);
   request.nextUrl.searchParams.forEach((value, key) => target.searchParams.set(key, value));
 
   const headers = new Headers();
@@ -67,4 +68,16 @@ async function proxyMealTrackRequest(request: NextRequest, context: RouteContext
     const message = error instanceof Error ? error.message : 'MealTrack proxy request failed.';
     return NextResponse.json({ detail: message }, { status: 502 });
   }
+}
+
+function getBackendUrl(request: NextRequest): string | null {
+  const environment = request.headers.get('x-mealtrack-environment');
+  if (environment === 'sit') return normalizeUrl(process.env.MEALTRACK_SIT_API_URL);
+  if (environment === 'prod') return normalizeUrl(process.env.MEALTRACK_PROD_API_URL);
+  if (environment) return null;
+  return LEGACY_MEALTRACK_API_URL || null;
+}
+
+function normalizeUrl(value: string | undefined): string | null {
+  return value?.replace(/\/$/, '') || null;
 }
