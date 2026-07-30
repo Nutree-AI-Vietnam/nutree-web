@@ -86,12 +86,13 @@ export function AdminMealCatalogPageClient() {
   );
 
   useEffect(() => {
-    const restored = readStoredSession();
+    const restoredEnvironment = readStoredEnvironment();
+    const restored = readStoredSession(restoredEnvironment);
     if (restored) {
       setSession(restored);
       setLoginEmail(restored.email);
     }
-    setEnvironment(readStoredEnvironment());
+    setEnvironment(restoredEnvironment);
     setIsRestoringSession(false);
   }, []);
 
@@ -103,15 +104,15 @@ export function AdminMealCatalogPageClient() {
       return session.idToken;
     }
 
-    const refreshed = await refreshAdminSession(session.refreshToken);
+    const refreshed = await refreshAdminSession(session.refreshToken, environment);
     const nextSession = {
       ...refreshed,
       email: session.email,
     };
-    storeSession(nextSession);
+    storeSession(nextSession, environment);
     setSession(nextSession);
     return nextSession.idToken;
-  }, [session]);
+  }, [environment, session]);
 
   const loadCatalog = useCallback(async () => {
     if (!isPreviewMode && !session) {
@@ -169,9 +170,10 @@ export function AdminMealCatalogPageClient() {
     try {
       const nextSession = await signInAdminWithEmailPassword(
         loginEmail.trim(),
-        loginPassword
+        loginPassword,
+        environment
       );
-      storeSession(nextSession);
+      storeSession(nextSession, environment);
       setSession(nextSession);
       setLoginPassword('');
       setReloadKey((value) => value + 1);
@@ -180,10 +182,10 @@ export function AdminMealCatalogPageClient() {
     } finally {
       setIsSigningIn(false);
     }
-  }, [loginEmail, loginPassword]);
+  }, [environment, loginEmail, loginPassword]);
 
   const handleSignOut = useCallback(() => {
-    sessionStorage.removeItem(SESSION_STORAGE_KEY);
+    sessionStorage.removeItem(sessionStorageKey(environment));
     setSession(null);
     setData(emptyData);
     setError(null);
@@ -192,7 +194,7 @@ export function AdminMealCatalogPageClient() {
     setEnrichmentResult(null);
     setLastImportAction(null);
     setImportError(null);
-  }, []);
+  }, [environment]);
 
   const runImportAction = useCallback(
     async (action: 'enrich' | 'resolve' | 'import', request: MealCatalogImportRequest) => {
@@ -263,7 +265,13 @@ export function AdminMealCatalogPageClient() {
     if (nextEnvironment === environment) return;
     if (nextEnvironment === 'prod' && !window.confirm('Switch to PROD? You will be viewing and operating on live production data.')) return;
     sessionStorage.setItem(ENVIRONMENT_STORAGE_KEY, nextEnvironment);
+    const restoredSession = readStoredSession(nextEnvironment);
     setEnvironment(nextEnvironment);
+    setSession(restoredSession);
+    if (restoredSession) {
+      setLoginEmail(restoredSession.email);
+    }
+    setLoginPassword('');
     setPage(0);
     setData(emptyData);
     setError(null);
@@ -287,10 +295,13 @@ export function AdminMealCatalogPageClient() {
     return (
       <AdminLoginPanel
         email={loginEmail}
+        environment={environment}
         error={loginError}
-        isConfigured={hasFirebaseAdminAuthConfig()}
+        isConfigured={hasFirebaseAdminAuthConfig(environment)}
+        isProxyEnabled={isProxyEnabled}
         isSigningIn={isSigningIn}
         onEmailChange={setLoginEmail}
+        onEnvironmentChange={handleEnvironmentChange}
         onPasswordChange={setLoginPassword}
         onSubmit={handleSignIn}
         password={loginPassword}
@@ -428,9 +439,9 @@ const emptyData: MealCatalogListResponse = {
   offset: 0,
 };
 
-function readStoredSession(): AdminAuthSession | null {
+function readStoredSession(environment: MealTrackAdminEnvironment): AdminAuthSession | null {
   try {
-    const raw = sessionStorage.getItem(SESSION_STORAGE_KEY);
+    const raw = sessionStorage.getItem(sessionStorageKey(environment));
     if (!raw) {
       return null;
     }
@@ -444,10 +455,14 @@ function readStoredSession(): AdminAuthSession | null {
   }
 }
 
-function storeSession(session: AdminAuthSession): void {
-  sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(session));
+function storeSession(session: AdminAuthSession, environment: MealTrackAdminEnvironment): void {
+  sessionStorage.setItem(sessionStorageKey(environment), JSON.stringify(session));
 }
 
 function readStoredEnvironment(): MealTrackAdminEnvironment {
   return sessionStorage.getItem(ENVIRONMENT_STORAGE_KEY) === 'prod' ? 'prod' : 'sit';
+}
+
+function sessionStorageKey(environment: MealTrackAdminEnvironment): string {
+  return `${SESSION_STORAGE_KEY}:${environment}`;
 }

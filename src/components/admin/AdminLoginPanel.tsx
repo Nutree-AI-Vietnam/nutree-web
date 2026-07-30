@@ -1,11 +1,16 @@
 import type { FormEvent } from 'react';
+import { AdminEnvironmentSwitcher } from '@/components/admin/AdminEnvironmentSwitcher';
+import type { MealTrackAdminEnvironment } from '@/types/meal-catalog';
 
 interface AdminLoginPanelProps {
   email: string;
+  environment: MealTrackAdminEnvironment;
   error: string | null;
   isConfigured: boolean;
+  isProxyEnabled: boolean;
   isSigningIn: boolean;
   onEmailChange: (value: string) => void;
+  onEnvironmentChange: (environment: MealTrackAdminEnvironment) => void;
   onPasswordChange: (value: string) => void;
   onSubmit: () => void;
   password: string;
@@ -13,10 +18,13 @@ interface AdminLoginPanelProps {
 
 export function AdminLoginPanel({
   email,
+  environment,
   error,
   isConfigured,
+  isProxyEnabled,
   isSigningIn,
   onEmailChange,
+  onEnvironmentChange,
   onPasswordChange,
   onSubmit,
   password,
@@ -34,10 +42,17 @@ export function AdminLoginPanel({
         <p className="mt-2 text-sm text-muted">
           Sign in with the Firebase account that is included in the backend admin allowlist.
         </p>
+        <div className="mt-4">
+          <AdminEnvironmentSwitcher
+            environment={environment}
+            isProxyEnabled={isProxyEnabled}
+            onChange={onEnvironmentChange}
+          />
+        </div>
 
         {!isConfigured && (
           <div className="mt-4 border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-900">
-            Set NEXT_PUBLIC_FIREBASE_API_KEY before using email/password sign in.
+            Set the {environment.toUpperCase()} Firebase web API key before using email/password sign in.
           </div>
         )}
 
