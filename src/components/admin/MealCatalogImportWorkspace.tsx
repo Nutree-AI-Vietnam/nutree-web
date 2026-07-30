@@ -88,7 +88,9 @@ export function MealCatalogImportWorkspace(props: Props) {
     const nextMap = { ...parsed.resolverMap };
     uniqueMatches.forEach(({ issue, candidate }) => { nextMap[issue.normalized_name] = candidate.food_reference_id; });
     updateResolverMap(JSON.stringify(nextMap, null, 2));
-    setMappingMessage(`Verified and mapped ${uniqueMatches.length} exact ingredient match${uniqueMatches.length === 1 ? '' : 'es'}. Re-run resolve before importing.`);
+    setResolvedRevision(draftRevision + 1);
+    setMappingMessage(`Verified and mapped ${uniqueMatches.length} exact ingredient match${uniqueMatches.length === 1 ? '' : 'es'}. Rechecking the complete manifest now.`);
+    props.onResolve({ ...options, dry_run: false, manifest: parsed.manifest, resolver_map: nextMap });
   }
 
   function removeUnverifiedReferenceIds(): void {
