@@ -93,6 +93,19 @@ export function MealCatalogImportWorkspace(props: Props) {
     props.onResolve({ ...options, dry_run: false, manifest: parsed.manifest, resolver_map: nextMap });
   }
 
+  async function approvePinnedReferences(foodReferenceIds: number[]): Promise<void> {
+    if ('error' in parsed) {
+      setInputError(parsed.error);
+      return;
+    }
+    const uniqueIds = Array.from(new Set(foodReferenceIds));
+    if (!uniqueIds.length || !window.confirm(`Confirm that you reviewed the ${uniqueIds.length} pinned food reference${uniqueIds.length === 1 ? '' : 's'}. This will verify them and recheck the complete manifest.`)) return;
+    await props.onApproveFoodReferences(uniqueIds);
+    setResolvedRevision(draftRevision);
+    setMappingMessage(`Verified ${uniqueIds.length} pinned food reference${uniqueIds.length === 1 ? '' : 's'}. Rechecking the complete manifest now.`);
+    props.onResolve({ ...options, dry_run: false, manifest: parsed.manifest, resolver_map: parsed.resolverMap });
+  }
+
   function removeUnverifiedReferenceIds(): void {
     if ('error' in parsed) {
       setInputError(parsed.error);
@@ -174,7 +187,7 @@ export function MealCatalogImportWorkspace(props: Props) {
         {(props.result?.unverified_references?.length ?? 0) > 0 && <button type="button" disabled={props.isBusy} onClick={removeUnverifiedReferenceIds} className="mt-3 border border-energy-orange px-3 py-2 text-xs font-bold text-energy-orange hover:bg-energy-orange-soft disabled:cursor-not-allowed disabled:border-border disabled:text-muted">Clear blocked IDs &amp; mappings, then resolve</button>}
         <p className="mt-3 text-xs text-muted">Publish stays locked until the current JSON and resolver map complete a clean preview.</p>
       </div>
-      <MealCatalogImportResults enrichment={props.enrichment} error={props.error} isBusy={props.isBusy} result={props.result} selectedMappings={'error' in parsed ? {} : parsed.resolverMap} onApproveCandidate={approveCandidate} onApproveExactMatches={approveExactMatches} />
+      <MealCatalogImportResults enrichment={props.enrichment} error={props.error} isBusy={props.isBusy} result={props.result} selectedMappings={'error' in parsed ? {} : parsed.resolverMap} onApproveCandidate={approveCandidate} onApproveExactMatches={approveExactMatches} onApprovePinnedReferences={approvePinnedReferences} />
       </div>
     </section>
   );
