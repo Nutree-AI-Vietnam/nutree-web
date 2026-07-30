@@ -24,6 +24,7 @@ interface Props {
   onPreview: (request: MealCatalogImportRequest) => void;
   onResolve: (request: MealCatalogImportRequest) => void;
   onApproveFoodReference: (foodReferenceId: number) => Promise<void>;
+  onApproveFoodReferences: (foodReferenceIds: number[]) => Promise<void>;
 }
 
 type ParsedManifest =
@@ -70,6 +71,24 @@ export function MealCatalogImportWorkspace(props: Props) {
     const nextMap = { ...parsed.resolverMap, [issue.normalized_name]: candidate.food_reference_id };
     updateResolverMap(JSON.stringify(nextMap, null, 2));
     setMappingMessage(`${candidate.is_verified ? 'Mapped' : 'Verified and mapped'} “${issue.normalized_name}” to ${candidate.name}. Re-run resolve before importing.`);
+  }
+
+  async function approveExactMatches(
+    matches: Array<{ issue: MealCatalogResolutionIssue; candidate: MealCatalogResolutionCandidate }>
+  ): Promise<void> {
+    if ('error' in parsed) {
+      setInputError(parsed.error);
+      return;
+    }
+    const uniqueMatches = Array.from(
+      new Map(matches.map((match) => [`${match.issue.normalized_name}:${match.candidate.food_reference_id}`, match])).values()
+    );
+    if (!window.confirm(`Confirm that you reviewed the ${uniqueMatches.length} exact ingredient matches. This will verify and map them all.`)) return;
+    await props.onApproveFoodReferences(uniqueMatches.map((match) => match.candidate.food_reference_id));
+    const nextMap = { ...parsed.resolverMap };
+    uniqueMatches.forEach(({ issue, candidate }) => { nextMap[issue.normalized_name] = candidate.food_reference_id; });
+    updateResolverMap(JSON.stringify(nextMap, null, 2));
+    setMappingMessage(`Verified and mapped ${uniqueMatches.length} exact ingredient match${uniqueMatches.length === 1 ? '' : 'es'}. Re-run resolve before importing.`);
   }
 
   function removeUnverifiedReferenceIds(): void {
@@ -153,7 +172,7 @@ export function MealCatalogImportWorkspace(props: Props) {
         {(props.result?.unverified_references?.length ?? 0) > 0 && <button type="button" disabled={props.isBusy} onClick={removeUnverifiedReferenceIds} className="mt-3 border border-energy-orange px-3 py-2 text-xs font-bold text-energy-orange hover:bg-energy-orange-soft disabled:cursor-not-allowed disabled:border-border disabled:text-muted">Clear blocked IDs &amp; mappings, then resolve</button>}
         <p className="mt-3 text-xs text-muted">Publish stays locked until the current JSON and resolver map complete a clean preview.</p>
       </div>
-      <MealCatalogImportResults enrichment={props.enrichment} error={props.error} isBusy={props.isBusy} result={props.result} selectedMappings={'error' in parsed ? {} : parsed.resolverMap} onApproveCandidate={approveCandidate} />
+      <MealCatalogImportResults enrichment={props.enrichment} error={props.error} isBusy={props.isBusy} result={props.result} selectedMappings={'error' in parsed ? {} : parsed.resolverMap} onApproveCandidate={approveCandidate} onApproveExactMatches={approveExactMatches} />
       </div>
     </section>
   );

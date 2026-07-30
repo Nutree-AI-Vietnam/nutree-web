@@ -234,6 +234,24 @@ export function AdminMealCatalogPageClient() {
     }
   }, [getValidToken]);
 
+  const approveFoodReferences = useCallback(async (foodReferenceIds: number[]): Promise<void> => {
+    const uniqueIds = Array.from(new Set(foodReferenceIds));
+    setIsImportBusy(true);
+    setImportError(null);
+    try {
+      const token = await getValidToken();
+      for (const foodReferenceId of uniqueIds) {
+        await approveMealCatalogFoodReference(foodReferenceId, token);
+      }
+      setActionMessage(`Verified ${uniqueIds.length} food reference${uniqueIds.length === 1 ? '' : 's'} for catalog publication.`);
+    } catch (requestError) {
+      setImportError(toErrorMessage(requestError));
+      throw requestError;
+    } finally {
+      setIsImportBusy(false);
+    }
+  }, [getValidToken]);
+
   const totalPages = Math.max(1, Math.ceil(data.total / PAGE_SIZE));
   const visibleStart = data.total === 0 ? 0 : data.offset + 1;
   const visibleEnd = Math.min(data.offset + data.items.length, data.total);
@@ -322,6 +340,7 @@ export function AdminMealCatalogPageClient() {
             onPreview={(request) => void runImportAction('import', request)}
             onImport={(request) => void runImportAction('import', request)}
             onApproveFoodReference={approveFoodReference}
+            onApproveFoodReferences={approveFoodReferences}
           />
         ) : <>
         <MealCatalogStats items={data.items} total={data.total} isPreviewMode={isPreviewMode} />
