@@ -93,7 +93,7 @@ export function HeroV2() {
                   className="w-full sm:w-auto gap-3 shadow-glow hover:shadow-glow-lg"
                 >
                   <AppleIcon className="h-5 w-5" />
-                  <span>{t.hero.downloadFree}</span>
+                  <span>{t.hero.downloadApp}</span>
                 </Button>
               </Link>
             </motion.div>
@@ -136,7 +136,7 @@ export function HeroV2() {
                 <svg className="h-5 w-5 text-primary-teal" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                <span>{t.hero.trustBadges.freeTrial}</span>
+                <span>{t.hero.trustBadges.personalizedPlan}</span>
               </div>
               <div className="h-4 w-px bg-border hidden sm:block" />
               <div className="flex items-center gap-2">

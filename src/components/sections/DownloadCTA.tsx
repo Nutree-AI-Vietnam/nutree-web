@@ -45,7 +45,7 @@ export function DownloadCTA() {
 
           {/* Content */}
           <div className="relative z-10">
-            {/* Trial Badge */}
+            {/* Personalized-plan badge */}
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={isInView ? { opacity: 1, scale: 1 } : {}}
@@ -67,7 +67,7 @@ export function DownloadCTA() {
                 />
               </svg>
               <span className="text-sm font-medium text-white">
-                {t.hero.trustBadges.freeTrial}
+                {t.hero.trustBadges.personalizedPlan}
               </span>
             </motion.div>
 
@@ -100,7 +100,7 @@ export function DownloadCTA() {
 
             </div>
 
-            {/* Trial Info */}
+            {/* Plan details */}
             <p className="mt-6 text-sm text-white/60">
               {t.whyNutree.cta.fineprint}
             </p>
@@ -108,8 +108,8 @@ export function DownloadCTA() {
             {/* Stats */}
             <div className="mt-12 flex flex-wrap items-center justify-center gap-8 text-white/80">
               <div className="text-center">
-                <div className="font-display text-3xl font-bold text-white">{SITE_CONFIG.trial.days}</div>
-                <div className="text-sm">{t.finalCta.stats.daysFree}</div>
+                <div className="font-display text-3xl font-bold text-white">{t.finalCta.stats.planValue}</div>
+                <div className="text-sm">{t.finalCta.stats.planLabel}</div>
               </div>
               <div className="h-8 w-px bg-white/20" />
               <div className="text-center">

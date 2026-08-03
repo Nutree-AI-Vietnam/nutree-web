@@ -162,7 +162,7 @@ export function HowItWorks() {
             href="#download"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-brand text-white font-medium shadow-glow hover:shadow-glow-lg transition-all hover:scale-105"
           >
-            Get Started Free
+            Build Your Plan
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
             </svg>

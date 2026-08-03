@@ -7,10 +7,6 @@ export const SITE_CONFIG = {
   stores: {
     appStore: 'https://apps.apple.com/vn/app/nutree-eat-with-science/id6751159552',
   },
-  trial: {
-    days: 3,
-    message: 'Start with 3 days free.',
-  },
   social: {
     facebookMessenger: 'https://m.me/1019820571221637',
     tiktok: 'https://www.tiktok.com/@nutree.ai',

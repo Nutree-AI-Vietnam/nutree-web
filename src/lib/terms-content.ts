@@ -53,7 +53,7 @@ export const termsContent: Record<Locale, LegalPageContent> = {
         title: 'Subscription Terms',
         body: [
           'Some Nutree features are provided through subscriptions or in-app purchases processed by Apple App Store, Google Play, or another relevant platform.',
-          'If you are under 18, any purchase or subscription must be authorized by your parent or legal guardian where required by law or the payment platform. Prices, trial periods, billing cycles, and automatic-renewal terms are shown before you confirm a purchase.',
+          'If you are under 18, any purchase or subscription must be authorized by your parent or legal guardian where required by law or the payment platform. Prices, billing cycles, and automatic-renewal terms are shown before you confirm a purchase.',
           'Subscriptions may renew automatically unless cancelled at least 24 hours before the current billing period ends, or as otherwise stated by the payment platform.',
           'Deleting your Nutree account does not automatically cancel a subscription purchased through Apple App Store, Google Play, or another platform. You must cancel the subscription in the payment platform’s subscription management settings to avoid future renewals.',
           'Refunds are handled under the policies of the payment platform that processed the purchase.',
