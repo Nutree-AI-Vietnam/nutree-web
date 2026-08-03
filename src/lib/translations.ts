@@ -41,10 +41,10 @@ interface TranslationStrings {
     badge: string;
     headlines: string[];
     subheadline: string;
-    downloadFree: string;
+    downloadApp: string;
     tagline?: string;
     scroll: string;
-    trustBadges: { rating: string; freeTrial: string; languages: string };
+    trustBadges: { rating: string; personalizedPlan: string; languages: string };
   };
   socialProof: {
     mealsTracked: string;
@@ -78,7 +78,7 @@ interface TranslationStrings {
     trustMessage: string;
     downloadOnThe: string;
     appStore: string;
-    stats: { daysFree: string; languages: string; aiPowered: string; rating: string };
+    stats: { planValue: string; planLabel: string; languages: string; aiPowered: string; rating: string };
   };
   footer: {
     description: string;
@@ -210,11 +210,11 @@ export const translations: Record<Locale, TranslationStrings> = {
       headlines: ['IDEAS.', 'TRACK.', 'THRIVE.'],
       subheadline:
         'Not another calorie counter. Nutree adapts your daily targets, plans your meals, and tracks every macro — automatically.',
-      downloadFree: 'Free Trial',
+      downloadApp: 'Download Nutree',
       scroll: 'Scroll',
       trustBadges: {
         rating: '#1 Health & Fitness',
-        freeTrial: '3-Day Free Trial',
+        personalizedPlan: 'Personalized Premium plans',
         languages: '7 Languages',
       },
     },
@@ -326,10 +326,11 @@ export const translations: Record<Locale, TranslationStrings> = {
       downloadOnThe: 'Download on the',
       appStore: 'App Store',
       subtext:
-        'Start your 3-day free trial. Your AI Nutrition Assistant adapts, so you never have to start over.',
-      trustMessage: '3-Day Free Trial',
+        'Download Nutree for nutrition guidance that adapts to real life — so you never have to start over.',
+      trustMessage: 'Built around your goals',
       stats: {
-        daysFree: 'Days Free',
+        planValue: 'AI',
+        planLabel: 'Personalized Plans',
         languages: 'Languages',
         aiPowered: 'Powered',
         rating: 'Health & Fitness',
@@ -414,8 +415,8 @@ export const translations: Record<Locale, TranslationStrings> = {
               answer: 'Use manual text entry to describe your meal. The AI handles most food descriptions in all 7 supported languages.',
             },
             {
-              question: 'How many meals can I scan per day?',
-              answer: 'Free plan: 3 AI scans per day. Premium plan: unlimited scans.',
+              question: 'How many meals can I scan?',
+              answer: 'Your personalized plan includes unlimited AI scans, meal suggestions, and full features.',
             },
           ],
         },
@@ -461,20 +462,20 @@ export const translations: Record<Locale, TranslationStrings> = {
           title: 'Subscription & Pricing',
           items: [
             {
-              question: 'Is Nutree free to use?',
-              answer: 'Yes, with limits. The free plan includes 3 AI scans per day. Premium unlocks unlimited scans, meal suggestions, and full features.',
+              question: 'Does Nutree have a free plan?',
+              answer: 'Nutree is available through personalized Premium plans. Your price and billing terms are shown before you subscribe.',
             },
             {
-              question: "What's included in the free trial?",
-              answer: 'A 3-day free trial with full premium access. Cancel anytime before the trial ends.',
+              question: 'What is included in a personalized plan?',
+              answer: 'Your plan includes unlimited AI scans, meal suggestions, and the full Nutree experience tailored to your goals.',
             },
             {
               question: 'How do I cancel my subscription?',
               answer: 'iOS: Settings → Apple ID → Subscriptions → Nutree → Cancel. Android: Play Store → Subscriptions → Nutree → Cancel.',
             },
             {
-              question: 'Will I be charged after the trial?',
-              answer: 'Only if you do not cancel before the 3-day trial ends. You will receive a reminder before any charges begin.',
+              question: 'When will I be charged for Premium?',
+              answer: 'Only after you confirm a Premium purchase through the App Store or Google Play. Prices and billing terms are shown before you subscribe.',
             },
             {
               question: 'How do I restore my purchase on a new device?',
@@ -652,10 +653,10 @@ export const translations: Record<Locale, TranslationStrings> = {
       cta: {
         title: 'Escape skinny fat without losing your mind.',
         subtext:
-          'Try Nutree free for 3 days. No credit card. No commitment. Just a smarter way out of skinny fat.',
+          'Build a personalized nutrition plan and get smarter guidance for every meal.',
         downloadOnThe: 'Download on the',
         appStore: 'App Store',
-        fineprint: 'iOS only. 3-day free trial, then plans from $4.99/mo.',
+        fineprint: 'iOS only. Personalized Premium plans available.',
       },
     },
   },
@@ -687,12 +688,12 @@ export const translations: Record<Locale, TranslationStrings> = {
       headlines: ['GỢI Ý.', 'THEO DÕI.', 'ĐẠT GOAL.'],
       subheadline:
         'Không phải app đếm calo bình thường. Nutree tự điều chỉnh mục tiêu mỗi ngày, gợi ý bữa ăn và track macro giúp bạn — tự động hoàn toàn.',
-      downloadFree: 'Dùng thử miễn phí',
+      downloadApp: 'Tải Nutree',
       scroll: 'Kéo xuống',
       tagline: 'Tăng Cơ Giảm Mỡ',
       trustBadges: {
         rating: '#1 Sức khỏe & Thể hình',
-        freeTrial: 'Dùng thử 3 ngày',
+        personalizedPlan: 'Gói Premium cá nhân hóa',
         languages: '7 ngôn ngữ',
       },
     },
@@ -804,10 +805,11 @@ export const translations: Record<Locale, TranslationStrings> = {
       downloadOnThe: 'Tải trên',
       appStore: 'App Store',
       subtext:
-        'Dùng thử 3 ngày miễn phí. Nutree tự thích nghi theo bạn, không cần bắt đầu lại từ đầu.',
-      trustMessage: 'Dùng thử 3 ngày miễn phí',
+        'Tải Nutree để có hướng dẫn dinh dưỡng thích nghi với nhịp sống của bạn — không cần bắt đầu lại từ đầu.',
+      trustMessage: 'Thiết kế theo mục tiêu của bạn',
       stats: {
-        daysFree: 'Ngày free',
+        planValue: 'AI',
+        planLabel: 'Gói cá nhân hóa',
         languages: 'Ngôn ngữ',
         aiPowered: 'AI',
         rating: 'Sức khỏe & Thể hình',
@@ -892,8 +894,8 @@ export const translations: Record<Locale, TranslationStrings> = {
               answer: 'Dùng chức năng nhập văn bản thủ công để mô tả bữa ăn. AI xử lý được hầu hết các mô tả thức ăn trong 7 ngôn ngữ được hỗ trợ.',
             },
             {
-              question: 'Mỗi ngày tôi có thể scan bao nhiêu bữa?',
-              answer: 'Gói miễn phí: 3 lần scan AI mỗi ngày. Gói Premium: không giới hạn.',
+              question: 'Tôi có thể scan bao nhiêu bữa?',
+              answer: 'Gói cá nhân hóa của bạn bao gồm scan AI không giới hạn, gợi ý bữa ăn và toàn bộ tính năng.',
             },
           ],
         },
@@ -939,20 +941,20 @@ export const translations: Record<Locale, TranslationStrings> = {
           title: 'Gói đăng ký & Giá',
           items: [
             {
-              question: 'Nutree có miễn phí không?',
-              answer: 'Có, nhưng có giới hạn. Gói miễn phí gồm 3 lần scan AI mỗi ngày. Premium mở khóa scan không giới hạn, gợi ý bữa ăn và toàn bộ tính năng.',
+              question: 'Nutree có gói miễn phí không?',
+              answer: 'Nutree cung cấp các gói Premium được cá nhân hóa. Giá và điều khoản thanh toán được hiển thị trước khi bạn đăng ký.',
             },
             {
-              question: 'Dùng thử miễn phí bao gồm gì?',
-              answer: 'Dùng thử 3 ngày với toàn bộ tính năng Premium. Hủy bất cứ lúc nào trước khi hết hạn.',
+              question: 'Gói cá nhân hóa bao gồm gì?',
+              answer: 'Gói của bạn bao gồm scan AI không giới hạn, gợi ý bữa ăn và trải nghiệm Nutree đầy đủ, được điều chỉnh theo mục tiêu của bạn.',
             },
             {
               question: 'Làm sao để hủy gói đăng ký?',
               answer: 'iOS: Cài đặt → Apple ID → Đăng ký → Nutree → Hủy. Android: Play Store → Đăng ký → Nutree → Hủy.',
             },
             {
-              question: 'Tôi có bị tính tiền sau khi hết dùng thử không?',
-              answer: 'Chỉ khi bạn không hủy trước khi hết 3 ngày dùng thử. Bạn sẽ nhận thông báo nhắc trước khi bị tính phí.',
+              question: 'Khi nào tôi bị tính phí Premium?',
+              answer: 'Chỉ sau khi bạn xác nhận mua Premium qua App Store hoặc Google Play. Giá và điều khoản thanh toán được hiển thị trước khi đăng ký.',
             },
             {
               question: 'Làm sao khôi phục gói đăng ký trên thiết bị mới?',
@@ -1130,10 +1132,10 @@ export const translations: Record<Locale, TranslationStrings> = {
       cta: {
         title: 'Thoát skinny fat mà không cần mất trí.',
         subtext:
-          'Dùng thử Nutree miễn phí 3 ngày. Chỉ là cách thông minh hơn để thoát khỏi skinny fat.',
+          'Xây dựng kế hoạch dinh dưỡng cá nhân hóa và có hướng dẫn thông minh hơn cho từng bữa ăn.',
         downloadOnThe: 'Tải trên',
         appStore: 'App Store',
-        fineprint: 'Chỉ có ở iOS. Dùng thử 3 ngày miễn phí, sau đó từ 41.000đ/tháng.',
+        fineprint: 'Chỉ có ở iOS. Có gói Premium cá nhân hóa.',
       },
     },
   },

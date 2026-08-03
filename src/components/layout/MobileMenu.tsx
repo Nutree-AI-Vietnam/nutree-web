@@ -109,7 +109,7 @@ export function MobileMenu({ onClose }: MobileMenuProps) {
                 className="w-full gap-2"
               >
                 <AppleIcon className="h-5 w-5" />
-                {t.hero.downloadFree}
+                {t.hero.downloadApp}
               </Button>
             </Link>
           </motion.div>

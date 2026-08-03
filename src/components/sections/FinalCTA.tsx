@@ -187,8 +187,8 @@ export function FinalCTA() {
           >
             <div className="flex flex-wrap items-center justify-center gap-8 text-white/80">
               <div className="text-center">
-                <div className="font-display text-3xl font-bold text-white">{SITE_CONFIG.trial.days}</div>
-                <div className="text-sm">{t.finalCta.stats.daysFree}</div>
+                <div className="font-display text-3xl font-bold text-white">{t.finalCta.stats.planValue}</div>
+                <div className="text-sm">{t.finalCta.stats.planLabel}</div>
               </div>
               <div className="h-8 w-px bg-white/20" />
               <div className="text-center">
