@@ -2,14 +2,6 @@ import type { Locale } from './translations';
 import type { LegalPageContent } from './legal-content';
 import { LEGAL_COMPANY } from './legal-company';
 
-/** Standard Vietnam list prices from BCT pricing policy (03/2026/CSG-NT). */
-const PRICING = {
-  monthlyVnd: '99.000',
-  yearlyVnd: '399.000',
-  yearlyMonthlyRefVnd: '33.250',
-  docNumber: '03/2026/CSG-NT',
-} as const;
-
 const dates = {
   en: {
     effectiveDate: LEGAL_COMPANY.effectiveDate,
@@ -24,49 +16,43 @@ const dates = {
 };
 
 /**
- * BCT-aligned pricing policy (Chính sách giá) — professional, plain language.
- * Structure follows BCT document sections I–VII.
+ * BCT-aligned pricing policy without publishing fixed list amounts.
+ * Prices are disclosed in the app and on the Apple confirmation screen.
  */
 export const pricingPolicyContent: Record<Locale, LegalPageContent> = {
   en: {
     title: 'Pricing Policy',
     description:
-      'Official prices and billing terms for Nutree subscription plans in Vietnam.',
+      'How Nutree subscription prices are disclosed and confirmed. Exact amounts are shown in the app before you pay.',
     toc: 'Table of Contents',
     backHome: 'Back to Home',
     home: 'Home',
     copyright: 'Nutree. All rights reserved.',
     links: { privacy: 'Privacy Policy', terms: 'Terms of Service' },
-    tableHeaders: ['Plan', 'List price', 'Billing'],
     ...dates.en,
     sections: [
       {
         title: 'About this policy',
         body: [
-          `Document ${PRICING.docNumber}. This Pricing Policy applies to Nutree digital subscription plans offered in Vietnam by ${LEGAL_COMPANY.legalNameEn} (trade name: ${LEGAL_COMPANY.tradeName}).`,
+          `Document 03/2026/CSG-NT. This Pricing Policy applies to Nutree digital subscription plans offered in Vietnam by ${LEGAL_COMPANY.legalNameEn} (trade name: ${LEGAL_COMPANY.tradeName}).`,
           `Enterprise registration number: ${LEGAL_COMPANY.taxId}. Registered address: ${LEGAL_COMPANY.addressEn}. Website: ${LEGAL_COMPANY.websiteDisplay}. Support: ${LEGAL_COMPANY.email}.`,
-          'It is prepared with reference to Vietnam’s pricing, consumer-protection, and e-commerce rules. Prices below reflect the standard Nutree plans published for the Vietnam market as of the effective date.',
+          'It is prepared with reference to Vietnam’s pricing, consumer-protection, and e-commerce rules.',
           'At publication, purchases are completed in the Nutree iOS app through the Apple App Store.',
         ],
       },
       {
-        title: 'Current standard prices',
+        title: 'Where prices are provided',
         body: [
-          'These are our standard list prices for Vietnam. You will always review the final amount on the Apple confirmation screen before you pay.',
-          `For the yearly plan, “about ${PRICING.yearlyMonthlyRefVnd} VND/month” is only a convenience breakdown. The amount charged for a full year is ${PRICING.yearlyVnd} VND per billing cycle.`,
-          'Both plans renew automatically until you cancel. How to cancel: [Cancellation & Refunds](/cancellation).',
+          'Nutree does not publish fixed subscription amounts on this website. The current price for each plan is provided inside the Nutree app on the purchase screen.',
+          'Before you pay, Apple shows the final amount, currency, billing period, and auto-renewal terms on the confirmation sheet for your Apple Account.',
+          'The amount you see and confirm on Apple is the amount that applies to that purchase.',
         ],
-        table: [
-          [
-            'Monthly plan',
-            `${PRICING.monthlyVnd} VND`,
-            '1 month · auto-renews until cancelled',
-          ],
-          [
-            'Yearly plan',
-            `${PRICING.yearlyVnd} VND`,
-            `1 year (about ${PRICING.yearlyMonthlyRefVnd} VND/month reference) · auto-renews until cancelled`,
-          ],
+      },
+      {
+        title: 'Plan types',
+        body: [
+          'Nutree offers auto-renewing subscription plans (for example monthly and yearly). The plan name, period, and price for your offer appear in the app before checkout.',
+          'Plans renew automatically until you cancel in Apple subscription settings. How to cancel: [Cancellation & Refunds](/cancellation).',
         ],
       },
       {
@@ -79,17 +65,17 @@ export const pricingPolicyContent: Record<Locale, LegalPageContent> = {
       {
         title: 'Displayed price and final charge',
         body: [
-          'Currency: Standard prices for Vietnam users are listed in Vietnamese dong (VND) in the Nutree experience for Vietnam.',
+          'For Vietnam users, prices are typically shown in Vietnamese dong (VND) in the Nutree experience, subject to App Store and Apple Account display rules.',
           'Before you buy: you can review the plan name, price, billing period, auto-renewal terms, and confirmation control in the app. Apple then shows the final amount charged to your Apple Account.',
-          'Tax, fees, and account region: the amount Apple shows may reflect tax display, fees, or conversion rules for your Apple Account region. The amount you see and confirm on the final Apple step is the amount that applies to that purchase.',
+          'Tax, fees, and account region: the amount Apple shows may reflect tax display, fees, or conversion rules for your Apple Account region. The amount you see and confirm on the final Apple step is controlling.',
         ],
       },
       {
         title: 'Promo codes, referrals, and special offers',
         body: [
-          'Nutree may allow a promo code or referral code before purchase, or run a limited-time offer.',
+          'Nutree may allow a promo code or referral code before purchase, or run a limited-time offer or pricing experiment.',
           'Each program has its own eligibility, duration, audience, usage limits, and discount. Offers cannot be exchanged for cash, do not stack unless we say so, and may be declined if expired, ineligible, already used, or abused.',
-          'If an offer changes the amount you pay, that amount still appears in the app and on Apple before you confirm. An offer price is not a permanent change to the standard list prices above unless we update this policy.',
+          'If an offer changes the amount you pay, that amount still appears in the app and on Apple before you confirm.',
         ],
       },
       {
@@ -97,7 +83,7 @@ export const pricingPolicyContent: Record<Locale, LegalPageContent> = {
         body: [
           'Monthly and yearly plans renew for the same period until you cancel in Apple’s subscription settings. The next cycle is charged according to the information Apple shows at renewal.',
           'We may adjust prices for future cycles. When the platform requires it, you will be notified and may need to accept the new price. We will not charge extra for the portion of a cycle you already paid.',
-          'Current standard prices are not a promise that they will never change. Promotional prices apply only under the terms published for that offer.',
+          'A price shown at one time is not a promise that it will never change. Promotional prices apply only under the terms published for that offer.',
         ],
       },
       {
@@ -119,7 +105,7 @@ export const pricingPolicyContent: Record<Locale, LegalPageContent> = {
         body: [
           `This policy takes effect on ${LEGAL_COMPANY.effectiveDate}, version ${LEGAL_COMPANY.version}, for the Nutree product provided by ${LEGAL_COMPANY.tradeName}.`,
           'We publish this policy on our official website and/or in the app. For material changes, we will update the effective date and notify you in an appropriate way before the change applies, unless law requires immediate effect.',
-          'When standard list prices change, we update this policy together with the app and payment systems as needed.',
+          'When pricing presentation or billing terms change in a material way, we update this policy and the in-app purchase screens as needed.',
         ],
       },
     ],
@@ -127,42 +113,36 @@ export const pricingPolicyContent: Record<Locale, LegalPageContent> = {
   vi: {
     title: 'Chính sách giá',
     description:
-      'Bảng giá và điều khoản thanh toán chính thức cho gói dịch vụ Nutree tại Việt Nam.',
+      'Cách Nutree công bố và xác nhận giá gói đăng ký. Mức giá cụ thể được cung cấp trong ứng dụng trước khi bạn thanh toán.',
     toc: 'Mục lục',
     backHome: 'Về trang chủ',
     home: 'Trang chủ',
     copyright: 'Nutree. Bảo lưu mọi quyền.',
     links: { privacy: 'Chính sách bảo mật', terms: 'Điều khoản sử dụng' },
-    tableHeaders: ['Gói dịch vụ', 'Mức giá', 'Chu kỳ & gia hạn'],
     ...dates.vi,
     sections: [
       {
         title: 'Căn cứ và phạm vi áp dụng',
         body: [
-          `Số: ${PRICING.docNumber}. Chính sách giá này áp dụng đối với gói dịch vụ số Nutree tại Việt Nam do ${LEGAL_COMPANY.legalName} (tên thương mại: ${LEGAL_COMPANY.tradeName}) cung cấp.`,
+          `Số: 03/2026/CSG-NT. Chính sách giá này áp dụng đối với gói dịch vụ số Nutree tại Việt Nam do ${LEGAL_COMPANY.legalName} (tên thương mại: ${LEGAL_COMPANY.tradeName}) cung cấp.`,
           `Mã số doanh nghiệp: ${LEGAL_COMPANY.taxId}. Địa chỉ trụ sở: ${LEGAL_COMPANY.address}. Website: ${LEGAL_COMPANY.websiteDisplay}. Email: ${LEGAL_COMPANY.email}.`,
           'Chính sách được xây dựng trên cơ sở Luật Giá, Luật Bảo vệ quyền lợi người tiêu dùng, Luật Thương mại điện tử và các quy định liên quan.',
-          'Mức giá dưới đây được lập theo giao diện và gói dịch vụ Nutree tại thời điểm ban hành, áp dụng cho thị trường Việt Nam. Tại thời điểm ban hành, giao dịch được thực hiện trong ứng dụng Nutree trên iOS qua Apple App Store.',
+          'Tại thời điểm ban hành, giao dịch được thực hiện trong ứng dụng Nutree trên iOS qua Apple App Store.',
         ],
       },
       {
-        title: 'Bảng giá dịch vụ hiện hành',
+        title: 'Nơi cung cấp mức giá',
         body: [
-          'Đây là mức giá niêm yết chuẩn tại Việt Nam. Trước khi thanh toán, bạn luôn được xem lại số tiền trên giao diện xác nhận của Apple.',
-          `Mức “khoảng ${PRICING.yearlyMonthlyRefVnd} đồng/tháng” của gói năm chỉ là quy đổi tham khảo. Khoản thanh toán thực tế cho một chu kỳ năm là ${PRICING.yearlyVnd} đồng.`,
-          'Gói đăng ký tự động gia hạn theo chu kỳ đã chọn cho đến khi bạn hủy. Hướng dẫn hủy: [Hủy & hoàn tiền](/cancellation).',
+          'Nutree không niêm yết mức giá gói cố định trên website này. Mức giá hiện hành của từng gói được cung cấp trong ứng dụng Nutree, trên màn hình mua hàng.',
+          'Trước khi thanh toán, Apple hiển thị số tiền cuối cùng, đơn vị tiền tệ, chu kỳ và điều khoản tự động gia hạn trên giao diện xác nhận của Tài khoản Apple.',
+          'Số tiền bạn nhìn thấy và xác nhận trên Apple là mức áp dụng cho giao dịch đó.',
         ],
-        table: [
-          [
-            'Gói tháng',
-            `${PRICING.monthlyVnd} đồng`,
-            '01 tháng · tự động gia hạn đến khi hủy',
-          ],
-          [
-            'Gói năm',
-            `${PRICING.yearlyVnd} đồng`,
-            `01 năm (tham khảo khoảng ${PRICING.yearlyMonthlyRefVnd} đồng/tháng) · tự động gia hạn đến khi hủy`,
-          ],
+      },
+      {
+        title: 'Các loại gói',
+        body: [
+          'Nutree cung cấp các gói đăng ký tự động gia hạn (ví dụ gói tháng và gói năm). Tên gói, chu kỳ và mức giá của ưu đãi dành cho bạn được hiển thị trong app trước khi thanh toán.',
+          'Gói tự động gia hạn theo chu kỳ đã chọn cho đến khi bạn hủy trong phần quản lý đăng ký của Apple. Hướng dẫn hủy: [Hủy & hoàn tiền](/cancellation).',
         ],
       },
       {
@@ -175,17 +155,17 @@ export const pricingPolicyContent: Record<Locale, LegalPageContent> = {
       {
         title: 'Giá hiển thị và giá thanh toán cuối cùng',
         body: [
-          'Đơn vị tiền tệ: Giá được niêm yết bằng đồng Việt Nam trên giao diện Nutree dành cho người dùng tại Việt Nam.',
-          'Xác nhận trước giao dịch: Trước khi mua, bạn được xem tên gói, giá, chu kỳ, cơ chế tự động gia hạn và nút xác nhận. Giao diện xác nhận của Apple hiển thị số tiền cuối cùng được tính cho Tài khoản Apple.',
+          'Đối với người dùng tại Việt Nam, giá thường được hiển thị bằng đồng Việt Nam trong trải nghiệm Nutree, theo quy tắc hiển thị của App Store và Tài khoản Apple.',
+          'Xác nhận trước giao dịch: Trước khi mua, bạn được xem tên gói, giá, chu kỳ, cơ chế tự động gia hạn và nút xác nhận trong app. Giao diện xác nhận của Apple hiển thị số tiền cuối cùng được tính cho Tài khoản Apple.',
           'Thuế, phí và khu vực tài khoản: Khoản tiền thực tế có thể chịu cách hiển thị thuế, phí hoặc quy đổi theo quy định của Apple và khu vực Tài khoản Apple. Mức có giá trị áp dụng là mức bạn nhìn thấy và xác nhận tại bước thanh toán cuối cùng.',
         ],
       },
       {
         title: 'Mã ưu đãi, mã giới thiệu và khuyến mại',
         body: [
-          'Nutree có thể cho phép nhập mã ưu đãi hoặc mã giới thiệu trước khi mua, hoặc áp dụng chương trình khuyến mại có thời hạn.',
+          'Nutree có thể cho phép nhập mã ưu đãi hoặc mã giới thiệu trước khi mua, hoặc áp dụng chương trình khuyến mại / thử nghiệm giá có thời hạn.',
           'Mỗi chương trình có điều kiện, thời hạn, đối tượng, số lần sử dụng và mức giảm riêng. Ưu đãi không được quy đổi thành tiền mặt, không cộng gộp trừ khi có thông báo khác, và có thể bị từ chối khi hết hạn, sai điều kiện, gian lận hoặc đã sử dụng.',
-          'Nếu ưu đãi làm thay đổi số tiền phải trả, mức đó vẫn được hiển thị trong app và trên Apple trước khi bạn xác nhận. Giá ưu đãi không tự động thay thế bảng giá niêm yết chuẩn ở trên, trừ khi chúng tôi cập nhật chính sách này.',
+          'Nếu ưu đãi làm thay đổi số tiền phải trả, mức đó vẫn được hiển thị trong app và trên Apple trước khi bạn xác nhận.',
         ],
       },
       {
@@ -193,7 +173,7 @@ export const pricingPolicyContent: Record<Locale, LegalPageContent> = {
         body: [
           'Gói tháng và gói năm tiếp tục gia hạn theo chu kỳ đã chọn cho đến khi bạn hủy trong phần quản lý đăng ký của Apple. Phí chu kỳ tiếp theo được tính theo thông tin Apple hiển thị tại thời điểm gia hạn.',
           'Chúng tôi có thể điều chỉnh giá cho chu kỳ tương lai. Khi nền tảng yêu cầu, bạn sẽ được thông báo và/hoặc phải chấp thuận giá mới. Việc thay đổi không làm phát sinh thu thêm cho phần thời gian đã thanh toán trong chu kỳ hiện tại.',
-          'Mức giá hiện hành không phải cam kết duy trì vô thời hạn. Giá ưu đãi chỉ áp dụng theo điều kiện công bố.',
+          'Mức giá hiển thị tại một thời điểm không phải cam kết duy trì vô thời hạn. Giá ưu đãi chỉ áp dụng theo điều kiện công bố.',
         ],
       },
       {
@@ -215,7 +195,7 @@ export const pricingPolicyContent: Record<Locale, LegalPageContent> = {
         body: [
           `Chính sách này có hiệu lực từ ngày ${LEGAL_COMPANY.effectiveDate}, phiên bản ${LEGAL_COMPANY.version}, và áp dụng cho sản phẩm Nutree do ${LEGAL_COMPANY.tradeName} cung cấp.`,
           'Chúng tôi công khai chính sách tại kênh pháp lý chính thức trên website và/hoặc trong ứng dụng. Khi có thay đổi quan trọng, sẽ cập nhật ngày hiệu lực và thông báo theo phương thức phù hợp trước khi áp dụng, trừ trường hợp pháp luật yêu cầu áp dụng ngay.',
-          'Bảng giá chuẩn cần được cập nhật đồng thời trên tài liệu, website, ứng dụng và hệ thống thanh toán khi có thay đổi mức niêm yết.',
+          'Khi cách trình bày giá hoặc điều khoản thanh toán thay đổi đáng kể, chúng tôi cập nhật chính sách này và màn hình mua trong ứng dụng cho phù hợp.',
         ],
       },
     ],
