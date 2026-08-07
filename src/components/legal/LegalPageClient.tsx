@@ -108,7 +108,11 @@ function LegalSectionView({ index, section, headers }: { index: number; section:
         {section.title}
       </h2>
       <div className="space-y-4 pl-11">
-        {section.body?.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+        {section.body?.map((paragraph) => (
+          <p key={paragraph}>
+            <RichLegalText text={paragraph} />
+          </p>
+        ))}
         {section.table && headers && (
           <div className="overflow-x-auto">
             <table className="w-full border-collapse text-sm">
@@ -131,5 +135,65 @@ function LegalSectionView({ index, section, headers }: { index: number; section:
         )}
       </div>
     </section>
+  );
+}
+
+/** Renders markdown-style [label](href) plus bare emails and https URLs as links. */
+function RichLegalText({ text }: { text: string }) {
+  const linkClass = 'text-primary-forest underline-offset-2 hover:text-primary-teal hover:underline';
+  // Split on [label](href), emails, and https URLs while keeping delimiters
+  const tokenPattern =
+    /(\[[^\]]+\]\([^)]+\)|[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}|https?:\/\/[^\s)]+)/g;
+  const parts = text.split(tokenPattern).filter((part) => part.length > 0);
+
+  return (
+    <>
+      {parts.map((part, i) => {
+        const md = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+        if (md) {
+          const [, label, href] = md;
+          const isInternal = href.startsWith('/');
+          if (isInternal) {
+            return (
+              <Link key={`${i}-${href}`} href={href} className={linkClass}>
+                {label}
+              </Link>
+            );
+          }
+          return (
+            <a
+              key={`${i}-${href}`}
+              href={href}
+              className={linkClass}
+              target={href.startsWith('http') ? '_blank' : undefined}
+              rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
+            >
+              {label}
+            </a>
+          );
+        }
+        if (/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(part)) {
+          return (
+            <a key={`${i}-${part}`} href={`mailto:${part}`} className={linkClass}>
+              {part}
+            </a>
+          );
+        }
+        if (/^https?:\/\//.test(part)) {
+          return (
+            <a
+              key={`${i}-${part}`}
+              href={part}
+              className={linkClass}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {part.replace(/^https?:\/\//, '')}
+            </a>
+          );
+        }
+        return <span key={`${i}-${part.slice(0, 12)}`}>{part}</span>;
+      })}
+    </>
   );
 }

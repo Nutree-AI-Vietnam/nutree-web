@@ -87,7 +87,7 @@ export const cancellationPolicyContent: Record<Locale, LegalPageContent> = {
         title: 'Contact and complaints',
         body: [
           `Support: ${LEGAL_COMPANY.email}. Website: ${LEGAL_COMPANY.websiteDisplay}.`,
-          'For formal complaints or escalations, see our Complaints policy at /complaints.',
+          'For formal complaints or escalations, see our [Complaints policy](/complaints).',
         ],
       },
     ],
@@ -158,7 +158,7 @@ export const cancellationPolicyContent: Record<Locale, LegalPageContent> = {
         title: 'Liên hệ và khiếu nại',
         body: [
           `Hỗ trợ: ${LEGAL_COMPANY.email}. Website: ${LEGAL_COMPANY.websiteDisplay}.`,
-          'Khiếu nại chính thức: xem chính sách tại /complaints.',
+          'Khiếu nại chính thức: xem [Chính sách khiếu nại](/complaints).',
         ],
       },
     ],

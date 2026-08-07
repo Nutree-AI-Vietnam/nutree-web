@@ -72,7 +72,7 @@ export const paymentPolicyContent: Record<Locale, LegalPageContent> = {
       {
         title: 'Contact',
         body: [
-          `Payment support: ${LEGAL_COMPANY.email}. See also the cancellation & refund policy at /cancellation.`,
+          `Payment support: ${LEGAL_COMPANY.email}. See also the [Cancellation & Refund policy](/cancellation).`,
         ],
       },
     ],
@@ -133,7 +133,7 @@ export const paymentPolicyContent: Record<Locale, LegalPageContent> = {
       {
         title: 'Liên hệ',
         body: [
-          `Hỗ trợ thanh toán: ${LEGAL_COMPANY.email}. Xem thêm chính sách hủy & hoàn tiền tại /cancellation.`,
+          `Hỗ trợ thanh toán: ${LEGAL_COMPANY.email}. Xem thêm [Chính sách hủy & hoàn tiền](/cancellation).`,
         ],
       },
     ],
