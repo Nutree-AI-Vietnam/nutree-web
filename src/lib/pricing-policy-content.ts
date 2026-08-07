@@ -15,15 +15,12 @@ const dates = {
   },
 };
 
-/**
- * Pricing policy copy: clear, scannable, user-first (what you see before you pay),
- * store-driven amounts for A/B tests. No fixed public price table.
- */
+/** Plain-language pricing policy. No fixed public prices; store shows the amount. */
 export const pricingPolicyContent: Record<Locale, LegalPageContent> = {
   en: {
     title: 'Pricing Policy',
     description:
-      'You always see the price before you pay. Here is how Nutree subscriptions are priced and confirmed.',
+      'A simple guide to how Nutree subscription prices work—and how you always see the amount before you pay.',
     toc: 'On this page',
     backHome: 'Back to Home',
     home: 'Home',
@@ -32,51 +29,51 @@ export const pricingPolicyContent: Record<Locale, LegalPageContent> = {
     ...dates.en,
     sections: [
       {
-        title: 'The short version',
+        title: 'In short',
         body: [
-          'Nutree is a paid, auto-renewing subscription. You choose a plan in the app, review the price on the Apple confirmation screen, then confirm.',
-          'The amount you confirm on Apple is the price that applies to that purchase—not a number on this website, a screenshot, or an older offer you saw somewhere else.',
-          `At publication, in-app purchases run through the Apple App Store. Provider: ${LEGAL_COMPANY.legalNameEn} (${LEGAL_COMPANY.tradeName}).`,
+          'Nutree is a paid subscription. You pick a plan in the app, check the price on Apple’s confirmation screen, then confirm to buy.',
+          'The price you confirm with Apple is the price for that purchase. Please rely on that screen—not a number on this website or an old screenshot.',
+          `Purchases are currently made through the Apple App Store. Service provider: ${LEGAL_COMPANY.legalNameEn}.`,
         ],
       },
       {
-        title: 'Where the price appears',
+        title: 'How you see the price',
         body: [
-          'In the Nutree app: plan type (for example monthly or yearly), billing period, and any active offer are shown on the purchase screen.',
-          'On Apple: the final amount, currency, and renewal terms appear again before Face ID, Touch ID, or password confirmation.',
-          'That final Apple amount can differ by App Store country or region, tax display, Apple Account territory, promotion, or offer test group.',
+          'In the Nutree app, you will see the plan options (such as monthly or yearly) and any special offer that applies to you.',
+          'Apple then shows the amount, currency, and renewal details one more time before you confirm payment.',
+          'The amount can vary by country or region, taxes shown on your receipt, and any special offer available on your account.',
         ],
       },
       {
-        title: 'How plans work',
+        title: 'How subscriptions work',
         body: [
-          'Plans typically renew monthly or yearly until you cancel.',
-          'You keep the paid features described at purchase for the period you already paid. Product updates may improve or replace features, but should not strip core paid access for a period already paid—except for safety, legal, platform, or necessary technical reasons.',
-          'To stop future charges, cancel in Apple subscription settings. Deleting the app does not cancel billing. Step-by-step help: [Cancellation & Refunds](/cancellation).',
+          'Most plans renew automatically each month or each year until you cancel.',
+          'After you pay, you keep the paid features described at the time of purchase for that paid period. We may improve the app over time; we will not take away the main paid access you already paid for, except when we must for safety, legal, or store requirements.',
+          'To stop future charges, cancel the subscription in your Apple account settings. Removing the app does not cancel your subscription. Full steps: [Cancellation & Refunds](/cancellation).',
         ],
       },
       {
-        title: 'Offers, codes, and price tests',
+        title: 'Special offers',
         body: [
-          'We may run promos, referral codes, limited-time deals, or pricing experiments (A/B tests).',
-          'Each offer has its own rules: who qualifies, how long it lasts, and how many times it can be used. Offers are not cash and usually do not stack unless we say so.',
-          'If an offer appears in your app and you confirm it on Apple, that amount is valid for that transaction only. It is not a permanent public list price for every user.',
+          'From time to time we may share discounts, invite codes, or limited-time offers.',
+          'Each offer has its own conditions—who can use it, for how long, and how many times. Offers cannot be exchanged for cash and usually cannot be combined unless we say so.',
+          'If you see an offer in the app and complete payment at that amount with Apple, that price applies only to that purchase. Other people may see a different amount at a different time.',
         ],
       },
       {
-        title: 'If a price changes later',
+        title: 'If prices change later',
         body: [
-          'Prices for future renewals may change. When Apple requires it, you will be notified and may need to accept the new price before renewal.',
-          'We do not re-bill the portion of a cycle you already paid at a new rate.',
-          'Marketing copy or old screenshots are not a lock-in promise of a forever price.',
+          'The price for later renewals may change. When required, Apple will let you know, and you may need to accept the new price before the next renewal.',
+          'We will not charge you again for time you already paid at the old price.',
+          'Ads or older images of the app are not a guarantee of a fixed price forever.',
         ],
       },
       {
-        title: 'Need help?',
+        title: 'Questions?',
         body: [
-          `Email ${LEGAL_COMPANY.email} with your Apple receipt if a charge looks wrong, access did not unlock, or you need help reading a confirmation screen.`,
-          'Related policies: [Payment](/payment) · [Cancellation & Refunds](/cancellation) · [Complaints](/complaints).',
-          `Company details: MST ${LEGAL_COMPANY.taxId}. ${LEGAL_COMPANY.addressEn}. Website: ${LEGAL_COMPANY.websiteDisplay}.`,
+          `Write to us at ${LEGAL_COMPANY.email} and include your Apple receipt if a charge looks incorrect, or if paid features did not unlock after purchase.`,
+          'You may also find these pages helpful: [Payment](/payment) · [Cancellation & Refunds](/cancellation) · [Complaints](/complaints).',
+          `Company: ${LEGAL_COMPANY.legalNameEn}. Registration number: ${LEGAL_COMPANY.taxId}. Address: ${LEGAL_COMPANY.addressEn}. Website: ${LEGAL_COMPANY.websiteDisplay}.`,
         ],
       },
     ],
@@ -84,7 +81,7 @@ export const pricingPolicyContent: Record<Locale, LegalPageContent> = {
   vi: {
     title: 'Chính sách giá',
     description:
-      'Bạn luôn thấy giá trước khi thanh toán. Đây là cách Nutree hiển thị và xác nhận giá gói đăng ký.',
+      'Hướng dẫn đơn giản về cách giá gói Nutree hoạt động—và vì sao bạn luôn thấy số tiền trước khi thanh toán.',
     toc: 'Nội dung trang',
     backHome: 'Về trang chủ',
     home: 'Trang chủ',
@@ -93,51 +90,51 @@ export const pricingPolicyContent: Record<Locale, LegalPageContent> = {
     ...dates.vi,
     sections: [
       {
-        title: 'Tóm tắt nhanh',
+        title: 'Tóm tắt',
         body: [
-          'Nutree là gói trả phí, tự động gia hạn. Bạn chọn gói trong app, xem giá trên màn hình xác nhận của Apple, rồi xác nhận mua.',
-          'Số tiền bạn xác nhận trên Apple là mức áp dụng cho giao dịch đó—không phải con số trên website, ảnh chụp màn hình, hay ưu đãi cũ bạn từng thấy ở nơi khác.',
-          `Tại thời điểm ban hành, mua hàng trong app qua Apple App Store. Đơn vị cung cấp: ${LEGAL_COMPANY.legalName} (${LEGAL_COMPANY.tradeName}).`,
+          'Nutree là gói đăng ký trả phí. Bạn chọn gói trong ứng dụng, kiểm tra giá trên màn hình xác nhận của Apple, rồi xác nhận mua.',
+          'Số tiền bạn xác nhận với Apple là giá áp dụng cho lần mua đó. Hãy dựa vào màn hình đó—không phải con số trên website hay ảnh chụp màn hình cũ.',
+          `Hiện tại, thanh toán được thực hiện qua App Store của Apple. Đơn vị cung cấp: ${LEGAL_COMPANY.legalName}.`,
         ],
       },
       {
-        title: 'Giá hiện ở đâu',
+        title: 'Bạn thấy giá ở đâu',
         body: [
-          'Trong app Nutree: loại gói (ví dụ tháng hoặc năm), chu kỳ thanh toán và ưu đãi đang áp dụng (nếu có) hiện trên màn hình mua.',
-          'Trên Apple: số tiền cuối, đơn vị tiền tệ và điều khoản gia hạn hiện lại trước khi xác nhận bằng Face ID, Touch ID hoặc mật khẩu.',
-          'Số tiền cuối trên Apple có thể khác theo quốc gia/khu vực App Store, cách hiển thị thuế, khu vực Tài khoản Apple, khuyến mại, hoặc nhóm thử nghiệm ưu đãi.',
+          'Trong ứng dụng Nutree, bạn sẽ thấy các lựa chọn gói (ví dụ theo tháng hoặc theo năm) và ưu đãi đang áp dụng cho bạn (nếu có).',
+          'Apple sẽ hiển thị lại số tiền, loại tiền và thông tin gia hạn trước khi bạn xác nhận thanh toán.',
+          'Số tiền có thể khác nhau tùy quốc gia hoặc khu vực, thuế hiển thị trên biên nhận, và ưu đãi dành cho tài khoản của bạn.',
         ],
       },
       {
-        title: 'Gói hoạt động thế nào',
+        title: 'Gói đăng ký hoạt động ra sao',
         body: [
-          'Gói thường gia hạn theo tháng hoặc năm cho đến khi bạn hủy.',
-          'Bạn giữ các tính năng trả phí đã mô tả lúc mua trong chu kỳ đã thanh toán. Cập nhật sản phẩm có thể cải tiến hoặc thay thế tính năng, nhưng không được gỡ quyền cốt lõi của chu kỳ đã trả—trừ lý do an toàn, pháp luật, nền tảng hoặc kỹ thuật cần thiết.',
-          'Để dừng các lần tính phí sau: hủy trong phần đăng ký của Apple. Xóa app không hủy thanh toán. Hướng dẫn chi tiết: [Hủy & hoàn tiền](/cancellation).',
+          'Hầu hết các gói sẽ tự gia hạn mỗi tháng hoặc mỗi năm cho đến khi bạn hủy.',
+          'Sau khi thanh toán, bạn được dùng các tính năng đã nêu lúc mua trong khoảng thời gian đã trả. Ứng dụng có thể được cải thiện theo thời gian; chúng tôi không gỡ quyền sử dụng chính bạn đã trả, trừ khi bắt buộc vì an toàn, pháp luật hoặc yêu cầu của cửa hàng ứng dụng.',
+          'Để dừng các khoản phí sau này, hãy hủy gói trong phần đăng ký của tài khoản Apple. Gỡ ứng dụng không có nghĩa là đã hủy gói. Hướng dẫn chi tiết: [Hủy & hoàn tiền](/cancellation).',
         ],
       },
       {
-        title: 'Ưu đãi, mã và thử nghiệm giá',
+        title: 'Ưu đãi đặc biệt',
         body: [
-          'Chúng tôi có thể chạy khuyến mại, mã giới thiệu, ưu đãi có thời hạn, hoặc thử nghiệm giá (A/B).',
-          'Mỗi chương trình có quy tắc riêng: ai đủ điều kiện, kéo dài bao lâu, dùng được bao nhiêu lần. Ưu đãi không đổi ra tiền mặt và thường không cộng gộp trừ khi chúng tôi nói rõ.',
-          'Nếu ưu đãi hiện trong app của bạn và bạn xác nhận trên Apple, mức đó chỉ áp dụng cho giao dịch đó—không phải bảng giá niêm yết cố định cho mọi người.',
+          'Thỉnh thoảng chúng tôi có thể gửi giảm giá, mã mời hoặc ưu đãi có thời hạn.',
+          'Mỗi ưu đãi có điều kiện riêng—ai được dùng, dùng trong bao lâu, và dùng bao nhiêu lần. Ưu đãi không đổi thành tiền mặt và thường không gộp chung trừ khi chúng tôi nói rõ.',
+          'Nếu bạn thấy một ưu đãi trong ứng dụng và hoàn tất thanh toán với Apple ở mức đó, mức giá đó chỉ áp dụng cho lần mua đó. Người khác có thể thấy mức khác vào thời điểm khác.',
         ],
       },
       {
-        title: 'Khi giá thay đổi sau này',
+        title: 'Nếu giá thay đổi sau này',
         body: [
-          'Giá cho các kỳ gia hạn sau có thể thay đổi. Khi Apple yêu cầu, bạn sẽ được thông báo và có thể cần chấp nhận giá mới trước khi gia hạn.',
-          'Chúng tôi không thu lại phần chu kỳ bạn đã trả theo mức giá mới.',
-          'Nội dung marketing hay ảnh chụp màn hình cũ không phải cam kết giữ một mức giá mãi mãi.',
+          'Giá cho các lần gia hạn sau có thể thay đổi. Khi cần, Apple sẽ thông báo và bạn có thể phải chấp nhận giá mới trước kỳ gia hạn tiếp theo.',
+          'Chúng tôi không thu thêm cho khoảng thời gian bạn đã thanh toán theo giá cũ.',
+          'Quảng cáo hoặc hình ảnh cũ của ứng dụng không phải cam kết giữ một mức giá mãi mãi.',
         ],
       },
       {
         title: 'Cần hỗ trợ?',
         body: [
-          `Gửi email ${LEGAL_COMPANY.email} kèm biên nhận Apple nếu số tiền trông bất thường, chưa mở được quyền sau khi trả, hoặc cần đọc lại màn hình xác nhận.`,
-          'Chính sách liên quan: [Thanh toán](/payment) · [Hủy & hoàn tiền](/cancellation) · [Khiếu nại](/complaints).',
-          `Thông tin doanh nghiệp: MST ${LEGAL_COMPANY.taxId}. ${LEGAL_COMPANY.address}. Website: ${LEGAL_COMPANY.websiteDisplay}.`,
+          `Gửi email cho chúng tôi tại ${LEGAL_COMPANY.email} và đính kèm biên nhận Apple nếu khoản phí trông chưa đúng, hoặc tính năng trả phí chưa mở sau khi mua.`,
+          'Bạn cũng có thể xem: [Thanh toán](/payment) · [Hủy & hoàn tiền](/cancellation) · [Khiếu nại](/complaints).',
+          `Công ty: ${LEGAL_COMPANY.legalName}. Mã số doanh nghiệp: ${LEGAL_COMPANY.taxId}. Địa chỉ: ${LEGAL_COMPANY.address}. Website: ${LEGAL_COMPANY.websiteDisplay}.`,
         ],
       },
     ],
