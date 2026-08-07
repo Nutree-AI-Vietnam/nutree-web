@@ -471,11 +471,15 @@ export const translations: Record<Locale, TranslationStrings> = {
             },
             {
               question: 'How do I cancel my subscription?',
-              answer: 'iOS: Settings → Apple ID → Subscriptions → Nutree → Cancel. Android: Play Store → Subscriptions → Nutree → Cancel.',
+              answer: 'iOS: Settings → Apple ID → Subscriptions → Nutree → Cancel. Deleting the app does not cancel billing. Android is coming soon.',
             },
             {
               question: 'When will I be charged for Premium?',
-              answer: 'Only after you confirm a Premium purchase through the App Store or Google Play. Prices and billing terms are shown before you subscribe.',
+              answer: 'Only after you confirm a Premium purchase through the Apple App Store. Vietnam list prices start at 99.000₫/month or 399.000₫/year; promotional offers may apply at checkout.',
+            },
+            {
+              question: 'How do I request a refund?',
+              answer: 'Apple handles App Store refunds at reportaproblem.apple.com. You can also email nutreeaidev@gmail.com with your receipt. See the refund policy on this website.',
             },
             {
               question: 'How do I restore my purchase on a new device?',
@@ -656,7 +660,7 @@ export const translations: Record<Locale, TranslationStrings> = {
           'Build a personalized nutrition plan and get smarter guidance for every meal.',
         downloadOnThe: 'Download on the',
         appStore: 'App Store',
-        fineprint: 'iOS only. Personalized Premium plans available.',
+        fineprint: 'iOS available now. Android coming soon. Personalized Premium plans from 99.000₫/month.',
       },
     },
   },
@@ -950,11 +954,15 @@ export const translations: Record<Locale, TranslationStrings> = {
             },
             {
               question: 'Làm sao để hủy gói đăng ký?',
-              answer: 'iOS: Cài đặt → Apple ID → Đăng ký → Nutree → Hủy. Android: Play Store → Đăng ký → Nutree → Hủy.',
+              answer: 'iOS: Cài đặt → Apple ID → Đăng ký → Nutree → Hủy. Xóa app không hủy thanh toán. Android sắp ra mắt.',
             },
             {
               question: 'Khi nào tôi bị tính phí Premium?',
-              answer: 'Chỉ sau khi bạn xác nhận mua Premium qua App Store hoặc Google Play. Giá và điều khoản thanh toán được hiển thị trước khi đăng ký.',
+              answer: 'Chỉ sau khi bạn xác nhận mua Premium qua Apple App Store. Giá niêm yết tại Việt Nam từ 99.000đ/tháng hoặc 399.000đ/năm; có thể có ưu đãi tại bước thanh toán.',
+            },
+            {
+              question: 'Làm sao yêu cầu hoàn tiền?',
+              answer: 'Apple xử lý hoàn tiền App Store tại reportaproblem.apple.com. Có thể gửi biên nhận tới nutreeaidev@gmail.com. Xem chính sách hoàn tiền trên website.',
             },
             {
               question: 'Làm sao khôi phục gói đăng ký trên thiết bị mới?',
@@ -1135,7 +1143,7 @@ export const translations: Record<Locale, TranslationStrings> = {
           'Xây dựng kế hoạch dinh dưỡng cá nhân hóa và có hướng dẫn thông minh hơn cho từng bữa ăn.',
         downloadOnThe: 'Tải trên',
         appStore: 'App Store',
-        fineprint: 'Chỉ có ở iOS. Có gói Premium cá nhân hóa.',
+        fineprint: 'iOS có sẵn. Android sắp ra mắt. Gói Premium cá nhân hóa từ 99.000đ/tháng.',
       },
     },
   },

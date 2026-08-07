@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useEffect } from 'react';
 import type { LegalPageContent, LegalSection } from '@/lib/legal-content';
+import { LEGAL_LINKS } from '@/lib/legal-company';
 import type { Locale } from '@/lib/translations';
 import { useLocale } from '@/lib/locale-context';
 
@@ -15,6 +16,7 @@ interface LegalPageClientProps {
 export function LegalPageClient({ content, siblingHref, siblingKey }: LegalPageClientProps) {
   const { locale } = useLocale();
   const page = content[locale];
+  const legalLocale = locale === 'vi' ? 'vi' : 'en';
 
   useEffect(() => {
     document.title = `${page.title} | Nutree`;
@@ -22,7 +24,7 @@ export function LegalPageClient({ content, siblingHref, siblingKey }: LegalPageC
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-white via-white to-primary-teal/5">
-      <div className="container mx-auto px-4 py-20">
+      <div className="container mx-auto max-w-3xl px-4 py-20">
         <Link href="/" className="mb-8 inline-flex text-sm font-medium text-primary-forest hover:text-primary-teal">
           {page.backHome}
         </Link>
@@ -49,6 +51,24 @@ export function LegalPageClient({ content, siblingHref, siblingKey }: LegalPageC
             />
           ))}
         </div>
+
+        <nav
+          aria-label={legalLocale === 'vi' ? 'Chính sách pháp lý' : 'Legal policies'}
+          className="mt-14 rounded-xl border border-border/50 bg-white/50 p-5"
+        >
+          <h2 className="font-display mb-3 text-sm font-semibold text-foreground">
+            {legalLocale === 'vi' ? 'Các chính sách pháp lý' : 'Legal policies'}
+          </h2>
+          <ul className="grid gap-2 text-sm sm:grid-cols-2">
+            {LEGAL_LINKS.map((item) => (
+              <li key={item.href}>
+                <Link href={item.href} className="text-primary-forest hover:text-primary-teal">
+                  {item.label[legalLocale]}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
 
         <footer className="mt-16 border-t border-border/50 pt-8 text-center text-sm text-muted">
           <p>&copy; {new Date().getFullYear()} {page.copyright}</p>

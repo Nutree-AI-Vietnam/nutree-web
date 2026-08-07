@@ -2,17 +2,17 @@
 
 import Link from 'next/link';
 import { Logo } from '@/components/ui/Logo';
-import { SITE_CONFIG } from '@/lib/constants';
+import { LEGAL_LINKS } from '@/lib/legal-company';
 import { useLocale } from '@/lib/locale-context';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
-  const { t } = useLocale();
+  const { t, locale } = useLocale();
+  const legalLocale = locale === 'vi' ? 'vi' : 'en';
 
   return (
     <footer className="border-t border-border/50 bg-background/50">
       <div className="container mx-auto px-4 py-10 md:py-12">
-        {/* Brand */}
         <div className="space-y-4">
           <Logo size="md" linkHome={false} />
           <p className="max-w-xs text-sm text-muted">
@@ -20,7 +20,20 @@ export function Footer() {
           </p>
         </div>
 
-        {/* Bottom Bar */}
+        <nav
+          aria-label={legalLocale === 'vi' ? 'Chính sách pháp lý' : 'Legal policies'}
+          className="mt-10 grid grid-cols-1 gap-2 text-sm text-muted sm:grid-cols-2 md:grid-cols-3"
+        >
+          {LEGAL_LINKS.map((item) => (
+            <Link key={item.href} href={item.href} className="hover:text-foreground">
+              {item.label[legalLocale]}
+            </Link>
+          ))}
+          <Link href="/contact" className="hover:text-foreground">{t.footer.contact}</Link>
+          <Link href="/research" className="hover:text-foreground">{t.footer.research}</Link>
+          <Link href="/faq" className="hover:text-foreground">{t.footer.faq}</Link>
+        </nav>
+
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border/50 pt-8 text-sm text-muted md:flex-row">
           <div className="flex flex-col items-center gap-2 md:items-start">
             <p>&copy; {currentYear} {t.footer.copyright}</p>
@@ -37,10 +50,14 @@ export function Footer() {
             </p>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-center">
-            <Link href="/contact" className="hover:text-foreground">{t.footer.contact}</Link>
-            <Link href="/research" className="hover:text-foreground">{t.footer.research}</Link>
             <Link href="/privacy" className="hover:text-foreground">{t.footer.privacyPolicy}</Link>
             <Link href="/terms" className="hover:text-foreground">{t.footer.termsOfService}</Link>
+            <Link href="/chinh-sach-gia" className="hover:text-foreground">
+              {legalLocale === 'vi' ? 'Chính sách giá' : 'Pricing'}
+            </Link>
+            <Link href="/hoan-tien" className="hover:text-foreground">
+              {legalLocale === 'vi' ? 'Hoàn tiền' : 'Refunds'}
+            </Link>
           </div>
         </div>
       </div>
