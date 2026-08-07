@@ -12,10 +12,6 @@ export const SITE_CONFIG = {
     en: 'Android coming soon',
     vi: 'Android sắp ra mắt',
   },
-  pricing: {
-    monthlyVndDisplay: '99.000',
-    yearlyVndDisplay: '399.000',
-  },
   social: {
     facebookMessenger: 'https://m.me/1019820571221637',
     tiktok: 'https://www.tiktok.com/@nutree.ai',

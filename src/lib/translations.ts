@@ -475,7 +475,7 @@ export const translations: Record<Locale, TranslationStrings> = {
             },
             {
               question: 'When will I be charged for Premium?',
-              answer: 'Only after you confirm a Premium purchase through the Apple App Store. Vietnam list prices start at 99.000₫/month or 399.000₫/year; promotional offers may apply at checkout.',
+              answer: 'Only after you confirm a Premium purchase through the Apple App Store. The exact price, billing period, and any offer are shown in the app and on the Apple confirmation sheet before you subscribe.',
             },
             {
               question: 'How do I request a refund?',
@@ -660,7 +660,7 @@ export const translations: Record<Locale, TranslationStrings> = {
           'Build a personalized nutrition plan and get smarter guidance for every meal.',
         downloadOnThe: 'Download on the',
         appStore: 'App Store',
-        fineprint: 'iOS available now. Android coming soon. Personalized Premium plans from 99.000₫/month.',
+        fineprint: 'iOS available now. Android coming soon. Prices shown in the App Store before you subscribe.',
       },
     },
   },
@@ -958,7 +958,7 @@ export const translations: Record<Locale, TranslationStrings> = {
             },
             {
               question: 'Khi nào tôi bị tính phí Premium?',
-              answer: 'Chỉ sau khi bạn xác nhận mua Premium qua Apple App Store. Giá niêm yết tại Việt Nam từ 99.000đ/tháng hoặc 399.000đ/năm; có thể có ưu đãi tại bước thanh toán.',
+              answer: 'Chỉ sau khi bạn xác nhận mua Premium qua Apple App Store. Mức giá, chu kỳ và ưu đãi (nếu có) được hiển thị trong app và trên màn hình xác nhận của Apple trước khi đăng ký.',
             },
             {
               question: 'Làm sao yêu cầu hoàn tiền?',
@@ -1143,7 +1143,7 @@ export const translations: Record<Locale, TranslationStrings> = {
           'Xây dựng kế hoạch dinh dưỡng cá nhân hóa và có hướng dẫn thông minh hơn cho từng bữa ăn.',
         downloadOnThe: 'Tải trên',
         appStore: 'App Store',
-        fineprint: 'iOS có sẵn. Android sắp ra mắt. Gói Premium cá nhân hóa từ 99.000đ/tháng.',
+        fineprint: 'iOS có sẵn. Android sắp ra mắt. Giá hiển thị trên App Store trước khi đăng ký.',
       },
     },
   },

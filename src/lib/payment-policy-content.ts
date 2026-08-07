@@ -2,8 +2,6 @@ import type { Locale } from './translations';
 import type { LegalPageContent } from './legal-content';
 import { LEGAL_COMPANY } from './legal-company';
 
-const { monthlyVnd, yearlyVnd } = LEGAL_COMPANY.pricing;
-
 const dates = {
   en: {
     effectiveDate: LEGAL_COMPANY.effectiveDate,
@@ -44,10 +42,10 @@ export const paymentPolicyContent: Record<Locale, LegalPageContent> = {
       {
         title: 'Checkout flow',
         body: [
-          `Choose a monthly plan (${monthlyVnd} VND) or yearly plan (${yearlyVnd} VND/year), or any active promotional amount shown in the app.`,
-          'Review price, period, auto-renewal, promo code (if any), Terms, and Privacy Policy before confirming.',
-          'Apple may require Face ID, Touch ID, or password. Access unlocks after a successful verified transaction.',
-          'Keep your Apple receipt for support or refund requests.',
+          'Choose a plan shown in the app (for example monthly or yearly). The price, period, currency, auto-renewal terms, and any promo or experiment offer are displayed before purchase.',
+          'Review Terms and Privacy Policy, then confirm. Apple may require Face ID, Touch ID, or password.',
+          'The amount confirmed on the Apple sheet is the final amount for that transaction.',
+          'Access unlocks after a successful verified transaction. Keep your Apple receipt for support or refund requests.',
         ],
       },
       {
@@ -105,10 +103,10 @@ export const paymentPolicyContent: Record<Locale, LegalPageContent> = {
       {
         title: 'Quy trình thanh toán',
         body: [
-          `Chọn gói tháng (${monthlyVnd} đồng) hoặc gói năm (${yearlyVnd} đồng/năm), hoặc mức ưu đãi đang áp dụng trên ứng dụng.`,
-          'Kiểm tra giá, chu kỳ, tự động gia hạn, mã ưu đãi (nếu có), Điều khoản và Chính sách bảo mật trước khi xác nhận.',
-          'Apple có thể yêu cầu Face ID, Touch ID hoặc mật khẩu. Quyền sử dụng được kích hoạt sau khi giao dịch thành công và xác minh hợp lệ.',
-          'Nên lưu biên nhận Apple để đối soát hoặc yêu cầu hoàn tiền.',
+          'Chọn gói hiển thị trong ứng dụng (ví dụ gói tháng hoặc gói năm). Mức giá, chu kỳ, đơn vị tiền tệ, cơ chế tự động gia hạn và ưu đãi/thử nghiệm (nếu có) được hiển thị trước khi mua.',
+          'Kiểm tra Điều khoản và Chính sách bảo mật, rồi xác nhận. Apple có thể yêu cầu Face ID, Touch ID hoặc mật khẩu.',
+          'Số tiền xác nhận trên giao diện Apple là số tiền cuối cùng của giao dịch đó.',
+          'Quyền sử dụng được kích hoạt sau khi giao dịch thành công và xác minh hợp lệ. Nên lưu biên nhận Apple để đối soát hoặc yêu cầu hoàn tiền.',
         ],
       },
       {

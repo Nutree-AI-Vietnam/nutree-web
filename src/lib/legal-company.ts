@@ -15,11 +15,6 @@ export const LEGAL_COMPANY = {
   effectiveDate: '06/08/2026',
   version: '1.0',
   representative: 'Lê Thanh Trường',
-  pricing: {
-    monthlyVnd: '99.000',
-    yearlyVnd: '399.000',
-    yearlyMonthlyEquivalentVnd: '33.250',
-  },
 } as const;
 
 export type LegalLocale = 'vi' | 'en';
