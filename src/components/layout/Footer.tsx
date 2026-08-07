@@ -52,11 +52,11 @@ export function Footer() {
           <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-center">
             <Link href="/privacy" className="hover:text-foreground">{t.footer.privacyPolicy}</Link>
             <Link href="/terms" className="hover:text-foreground">{t.footer.termsOfService}</Link>
-            <Link href="/chinh-sach-gia" className="hover:text-foreground">
+            <Link href="/pricing" className="hover:text-foreground">
               {legalLocale === 'vi' ? 'Chính sách giá' : 'Pricing'}
             </Link>
-            <Link href="/hoan-tien" className="hover:text-foreground">
-              {legalLocale === 'vi' ? 'Hoàn tiền' : 'Refunds'}
+            <Link href="/cancellation" className="hover:text-foreground">
+              {legalLocale === 'vi' ? 'Hủy & hoàn tiền' : 'Cancellation'}
             </Link>
           </div>
         </div>

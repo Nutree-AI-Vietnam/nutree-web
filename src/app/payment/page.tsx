@@ -3,11 +3,10 @@ import { LegalPageClient } from '@/components/legal/LegalPageClient';
 import { paymentPolicyContent } from '@/lib/payment-policy-content';
 
 export const metadata: Metadata = {
-  title: 'Chính sách thanh toán / Payment Policy | Nutree',
-  description:
-    'Chính sách thanh toán Nutree qua Apple App Store / Payment policy for Nutree App Store purchases.',
+  title: 'Payment Policy | Nutree',
+  description: 'How Nutree in-app purchases work on the Apple App Store.',
   openGraph: {
-    title: 'Chính sách thanh toán / Payment Policy | Nutree',
+    title: 'Payment Policy | Nutree',
     type: 'website',
   },
 };

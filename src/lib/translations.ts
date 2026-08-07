@@ -479,7 +479,7 @@ export const translations: Record<Locale, TranslationStrings> = {
             },
             {
               question: 'How do I request a refund?',
-              answer: 'Apple handles App Store refunds at reportaproblem.apple.com. You can also email nutreeaidev@gmail.com with your receipt. See the refund policy on this website.',
+              answer: 'Cancel auto-renewal in Apple Settings → Subscriptions → Nutree. For refunds, Apple decides at reportaproblem.apple.com. You can also email nutreeaidev@gmail.com with your receipt. Full steps: nutreeai.com/cancellation.',
             },
             {
               question: 'How do I restore my purchase on a new device?',
@@ -962,7 +962,7 @@ export const translations: Record<Locale, TranslationStrings> = {
             },
             {
               question: 'Làm sao yêu cầu hoàn tiền?',
-              answer: 'Apple xử lý hoàn tiền App Store tại reportaproblem.apple.com. Có thể gửi biên nhận tới nutreeaidev@gmail.com. Xem chính sách hoàn tiền trên website.',
+              answer: 'Hủy gia hạn trong Cài đặt Apple → Đăng ký → Nutree. Hoàn tiền do Apple xem xét tại reportaproblem.apple.com. Có thể gửi biên nhận tới nutreeaidev@gmail.com. Hướng dẫn đầy đủ: nutreeai.com/cancellation.',
             },
             {
               question: 'Làm sao khôi phục gói đăng ký trên thiết bị mới?',

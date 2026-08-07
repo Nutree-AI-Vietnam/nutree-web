@@ -3,17 +3,21 @@ import { LegalPageClient } from '@/components/legal/LegalPageClient';
 import { complaintsPolicyContent } from '@/lib/complaints-policy-content';
 
 export const metadata: Metadata = {
-  title: 'Khiếu nại / Complaints | Nutree',
+  title: 'Complaints Policy | Nutree',
   description:
-    'Phương thức tiếp nhận và giải quyết khiếu nại Nutree / How Nutree receives and resolves complaints.',
+    'How Nutree receives and resolves feedback, support requests, and complaints.',
   openGraph: {
-    title: 'Khiếu nại / Complaints | Nutree',
+    title: 'Complaints Policy | Nutree',
     type: 'website',
   },
 };
 
 export default function ComplaintsPolicyPage() {
   return (
-    <LegalPageClient content={complaintsPolicyContent} siblingHref="/privacy" siblingKey="privacy" />
+    <LegalPageClient
+      content={complaintsPolicyContent}
+      siblingHref="/privacy"
+      siblingKey="privacy"
+    />
   );
 }

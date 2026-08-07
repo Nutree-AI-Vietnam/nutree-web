@@ -19,6 +19,7 @@ export const LEGAL_COMPANY = {
 
 export type LegalLocale = 'vi' | 'en';
 
+/** English path slugs for all legal policy pages. */
 export const LEGAL_LINKS: Array<{
   href: string;
   label: Record<LegalLocale, string>;
@@ -30,29 +31,29 @@ export const LEGAL_LINKS: Array<{
   {
     href: '/terms',
     label: {
-      vi: 'Điều kiện & hạn chế dịch vụ',
-      en: 'Service Terms & Limitations',
+      vi: 'Điều khoản sử dụng',
+      en: 'Terms of Service',
     },
   },
   {
-    href: '/chinh-sach-gia',
+    href: '/pricing',
     label: { vi: 'Chính sách giá', en: 'Pricing Policy' },
   },
   {
-    href: '/chinh-sach-thanh-toan',
+    href: '/payment',
     label: { vi: 'Chính sách thanh toán', en: 'Payment Policy' },
   },
   {
-    href: '/hoan-tien',
+    href: '/cancellation',
     label: {
-      vi: 'Cung cấp, chấm dứt & hoàn tiền',
-      en: 'Delivery, Termination & Refunds',
+      vi: 'Hủy & hoàn tiền',
+      en: 'Cancellation & Refunds',
     },
   },
   {
-    href: '/khieu-nai',
+    href: '/complaints',
     label: {
-      vi: 'Tiếp nhận & giải quyết khiếu nại',
+      vi: 'Khiếu nại & hỗ trợ',
       en: 'Complaints & Support',
     },
   },

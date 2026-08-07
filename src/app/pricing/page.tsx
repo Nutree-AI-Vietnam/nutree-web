@@ -3,11 +3,11 @@ import { LegalPageClient } from '@/components/legal/LegalPageClient';
 import { pricingPolicyContent } from '@/lib/pricing-policy-content';
 
 export const metadata: Metadata = {
-  title: 'Chính sách giá / Pricing Policy | Nutree',
+  title: 'Pricing Policy | Nutree',
   description:
-    'Chính sách giá gói Nutree tại Việt Nam / Pricing policy for Nutree plans in Vietnam.',
+    'How Nutree subscription prices are shown and confirmed in the App Store.',
   openGraph: {
-    title: 'Chính sách giá / Pricing Policy | Nutree',
+    title: 'Pricing Policy | Nutree',
     type: 'website',
   },
 };
