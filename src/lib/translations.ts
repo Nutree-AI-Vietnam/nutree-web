@@ -471,11 +471,15 @@ export const translations: Record<Locale, TranslationStrings> = {
             },
             {
               question: 'How do I cancel my subscription?',
-              answer: 'iOS: Settings → Apple ID → Subscriptions → Nutree → Cancel. Android: Play Store → Subscriptions → Nutree → Cancel.',
+              answer: 'iOS: Settings → Apple ID → Subscriptions → Nutree → Cancel. Deleting the app does not cancel billing. Android is coming soon.',
             },
             {
               question: 'When will I be charged for Premium?',
-              answer: 'Only after you confirm a Premium purchase through the App Store or Google Play. Prices and billing terms are shown before you subscribe.',
+              answer: 'Only after you confirm a Premium purchase through the Apple App Store. The exact price, billing period, and any offer are shown in the app and on the Apple confirmation sheet before you subscribe.',
+            },
+            {
+              question: 'How do I request a refund?',
+              answer: 'Cancel auto-renewal in Apple Settings → Subscriptions → Nutree. For refunds, Apple decides at reportaproblem.apple.com. You can also email nutreeaidev@gmail.com with your receipt. Full steps: nutreeai.com/cancellation.',
             },
             {
               question: 'How do I restore my purchase on a new device?',
@@ -656,7 +660,7 @@ export const translations: Record<Locale, TranslationStrings> = {
           'Build a personalized nutrition plan and get smarter guidance for every meal.',
         downloadOnThe: 'Download on the',
         appStore: 'App Store',
-        fineprint: 'iOS only. Personalized Premium plans available.',
+        fineprint: 'iOS available now. Android coming soon. Prices shown in the App Store before you subscribe.',
       },
     },
   },
@@ -950,11 +954,15 @@ export const translations: Record<Locale, TranslationStrings> = {
             },
             {
               question: 'Làm sao để hủy gói đăng ký?',
-              answer: 'iOS: Cài đặt → Apple ID → Đăng ký → Nutree → Hủy. Android: Play Store → Đăng ký → Nutree → Hủy.',
+              answer: 'iOS: Cài đặt → Apple ID → Đăng ký → Nutree → Hủy. Xóa app không hủy thanh toán. Android sắp ra mắt.',
             },
             {
               question: 'Khi nào tôi bị tính phí Premium?',
-              answer: 'Chỉ sau khi bạn xác nhận mua Premium qua App Store hoặc Google Play. Giá và điều khoản thanh toán được hiển thị trước khi đăng ký.',
+              answer: 'Chỉ sau khi bạn xác nhận mua Premium qua Apple App Store. Mức giá, chu kỳ và ưu đãi (nếu có) được hiển thị trong app và trên màn hình xác nhận của Apple trước khi đăng ký.',
+            },
+            {
+              question: 'Làm sao yêu cầu hoàn tiền?',
+              answer: 'Hủy gia hạn trong Cài đặt Apple → Đăng ký → Nutree. Hoàn tiền do Apple xem xét tại reportaproblem.apple.com. Có thể gửi biên nhận tới nutreeaidev@gmail.com. Hướng dẫn đầy đủ: nutreeai.com/cancellation.',
             },
             {
               question: 'Làm sao khôi phục gói đăng ký trên thiết bị mới?',
@@ -1135,7 +1143,7 @@ export const translations: Record<Locale, TranslationStrings> = {
           'Xây dựng kế hoạch dinh dưỡng cá nhân hóa và có hướng dẫn thông minh hơn cho từng bữa ăn.',
         downloadOnThe: 'Tải trên',
         appStore: 'App Store',
-        fineprint: 'Chỉ có ở iOS. Có gói Premium cá nhân hóa.',
+        fineprint: 'iOS có sẵn. Android sắp ra mắt. Giá hiển thị trên App Store trước khi đăng ký.',
       },
     },
   },

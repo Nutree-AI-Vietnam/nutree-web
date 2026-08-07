@@ -24,7 +24,9 @@ function AppleIcon({ className }: { className?: string }) {
 
 export function DownloadCTA() {
   const { ref, isInView } = useInView({ threshold: 0.2 });
-  const { t } = useLocale();
+  const { t, locale } = useLocale();
+  const androidSoon =
+    SITE_CONFIG.androidComingSoon[locale === 'vi' ? 'vi' : 'en'];
 
   return (
     <section
@@ -50,24 +52,29 @@ export function DownloadCTA() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={isInView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.4, delay: 0.1 }}
-              className="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full bg-white/20 backdrop-blur-sm border border-white/30"
+              className="mb-6 inline-flex flex-wrap items-center justify-center gap-2"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={2}
-                stroke="currentColor"
-                className="h-5 w-5 text-white"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"
-                />
-              </svg>
-              <span className="text-sm font-medium text-white">
-                {t.hero.trustBadges.personalizedPlan}
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/20 px-4 py-2 backdrop-blur-sm">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={2}
+                  stroke="currentColor"
+                  className="h-5 w-5 text-white"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"
+                  />
+                </svg>
+                <span className="text-sm font-medium text-white">
+                  {t.hero.trustBadges.personalizedPlan}
+                </span>
+              </span>
+              <span className="rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white/80 backdrop-blur-sm">
+                {androidSoon}
               </span>
             </motion.div>
 
@@ -97,7 +104,24 @@ export function DownloadCTA() {
                   </div>
                 </Button>
               </Link>
-
+              <div
+                className="flex w-full min-w-[200px] cursor-not-allowed items-center gap-3 rounded-xl border border-white/20 bg-white/5 px-5 py-3 opacity-80 sm:w-auto"
+                aria-label={androidSoon}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="h-6 w-6 text-white/70"
+                  aria-hidden
+                >
+                  <path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85a.637.637 0 00-.83.22l-1.88 3.24a11.43 11.43 0 00-8.94 0L5.65 5.67a.643.643 0 00-.87-.16c-.31.16-.43.54-.26.85l1.84 3.18C4.26 11.03 2.5 13.5 2.5 16.3v.7c0 .66.54 1.2 1.2 1.2h16.6c.66 0 1.2-.54 1.2-1.2v-.7c0-2.8-1.76-5.27-3.9-6.82zM7.5 15.5a1 1 0 110-2 1 1 0 010 2zm9 0a1 1 0 110-2 1 1 0 010 2z" />
+                </svg>
+                <div className="text-left text-white/80">
+                  <div className="text-xs font-normal opacity-80">Google Play</div>
+                  <div className="-mt-0.5 text-sm font-semibold">{androidSoon}</div>
+                </div>
+              </div>
             </div>
 
             {/* Plan details */}

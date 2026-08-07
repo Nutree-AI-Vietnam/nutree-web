@@ -7,6 +7,11 @@ export const SITE_CONFIG = {
   stores: {
     appStore: 'https://apps.apple.com/vn/app/nutree-eat-with-science/id6751159552',
   },
+  /** Marketing only — not a live store claim. Legal/payment pages stay Apple-only. */
+  androidComingSoon: {
+    en: 'Android coming soon',
+    vi: 'Android sắp ra mắt',
+  },
   social: {
     facebookMessenger: 'https://m.me/1019820571221637',
     tiktok: 'https://www.tiktok.com/@nutree.ai',
