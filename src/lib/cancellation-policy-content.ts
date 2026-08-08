@@ -5,21 +5,16 @@ import { LEGAL_COMPANY } from './legal-company';
 const dates = {
   en: {
     effectiveDate: LEGAL_COMPANY.effectiveDate,
-    updatedDate: LEGAL_COMPANY.effectiveDate,
-    version: LEGAL_COMPANY.version,
+    updatedDate: '08/08/2026',
+    version: '1.1',
   },
   vi: {
     effectiveDate: LEGAL_COMPANY.effectiveDate,
-    updatedDate: LEGAL_COMPANY.effectiveDate,
-    version: LEGAL_COMPANY.version,
+    updatedDate: '08/08/2026',
+    version: '1.1',
   },
 };
 
-/**
- * Cancellation & refund policy — structure inspired by clear store-based
- * subscription pages (e.g. cancel-through-the-store steps, access until period end).
- * Nutree is Apple App Store first; Android is not a live store channel yet.
- */
 export const cancellationPolicyContent: Record<Locale, LegalPageContent> = {
   en: {
     title: 'Cancellation & Refund Policy',
@@ -35,52 +30,53 @@ export const cancellationPolicyContent: Record<Locale, LegalPageContent> = {
       {
         title: 'Overview',
         body: [
-          `Nutree subscriptions are digital and auto-renewing. At publication, purchases are processed through the Apple App Store. Provider: ${LEGAL_COMPANY.legalNameEn}. Contact: ${LEGAL_COMPANY.email}. Address: ${LEGAL_COMPANY.addressEn}.`,
-          'You must cancel through the store where you purchased the subscription. Cancelling stops future renewals. It does not automatically refund the current paid period unless the store approves a refund under its rules or applicable law requires otherwise.',
-          'Deleting the Nutree app or deleting your Nutree account does not cancel Apple billing by itself.',
+          `Nutree subscriptions are digital and auto-renewing. Purchases made through Nutree’s web checkout are processed by Paddle. Purchases made inside the iOS app are processed by the Apple App Store. Provider: ${LEGAL_COMPANY.legalNameEn}. Contact: ${LEGAL_COMPANY.email}. Address: ${LEGAL_COMPANY.addressEn}.`,
+          'Every Nutree web-checkout purchase processed by Paddle is eligible for a full refund when the request is made within 14 calendar days of the transaction date. This applies to the initial subscription payment and every renewal payment.',
+          'You must cancel through the payment provider that processed your purchase. Cancelling stops future renewals. Deleting the Nutree app or your Nutree account does not cancel billing.',
         ],
       },
       {
-        title: 'How to cancel on Apple (iOS)',
+        title: 'How to cancel',
         body: [
-          'Open the Settings app on your iPhone or iPad.',
-          'Tap your name at the top, then tap Subscriptions.',
-          'Select Nutree, then tap Cancel Subscription (or the equivalent label on your iOS version).',
-          'Confirm the cancellation when prompted. Apple will show when your access ends.',
+          'Nutree web-checkout purchase (Paddle): use the “Manage subscription” link in your Paddle transaction email or visit [paddle.net](https://paddle.net) to cancel the subscription.',
+          'Nutree iOS in-app purchase (Apple App Store): open Settings on your iPhone or iPad, tap your name, then tap Subscriptions.',
+          'Select Nutree, tap Cancel Subscription, and confirm. Apple will show when your access ends.',
           'If you cannot find the subscription, make sure you are signed in with the same Apple ID used for the purchase, and check Family Sharing if someone else manages subscriptions on the account.',
         ],
       },
       {
         title: 'What happens after you cancel',
         body: [
-          'After a successful cancellation, auto-renewal stops. You typically keep paid features until the end of the current billing period that was already paid.',
+          'After a successful cancellation, auto-renewal stops. You keep paid features until the end of the current billing period that was already paid.',
           'When the period ends, paid access ends unless you resubscribe. Free or limited features (if any) may remain available depending on product design.',
-          'You can resubscribe later from the Nutree app using the same or another eligible Apple ID, subject to store and offer rules.',
+          'You can resubscribe later through an available Nutree purchase channel.',
         ],
       },
       {
-        title: 'Refunds',
+        title: 'Web-checkout refunds (Paddle): 14-day window',
         body: [
-          'For App Store purchases, Apple decides refund requests. Nutree cannot send App Store payments back to your payment method on its own.',
-          'Canceling auto-renewal is not the same as requesting a refund for the current period.',
-          'To request a refund from Apple, visit reportaproblem.apple.com, sign in with the Apple ID used for the purchase, select the Nutree transaction, and follow Apple’s instructions.',
-          `For Nutree support (activation issues, missing access after payment, or help gathering details), email ${LEGAL_COMPANY.email} with your Nutree account email, Apple receipt or transaction ID, date, amount, and a short description. We can help verify entitlement status and point you to the correct store process.`,
+          'Every Nutree web-checkout purchase processed by Paddle qualifies for a full refund when requested within 14 calendar days of the transaction date. The 14-day window applies to the initial subscription payment and every renewal payment.',
+          'No reason is required. Product usage and account status do not create exceptions to this 14-day refund policy.',
+          'Request the refund using the “View receipt” or “Manage subscription” link in your Paddle transaction email, or visit [paddle.net](https://paddle.net) and choose “Request a refund.”',
+          'Paddle is the Merchant of Record and processes the refund to the original payment method. Access covered by the refunded payment ends when the refund is issued.',
+          `For help locating a Paddle transaction, email ${LEGAL_COMPANY.email} with your Nutree account email, transaction ID, date, and amount.`,
           'This policy does not limit non-waivable consumer rights under Vietnamese law.',
+        ],
+      },
+      {
+        title: 'iOS in-app refunds (Apple App Store)',
+        body: [
+          'For purchases processed by the Apple App Store, Apple processes refund requests.',
+          'Visit [reportaproblem.apple.com](https://reportaproblem.apple.com), sign in with the Apple ID used for the purchase, select the Nutree transaction, and submit the refund request.',
+          `For help with activation or missing access after an App Store payment, email ${LEGAL_COMPANY.email} with your Nutree account email and Apple receipt or transaction ID.`,
         ],
       },
       {
         title: 'Account deletion vs cancellation',
         body: [
-          'Cancel subscription = stop future Apple charges (done in Apple Settings).',
+          'Cancel subscription = stop future web-checkout charges through Paddle or future iOS in-app charges through Apple, using the cancellation steps above.',
           'Delete Nutree account = remove your Nutree profile and related data under the Privacy Policy (done in the app or by support request).',
-          'These are separate actions. If you delete your account but leave the Apple subscription active, Apple may still charge renewals until you cancel in Subscriptions.',
-        ],
-      },
-      {
-        title: 'Other platforms',
-        body: [
-          'If Nutree later sells subscriptions on another store (for example Google Play), you must cancel through that store’s subscription management tools using the account that purchased the plan.',
-          'Until another store is live, treat Apple App Store steps as the applicable cancellation path for in-app purchases.',
+          'These are separate actions. If you delete your account but leave a subscription active, the payment provider may continue renewals until you cancel the subscription.',
         ],
       },
       {
@@ -106,52 +102,53 @@ export const cancellationPolicyContent: Record<Locale, LegalPageContent> = {
       {
         title: 'Tổng quan',
         body: [
-          `Gói Nutree là dịch vụ số tự động gia hạn. Tại thời điểm ban hành, giao dịch được xử lý qua Apple App Store. Đơn vị cung cấp: ${LEGAL_COMPANY.legalName}. Liên hệ: ${LEGAL_COMPANY.email}. Địa chỉ: ${LEGAL_COMPANY.address}.`,
-          'Bạn phải hủy gói qua cửa hàng nơi đã mua. Hủy nhằm dừng gia hạn tương lai; không tự động hoàn tiền cho chu kỳ đã thanh toán, trừ khi cửa hàng chấp thuận hoàn tiền theo chính sách của họ hoặc pháp luật bắt buộc khác.',
-          'Xóa ứng dụng Nutree hoặc xóa tài khoản Nutree không tự động hủy thanh toán Apple.',
+          `Gói Nutree là dịch vụ số tự động gia hạn. Giao dịch thực hiện qua trang thanh toán web của Nutree được Paddle xử lý. Giao dịch thực hiện trong ứng dụng iOS được Apple App Store xử lý. Đơn vị cung cấp: ${LEGAL_COMPANY.legalName}. Liên hệ: ${LEGAL_COMPANY.email}. Địa chỉ: ${LEGAL_COMPANY.address}.`,
+          'Mọi giao dịch thực hiện qua trang thanh toán web của Nutree và do Paddle xử lý đều được hoàn tiền toàn bộ nếu yêu cầu được gửi trong vòng chính xác 14 ngày theo lịch kể từ ngày giao dịch. Chính sách này áp dụng cho lần thanh toán đăng ký đầu tiên và mọi lần thanh toán gia hạn.',
+          'Bạn phải hủy gói qua đơn vị thanh toán đã xử lý giao dịch. Việc hủy sẽ dừng các lần gia hạn trong tương lai. Xóa ứng dụng hoặc tài khoản Nutree không tự động hủy thanh toán.',
         ],
       },
       {
-        title: 'Cách hủy trên Apple (iOS)',
+        title: 'Cách hủy gói',
         body: [
-          'Mở ứng dụng Cài đặt trên iPhone hoặc iPad.',
-          'Chạm vào tên của bạn ở phía trên, sau đó chọn Đăng ký (Subscriptions).',
-          'Chọn Nutree, rồi chọn Hủy đăng ký (hoặc nhãn tương đương trên phiên bản iOS của bạn).',
-          'Xác nhận hủy khi được hỏi. Apple sẽ hiển thị thời điểm quyền truy cập kết thúc.',
+          'Giao dịch qua trang thanh toán web Nutree (Paddle): dùng liên kết “Manage subscription” trong email giao dịch Paddle hoặc truy cập [paddle.net](https://paddle.net) để hủy gói.',
+          'Giao dịch trong ứng dụng Nutree trên iOS (Apple App Store): mở Cài đặt trên iPhone hoặc iPad, chạm vào tên của bạn, rồi chọn Đăng ký (Subscriptions).',
+          'Chọn Nutree, chọn Hủy đăng ký và xác nhận. Apple sẽ hiển thị thời điểm quyền truy cập kết thúc.',
           'Nếu không thấy gói, hãy đảm bảo đang đăng nhập đúng Tài khoản Apple đã dùng để mua, và kiểm tra Chia sẻ trong gia đình nếu người khác quản lý đăng ký.',
         ],
       },
       {
         title: 'Sau khi hủy',
         body: [
-          'Sau khi hủy thành công, gói không còn tự động gia hạn. Thông thường bạn vẫn dùng được tính năng trả phí đến hết chu kỳ đã thanh toán.',
+          'Sau khi hủy thành công, gói không còn tự động gia hạn. Bạn vẫn dùng được tính năng trả phí đến hết chu kỳ đã thanh toán.',
           'Khi hết chu kỳ, quyền trả phí kết thúc trừ khi bạn đăng ký lại. Một số tính năng miễn phí/hạn chế (nếu có) có thể vẫn dùng được tùy thiết kế sản phẩm.',
-          'Bạn có thể đăng ký lại sau trong ứng dụng Nutree, theo điều kiện của cửa hàng và ưu đãi (nếu có).',
+          'Bạn có thể đăng ký lại sau qua kênh mua Nutree đang được cung cấp.',
         ],
       },
       {
-        title: 'Hoàn tiền',
+        title: 'Hoàn tiền qua web (Paddle): thời hạn 14 ngày',
         body: [
-          'Đối với giao dịch App Store, Apple quyết định yêu cầu hoàn tiền. Nutree không thể tự chuyển tiền từ hệ thống Apple về phương thức thanh toán của bạn.',
-          'Hủy gia hạn không đồng nghĩa với yêu cầu hoàn tiền cho chu kỳ hiện tại.',
-          'Để yêu cầu hoàn tiền từ Apple: truy cập reportaproblem.apple.com, đăng nhập Tài khoản Apple đã mua, chọn giao dịch Nutree và làm theo hướng dẫn của Apple.',
-          `Hỗ trợ Nutree (không kích hoạt sau thanh toán, thiếu quyền truy cập, hoặc cần trợ giúp): gửi ${LEGAL_COMPANY.email} kèm email tài khoản Nutree, biên nhận/mã giao dịch Apple, ngày, số tiền và mô tả ngắn. Chúng tôi có thể đối soát quyền và hướng dẫn đúng quy trình cửa hàng.`,
+          'Mọi giao dịch thực hiện qua trang thanh toán web của Nutree và do Paddle xử lý đều được hoàn tiền toàn bộ nếu yêu cầu được gửi trong vòng chính xác 14 ngày theo lịch kể từ ngày giao dịch. Thời hạn 14 ngày áp dụng cho lần thanh toán đăng ký đầu tiên và mọi lần thanh toán gia hạn.',
+          'Bạn không cần nêu lý do. Việc đã sử dụng sản phẩm hoặc trạng thái tài khoản không tạo ra ngoại lệ đối với chính sách hoàn tiền 14 ngày này.',
+          'Gửi yêu cầu bằng liên kết “View receipt” hoặc “Manage subscription” trong email giao dịch Paddle, hoặc truy cập [paddle.net](https://paddle.net) và chọn “Request a refund”.',
+          'Paddle là đơn vị bán hàng chính thức (Merchant of Record) và xử lý hoàn tiền về phương thức thanh toán ban đầu. Quyền truy cập tương ứng sẽ kết thúc khi khoản tiền được hoàn.',
+          `Nếu cần tìm giao dịch Paddle, gửi email tới ${LEGAL_COMPANY.email} kèm email tài khoản Nutree, mã giao dịch, ngày và số tiền.`,
           'Chính sách này không hạn chế quyền bắt buộc của người tiêu dùng theo pháp luật Việt Nam.',
+        ],
+      },
+      {
+        title: 'Hoàn tiền trong ứng dụng iOS (Apple App Store)',
+        body: [
+          'Đối với giao dịch do Apple App Store xử lý, Apple tiếp nhận và xử lý yêu cầu hoàn tiền.',
+          'Truy cập [reportaproblem.apple.com](https://reportaproblem.apple.com), đăng nhập Tài khoản Apple đã mua, chọn giao dịch Nutree và gửi yêu cầu hoàn tiền.',
+          `Nếu cần hỗ trợ kích hoạt hoặc thiếu quyền truy cập sau thanh toán App Store, gửi ${LEGAL_COMPANY.email} kèm email tài khoản Nutree và biên nhận hoặc mã giao dịch Apple.`,
         ],
       },
       {
         title: 'Xóa tài khoản và hủy gói là hai việc khác nhau',
         body: [
-          'Hủy gói = dừng các lần tính phí Apple trong tương lai (thao tác trong Cài đặt Apple).',
+          'Hủy gói = dừng các lần tính phí web tương lai qua Paddle hoặc các lần tính phí trong ứng dụng iOS qua Apple bằng các bước nêu trên.',
           'Xóa tài khoản Nutree = xóa hồ sơ và dữ liệu liên quan theo Chính sách bảo mật (trong app hoặc qua hỗ trợ).',
-          'Nếu bạn xóa tài khoản nhưng vẫn để đăng ký Apple hoạt động, Apple có thể tiếp tục gia hạn cho đến khi bạn hủy trong mục Đăng ký.',
-        ],
-      },
-      {
-        title: 'Nền tảng khác',
-        body: [
-          'Nếu sau này Nutree bán gói trên cửa hàng khác (ví dụ Google Play), bạn phải hủy qua công cụ quản lý đăng ký của cửa hàng đó với tài khoản đã mua.',
-          'Khi chưa có cửa hàng khác, các bước Apple App Store là đường hủy áp dụng cho mua hàng trong ứng dụng.',
+          'Đây là hai thao tác riêng biệt. Nếu xóa tài khoản nhưng vẫn để gói hoạt động, đơn vị thanh toán có thể tiếp tục gia hạn cho đến khi bạn hủy gói.',
         ],
       },
       {
