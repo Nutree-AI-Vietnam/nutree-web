@@ -11,8 +11,9 @@ interface AppChromeProps {
 export function AppChrome({ children }: AppChromeProps) {
   const pathname = usePathname();
   const isAdminRoute = pathname?.startsWith('/admin');
+  const isPayOnlyRoute = pathname === '/pay';
 
-  if (isAdminRoute) {
+  if (isAdminRoute || isPayOnlyRoute) {
     return <main className="min-h-screen flex-1">{children}</main>;
   }
 
