@@ -17,26 +17,19 @@ const LocaleContext = createContext<LocaleContextValue>({
   t: translations.vi,
 });
 
-/** Detect locale from browser language. Vietnamese is the default market. */
-function detectLocale(): Locale {
-  return navigator.language.startsWith('en') ? 'en' : 'vi';
-}
-
-/** Get locale: localStorage (user choice) > browser detection > 'vi' fallback */
+/** Get locale: localStorage (user choice) > Vietnamese default */
 function getInitialLocale(): Locale {
   if (typeof window === 'undefined') return 'vi';
   const stored = localStorage.getItem(LOCALE_KEY);
   if (stored === 'vi' || stored === 'en') return stored;
-  // First visit: detect from browser language, persist so detection runs once
-  const detected = detectLocale();
-  localStorage.setItem(LOCALE_KEY, detected);
-  return detected;
+  localStorage.setItem(LOCALE_KEY, 'vi');
+  return 'vi';
 }
 
 export function LocaleProvider({ children }: { children: ReactNode }) {
   const [locale, setLocaleState] = useState<Locale>('vi');
 
-  // Hydrate locale after mount (localStorage > browser detection > 'vi')
+  // Hydrate locale after mount (localStorage > Vietnamese default)
   useEffect(() => {
     const initial = getInitialLocale();
     if (initial !== 'vi') {
