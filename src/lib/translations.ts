@@ -1,10 +1,14 @@
 export type Locale = 'en' | 'vi';
 
 /** Map nav link href to translated label */
-export function getNavLabel(href: string, nav: { howItWorks: string; features: string; download: string }): string {
+export function getNavLabel(
+  href: string,
+  nav: { howItWorks: string; features: string; download: string; pay: string },
+): string {
   if (href === '#how-it-works') return nav.howItWorks;
   if (href === '#features') return nav.features;
   if (href === '#download') return nav.download;
+  if (href === '/pay') return nav.pay;
   return '';
 }
 
@@ -36,7 +40,7 @@ interface TranslationStrings {
     featureScreenshotAlt: (title: string) => string;
     ctaScreenshotAlt: string;
   };
-  nav: { howItWorks: string; features: string; download: string };
+  nav: { howItWorks: string; features: string; download: string; pay: string };
   hero: {
     badge: string;
     headlines: string[];
@@ -204,6 +208,7 @@ export const translations: Record<Locale, TranslationStrings> = {
       howItWorks: 'How it works',
       features: 'Features',
       download: 'Download',
+      pay: 'Pay',
     },
     hero: {
       badge: 'AI Nutrition Assistant',
@@ -686,6 +691,7 @@ export const translations: Record<Locale, TranslationStrings> = {
       howItWorks: 'Cách dùng',
       features: 'Tính năng',
       download: 'Tải app',
+      pay: 'Thanh toán',
     },
     hero: {
       badge: 'Trợ lý dinh dưỡng AI',

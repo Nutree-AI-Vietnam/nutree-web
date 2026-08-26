@@ -27,6 +27,7 @@ export const NAV_LINKS = [
   { href: '#how-it-works', label: 'How it works' },
   { href: '#features', label: 'Features' },
   { href: '#download', label: 'Download' },
+  { href: '/pay', label: 'Pay' },
 ] as const;
 
 export const FEATURES = [
