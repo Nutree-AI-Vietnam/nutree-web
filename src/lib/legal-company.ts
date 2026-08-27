@@ -4,6 +4,11 @@ export const LEGAL_COMPANY = {
   legalNameEn: 'NUTREE AI VIETNAM JOINT STOCK COMPANY',
   tradeName: 'NUTREE AI VIETNAM',
   taxId: '2200826051',
+  /** Tax / enterprise registration issue date (public business registry). */
+  taxIssuedDate: '14/11/2025',
+  /** Issuing / managing tax authority for the MST. */
+  taxIssuedPlace: 'Thuế cơ sở 10 thành phố Cần Thơ',
+  taxIssuedPlaceEn: 'Tax Office 10, Can Tho City',
   address:
     'NL1-G01, Khu dân cư Sáng Quang, đường Nguyễn Văn Linh, Khóm 6, Phường Phú Lợi, Thành phố Cần Thơ, Việt Nam',
   addressEn:
@@ -33,6 +38,13 @@ export const LEGAL_LINKS: Array<{
     label: {
       vi: 'Điều khoản sử dụng',
       en: 'Terms of Service',
+    },
+  },
+  {
+    href: '/usage',
+    label: {
+      vi: 'Chính sách sử dụng',
+      en: 'Usage Policy',
     },
   },
   {

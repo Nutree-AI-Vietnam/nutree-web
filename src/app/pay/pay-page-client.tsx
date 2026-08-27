@@ -1,7 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { Logo } from '@/components/ui/Logo';
 import { BankTransferCheckout } from '@/components/sections/BankTransferCheckout';
 import { PricingTable } from '@/components/sections/PricingTable';
@@ -9,11 +10,23 @@ import { useLocale } from '@/lib/locale-context';
 import type { PayPlanCopy } from '@/lib/pay-page-content';
 import { payPageContent } from '@/lib/pay-page-content';
 
-export function PayPageClient() {
+function isPayPlanId(value: string | null): value is PayPlanCopy['id'] {
+  return value === 'monthly' || value === 'yearly';
+}
+
+function PayPageBody() {
+  const searchParams = useSearchParams();
   const { locale, setLocale } = useLocale();
   const copy = payPageContent[locale];
   const [selectedPlanId, setSelectedPlanId] = useState<PayPlanCopy['id'] | null>(null);
   const selectedPlan = copy.plans.find((plan) => plan.id === selectedPlanId) ?? null;
+
+  useEffect(() => {
+    const plan = searchParams.get('plan');
+    if (isPayPlanId(plan)) {
+      setSelectedPlanId(plan);
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -70,8 +83,19 @@ export function PayPageClient() {
           <Link href="/cancellation" className="underline-offset-4 hover:underline">
             {copy.legalCancel}
           </Link>
+          <Link href="/usage" className="underline-offset-4 hover:underline">
+            {locale === 'vi' ? 'Chính sách sử dụng' : 'Usage policy'}
+          </Link>
         </nav>
       </div>
     </div>
+  );
+}
+
+export function PayPageClient() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#F4F7F6]" />}>
+      <PayPageBody />
+    </Suspense>
   );
 }

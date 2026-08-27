@@ -11,6 +11,7 @@ const nextConfig = {
       // Legacy Vietnamese slugs → English legal paths
       { source: '/chinh-sach-gia', destination: '/pricing', permanent: true },
       { source: '/chinh-sach-thanh-toan', destination: '/payment', permanent: true },
+      { source: '/chinh-sach-su-dung', destination: '/usage', permanent: true },
       { source: '/hoan-tien', destination: '/cancellation', permanent: true },
       { source: '/khieu-nai', destination: '/complaints', permanent: true },
     ];

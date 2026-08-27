@@ -1,9 +1,16 @@
 import type { Locale } from './translations';
 
+export interface LegalSectionImage {
+  src: string;
+  alt: string;
+  caption?: string;
+}
+
 export interface LegalSection {
   title: string;
   body?: string[];
   table?: string[][];
+  images?: LegalSectionImage[];
 }
 
 export interface LegalPageContent {

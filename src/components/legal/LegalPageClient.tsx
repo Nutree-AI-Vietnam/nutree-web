@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect } from 'react';
 import type { LegalPageContent, LegalSection } from '@/lib/legal-content';
@@ -112,6 +113,24 @@ function LegalSectionView({ index, section, headers }: { index: number; section:
           <p key={paragraph}>
             <RichLegalText text={paragraph} />
           </p>
+        ))}
+        {section.images?.map((image) => (
+          <figure key={image.src} className="overflow-hidden rounded-2xl border border-border/60 bg-white shadow-sm">
+            <div className="relative mx-auto aspect-[4/3] w-full max-w-md bg-[#F4F7F6]">
+              <Image
+                src={image.src}
+                alt={image.alt}
+                fill
+                className="object-contain p-3"
+                sizes="(max-width: 768px) 100vw, 28rem"
+              />
+            </div>
+            {image.caption ? (
+              <figcaption className="border-t border-border/50 px-4 py-3 text-sm text-muted">
+                {image.caption}
+              </figcaption>
+            ) : null}
+          </figure>
         ))}
         {section.table && headers && (
           <div className="overflow-x-auto">

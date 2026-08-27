@@ -3,6 +3,7 @@ import { HeroV2 } from '@/components/sections/Hero';
 import { SocialProof } from '@/components/sections/SocialProof';
 import { HowItWorks } from '@/components/sections/HowItWorks';
 import { BentoFeatures } from '@/components/sections/BentoFeatures';
+import { HomePricing } from '@/components/sections/HomePricing';
 import { Testimonials } from '@/components/sections/Testimonials';
 import { StartupPartners } from '@/components/sections/StartupPartners';
 import { FinalCTA } from '@/components/sections/FinalCTA';
@@ -17,6 +18,7 @@ export default function Home() {
       <StartupPartners />
       <HowItWorks />
       <BentoFeatures />
+      <HomePricing />
       <Testimonials />
       <FinalCTA />
     </AuroraBackground>

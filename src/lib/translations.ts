@@ -3,10 +3,11 @@ export type Locale = 'en' | 'vi';
 /** Map nav link href to translated label */
 export function getNavLabel(
   href: string,
-  nav: { howItWorks: string; features: string; download: string; pay: string },
+  nav: { howItWorks: string; features: string; pricing: string; download: string; pay: string },
 ): string {
   if (href === '#how-it-works') return nav.howItWorks;
   if (href === '#features') return nav.features;
+  if (href === '#pricing') return nav.pricing;
   if (href === '#download') return nav.download;
   if (href === '/pay') return nav.pay;
   return '';
@@ -40,7 +41,7 @@ interface TranslationStrings {
     featureScreenshotAlt: (title: string) => string;
     ctaScreenshotAlt: string;
   };
-  nav: { howItWorks: string; features: string; download: string; pay: string };
+  nav: { howItWorks: string; features: string; pricing: string; download: string; pay: string };
   hero: {
     badge: string;
     headlines: string[];
@@ -96,6 +97,18 @@ interface TranslationStrings {
     research: string;
     faq: string;
     contact: string;
+    companyInfo: string;
+    companyName: string;
+    taxId: string;
+    taxIssuedDate: string;
+    taxIssuedPlace: string;
+    address: string;
+    email: string;
+  };
+  homePricing: {
+    title: string;
+    subtitle: string;
+    footnote: string;
   };
   contact: {
     eyebrow: string;
@@ -207,6 +220,7 @@ export const translations: Record<Locale, TranslationStrings> = {
     nav: {
       howItWorks: 'How it works',
       features: 'Features',
+      pricing: 'Plans',
       download: 'Download',
       pay: 'Pay',
     },
@@ -355,6 +369,18 @@ export const translations: Record<Locale, TranslationStrings> = {
       research: 'Science & Sources',
       faq: 'FAQ',
       contact: 'Contact Us',
+      companyInfo: 'Company contact',
+      companyName: 'Company name',
+      taxId: 'Tax ID (MST)',
+      taxIssuedDate: 'Issue date',
+      taxIssuedPlace: 'Issuing authority',
+      address: 'Registered address',
+      email: 'Email',
+    },
+    homePricing: {
+      title: 'Choose your Nutree plan',
+      subtitle: 'Monthly or yearly — pay on the website, then activate Nutree with the email deeplink.',
+      footnote: '* Amounts are confirmed at checkout. After payment, we email a deeplink to open the app.',
     },
     contact: {
       eyebrow: 'Talk to a real person',
@@ -690,6 +716,7 @@ export const translations: Record<Locale, TranslationStrings> = {
     nav: {
       howItWorks: 'Cách dùng',
       features: 'Tính năng',
+      pricing: 'Các gói',
       download: 'Tải app',
       pay: 'Thanh toán',
     },
@@ -839,6 +866,18 @@ export const translations: Record<Locale, TranslationStrings> = {
       research: 'Khoa học & nguồn',
       faq: 'Câu hỏi thường gặp',
       contact: 'Liên hệ',
+      companyInfo: 'Thông tin liên hệ',
+      companyName: 'Tên công ty',
+      taxId: 'Mã số thuế',
+      taxIssuedDate: 'Ngày cấp',
+      taxIssuedPlace: 'Nơi cấp',
+      address: 'Địa chỉ',
+      email: 'Email',
+    },
+    homePricing: {
+      title: 'Các gói Nutree',
+      subtitle: 'Gói tháng hoặc gói năm — thanh toán trên website, nhận deeplink qua email để mở app.',
+      footnote: '* Số tiền được xác nhận lúc checkout. Sau thanh toán, Nutree gửi deeplink kích hoạt qua email.',
     },
     contact: {
       eyebrow: 'Trò chuyện trực tiếp với Nutree',
