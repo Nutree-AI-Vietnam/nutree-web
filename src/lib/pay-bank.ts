@@ -16,7 +16,3 @@ export type PayPlanId = keyof typeof PAY_AMOUNTS;
 export function formatVnd(amount: number): string {
   return `${amount.toLocaleString('vi-VN')}đ`;
 }
-
-export function transferContent(planId: PayPlanId): string {
-  return planId === 'yearly' ? 'NUTREE NAM' : 'NUTREE THANG';
-}

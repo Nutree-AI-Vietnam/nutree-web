@@ -20,6 +20,7 @@ export interface PayCheckoutCopy {
   accountNameLabel: string;
   accountNumberLabel: string;
   contentLabel: string;
+  contentValue: string;
   copy: string;
   copied: string;
   afterPay: string;
@@ -67,6 +68,7 @@ export const payPageContent: Record<Locale, PayPageCopy> = {
       accountNameLabel: 'Account name',
       accountNumberLabel: 'Account number',
       contentLabel: 'Transfer content',
+      contentValue: 'Enter your email here…',
       copy: 'Copy',
       copied: 'Copied',
       afterPay: 'After you transfer, email the receipt so we can activate your plan.',
@@ -119,6 +121,7 @@ export const payPageContent: Record<Locale, PayPageCopy> = {
       accountNameLabel: 'Tên tài khoản',
       accountNumberLabel: 'Số tài khoản',
       contentLabel: 'Nội dung chuyển khoản',
+      contentValue: 'Điền vào đây email của bạn…',
       copy: 'Sao chép',
       copied: 'Đã sao chép',
       afterPay: 'Sau khi chuyển khoản, gửi biên lai để chúng tôi kích hoạt gói.',

@@ -7,7 +7,6 @@ import {
   formatVnd,
   PAY_AMOUNTS,
   PAY_BANK,
-  transferContent,
   type PayPlanId,
 } from '@/lib/pay-bank';
 import type { PayCheckoutCopy, PayPlanCopy } from '@/lib/pay-page-content';
@@ -23,11 +22,15 @@ function CopyRow({
   value,
   copyLabel,
   copiedLabel,
+  allowWrap = false,
+  showCopy = true,
 }: {
   label: string;
   value: string;
   copyLabel: string;
   copiedLabel: string;
+  allowWrap?: boolean;
+  showCopy?: boolean;
 }) {
   const [copied, setCopied] = useState(false);
 
@@ -53,15 +56,25 @@ function CopyRow({
     <div className="flex items-center justify-between gap-3 border-b border-border/70 py-3 last:border-b-0">
       <div className="min-w-0">
         <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted">{label}</p>
-        <p className="truncate font-display text-base font-bold text-foreground">{value}</p>
+        <p
+          className={
+            allowWrap
+              ? 'font-display text-base font-bold leading-snug text-foreground'
+              : 'truncate font-display text-base font-bold text-foreground'
+          }
+        >
+          {value}
+        </p>
       </div>
-      <button
-        type="button"
-        onClick={() => void handleCopy()}
-        className="inline-flex min-h-11 shrink-0 items-center rounded-full border border-primary-forest/20 px-3 text-sm font-semibold text-primary-forest transition-colors hover:border-primary-forest/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-teal focus-visible:ring-offset-2"
-      >
-        {copied ? copiedLabel : copyLabel}
-      </button>
+      {showCopy ? (
+        <button
+          type="button"
+          onClick={() => void handleCopy()}
+          className="inline-flex min-h-11 shrink-0 items-center rounded-full border border-primary-forest/20 px-3 text-sm font-semibold text-primary-forest transition-colors hover:border-primary-forest/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-teal focus-visible:ring-offset-2"
+        >
+          {copied ? copiedLabel : copyLabel}
+        </button>
+      ) : null}
     </div>
   );
 }
@@ -69,7 +82,6 @@ function CopyRow({
 export function BankTransferCheckout({ plan, copy, onBack }: BankTransferCheckoutProps) {
   const planId = plan.id as PayPlanId;
   const amount = formatVnd(PAY_AMOUNTS[planId]);
-  const content = transferContent(planId);
 
   return (
     <section className="mx-auto max-w-xl">
@@ -108,7 +120,14 @@ export function BankTransferCheckout({ plan, copy, onBack }: BankTransferCheckou
           copyLabel={copy.copy}
           copiedLabel={copy.copied}
         />
-        <CopyRow label={copy.contentLabel} value={content} copyLabel={copy.copy} copiedLabel={copy.copied} />
+        <CopyRow
+          label={copy.contentLabel}
+          value={copy.contentValue}
+          copyLabel={copy.copy}
+          copiedLabel={copy.copied}
+          allowWrap
+          showCopy={false}
+        />
         <div className="py-3">
           <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted">{copy.planLabel}</p>
           <p className="font-display text-base font-bold text-foreground">
