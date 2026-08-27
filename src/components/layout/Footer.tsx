@@ -15,88 +15,82 @@ export function Footer() {
   const address = legalLocale === 'vi' ? LEGAL_COMPANY.address : LEGAL_COMPANY.addressEn;
 
   return (
-    <footer className="border-t border-border/50 bg-background/50">
-      <div className="container mx-auto px-4 py-10 md:py-12">
-        <div className="grid gap-10 md:grid-cols-[1.1fr_0.9fr]">
+    <footer className="border-t border-border/40 bg-gradient-to-b from-background to-primary-forest/[0.03]">
+      <div className="container mx-auto px-4 py-12 md:py-16">
+        <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr_0.95fr] lg:gap-12">
           <div className="space-y-4">
             <Logo size="md" linkHome={false} />
-            <p className="max-w-xs text-sm text-muted">{t.footer.description}</p>
+            <p className="max-w-sm text-sm leading-relaxed text-muted">{t.footer.description}</p>
+            <a
+              href={`mailto:${LEGAL_COMPANY.email}`}
+              className="inline-flex min-h-11 items-center text-sm font-semibold text-primary-forest underline-offset-4 transition-colors hover:text-primary-teal hover:underline"
+            >
+              {LEGAL_COMPANY.email}
+            </a>
           </div>
 
-          <div className="rounded-2xl border border-border/60 bg-white/60 p-5 text-sm text-muted">
-            <h2 className="font-display text-sm font-semibold text-foreground">
+          <div>
+            <h2 className="text-xs font-bold uppercase tracking-[0.16em] text-primary-forest/65">
               {t.footer.companyInfo}
             </h2>
-            <dl className="mt-4 space-y-3">
-              <div>
-                <dt className="text-xs font-semibold uppercase tracking-[0.12em] text-primary-forest/70">
-                  {t.footer.companyName}
-                </dt>
-                <dd className="mt-1 font-medium text-foreground">{companyName}</dd>
-              </div>
-              <div>
-                <dt className="text-xs font-semibold uppercase tracking-[0.12em] text-primary-forest/70">
-                  {t.footer.taxId}
-                </dt>
-                <dd className="mt-1 font-medium text-foreground">{LEGAL_COMPANY.taxId}</dd>
-              </div>
-              <div>
-                <dt className="text-xs font-semibold uppercase tracking-[0.12em] text-primary-forest/70">
-                  {t.footer.taxIssuedDate}
-                </dt>
-                <dd className="mt-1 font-medium text-foreground">{LEGAL_COMPANY.taxIssuedDate}</dd>
-              </div>
-              <div>
-                <dt className="text-xs font-semibold uppercase tracking-[0.12em] text-primary-forest/70">
-                  {t.footer.taxIssuedPlace}
-                </dt>
-                <dd className="mt-1 font-medium text-foreground">{taxIssuedPlace}</dd>
-              </div>
-              <div>
-                <dt className="text-xs font-semibold uppercase tracking-[0.12em] text-primary-forest/70">
-                  {t.footer.address}
-                </dt>
-                <dd className="mt-1 leading-relaxed text-foreground">{address}</dd>
-              </div>
-              <div>
-                <dt className="text-xs font-semibold uppercase tracking-[0.12em] text-primary-forest/70">
-                  {t.footer.email}
-                </dt>
-                <dd className="mt-1">
-                  <a
-                    href={`mailto:${LEGAL_COMPANY.email}`}
-                    className="font-medium text-primary-forest underline-offset-4 hover:underline"
-                  >
-                    {LEGAL_COMPANY.email}
-                  </a>
-                </dd>
-              </div>
-            </dl>
+            <div className="mt-4 space-y-3 text-sm leading-relaxed text-muted">
+              <p className="font-semibold text-foreground">{companyName}</p>
+              <p>
+                <span className="text-foreground/80">{t.footer.taxId}:</span> {LEGAL_COMPANY.taxId}
+              </p>
+              <p>
+                <span className="text-foreground/80">{t.footer.taxIssuedDate}:</span>{' '}
+                {LEGAL_COMPANY.taxIssuedDate}
+              </p>
+              <p>
+                <span className="text-foreground/80">{t.footer.taxIssuedPlace}:</span>{' '}
+                {taxIssuedPlace}
+              </p>
+              <p className="max-w-xs">{address}</p>
+            </div>
+          </div>
+
+          <div>
+            <h2 className="text-xs font-bold uppercase tracking-[0.16em] text-primary-forest/65">
+              {legalLocale === 'vi' ? 'Chính sách' : 'Policies'}
+            </h2>
+            <nav
+              aria-label={legalLocale === 'vi' ? 'Chính sách pháp lý' : 'Legal policies'}
+              className="mt-4 grid grid-cols-1 gap-2.5 text-sm text-muted sm:grid-cols-2 lg:grid-cols-1"
+            >
+              {LEGAL_LINKS.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="min-h-9 inline-flex items-center transition-colors hover:text-primary-forest"
+                >
+                  {item.label[legalLocale]}
+                </Link>
+              ))}
+              <Link
+                href="/contact"
+                className="min-h-9 inline-flex items-center transition-colors hover:text-primary-forest"
+              >
+                {t.footer.contact}
+              </Link>
+              <Link
+                href="/research"
+                className="min-h-9 inline-flex items-center transition-colors hover:text-primary-forest"
+              >
+                {t.footer.research}
+              </Link>
+              <Link
+                href="/faq"
+                className="min-h-9 inline-flex items-center transition-colors hover:text-primary-forest"
+              >
+                {t.footer.faq}
+              </Link>
+            </nav>
           </div>
         </div>
 
-        <nav
-          aria-label={legalLocale === 'vi' ? 'Chính sách pháp lý' : 'Legal policies'}
-          className="mt-10 grid grid-cols-1 gap-2 text-sm text-muted sm:grid-cols-2 md:grid-cols-3"
-        >
-          {LEGAL_LINKS.map((item) => (
-            <Link key={item.href} href={item.href} className="hover:text-foreground">
-              {item.label[legalLocale]}
-            </Link>
-          ))}
-          <Link href="/contact" className="hover:text-foreground">
-            {t.footer.contact}
-          </Link>
-          <Link href="/research" className="hover:text-foreground">
-            {t.footer.research}
-          </Link>
-          <Link href="/faq" className="hover:text-foreground">
-            {t.footer.faq}
-          </Link>
-        </nav>
-
-        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border/50 pt-8 text-sm text-muted md:flex-row">
-          <div className="flex flex-col items-center gap-2 md:items-start">
+        <div className="mt-12 flex flex-col items-start justify-between gap-4 border-t border-border/40 pt-8 text-sm text-muted md:flex-row md:items-center">
+          <div className="space-y-1">
             <p>
               &copy; {currentYear} {t.footer.copyright}
             </p>
@@ -106,13 +100,13 @@ export function Footer() {
                 href="https://platform.fatsecret.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="underline hover:text-foreground"
+                className="underline underline-offset-2 hover:text-foreground"
               >
                 fatsecret Platform API
               </a>
             </p>
           </div>
-          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-center">
+          <div className="flex flex-wrap gap-x-5 gap-y-2 text-xs md:justify-end">
             <Link href="/privacy" className="hover:text-foreground">
               {t.footer.privacyPolicy}
             </Link>
@@ -121,9 +115,6 @@ export function Footer() {
             </Link>
             <Link href="/usage" className="hover:text-foreground">
               {legalLocale === 'vi' ? 'Chính sách sử dụng' : 'Usage'}
-            </Link>
-            <Link href="/pricing" className="hover:text-foreground">
-              {legalLocale === 'vi' ? 'Chính sách giá' : 'Pricing'}
             </Link>
             <Link href="/cancellation" className="hover:text-foreground">
               {legalLocale === 'vi' ? 'Hủy & hoàn tiền' : 'Cancellation'}

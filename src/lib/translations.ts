@@ -109,6 +109,7 @@ interface TranslationStrings {
     title: string;
     subtitle: string;
     footnote: string;
+    badge: string;
   };
   contact: {
     eyebrow: string;
@@ -378,6 +379,7 @@ export const translations: Record<Locale, TranslationStrings> = {
       email: 'Email',
     },
     homePricing: {
+      badge: 'Plans',
       title: 'Choose your Nutree plan',
       subtitle: 'Monthly or yearly — pay on the website, then activate Nutree with the email deeplink.',
       footnote: '* Amounts are confirmed at checkout. After payment, we email a deeplink to open the app.',
@@ -875,6 +877,7 @@ export const translations: Record<Locale, TranslationStrings> = {
       email: 'Email',
     },
     homePricing: {
+      badge: 'Gói dịch vụ',
       title: 'Các gói Nutree',
       subtitle: 'Gói tháng hoặc gói năm — thanh toán trên website, nhận deeplink qua email để mở app.',
       footnote: '* Số tiền được xác nhận lúc checkout. Sau thanh toán, Nutree gửi deeplink kích hoạt qua email.',
