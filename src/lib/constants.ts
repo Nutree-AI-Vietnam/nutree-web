@@ -59,7 +59,7 @@ export const FEATURES = [
   {
     id: 'personalize',
     title: 'Built Around You',
-    description: '7 languages, dark/light themes, metric/imperial, redesigned onboarding. Your AI Nutrition Assistant, your way.',
+    description: 'Seven in-app languages. Dark/light themes, metric/imperial, redesigned onboarding. Your AI Nutrition Assistant, your way.',
     icon: 'settings',
   },
 ] as const;
