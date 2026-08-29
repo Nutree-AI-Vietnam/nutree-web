@@ -47,13 +47,13 @@ export const FEATURES = [
   {
     id: 'dashboard',
     title: 'Adaptive Daily Targets',
-    description: 'Your weekly nutrition budget rebalances automatically. When a day changes, Nutree adjusts tomorrow\'s target so you stay aligned with your plan.',
+    description: 'Your weekly calorie budget is shared across remaining days. Tomorrow does not reset to your original daily plan.',
     icon: 'chart',
   },
   {
     id: 'edit',
     title: 'Science-Based Nutrition',
-    description: 'Weight-based macros (g/kg) grounded in evidence. Cut, bulk, or recomposition goals with TDEE personalized to your body and activity level.',
+    description: 'Weight-based macros and estimated TDEE, informed by published formulas. Exact targets are Nutree product rules, not a prescription.',
     icon: 'pencil',
   },
   {
