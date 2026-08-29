@@ -299,7 +299,7 @@ export const translations: Record<Locale, TranslationStrings> = {
           id: 'languages',
           title: '7 Languages',
           description:
-            'EN, VI, ES, FR, DE, JA, ZH — with dark/light themes and metric/imperial support.',
+            'Use Nutree in English, Vietnamese, Spanish, French, German, Japanese, or Simplified Chinese — with dark/light themes and metric/imperial support.',
         },
       ],
     },
@@ -424,7 +424,7 @@ export const translations: Record<Locale, TranslationStrings> = {
             },
             {
               question: 'What languages does Nutree support?',
-              answer: 'Nutree supports 7 languages: English, Vietnamese, Spanish, French, German, Japanese, and Chinese.',
+              answer: 'The Nutree app supports seven languages: English, Vietnamese, Spanish, French, German, Japanese, and Simplified Chinese. The nutreeai.com website is available in English and Vietnamese.',
             },
           ],
         },
@@ -445,7 +445,7 @@ export const translations: Record<Locale, TranslationStrings> = {
             },
             {
               question: "What if the AI doesn't recognize my food?",
-              answer: 'Use manual text entry to describe your meal. The AI handles most food descriptions in all 7 supported languages.',
+              answer: 'Use manual text entry to describe your meal. The AI handles most food descriptions in the app’s seven languages.',
             },
             {
               question: 'How many meals can I scan?',
@@ -797,7 +797,7 @@ export const translations: Record<Locale, TranslationStrings> = {
           id: 'languages',
           title: '7 ngôn ngữ',
           description:
-            'EN, VI, ES, FR, DE, JA, ZH — giao diện tối/sáng, đơn vị tùy chọn.',
+            'Dùng Nutree bằng tiếng Anh, Việt, Tây Ban Nha, Pháp, Đức, Nhật hoặc Trung giản thể — kèm giao diện tối/sáng và đơn vị tùy chọn.',
         },
       ],
     },
@@ -922,7 +922,7 @@ export const translations: Record<Locale, TranslationStrings> = {
             },
             {
               question: 'Nutree hỗ trợ những ngôn ngữ nào?',
-              answer: 'Nutree hỗ trợ 7 ngôn ngữ: Tiếng Anh, Tiếng Việt, Tiếng Tây Ban Nha, Tiếng Pháp, Tiếng Đức, Tiếng Nhật và Tiếng Trung.',
+              answer: 'App Nutree hỗ trợ 7 ngôn ngữ: tiếng Anh, Việt, Tây Ban Nha, Pháp, Đức, Nhật và Trung giản thể. Website nutreeai.com hiện có tiếng Anh và tiếng Việt.',
             },
           ],
         },
@@ -943,7 +943,7 @@ export const translations: Record<Locale, TranslationStrings> = {
             },
             {
               question: 'AI không nhận ra món ăn của tôi thì sao?',
-              answer: 'Dùng chức năng nhập văn bản thủ công để mô tả bữa ăn. AI xử lý được hầu hết các mô tả thức ăn trong 7 ngôn ngữ được hỗ trợ.',
+              answer: 'Dùng chức năng nhập văn bản thủ công để mô tả bữa ăn. AI xử lý được hầu hết các mô tả thức ăn trong 7 ngôn ngữ của app.',
             },
             {
               question: 'Tôi có thể scan bao nhiêu bữa?',
