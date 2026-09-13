@@ -267,7 +267,7 @@ export const translations: Record<Locale, TranslationStrings> = {
           id: 'dashboard',
           title: 'Adaptive Daily Targets',
           description:
-            "Nutree rebalances your weekly nutrition budget and adjusts tomorrow's target automatically.",
+            "Nutree uses a weekly calorie budget. Leftover or extra calories are shared across remaining days — tomorrow does not reset to your original daily plan.",
         },
         {
           id: 'edit',
@@ -279,7 +279,7 @@ export const translations: Record<Locale, TranslationStrings> = {
           id: 'languages',
           title: '7 Languages',
           description:
-            'EN, VI, ES, FR, DE, JA, ZH — with dark/light themes and metric/imperial support.',
+            'Use Nutree in English, Vietnamese, Spanish, French, German, Japanese, or Simplified Chinese — with dark/light themes and metric/imperial support.',
         },
       ],
     },
@@ -391,7 +391,7 @@ export const translations: Record<Locale, TranslationStrings> = {
             },
             {
               question: 'What languages does Nutree support?',
-              answer: 'Nutree supports 7 languages: English, Vietnamese, Spanish, French, German, Japanese, and Chinese.',
+              answer: 'The Nutree app supports seven languages: English, Vietnamese, Spanish, French, German, Japanese, and Simplified Chinese (ZH-Hans). The nutreeai.com website is available in English and Vietnamese.',
             },
           ],
         },
@@ -412,7 +412,7 @@ export const translations: Record<Locale, TranslationStrings> = {
             },
             {
               question: "What if the AI doesn't recognize my food?",
-              answer: 'Use manual text entry to describe your meal. The AI handles most food descriptions in all 7 supported languages.',
+              answer: 'Use manual text entry to describe your meal. The AI handles most food descriptions in English and Vietnamese.',
             },
             {
               question: 'How many meals can I scan?',
@@ -429,7 +429,7 @@ export const translations: Record<Locale, TranslationStrings> = {
             },
             {
               question: 'What is the weekly budget feature?',
-              answer: 'Your weekly nutrition budget rebalances automatically. If you eat more one day, tomorrow\'s target adjusts so you stay aligned with your plan.',
+              answer: 'You have a weekly calorie budget, not seven identical days. Eating less earlier can raise later daily targets; eating more can lower them. Tomorrow does not reset to your original daily plan. Protein stays fixed; carbs and fat can move. This is a Nutree product rule, informed by weekly energy-balance context, not a clinical carb-cycling protocol.',
             },
             {
               question: 'Can I adjust my nutrition goals?',
@@ -437,7 +437,7 @@ export const translations: Record<Locale, TranslationStrings> = {
             },
             {
               question: 'How does Nutree adjust when my day changes?',
-              answer: 'Automatically. Your weekly budget absorbs the overshoot and redistributes the difference across your remaining days.',
+              answer: 'Automatically. Unused or extra calories are split across the days still left this week, with daily swing caps. The original daily plan is the baseline, not a next-day reset.',
             },
           ],
         },
@@ -597,7 +597,7 @@ export const translations: Record<Locale, TranslationStrings> = {
           {
             icon: '⚖️',
             title: 'Weekly balance adjusts itself',
-            desc: 'A day runs higher than planned? Nutree redistributes your weekly budget so the deficit holds. You stay on recomp track without punishment.',
+            desc: 'A day runs higher or lower than planned? Nutree shares leftover or extra calories across remaining days so the weekly budget still adds up. Tomorrow does not snap back to your original daily number.',
           },
           {
             icon: '🍽️',
@@ -750,7 +750,7 @@ export const translations: Record<Locale, TranslationStrings> = {
           id: 'dashboard',
           title: 'Mục tiêu tự điều chỉnh',
           description:
-            'Nutree tự cân bằng ngân sách dinh dưỡng tuần và chỉnh mục tiêu ngày mai.',
+            'Nutree dùng ngân sách calo theo tuần. Calo dư hoặc thiếu được chia cho các ngày còn lại — ngày mai không reset về kế hoạch gốc.',
         },
         {
           id: 'edit',
@@ -762,7 +762,7 @@ export const translations: Record<Locale, TranslationStrings> = {
           id: 'languages',
           title: '7 ngôn ngữ',
           description:
-            'EN, VI, ES, FR, DE, JA, ZH — giao diện tối/sáng, đơn vị tùy chọn.',
+            'App Nutree hỗ trợ tiếng Anh, Việt, Tây Ban Nha, Pháp, Đức, Nhật và Trung giản thể — giao diện tối/sáng, đơn vị tùy chọn.',
         },
       ],
     },
@@ -874,7 +874,7 @@ export const translations: Record<Locale, TranslationStrings> = {
             },
             {
               question: 'Nutree hỗ trợ những ngôn ngữ nào?',
-              answer: 'Nutree hỗ trợ 7 ngôn ngữ: Tiếng Anh, Tiếng Việt, Tiếng Tây Ban Nha, Tiếng Pháp, Tiếng Đức, Tiếng Nhật và Tiếng Trung.',
+              answer: 'App Nutree hỗ trợ 7 ngôn ngữ: tiếng Anh, Việt, Tây Ban Nha, Pháp, Đức, Nhật và Trung giản thể (ZH-Hans). Website nutreeai.com hiện có tiếng Anh và tiếng Việt.',
             },
           ],
         },
@@ -895,7 +895,7 @@ export const translations: Record<Locale, TranslationStrings> = {
             },
             {
               question: 'AI không nhận ra món ăn của tôi thì sao?',
-              answer: 'Dùng chức năng nhập văn bản thủ công để mô tả bữa ăn. AI xử lý được hầu hết các mô tả thức ăn trong 7 ngôn ngữ được hỗ trợ.',
+              answer: 'Dùng chức năng nhập văn bản thủ công để mô tả bữa ăn. AI xử lý được hầu hết các mô tả thức ăn bằng tiếng Anh và tiếng Việt.',
             },
             {
               question: 'Tôi có thể scan bao nhiêu bữa?',
@@ -912,7 +912,7 @@ export const translations: Record<Locale, TranslationStrings> = {
             },
             {
               question: 'Tính năng ngân sách tuần là gì?',
-              answer: 'Ngân sách dinh dưỡng tuần tự cân bằng lại. Hôm nay ăn nhiều hơn, ngày mai mục tiêu tự điều chỉnh để bạn vẫn đi đúng hướng.',
+              answer: 'Bạn có ngân sách calo theo tuần, không phải bảy ngày giống hệt. Ăn ít hơn đầu tuần có thể làm tăng mục tiêu các ngày sau; ăn nhiều hơn có thể làm giảm. Ngày mai không reset về kế hoạch gốc. Protein giữ nguyên; carbs và fat có thể đổi. Đây là quy tắc sản phẩm Nutree, không phải giao thức carb cycling lâm sàng.',
             },
             {
               question: 'Tôi có thể thay đổi mục tiêu dinh dưỡng không?',
@@ -920,7 +920,7 @@ export const translations: Record<Locale, TranslationStrings> = {
             },
             {
               question: 'Nutree điều chỉnh khi lịch ăn thay đổi thế nào?',
-              answer: 'Tự động. Ngân sách tuần sẽ hấp thụ lượng ăn vượt và phân bổ lại cho các ngày còn lại.',
+              answer: 'Tự động. Calo dư hoặc thiếu được chia cho các ngày còn lại trong tuần, có giới hạn biên độ. Kế hoạch gốc là mức nền, không phải reset ngày hôm sau.',
             },
           ],
         },
@@ -1080,7 +1080,7 @@ export const translations: Record<Locale, TranslationStrings> = {
           {
             icon: '⚖️',
             title: 'Ngân sách tuần tự cân bằng',
-            desc: 'Một ngày ăn nhiều hơn dự tính? Nutree phân phối lại ngân sách tuần để deficit vẫn được giữ. Không bị phạt, không cần làm lại từ đầu.',
+            desc: 'Một ngày ăn nhiều hoặc ít hơn dự tính? Nutree chia calo dư hoặc thiếu cho các ngày còn lại để ngân sách tuần vẫn khớp. Ngày mai không trở về đúng con số ban đầu.',
           },
           {
             icon: '🍽️',
