@@ -25,6 +25,11 @@ export interface PayCheckoutCopy {
   copied: string;
   afterPay: string;
   planLabel: string;
+  cartTitle: string;
+  cartItemLabel: string;
+  cartQtyLabel: string;
+  cartPriceLabel: string;
+  cartTotalLabel: string;
 }
 
 export interface PayPageCopy {
@@ -73,6 +78,11 @@ export const payPageContent: Record<Locale, PayPageCopy> = {
       copied: 'Copied',
       afterPay: 'After you transfer, email the receipt so we can activate your plan.',
       planLabel: 'Plan',
+      cartTitle: 'Shopping cart',
+      cartItemLabel: 'Item',
+      cartQtyLabel: 'Qty',
+      cartPriceLabel: 'Price',
+      cartTotalLabel: 'Total',
     },
     legalPricing: 'Pricing policy',
     legalCancel: 'Cancel & refunds',
@@ -81,7 +91,7 @@ export const payPageContent: Record<Locale, PayPageCopy> = {
         id: 'monthly',
         name: 'Monthly',
         price: '99.000đ/mo*',
-        cta: 'Continue to pay',
+        cta: 'Add to cart',
         stats: [
           { value: '99.000đ', label: 'Every month' },
           { value: 'Weekly', label: 'Budget rebalance' },
@@ -93,7 +103,7 @@ export const payPageContent: Record<Locale, PayPageCopy> = {
         id: 'yearly',
         name: 'Yearly',
         price: '399.000đ/yr*',
-        cta: 'Continue to pay',
+        cta: 'Add to cart',
         badge: 'Most popular',
         highlight: true,
         stats: [
@@ -126,6 +136,11 @@ export const payPageContent: Record<Locale, PayPageCopy> = {
       copied: 'Đã sao chép',
       afterPay: 'Sau khi chuyển khoản, gửi biên lai để chúng tôi kích hoạt gói.',
       planLabel: 'Gói',
+      cartTitle: 'Giỏ hàng',
+      cartItemLabel: 'Sản phẩm',
+      cartQtyLabel: 'SL',
+      cartPriceLabel: 'Giá',
+      cartTotalLabel: 'Tổng',
     },
     legalPricing: 'Chính sách giá',
     legalCancel: 'Hủy & hoàn tiền',
@@ -134,7 +149,7 @@ export const payPageContent: Record<Locale, PayPageCopy> = {
         id: 'monthly',
         name: 'Tháng',
         price: '99.000đ/tháng*',
-        cta: 'Tiếp tục thanh toán',
+        cta: 'Thêm vào giỏ',
         stats: [
           { value: '99.000đ', label: 'Mỗi tháng' },
           { value: 'Hàng tuần', label: 'Cân bằng ngân sách' },
@@ -146,7 +161,7 @@ export const payPageContent: Record<Locale, PayPageCopy> = {
         id: 'yearly',
         name: 'Năm',
         price: '399.000đ/năm*',
-        cta: 'Tiếp tục thanh toán',
+        cta: 'Thêm vào giỏ',
         badge: 'Phổ biến nhất',
         highlight: true,
         stats: [

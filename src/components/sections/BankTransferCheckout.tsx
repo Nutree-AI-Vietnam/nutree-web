@@ -96,6 +96,30 @@ export function BankTransferCheckout({ plan, copy, onBack }: BankTransferCheckou
         {copy.back}
       </button>
 
+      <div className="mb-8 rounded-2xl border border-border bg-white px-5 py-5">
+        <h2 className="font-display text-lg font-extrabold text-primary-forest">{copy.cartTitle}</h2>
+        <div className="mt-4 grid grid-cols-[1fr_auto_auto] gap-x-4 gap-y-2 text-sm">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted">
+            {copy.cartItemLabel}
+          </p>
+          <p className="text-right text-[11px] font-semibold uppercase tracking-[0.14em] text-muted">
+            {copy.cartQtyLabel}
+          </p>
+          <p className="text-right text-[11px] font-semibold uppercase tracking-[0.14em] text-muted">
+            {copy.cartPriceLabel}
+          </p>
+          <p className="font-medium text-foreground">Nutree {plan.name}</p>
+          <p className="text-right font-medium text-foreground">1</p>
+          <p className="text-right font-medium text-foreground">{amount}</p>
+          <p className="col-span-2 border-t border-border/70 pt-3 font-semibold text-primary-forest">
+            {copy.cartTotalLabel}
+          </p>
+          <p className="border-t border-border/70 pt-3 text-right font-display text-base font-extrabold text-primary-forest">
+            {amount}
+          </p>
+        </div>
+      </div>
+
       <h1 className="font-display text-3xl font-extrabold text-primary-forest">{copy.title}</h1>
       <p className="mt-2 text-muted">{copy.scanHint}</p>
 

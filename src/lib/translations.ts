@@ -40,6 +40,8 @@ interface TranslationStrings {
     onboardingScreenshotAlt: string;
     featureScreenshotAlt: (title: string) => string;
     ctaScreenshotAlt: string;
+    cart: string;
+    cartLabel: string;
   };
   nav: { howItWorks: string; features: string; pricing: string; download: string; pay: string };
   hero: {
@@ -217,6 +219,8 @@ export const translations: Record<Locale, TranslationStrings> = {
       onboardingScreenshotAlt: 'Nutree onboarding screenshot',
       featureScreenshotAlt: (title) => `${title} screenshot`,
       ctaScreenshotAlt: 'Nutree app onboarding screenshot',
+      cart: 'Cart',
+      cartLabel: 'Shopping cart',
     },
     nav: {
       howItWorks: 'How it works',
@@ -714,6 +718,8 @@ export const translations: Record<Locale, TranslationStrings> = {
       onboardingScreenshotAlt: 'Ảnh màn hình onboarding Nutree',
       featureScreenshotAlt: (title) => `Ảnh màn hình ${title}`,
       ctaScreenshotAlt: 'Ảnh màn hình onboarding app Nutree',
+      cart: 'Giỏ hàng',
+      cartLabel: 'Giỏ hàng',
     },
     nav: {
       howItWorks: 'Cách dùng',

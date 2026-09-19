@@ -4,6 +4,7 @@ import { Suspense, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Logo } from '@/components/ui/Logo';
+import { CartIcon } from '@/components/ui/CartIcon';
 import { BankTransferCheckout } from '@/components/sections/BankTransferCheckout';
 import { PricingTable } from '@/components/sections/PricingTable';
 import { useLocale } from '@/lib/locale-context';
@@ -37,14 +38,28 @@ function PayPageBody() {
       <header className="border-b border-border/60 bg-white/90">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
           <Logo size="sm" />
-          <button
-            type="button"
-            onClick={() => setLocale(locale === 'en' ? 'vi' : 'en')}
-            aria-label={copy.languageLabel}
-            className="inline-flex min-h-11 items-center rounded-full border border-primary-forest/20 px-4 text-sm font-semibold text-primary-forest transition-colors hover:border-primary-forest/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-teal focus-visible:ring-offset-2"
-          >
-            {locale === 'en' ? 'VI' : 'EN'}
-          </button>
+          <div className="flex items-center gap-2">
+            <span
+              aria-label={locale === 'vi' ? 'Giỏ hàng' : 'Shopping cart'}
+              className="inline-flex min-h-11 items-center gap-2 rounded-full border border-primary-forest/20 px-3 text-sm font-semibold text-primary-forest"
+            >
+              <CartIcon className="h-4 w-4" />
+              {locale === 'vi' ? 'Giỏ hàng' : 'Cart'}
+              {selectedPlan ? (
+                <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-primary-teal px-1.5 text-[11px] font-bold text-white">
+                  1
+                </span>
+              ) : null}
+            </span>
+            <button
+              type="button"
+              onClick={() => setLocale(locale === 'en' ? 'vi' : 'en')}
+              aria-label={copy.languageLabel}
+              className="inline-flex min-h-11 items-center rounded-full border border-primary-forest/20 px-4 text-sm font-semibold text-primary-forest transition-colors hover:border-primary-forest/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-teal focus-visible:ring-offset-2"
+            >
+              {locale === 'en' ? 'VI' : 'EN'}
+            </button>
+          </div>
         </div>
       </header>
 
