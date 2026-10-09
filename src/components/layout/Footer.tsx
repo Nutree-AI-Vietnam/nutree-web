@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { Logo } from '@/components/ui/Logo';
+import { StoreBadges } from '@/components/ui/StoreBadges';
 import { LEGAL_COMPANY, LEGAL_LINKS } from '@/lib/legal-company';
 import { useLocale } from '@/lib/locale-context';
 
@@ -27,6 +28,7 @@ export function Footer() {
             >
               {LEGAL_COMPANY.email}
             </a>
+            <StoreBadges size="sm" />
           </div>
 
           <div>
@@ -84,6 +86,12 @@ export function Footer() {
                 className="min-h-9 inline-flex items-center transition-colors hover:text-primary-forest"
               >
                 {t.footer.faq}
+              </Link>
+              <Link
+                href="/why"
+                className="min-h-9 inline-flex items-center transition-colors hover:text-primary-forest"
+              >
+                {t.footer.why}
               </Link>
             </nav>
           </div>

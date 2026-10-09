@@ -1,3 +1,7 @@
+/** Street part of the registered address; structured data lists city and country separately. */
+const ADDRESS_STREET =
+  'NL1-G01, Khu dân cư Sáng Quang, đường Nguyễn Văn Linh, Khóm 6, Phường Phú Lợi';
+
 /** Official company identity for VN legal / BCT disclosure pages. */
 export const LEGAL_COMPANY = {
   legalName: 'CÔNG TY CỔ PHẦN NUTREE AI VIỆT NAM',
@@ -9,8 +13,8 @@ export const LEGAL_COMPANY = {
   /** Issuing / managing tax authority for the MST. */
   taxIssuedPlace: 'Thuế cơ sở 10 thành phố Cần Thơ',
   taxIssuedPlaceEn: 'Tax Office 10, Can Tho City',
-  address:
-    'NL1-G01, Khu dân cư Sáng Quang, đường Nguyễn Văn Linh, Khóm 6, Phường Phú Lợi, Thành phố Cần Thơ, Việt Nam',
+  address: `${ADDRESS_STREET}, Thành phố Cần Thơ, Việt Nam`,
+  addressStreet: ADDRESS_STREET,
   addressEn:
     'NL1-G01, Sang Quang Residential Area, Nguyen Van Linh Street, Hamlet 6, Phu Loi Ward, Can Tho City, Vietnam',
   email: 'nutreeaidev@gmail.com',

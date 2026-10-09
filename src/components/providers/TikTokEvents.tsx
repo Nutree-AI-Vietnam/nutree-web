@@ -14,8 +14,25 @@ declare global {
   }
 }
 
-const APP_STORE_URL_PREFIX = 'https://apps.apple.com/';
 const APP_CONTENT_ID = 'nutree-ios-app';
+
+// A click on any of these store links is reported as a Download for that store's app.
+const STORE_DOWNLOADS = [
+  {
+    urlPrefix: 'https://apps.apple.com/',
+    contentId: APP_CONTENT_ID,
+    contentName: 'Download Nutree on App Store',
+    description: 'App Store download click',
+    productName: 'Nutree iOS App',
+  },
+  {
+    urlPrefix: 'https://play.google.com/store/apps/',
+    contentId: 'nutree-android-app',
+    contentName: 'Download Nutree on Google Play',
+    description: 'Google Play download click',
+    productName: 'Nutree Android App',
+  },
+] as const;
 
 type TikTokEventProperties = Record<
   string,
@@ -73,22 +90,25 @@ export function TikTokEvents() {
     });
 
     const handleClick = (event: MouseEvent) => {
-      const link = (event.target as Element | null)?.closest('a');
+      const href = (event.target as Element | null)?.closest('a')?.href;
+      const store = href
+        ? STORE_DOWNLOADS.find(({ urlPrefix }) => href.startsWith(urlPrefix))
+        : undefined;
 
-      if (!link?.href.startsWith(APP_STORE_URL_PREFIX)) return;
+      if (!store) return;
 
       sendEvent('Download', {
-        content_id: APP_CONTENT_ID,
-        content_ids: [APP_CONTENT_ID],
+        content_id: store.contentId,
+        content_ids: [store.contentId],
         content_type: 'product',
-        content_name: 'Download Nutree on App Store',
-        description: 'App Store download click',
+        content_name: store.contentName,
+        description: store.description,
         quantity: 1,
         contents: [
           {
-            content_id: APP_CONTENT_ID,
+            content_id: store.contentId,
             content_type: 'product',
-            content_name: 'Nutree iOS App',
+            content_name: store.productName,
             quantity: 1,
           },
         ],

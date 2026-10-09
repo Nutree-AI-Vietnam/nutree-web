@@ -5,10 +5,10 @@ export function getNavLabel(
   href: string,
   nav: { howItWorks: string; features: string; pricing: string; download: string; pay: string },
 ): string {
-  if (href === '#how-it-works') return nav.howItWorks;
-  if (href === '#features') return nav.features;
-  if (href === '#pricing') return nav.pricing;
-  if (href === '#download') return nav.download;
+  if (href === '/#how-it-works') return nav.howItWorks;
+  if (href === '/#features') return nav.features;
+  if (href === '/#pricing') return nav.pricing;
+  if (href === '/#download') return nav.download;
   if (href === '/pay') return nav.pay;
   return '';
 }
@@ -28,30 +28,26 @@ interface TranslationStrings {
     backHome: string;
     home: string;
     appStoreDownloadLabel: string;
-    productHuntLabel: string;
+    googlePlayDownloadLabel: string;
     startupPartners: string;
     partnerWebsiteLabel: (name: string) => string;
     goToFeature: (index: number) => string;
-    tapToFlip: string;
-    previousTestimonial: string;
-    nextTestimonial: string;
-    goToTestimonial: (index: number) => string;
     dashboardScreenshotAlt: string;
-    onboardingScreenshotAlt: string;
     featureScreenshotAlt: (title: string) => string;
     ctaScreenshotAlt: string;
     cart: string;
     cartLabel: string;
+    pauseAnimation: string;
+    playAnimation: string;
   };
   nav: { howItWorks: string; features: string; pricing: string; download: string; pay: string };
   hero: {
     badge: string;
     headlines: string[];
     subheadline: string;
-    downloadApp: string;
     tagline?: string;
-    scroll: string;
     trustBadges: { rating: string; personalizedPlan: string; languages: string };
+    plansCta: string;
   };
   socialProof: {
     mealsTracked: string;
@@ -83,9 +79,6 @@ interface TranslationStrings {
     headline: string;
     subtext: string;
     trustMessage: string;
-    downloadOnThe: string;
-    appStore: string;
-    stats: { planValue: string; planLabel: string; languages: string; aiPowered: string; rating: string };
   };
   footer: {
     description: string;
@@ -98,6 +91,7 @@ interface TranslationStrings {
     termsOfService: string;
     research: string;
     faq: string;
+    why: string;
     contact: string;
     companyInfo: string;
     companyName: string;
@@ -112,6 +106,7 @@ interface TranslationStrings {
     subtitle: string;
     footnote: string;
     badge: string;
+    assurances: { payment: string; activation: string; devices: string };
   };
   contact: {
     eyebrow: string;
@@ -128,10 +123,6 @@ interface TranslationStrings {
     pageTitle: string;
     pageDescription: string;
     sections: FaqSection[];
-  };
-  scanningDemo: {
-    title: string;
-    subtitle: string;
   };
   whyNutree: {
     badge: string;
@@ -194,8 +185,6 @@ interface TranslationStrings {
     cta: {
       title: string;
       subtext: string;
-      downloadOnThe: string;
-      appStore: string;
       fineprint: string;
     };
   };
@@ -206,21 +195,18 @@ export const translations: Record<Locale, TranslationStrings> = {
     common: {
       backHome: 'Back to Home',
       home: 'Home',
-      appStoreDownloadLabel: 'Download on App Store',
-      productHuntLabel: 'View Nutree on Product Hunt',
+      appStoreDownloadLabel: 'Download Nutree on the App Store',
+      googlePlayDownloadLabel: 'Get Nutree on Google Play',
       startupPartners: 'Startup partners',
       partnerWebsiteLabel: (name) => `${name} partner website`,
       goToFeature: (index) => `Go to feature ${index}`,
-      tapToFlip: 'Tap to flip',
-      previousTestimonial: 'Previous testimonial',
-      nextTestimonial: 'Next testimonial',
-      goToTestimonial: (index) => `Go to testimonial ${index}`,
       dashboardScreenshotAlt: 'Nutree daily dashboard screenshot',
-      onboardingScreenshotAlt: 'Nutree onboarding screenshot',
       featureScreenshotAlt: (title) => `${title} screenshot`,
       ctaScreenshotAlt: 'Nutree app onboarding screenshot',
       cart: 'Cart',
       cartLabel: 'Shopping cart',
+      pauseAnimation: 'Pause animation',
+      playAnimation: 'Play animation',
     },
     nav: {
       howItWorks: 'How it works',
@@ -234,13 +220,12 @@ export const translations: Record<Locale, TranslationStrings> = {
       headlines: ['IDEAS.', 'TRACK.', 'THRIVE.'],
       subheadline:
         'Not another calorie counter. Nutree adapts your daily targets, plans your meals, and tracks every macro — automatically.',
-      downloadApp: 'Download Nutree',
-      scroll: 'Scroll',
       trustBadges: {
         rating: '#1 Health & Fitness',
         personalizedPlan: 'Personalized Premium plans',
         languages: '7 Languages',
       },
+      plansCta: 'See Premium plans',
     },
     socialProof: {
       mealsTracked: 'Meals Tracked',
@@ -347,18 +332,9 @@ export const translations: Record<Locale, TranslationStrings> = {
     finalCta: {
       badge: 'Start Your Transformation',
       headline: 'Life gets busy. Nutree keeps your nutrition targets on track.',
-      downloadOnThe: 'Download on the',
-      appStore: 'App Store',
       subtext:
         'Download Nutree for nutrition guidance that adapts to real life — so you never have to start over.',
       trustMessage: 'Built around your goals',
-      stats: {
-        planValue: 'AI',
-        planLabel: 'Personalized Plans',
-        languages: 'Languages',
-        aiPowered: 'Powered',
-        rating: 'Health & Fitness',
-      },
     },
     footer: {
       description:
@@ -373,6 +349,7 @@ export const translations: Record<Locale, TranslationStrings> = {
       termsOfService: 'Terms of Service',
       research: 'Science & Sources',
       faq: 'FAQ',
+      why: 'Why Nutree',
       contact: 'Contact Us',
       companyInfo: 'Company contact',
       companyName: 'Company name',
@@ -384,9 +361,14 @@ export const translations: Record<Locale, TranslationStrings> = {
     },
     homePricing: {
       badge: 'Plans',
-      title: 'Choose your Nutree plan',
-      subtitle: 'Monthly or yearly — pay on the website, then activate Nutree with the email deeplink.',
+      title: 'Choose your {Nutree} plan',
+      subtitle: 'Both plans unlock every Premium feature. The only difference is how often you pay.',
       footnote: '* Amounts are confirmed at checkout. After payment, we email a deeplink to open the app.',
+      assurances: {
+        payment: 'Pay by VietQR or bank transfer',
+        activation: 'Activation link sent by email',
+        devices: 'Works on iPhone and Android',
+      },
     },
     contact: {
       eyebrow: 'Talk to a real person',
@@ -508,7 +490,7 @@ export const translations: Record<Locale, TranslationStrings> = {
             },
             {
               question: 'How do I cancel my subscription?',
-              answer: 'iOS: Settings → Apple ID → Subscriptions → Nutree → Cancel. Deleting the app does not cancel billing. Android is coming soon.',
+              answer: 'iOS: Settings → Apple ID → Subscriptions → Nutree → Cancel. Deleting the app does not cancel billing. Android: Google Play → Profile → Payments & subscriptions → Subscriptions → Nutree → Cancel.',
             },
             {
               question: 'When will I be charged for Premium?',
@@ -559,10 +541,6 @@ export const translations: Record<Locale, TranslationStrings> = {
           ],
         },
       ],
-    },
-    scanningDemo: {
-      title: 'See scanning in action',
-      subtitle: 'One photo. Every macro. Watch how effortless logging really is.',
     },
     whyNutree: {
       badge: 'Escape Skinny Fat',
@@ -695,9 +673,7 @@ export const translations: Record<Locale, TranslationStrings> = {
         title: 'Escape skinny fat without losing your mind.',
         subtext:
           'Build a personalized nutrition plan and get smarter guidance for every meal.',
-        downloadOnThe: 'Download on the',
-        appStore: 'App Store',
-        fineprint: 'iOS available now. Android coming soon. Prices shown in the App Store before you subscribe.',
+        fineprint: 'Free to download on iOS and Android. Prices are shown in the app before you subscribe.',
       },
     },
   },
@@ -705,21 +681,18 @@ export const translations: Record<Locale, TranslationStrings> = {
     common: {
       backHome: 'Về trang chủ',
       home: 'Trang chủ',
-      appStoreDownloadLabel: 'Tải trên App Store',
-      productHuntLabel: 'Xem Nutree trên Product Hunt',
+      appStoreDownloadLabel: 'Tải Nutree trên App Store',
+      googlePlayDownloadLabel: 'Tải Nutree trên Google Play',
       startupPartners: 'Đối tác startup',
       partnerWebsiteLabel: (name) => `Trang đối tác ${name}`,
       goToFeature: (index) => `Đi đến tính năng ${index}`,
-      tapToFlip: 'Chạm để lật',
-      previousTestimonial: 'Đánh giá trước',
-      nextTestimonial: 'Đánh giá tiếp theo',
-      goToTestimonial: (index) => `Đi đến đánh giá ${index}`,
       dashboardScreenshotAlt: 'Ảnh màn hình dashboard hằng ngày của Nutree',
-      onboardingScreenshotAlt: 'Ảnh màn hình onboarding Nutree',
       featureScreenshotAlt: (title) => `Ảnh màn hình ${title}`,
       ctaScreenshotAlt: 'Ảnh màn hình onboarding app Nutree',
       cart: 'Giỏ hàng',
       cartLabel: 'Giỏ hàng',
+      pauseAnimation: 'Tạm dừng chuyển động',
+      playAnimation: 'Phát chuyển động',
     },
     nav: {
       howItWorks: 'Cách dùng',
@@ -733,14 +706,13 @@ export const translations: Record<Locale, TranslationStrings> = {
       headlines: ['GỢI Ý.', 'THEO DÕI.', 'ĐẠT GOAL.'],
       subheadline:
         'Không phải app đếm calo bình thường. Nutree tự điều chỉnh mục tiêu mỗi ngày, gợi ý bữa ăn và track macro giúp bạn — tự động hoàn toàn.',
-      downloadApp: 'Tải Nutree',
-      scroll: 'Kéo xuống',
       tagline: 'Tăng Cơ Giảm Mỡ',
       trustBadges: {
         rating: '#1 Sức khỏe & Thể hình',
         personalizedPlan: 'Gói Premium cá nhân hóa',
         languages: '7 ngôn ngữ',
       },
+      plansCta: 'Xem gói Premium',
     },
     socialProof: {
       mealsTracked: 'Bữa ăn đã track',
@@ -847,18 +819,9 @@ export const translations: Record<Locale, TranslationStrings> = {
     finalCta: {
       badge: 'Bắt đầu ngay',
       headline: 'Ngày bận rộn vẫn theo đúng plan. Nutree lo phần mục tiêu.',
-      downloadOnThe: 'Tải trên',
-      appStore: 'App Store',
       subtext:
         'Tải Nutree để có hướng dẫn dinh dưỡng thích nghi với nhịp sống của bạn — không cần bắt đầu lại từ đầu.',
       trustMessage: 'Thiết kế theo mục tiêu của bạn',
-      stats: {
-        planValue: 'AI',
-        planLabel: 'Gói cá nhân hóa',
-        languages: 'Ngôn ngữ',
-        aiPowered: 'AI',
-        rating: 'Sức khỏe & Thể hình',
-      },
     },
     footer: {
       description:
@@ -873,6 +836,7 @@ export const translations: Record<Locale, TranslationStrings> = {
       termsOfService: 'Điều khoản sử dụng',
       research: 'Khoa học & nguồn',
       faq: 'Câu hỏi thường gặp',
+      why: 'Vì sao chọn Nutree',
       contact: 'Liên hệ',
       companyInfo: 'Thông tin liên hệ',
       companyName: 'Tên công ty',
@@ -884,9 +848,14 @@ export const translations: Record<Locale, TranslationStrings> = {
     },
     homePricing: {
       badge: 'Gói dịch vụ',
-      title: 'Các gói Nutree',
-      subtitle: 'Gói tháng hoặc gói năm — thanh toán trên website, nhận deeplink qua email để mở app.',
+      title: 'Chọn gói {Nutree} của bạn',
+      subtitle: 'Cả hai gói đều mở khóa mọi tính năng Premium — chỉ khác chu kỳ thanh toán.',
       footnote: '* Số tiền được xác nhận lúc checkout. Sau thanh toán, Nutree gửi deeplink kích hoạt qua email.',
+      assurances: {
+        payment: 'Thanh toán bằng VietQR hoặc chuyển khoản',
+        activation: 'Nhận link kích hoạt qua email',
+        devices: 'Dùng được trên iPhone và Android',
+      },
     },
     contact: {
       eyebrow: 'Trò chuyện trực tiếp với Nutree',
@@ -1008,7 +977,7 @@ export const translations: Record<Locale, TranslationStrings> = {
             },
             {
               question: 'Làm sao để hủy gói đăng ký?',
-              answer: 'iOS: Cài đặt → Apple ID → Đăng ký → Nutree → Hủy. Xóa app không hủy thanh toán. Android sắp ra mắt.',
+              answer: 'iOS: Cài đặt → Apple ID → Đăng ký → Nutree → Hủy. Xóa app không hủy thanh toán. Android: Google Play → Ảnh hồ sơ → Thanh toán và gói thuê bao → Gói thuê bao → Nutree → Hủy.',
             },
             {
               question: 'Khi nào tôi bị tính phí Premium?',
@@ -1059,10 +1028,6 @@ export const translations: Record<Locale, TranslationStrings> = {
           ],
         },
       ],
-    },
-    scanningDemo: {
-      title: 'Xem Nutree scan thật nè',
-      subtitle: 'Một tấm ảnh. Đủ hết macro. Xem ghi bữa ăn dễ cỡ nào.',
     },
     whyNutree: {
       badge: 'Thoát Skinny Fat',
@@ -1195,9 +1160,7 @@ export const translations: Record<Locale, TranslationStrings> = {
         title: 'Thoát skinny fat mà không cần mất trí.',
         subtext:
           'Xây dựng kế hoạch dinh dưỡng cá nhân hóa và có hướng dẫn thông minh hơn cho từng bữa ăn.',
-        downloadOnThe: 'Tải trên',
-        appStore: 'App Store',
-        fineprint: 'iOS có sẵn. Android sắp ra mắt. Giá hiển thị trên App Store trước khi đăng ký.',
+        fineprint: 'Tải miễn phí trên iOS và Android. Giá hiển thị trong app trước khi đăng ký.',
       },
     },
   },

@@ -1,93 +1,121 @@
 'use client';
 
+import Image from 'next/image';
+import { useInView } from '@/hooks/useInView';
 import { useLocale } from '@/lib/locale-context';
 
+// Logos are self-hosted so the rail makes no third-party requests. Square glyphs
+// sit next to the partner name; wide wordmarks render alone at their own ratio.
 const partners = [
+  {
+    name: 'Anthropic',
+    href: 'https://www.anthropic.com/startups',
+    logo: '/partners/anthropic.svg',
+    width: 56,
+    height: 56,
+  },
   {
     name: 'Sentry',
     href: 'https://sentry.io',
-    logo: 'https://cdn.simpleicons.org/sentry/362D59',
+    logo: '/partners/sentry.svg',
+    width: 56,
+    height: 56,
   },
   {
     name: 'Render',
     href: 'https://render.com',
-    logo: 'https://cdn.simpleicons.org/render/000000',
+    logo: '/partners/render.svg',
+    width: 56,
+    height: 56,
   },
   {
     name: 'Cloudflare for Startups',
     href: 'https://www.cloudflare.com/startups/',
     logo: '/cloudflare-for-startups-logo.png',
-    wide: true,
+    width: 512,
+    height: 173,
+    wideClass: 'w-32',
   },
   {
     name: 'Neon',
     href: 'https://neon.tech',
-    logo: 'https://cdn.simpleicons.org/neon/00E599',
+    logo: '/partners/neon.svg',
+    width: 56,
+    height: 56,
   },
   {
     name: 'ElevenLabs',
     href: 'https://elevenlabs.io/startup-grants',
-    logo: 'https://eleven-public-cdn.elevenlabs.io/payloadcms/pwsc4vchsqt-ElevenLabsGrants.webp',
-    wide: true,
+    logo: '/partners/elevenlabs-grants.webp',
+    width: 1496,
+    height: 132,
+    wideClass: 'w-56',
   },
   {
     name: 'PostHog',
     href: 'https://posthog.com',
-    logo: 'https://cdn.simpleicons.org/posthog/FF5C34',
+    logo: '/partners/posthog.svg',
+    width: 56,
+    height: 56,
   },
 ];
 
 export function StartupPartners() {
-  const logoRail = [...partners, ...partners];
   const { t } = useLocale();
+  // The rail only runs while it is on screen.
+  const { ref, isInView } = useInView({ triggerOnce: false });
 
   return (
-    <section aria-labelledby="startup-partners-title" className="relative pb-16 md:pb-20">
+    <section aria-labelledby="startup-partners-title" className="relative pb-16 md:pb-24">
       <div className="container mx-auto px-4">
-        <div className="mx-auto mb-4 text-center">
+        <div className="mx-auto mb-6 flex max-w-3xl items-center gap-4 md:mb-8">
+          <span aria-hidden="true" className="h-px flex-1 bg-gradient-to-r from-transparent to-border" />
           <h2
             id="startup-partners-title"
-            className="text-xs font-semibold uppercase tracking-[0.22em] text-primary-teal"
+            className="text-center text-xs font-semibold uppercase tracking-[0.22em] text-primary-teal"
           >
             {t.common.startupPartners}
           </h2>
+          <span aria-hidden="true" className="h-px flex-1 bg-gradient-to-l from-transparent to-border" />
         </div>
+      </div>
 
-        <div className="relative overflow-hidden rounded-[2.5rem] border border-white/70 bg-white/55 py-10 shadow-glass backdrop-blur-xl md:py-12">
-          <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-24 bg-gradient-to-r from-background via-background/90 to-transparent md:w-40" />
-          <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-24 bg-gradient-to-l from-background via-background/90 to-transparent md:w-40" />
-
-          <div className="startup-logo-rail flex w-max items-center gap-20 px-12 md:gap-24">
-            {logoRail.map((partner, index) => (
-              <a
-                key={`${partner.name}-${index}`}
-                href={partner.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={t.common.partnerWebsiteLabel(partner.name)}
-                aria-hidden={index >= partners.length}
-                tabIndex={index >= partners.length ? -1 : 0}
-                className="group flex h-24 min-w-72 items-center justify-center gap-6 rounded-3xl outline-none transition duration-200 hover:bg-white/80 focus-visible:ring-2 focus-visible:ring-primary-teal focus-visible:ring-offset-4 focus-visible:ring-offset-background"
-              >
-                <img
-                  src={partner.logo}
-                  alt={`${partner.name} logo`}
-                  className={
-                    partner.wide
-                      ? 'h-auto w-64 opacity-70 transition duration-200 group-hover:opacity-100'
-                      : 'h-14 w-14 opacity-75 transition duration-200 group-hover:opacity-100'
-                  }
-                  loading="lazy"
-                />
-                {!partner.wide && (
-                  <span className="text-2xl font-bold text-muted/80 transition duration-200 group-hover:text-foreground">
-                    {partner.name}
-                  </span>
-                )}
-              </a>
+      {/* Full-bleed rail: two identical lists slide by one list width; the second is decorative. */}
+      <div
+        ref={ref}
+        data-paused={isInView ? undefined : true}
+        className="marquee"
+        style={{ '--gap': '3.5rem', '--marquee-duration': '40s' } as React.CSSProperties}
+      >
+        {[0, 1].map((copy) => (
+          <ul key={copy} aria-hidden={copy === 1 || undefined} className="marquee-track items-center py-2">
+            {partners.map((partner) => (
+              <li key={partner.name} className="shrink-0">
+                <a
+                  href={partner.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={t.common.partnerWebsiteLabel(partner.name)}
+                  tabIndex={copy === 1 ? -1 : undefined}
+                  className="flex h-16 items-center gap-3 rounded-2xl px-3 opacity-60 grayscale transition duration-300 hover:opacity-100 hover:grayscale-0 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-teal focus-visible:grayscale-0"
+                >
+                  <Image
+                    src={partner.logo}
+                    alt={`${partner.name} logo`}
+                    width={partner.width}
+                    height={partner.height}
+                    unoptimized
+                    draggable={false}
+                    className={partner.wideClass ? `h-auto ${partner.wideClass}` : 'h-9 w-9'}
+                  />
+                  {!partner.wideClass && (
+                    <span className="text-xl font-bold tracking-tight text-foreground">{partner.name}</span>
+                  )}
+                </a>
+              </li>
             ))}
-          </div>
-        </div>
+          </ul>
+        ))}
       </div>
     </section>
   );

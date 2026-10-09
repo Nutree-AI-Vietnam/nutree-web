@@ -42,7 +42,7 @@ export const usagePolicyContent: Record<Locale, LegalPageContent> = {
         ],
         images: [
           {
-            src: '/images/vi/dashboard.png',
+            src: '/images/vi/dashboard.webp',
             alt: 'Nutree app preview after plan activation',
             caption: 'Nutree mobile experience unlocked after successful activation.',
           },
@@ -81,7 +81,7 @@ export const usagePolicyContent: Record<Locale, LegalPageContent> = {
         ],
         images: [
           {
-            src: '/images/vi/meal-scanning.png',
+            src: '/images/vi/meal-scanning.webp',
             alt: 'Nutree meal scanning after activation',
             caption: 'After activation, use Nutree features such as AI meal scanning in the app.',
           },
@@ -137,7 +137,7 @@ export const usagePolicyContent: Record<Locale, LegalPageContent> = {
         ],
         images: [
           {
-            src: '/images/vi/dashboard.png',
+            src: '/images/vi/dashboard.webp',
             alt: 'Giao diện Nutree sau khi kích hoạt gói',
             caption: 'Trải nghiệm app Nutree sau khi kích hoạt thành công.',
           },
@@ -176,7 +176,7 @@ export const usagePolicyContent: Record<Locale, LegalPageContent> = {
         ],
         images: [
           {
-            src: '/images/vi/meal-scanning.png',
+            src: '/images/vi/meal-scanning.webp',
             alt: 'Quét món bằng AI trên Nutree sau kích hoạt',
             caption: 'Sau kích hoạt, dùng các tính năng như quét món bằng AI trong app.',
           },

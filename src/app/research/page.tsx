@@ -1,15 +1,14 @@
-import type { Metadata } from 'next';
+import { createPageMetadata } from '@/lib/seo';
 import { ResearchPageClient } from './research-page-client';
 
-export const metadata: Metadata = {
-  title: 'Science & Sources | Nutree',
-  description: 'Peer-reviewed papers, public-health sources, and formulas that provide context for Nutree’s nutrition estimates.',
-  openGraph: {
-    title: 'Science & Sources | Nutree',
-    description: 'Peer-reviewed papers, public-health sources, formulas, limitations, and source material for Nutree’s nutrition estimates.',
-    type: 'article',
-  },
-};
+export const metadata = createPageMetadata({
+  title: 'Khoa học & nguồn | Nutree',
+  description:
+    'Bài báo khoa học, nguồn y tế công cộng và công thức phía sau các ước tính dinh dưỡng của Nutree, cùng những giới hạn của ứng dụng.',
+  path: '/research',
+  ogType: 'article',
+  ogDescription: 'Nguồn, công thức và giới hạn phía sau các ước tính dinh dưỡng của Nutree.',
+});
 
 export default function ResearchPage() {
   return <ResearchPageClient />;

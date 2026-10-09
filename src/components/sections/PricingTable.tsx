@@ -62,6 +62,21 @@ function PlanCard({ plan, onSelect }: { plan: PayPlanCopy; onSelect: (planId: Pa
         >
           {plan.price}
         </p>
+        {plan.compareAtPrice || plan.savings ? (
+          <p className="mt-2 flex flex-wrap items-center justify-center gap-2 text-sm">
+            {plan.compareAtPrice ? (
+              <s className={cn('font-semibold', plan.highlight ? 'text-white/75' : 'text-muted')}>
+                {plan.compareAtLabel ? <span className="sr-only">{plan.compareAtLabel} </span> : null}
+                {plan.compareAtPrice}
+              </s>
+            ) : null}
+            {plan.savings ? (
+              <span className="rounded-full bg-energy-lime px-2.5 py-0.5 text-xs font-extrabold uppercase tracking-[0.08em] text-primary-forest">
+                {plan.savings}
+              </span>
+            ) : null}
+          </p>
+        ) : null}
         <button
           type="button"
           onClick={() => onSelect(plan.id)}

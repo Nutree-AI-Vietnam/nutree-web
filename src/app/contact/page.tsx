@@ -1,17 +1,12 @@
-import type { Metadata } from 'next';
-import { SITE_CONFIG } from '@/lib/constants';
+import { createPageMetadata } from '@/lib/seo';
 import { ContactPageClient } from './contact-page-client';
 
-export const metadata: Metadata = {
-  title: 'Contact Us | Nutree',
-  description: 'Contact the Nutree team by email, Facebook Messenger, or TikTok.',
-  openGraph: {
-    title: 'Contact Us | Nutree',
-    description: 'Contact the Nutree team by email, Facebook Messenger, or TikTok.',
-    type: 'website',
-    url: `${SITE_CONFIG.url}/contact`,
-  },
-};
+export const metadata = createPageMetadata({
+  title: 'Liên hệ | Nutree',
+  description:
+    'Liên hệ đội ngũ Nutree qua email, Facebook Messenger hoặc TikTok khi bạn có câu hỏi, góp ý hoặc cần hỗ trợ kỹ thuật.',
+  path: '/contact',
+});
 
 export default function ContactPage() {
   return <ContactPageClient />;

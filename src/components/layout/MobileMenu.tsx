@@ -1,34 +1,60 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { Logo } from '@/components/ui/Logo';
-import { Button } from '@/components/ui/Button';
-import { AppleIcon } from '@/components/ui/AppleIcon';
-import { NAV_LINKS, SITE_CONFIG } from '@/lib/constants';
+import { StoreBadges } from '@/components/ui/StoreBadges';
+import { NAV_LINKS } from '@/lib/constants';
 import { useLocale } from '@/lib/locale-context';
 import { getNavLabel } from '@/lib/translations';
 import { cn } from '@/lib/cn';
 
 interface MobileMenuProps {
+  /** Keep this stable (useCallback): the open/close effect below depends on it. */
   onClose: () => void;
 }
 
+const STAGGER_MS = 70;
+
+const rowDelay = (index: number) => ({ animationDelay: `${index * STAGGER_MS}ms` });
+
 export function MobileMenu({ onClose }: MobileMenuProps) {
   const { locale, setLocale, t } = useLocale();
+  const closeRef = useRef<HTMLButtonElement>(null);
+
+  // While open the page behind holds still and Escape closes. Focus starts on the close button
+  // and goes back to whatever opened the menu.
+  useEffect(() => {
+    const opener = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    const { overflow } = document.body.style;
+    document.body.style.overflow = 'hidden';
+    closeRef.current?.focus({ preventScroll: true });
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKeyDown);
+
+    return () => {
+      document.body.style.overflow = overflow;
+      window.removeEventListener('keydown', onKeyDown);
+      opener?.focus({ preventScroll: true });
+    };
+  }, [onClose]);
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 bg-background/95 backdrop-blur-lg md:hidden"
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-label="Menu"
+      className="menu-overlay-in fixed inset-0 z-50 bg-background/95 backdrop-blur-lg md:hidden"
     >
       <div className="flex h-full flex-col">
         {/* Header */}
         <div className="flex h-16 items-center justify-between px-4">
           <Logo size="sm" />
           <button
+            ref={closeRef}
             className="flex h-10 w-10 items-center justify-center"
             onClick={onClose}
             aria-label="Close menu"
@@ -39,6 +65,7 @@ export function MobileMenu({ onClose }: MobileMenuProps) {
               viewBox="0 0 24 24"
               strokeWidth={2}
               stroke="currentColor"
+              aria-hidden="true"
               className="h-6 w-6"
             >
               <path
@@ -53,29 +80,19 @@ export function MobileMenu({ onClose }: MobileMenuProps) {
         {/* Navigation */}
         <nav className="flex flex-1 flex-col items-center justify-center gap-8">
           {NAV_LINKS.map((link, index) => (
-            <motion.div
-              key={link.href}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-            >
+            <div key={link.href} className="menu-item-in" style={rowDelay(index)}>
               <Link
                 href={link.href}
-                className="font-display text-2xl font-semibold text-foreground"
+                className="font-display text-2xl font-semibold text-foreground transition-colors hover:text-primary-emerald"
                 onClick={onClose}
               >
                 {getNavLabel(link.href, t.nav)}
               </Link>
-            </motion.div>
+            </div>
           ))}
 
           {/* Language Toggle */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: NAV_LINKS.length * 0.1 }}
-            className="flex items-center gap-4"
-          >
+          <div className="menu-item-in flex items-center gap-4" style={rowDelay(NAV_LINKS.length)}>
             <button
               onClick={() => { setLocale('en'); onClose(); }}
               className={cn('text-lg font-semibold', locale === 'en' ? 'text-primary-forest' : 'text-muted')}
@@ -89,32 +106,14 @@ export function MobileMenu({ onClose }: MobileMenuProps) {
             >
               Tiếng Việt
             </button>
-          </motion.div>
+          </div>
 
-          {/* App Store Button */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: (NAV_LINKS.length + 1) * 0.1 }}
-            className="w-full max-w-xs px-4"
-          >
-            <Link
-              href={SITE_CONFIG.stores.appStore}
-              onClick={onClose}
-              aria-label={t.common.appStoreDownloadLabel}
-            >
-              <Button
-                variant="primary"
-                size="lg"
-                className="w-full gap-2"
-              >
-                <AppleIcon className="h-5 w-5" />
-                {t.hero.downloadApp}
-              </Button>
-            </Link>
-          </motion.div>
+          {/* Store badges */}
+          <div className="menu-item-in w-full max-w-xs px-4" style={rowDelay(NAV_LINKS.length + 1)}>
+            <StoreBadges onClick={onClose} className="justify-center" />
+          </div>
         </nav>
       </div>
-    </motion.div>
+    </div>
   );
 }

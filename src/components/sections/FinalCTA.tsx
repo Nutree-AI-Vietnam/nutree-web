@@ -1,228 +1,75 @@
 'use client';
 
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import Link from 'next/link';
-import { Button } from '@/components/ui/Button';
 import { PhoneMockup } from '@/components/ui/PhoneMockup';
+import { StoreBadges } from '@/components/ui/StoreBadges';
+import { TiltOnPointer } from '@/components/ui/TiltOnPointer';
 import { useInView } from '@/hooks/useInView';
-import { SITE_CONFIG } from '@/lib/constants';
 import { useLocale } from '@/lib/locale-context';
-import { AppleIcon } from '@/components/ui/AppleIcon';
 import { CTA_SCREENSHOT } from '@/lib/screenshot-assets';
 
-// Confetti particle
-function ConfettiParticle({ delay, x }: { delay: number; x: number }) {
-  const colors = ['#1A4739', '#29B6A1', '#A3E635', '#FB923C', '#E91E63'];
-  const randomColor = colors[Math.floor(Math.random() * colors.length)];
-
-  return (
-    <motion.div
-      initial={{ y: 0, x: 0, opacity: 1, scale: 1, rotate: 0 }}
-      animate={{
-        y: [-20, -100 - Math.random() * 100],
-        x: [0, x + (Math.random() - 0.5) * 100],
-        opacity: [1, 0],
-        scale: [1, 0.5],
-        rotate: [0, 360 + Math.random() * 360],
-      }}
-      transition={{
-        duration: 1.5,
-        delay,
-        ease: 'easeOut',
-      }}
-      className="absolute pointer-events-none"
-      style={{
-        width: 8 + Math.random() * 8,
-        height: 8 + Math.random() * 8,
-        backgroundColor: randomColor,
-        borderRadius: Math.random() > 0.5 ? '50%' : '2px',
-      }}
-    />
-  );
-}
-
 export function FinalCTA() {
-  const [showConfetti, setShowConfetti] = useState(false);
+  const { t } = useLocale();
   const { ref, isInView } = useInView({ threshold: 0.2 });
-  const { t, locale } = useLocale();
-
-  const triggerConfetti = () => {
-    setShowConfetti(true);
-    setTimeout(() => setShowConfetti(false), 2000);
-  };
 
   return (
-    <section ref={ref} id="download" className="section-padding relative overflow-hidden">
+    <section ref={ref} id="download" data-inview={isInView} className="section-padding relative overflow-hidden">
       <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="relative overflow-hidden rounded-3xl bg-gradient-brand p-8 md:p-16"
-        >
-          {/* Decorative blobs */}
-          <div className="absolute top-0 left-0 h-96 w-96 rounded-full bg-white/10 blur-3xl -translate-x-1/2 -translate-y-1/2" />
-          <div className="absolute bottom-0 right-0 h-96 w-96 rounded-full bg-white/10 blur-3xl translate-x-1/2 translate-y-1/2" />
-          <div className="absolute top-1/2 left-1/2 h-64 w-64 rounded-full bg-energy-lime/10 blur-3xl -translate-x-1/2 -translate-y-1/2" />
+        <div className="reveal relative isolate overflow-hidden rounded-3xl bg-gradient-brand px-4 py-12 shadow-[0_30px_80px_-24px_rgba(26,71,57,0.55)] sm:p-10 md:p-16">
+          {/* Drifting light pools; radial gradients instead of blur filters keep paint cheap. */}
+          <div
+            aria-hidden="true"
+            className="cta-pool pointer-events-none absolute -left-48 -top-48 h-[28rem] w-[28rem] rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.18),transparent_70%)]"
+          />
+          <div
+            aria-hidden="true"
+            className="cta-pool cta-pool-alt pointer-events-none absolute -bottom-56 -right-40 h-[32rem] w-[32rem] rounded-full bg-[radial-gradient(circle,rgba(163,230,53,0.22),transparent_70%)]"
+          />
+          <div aria-hidden="true" className="cta-grid pointer-events-none absolute inset-0" />
 
-          <div className="relative z-10 flex flex-col lg:flex-row items-center gap-12">
-            {/* Content */}
+          <div className="relative z-10 flex flex-col items-center gap-12 lg:flex-row">
             <div className="flex-1 text-center lg:text-left">
-              {/* Badge */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                transition={{ duration: 0.4, delay: 0.1 }}
-                className="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full bg-white/20 backdrop-blur-sm border border-white/30"
-              >
-                <span className="text-2xl" role="img" aria-label="celebration">
-                  🎉
+              <p className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/15 px-4 py-2 text-sm font-medium text-white">
+                <span aria-hidden="true" className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full rounded-full bg-energy-lime opacity-75 motion-safe:animate-ping" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-energy-lime" />
                 </span>
-                <span className="text-sm font-medium text-white">
-                  {t.finalCta.badge}
-                </span>
-              </motion.div>
+                {t.finalCta.badge}
+              </p>
 
-              {/* Headline */}
-              <motion.h2
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4"
-              >
+              <h2 className="mb-4 text-balance font-display text-3xl font-bold text-white md:text-4xl lg:text-5xl">
                 {t.finalCta.headline}
-              </motion.h2>
+              </h2>
 
-              {/* Subtext */}
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.3 }}
-                className="text-lg text-white/80 max-w-lg mx-auto lg:mx-0 mb-8"
-              >
+              <p className="mx-auto mb-8 max-w-lg text-lg text-white/80 lg:mx-0">
                 {t.finalCta.subtext}
-              </motion.p>
+              </p>
 
-              {/* CTA Buttons with Confetti */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.4 }}
-                className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start relative"
-              >
-                {/* Confetti container */}
-                {showConfetti && (
-                  <div className="absolute left-1/2 top-0 -translate-x-1/2">
-                    {[...Array(20)].map((_, i) => (
-                      <ConfettiParticle
-                        key={i}
-                        delay={i * 0.02}
-                        x={(i % 2 === 0 ? 1 : -1) * (20 + i * 5)}
-                      />
-                    ))}
-                  </div>
-                )}
+              <StoreBadges className="justify-center lg:justify-start" />
 
-                <Link
-                  href={SITE_CONFIG.stores.appStore}
-                  aria-label={t.common.appStoreDownloadLabel}
-                  onClick={triggerConfetti}
-                  onMouseEnter={triggerConfetti}
-                >
-                  <Button
-                    variant="secondary"
-                    size="lg"
-                    className="w-full sm:w-auto gap-3 bg-white text-primary-forest border-white hover:bg-white/90 hover:border-white/90"
-                  >
-                    <AppleIcon className="h-6 w-6" />
-                    <div className="text-left">
-                      <div className="text-xs font-normal opacity-70">{t.finalCta.downloadOnThe}</div>
-                      <div className="text-sm font-semibold -mt-0.5">{t.finalCta.appStore}</div>
-                    </div>
-                  </Button>
-                </Link>
-                <div
-                  className="flex w-full cursor-not-allowed items-center gap-3 rounded-xl border border-white/25 bg-white/10 px-5 py-3 text-white/80 sm:w-auto"
-                  aria-label={SITE_CONFIG.androidComingSoon[locale === 'vi' ? 'vi' : 'en']}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    className="h-6 w-6 text-white/70"
-                    aria-hidden
-                  >
-                    <path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85a.637.637 0 00-.83.22l-1.88 3.24a11.43 11.43 0 00-8.94 0L5.65 5.67a.643.643 0 00-.87-.16c-.31.16-.43.54-.26.85l1.84 3.18C4.26 11.03 2.5 13.5 2.5 16.3v.7c0 .66.54 1.2 1.2 1.2h16.6c.66 0 1.2-.54 1.2-1.2v-.7c0-2.8-1.76-5.27-3.9-6.82zM7.5 15.5a1 1 0 110-2 1 1 0 010 2zm9 0a1 1 0 110-2 1 1 0 010 2z" />
-                  </svg>
-                  <div className="text-left">
-                    <div className="text-xs font-normal opacity-70">Google Play</div>
-                    <div className="-mt-0.5 text-sm font-semibold">
-                      {SITE_CONFIG.androidComingSoon[locale === 'vi' ? 'vi' : 'en']}
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* Trust message */}
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={isInView ? { opacity: 1 } : {}}
-                transition={{ duration: 0.5, delay: 0.5 }}
-                className="mt-6 text-sm text-white/60"
-              >
-                {t.finalCta.trustMessage}
-              </motion.p>
+              <p className="mt-6 text-sm text-white/80">{t.finalCta.trustMessage}</p>
             </div>
 
-            {/* Phone Mockup */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
-              animate={isInView ? { opacity: 1, scale: 1, rotate: 5 } : {}}
-              transition={{
-                duration: 0.7,
-                delay: 0.3,
-                ease: [0.34, 1.56, 0.64, 1],
-              }}
-              className="flex-shrink-0 hidden lg:block"
+            <div
+              className="reveal relative hidden flex-shrink-0 lg:block"
+              style={{ '--reveal-delay': '200ms' } as React.CSSProperties}
             >
-              <div className="relative">
-                {/* Glow */}
-                <div className="absolute inset-0 bg-white/20 blur-3xl scale-150 rounded-full" />
-                <PhoneMockup
-                  backgroundImage={CTA_SCREENSHOT}
-                  imageAlt={t.common.ctaScreenshotAlt}
-                  className="transform hover:rotate-0 transition-transform duration-500"
-                />
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Stats row */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.6 }}
-            className="relative z-10 mt-12 pt-8 border-t border-white/20"
-          >
-            <div className="flex flex-wrap items-center justify-center gap-8 text-white/80">
-              <div className="text-center">
-                <div className="font-display text-3xl font-bold text-white">{t.finalCta.stats.planValue}</div>
-                <div className="text-sm">{t.finalCta.stats.planLabel}</div>
-              </div>
-              <div className="h-8 w-px bg-white/20" />
-              <div className="text-center">
-                <div className="font-display text-3xl font-bold text-white">7</div>
-                <div className="text-sm">{t.finalCta.stats.languages}</div>
-              </div>
-              <div className="h-8 w-px bg-white/20" />
-              <div className="text-center">
-                <div className="font-display text-3xl font-bold text-white">#1</div>
-                <div className="text-sm">{t.finalCta.stats.rating}</div>
-              </div>
+              <div
+                aria-hidden="true"
+                className="absolute inset-0 scale-150 rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.22),transparent_65%)]"
+              />
+              <TiltOnPointer className="relative [perspective:1200px]" maxTilt={8}>
+                <div className="hero-bob">
+                  <PhoneMockup
+                    backgroundImage={CTA_SCREENSHOT}
+                    imageAlt={t.common.ctaScreenshotAlt}
+                    imageSizes="300px"
+                    className="rotate-[4deg] transition-transform duration-500 hover:rotate-0 motion-reduce:transition-none"
+                  />
+                </div>
+              </TiltOnPointer>
             </div>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </div>
     </section>
   );

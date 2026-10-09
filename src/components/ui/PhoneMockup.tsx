@@ -6,7 +6,6 @@ import { cn } from '@/lib/cn';
 interface PhoneMockupProps {
   className?: string;
   children?: React.ReactNode;
-  variant?: 'default' | 'floating';
   backgroundImage?: string;
   imageAlt?: string;
   imagePriority?: boolean;
@@ -16,7 +15,6 @@ interface PhoneMockupProps {
 export function PhoneMockup({
   className,
   children,
-  variant = 'default',
   backgroundImage,
   imageAlt = '',
   imagePriority = false,
@@ -27,7 +25,6 @@ export function PhoneMockup({
       className={cn(
         // Mobile: smaller, tablet+: larger
         'phone-frame w-[260px] sm:w-[280px] md:w-[300px]',
-        variant === 'floating' && 'animate-float',
         className
       )}
     >

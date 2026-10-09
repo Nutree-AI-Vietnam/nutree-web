@@ -4,8 +4,9 @@ import Script from 'next/script';
 import { AppChrome } from '@/components/layout/AppChrome';
 import { PostHogProvider } from '@/components/providers/PostHogProvider';
 import { TikTokEvents } from '@/components/providers/TikTokEvents';
+import { SITE_CONFIG } from '@/lib/constants';
 import { LocaleProvider } from '@/lib/locale-context';
-import { HERO_SCREENSHOTS } from '@/lib/screenshot-assets';
+import { SITE_DESCRIPTION, SITE_TITLE, createPageMetadata } from '@/lib/seo';
 import './globals.css';
 
 const TIKTOK_PIXEL_ID = 'D9DG1BJC77UD5IE51T1G';
@@ -26,9 +27,12 @@ const beVietnamPro = Be_Vietnam_Pro({
   weight: ['400', '500', '600', '700', '800'],
 });
 
+// No canonical here: child segments inherit layout metadata, so a canonical set at the root
+// would point every page (and the 404) at the home page. Each page sets its own.
 export const metadata: Metadata = {
-  title: 'Nutree | Trợ lý dinh dưỡng AI',
-  description: 'Không phải app đếm calo bình thường. Nutree tự điều chỉnh mục tiêu hằng ngày, gợi ý bữa ăn và track macro cho bạn bằng AI.',
+  metadataBase: new URL(SITE_CONFIG.url),
+  ...createPageMetadata({ title: SITE_TITLE, description: SITE_DESCRIPTION }),
+  applicationName: SITE_CONFIG.name,
   keywords: ['trợ lý dinh dưỡng AI', 'theo dõi dinh dưỡng', 'gợi ý bữa ăn', 'track macro', 'đếm calo', 'ngân sách dinh dưỡng tuần', 'mục tiêu tự điều chỉnh', 'meal prep'],
   authors: [{ name: 'Nutree Team' }],
   icons: {
@@ -37,28 +41,6 @@ export const metadata: Metadata = {
       { url: '/favicon-64.png', sizes: '64x64', type: 'image/png' },
     ],
     apple: '/apple-touch-icon.png',
-  },
-  openGraph: {
-    title: 'Nutree - Trợ lý dinh dưỡng AI tự thích nghi',
-    description: 'Nutree tự điều chỉnh mục tiêu hằng ngày, gợi ý bữa ăn và track macro cho bạn bằng AI.',
-    url: 'https://nutreeai.com',
-    siteName: 'Nutree',
-    type: 'website',
-    locale: 'vi_VN',
-    images: [
-      {
-        url: '/logo-512.png',
-        width: 512,
-        height: 512,
-        alt: 'Logo Nutree',
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Nutree - Trợ lý dinh dưỡng AI tự thích nghi',
-    description: 'Nutree tự điều chỉnh mục tiêu hằng ngày, gợi ý bữa ăn và track macro cho bạn bằng AI.',
-    images: ['/logo-512.png'],
   },
   robots: {
     index: true,
@@ -72,14 +54,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="vi" className={beVietnamPro.variable}>
+    <html
+      lang="vi"
+      className={`${beVietnamPro.variable} scroll-pt-16 md:scroll-pt-20 motion-safe:scroll-smooth`}
+    >
       <head>
         <meta name="theme-color" content="#1A4739" />
         <meta name="facebook-domain-verification" content="f0wc0i12b96y1yc0susyi4y57rdc6v" />
-        {Object.values(HERO_SCREENSHOTS).flatMap(({ front, back }) => [
-          <link key={front} rel="preload" as="image" href={front} />,
-          <link key={back} rel="preload" as="image" href={back} />,
-        ])}
       </head>
       <body className="flex min-h-screen flex-col">
         <Script id="tiktok-pixel" strategy="beforeInteractive">

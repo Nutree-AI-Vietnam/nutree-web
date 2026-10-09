@@ -242,15 +242,9 @@ Info:          #2196F3 (blue)
 
 ### Typography
 
-**Display Font**: Plus Jakarta Sans
+**Font**: Be Vietnam Pro (headings and body)
 - Weights: 400, 500, 600, 700, 800
-- Used for: Headings, hero, section titles
-- Characteristics: Modern, warm, characterful
-
-**Body Font**: DM Sans
-- Weights: 400, 500, 700
-- Used for: Body text, UI labels
-- Characteristics: Clean, readable, excellent at all sizes
+- Loaded via `next/font/google` as `--font-be-vietnam`; `font-display` and `font-body` both map to it
 
 ### Animation Tokens
 

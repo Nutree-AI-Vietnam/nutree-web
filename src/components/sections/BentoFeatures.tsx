@@ -1,10 +1,11 @@
 'use client';
 
-import { useState } from 'react';
-import { motion, AnimatePresence, PanInfo } from 'framer-motion';
+import { useRef, useState } from 'react';
 import { useInView } from '@/hooks/useInView';
 import { cn } from '@/lib/cn';
+import { AnimationPauseToggle } from '@/components/ui/AnimationPauseToggle';
 import { PhoneMockup } from '@/components/ui/PhoneMockup';
+import { SpotlightGroup } from '@/components/ui/SpotlightGroup';
 import Image from 'next/image';
 import { useLocale } from '@/lib/locale-context';
 import { renderTitle } from '@/lib/render-title';
@@ -76,9 +77,22 @@ const FEATURE_CONFIG: Record<string, Omit<FeatureConfig, 'id'>> = {
   },
 };
 
+// Swipes shorter than this, or more vertical than horizontal, are taps or scrolls.
+const SWIPE_PX = 50;
+
 export function BentoFeatures() {
   const { ref, isInView } = useInView({ threshold: 0.1 });
+  // Autoplay runs only while the showcase is near the middle of the screen.
+  const { ref: showcaseRef, isInView: isOnScreen } = useInView({
+    threshold: 0,
+    rootMargin: '-20% 0px -20% 0px',
+    triggerOnce: false,
+  });
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [lookingAtPhone, setLookingAtPhone] = useState(false);
+  const [keyboardFocus, setKeyboardFocus] = useState(false);
+  const [userPaused, setUserPaused] = useState(false);
+  const swipeStart = useRef<{ x: number; y: number } | null>(null);
   const { t, locale } = useLocale();
 
   const features = t.features.items.map(item => {
@@ -90,186 +104,240 @@ export function BentoFeatures() {
     };
   });
 
-  const selectedFeature = features[selectedIndex]?.id;
-  const selectedItem = features[selectedIndex];
+  const playing = isOnScreen && !lookingAtPhone && !keyboardFocus && !userPaused;
 
-  const handleSwipe = (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
-    const swipeThreshold = 50;
-    if (info.offset.x > swipeThreshold && selectedIndex > 0) {
-      setSelectedIndex(selectedIndex - 1);
-    } else if (info.offset.x < -swipeThreshold && selectedIndex < features.length - 1) {
-      setSelectedIndex(selectedIndex + 1);
+  const advance = () => setSelectedIndex(current => (current + 1) % features.length);
+
+  const handlePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
+    // Captured, so a drag released off the phone still ends here and never leaves a stale start.
+    event.currentTarget.setPointerCapture(event.pointerId);
+    swipeStart.current = { x: event.clientX, y: event.clientY };
+  };
+
+  const handlePointerUp = (event: React.PointerEvent<HTMLDivElement>) => {
+    const start = swipeStart.current;
+    swipeStart.current = null;
+    if (!start) return;
+    const dx = event.clientX - start.x;
+    if (Math.abs(dx) < SWIPE_PX || Math.abs(dx) < Math.abs(event.clientY - start.y)) return;
+    setSelectedIndex(current =>
+      dx > 0 ? Math.max(current - 1, 0) : Math.min(current + 1, features.length - 1)
+    );
+  };
+
+  // Keyboard users hold the current feature while they tab through; mouse clicks don't count.
+  const handleFocus = (event: React.FocusEvent<HTMLDivElement>) => {
+    try {
+      if (event.target.matches(':focus-visible')) setKeyboardFocus(true);
+    } catch {
+      // Engines without :focus-visible keep playing.
     }
   };
 
-  const selectFeature = (id: string) => {
-    const index = features.findIndex(f => f.id === id);
-    if (index !== -1) setSelectedIndex(index);
+  const handleBlur = (event: React.FocusEvent<HTMLDivElement>) => {
+    if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setKeyboardFocus(false);
   };
 
   return (
-    <section ref={ref} id="features" className="section-padding relative overflow-hidden">
+    <section ref={ref} id="features" data-inview={isInView} className="section-padding relative overflow-hidden">
       <div className="container mx-auto px-4">
         {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-10"
-        >
+        <div className="reveal mb-10 text-center">
           <h2 className="section-title">
             {renderTitle(t.features.title)}
           </h2>
-        </motion.div>
+        </div>
 
         {/* Side-by-side Layout: Preview (left) | Features (right) */}
-        <div className="max-w-6xl mx-auto grid lg:grid-cols-[1.4fr_1fr] gap-8 lg:gap-12 items-start">
+        <div
+          ref={showcaseRef}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          className="max-w-6xl mx-auto grid lg:grid-cols-[1fr_1.15fr] gap-8 lg:gap-12 items-start"
+        >
           {/* Left: iPhone Preview with Swipe */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="lg:sticky lg:top-24 order-2 lg:order-1 flex flex-col items-center"
+          <div
+            className="reveal lg:sticky lg:top-24 order-2 lg:order-1 flex flex-col items-center"
+            style={{ '--reveal-delay': '200ms' } as React.CSSProperties}
           >
-            {/* iPhone Mockup with swipe */}
-            <motion.div
-              drag="x"
-              dragConstraints={{ left: 0, right: 0 }}
-              dragElastic={0.1}
-              onDragEnd={handleSwipe}
-              className="cursor-grab active:cursor-grabbing"
-            >
-              <PhoneMockup className="w-[280px] md:w-[350px]">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={selectedFeature}
-                    initial={{ opacity: 0, x: 50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -50 }}
-                    transition={{ duration: 0.25 }}
-                    className="relative w-full h-full flex items-center justify-center bg-gradient-to-br from-white to-primary-teal/5"
-                  >
-                    {selectedItem?.screenshot ? (
-                      <Image
-                        src={selectedItem.screenshot}
-                        alt={t.common.featureScreenshotAlt(selectedItem.title)}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 768px) 280px, 350px"
-                        unoptimized
-                        draggable={false}
-                      />
-                    ) : (
-                      <div className="text-center p-4">
-                        <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-primary-forest/10 text-primary-forest flex items-center justify-center">
-                          {selectedItem?.icon}
-                        </div>
-                        <span className="text-muted text-sm">{selectedItem?.title}</span>
-                      </div>
-                    )}
-                  </motion.div>
-                </AnimatePresence>
-              </PhoneMockup>
-            </motion.div>
+            <div className="relative">
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute -inset-x-16 -inset-y-8 bg-[radial-gradient(closest-side,rgba(41,182,161,0.28),transparent)]"
+              />
 
-            {/* Swipe indicator dots */}
-            <div className="flex items-center gap-2 mt-4">
-              {features.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setSelectedIndex(index)}
-                  className={cn(
-                    'w-2 h-2 rounded-full transition-all duration-300',
-                    selectedIndex === index
-                      ? 'w-6 bg-primary-teal'
-                      : 'bg-border hover:bg-primary-teal/50'
-                  )}
-                  aria-label={t.common.goToFeature(index + 1)}
-                />
-              ))}
+              {/* iPhone Mockup with swipe; a mouse resting on the screen holds autoplay. Vertical
+                  drags still scroll the page. */}
+              <div
+                onPointerDown={handlePointerDown}
+                onPointerUp={handlePointerUp}
+                onPointerCancel={() => {
+                  swipeStart.current = null;
+                }}
+                onPointerEnter={event => event.pointerType === 'mouse' && setLookingAtPhone(true)}
+                onPointerLeave={event => event.pointerType === 'mouse' && setLookingAtPhone(false)}
+                className="relative cursor-grab touch-pan-y select-none active:cursor-grabbing"
+              >
+                <PhoneMockup className="w-[280px] md:w-[350px]">
+                  {/* Every screen is mounted and stacked, so switching is a pure opacity and
+                      transform transition: screens behind the current one wait to the left,
+                      screens ahead wait to the right. The lazy images load as the section nears. */}
+                  {features.map((feature, index) => {
+                    const isSelected = index === selectedIndex;
+                    return (
+                      <div
+                        key={feature.id}
+                        aria-hidden={!isSelected || undefined}
+                        className={cn(
+                          'absolute inset-0 flex items-center justify-center bg-gradient-to-br from-white to-primary-teal/5',
+                          'transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none',
+                          isSelected
+                            ? 'translate-x-0 scale-100 opacity-100'
+                            : cn('scale-[0.97] opacity-0', index < selectedIndex ? '-translate-x-14' : 'translate-x-14')
+                        )}
+                      >
+                        {feature.screenshot ? (
+                          <Image
+                            src={feature.screenshot}
+                            alt={t.common.featureScreenshotAlt(feature.title)}
+                            fill
+                            className="object-cover"
+                            sizes="(max-width: 768px) 280px, 350px"
+                            unoptimized
+                            draggable={false}
+                          />
+                        ) : (
+                          <div className="px-8 text-center">
+                            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-brand text-white shadow-glow [&_svg]:h-8 [&_svg]:w-8">
+                              {feature.icon}
+                            </div>
+                            <p className="font-display text-xl font-bold text-foreground">{feature.title}</p>
+                            <p className="mt-2 text-sm leading-relaxed text-muted">{feature.description}</p>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                  {/* Glass glare across the screen. */}
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 bg-[linear-gradient(115deg,rgba(255,255,255,0.22)_0%,rgba(255,255,255,0)_32%)]"
+                  />
+                </PhoneMockup>
+              </div>
+            </div>
+
+            {/* Swipe indicator dots and the autoplay switch */}
+            <div className="mt-5 flex items-center gap-3">
+              <div className="flex items-center">
+                {features.map((feature, index) => (
+                  <button
+                    key={feature.id}
+                    type="button"
+                    onClick={() => setSelectedIndex(index)}
+                    className="group flex h-6 items-center rounded-full px-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-teal"
+                    aria-label={t.common.goToFeature(index + 1)}
+                    aria-current={selectedIndex === index ? 'true' : undefined}
+                  >
+                    <span
+                      className={cn(
+                        'block h-2 rounded-full transition-all duration-300',
+                        selectedIndex === index ? 'w-6 bg-primary-teal' : 'w-2 bg-border group-hover:bg-primary-teal/50'
+                      )}
+                    />
+                  </button>
+                ))}
+              </div>
+              <AnimationPauseToggle paused={userPaused} onToggle={() => setUserPaused(paused => !paused)} />
             </div>
 
             {/* Swipe hint */}
             <p className="text-xs text-muted mt-2">{t.features.swipeHint}</p>
-          </motion.div>
+          </div>
 
-          {/* Right: Feature List */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="space-y-3 order-1 lg:order-2"
-          >
+          {/* Right: Feature List. Every item keeps its size, so autoplay never moves the layout. */}
+          <SpotlightGroup className="space-y-3 order-1 lg:order-2">
             {features.map((item, index) => {
-              const isSelected = selectedFeature === item.id;
+              const isSelected = index === selectedIndex;
               return (
-                <motion.button
+                <div
                   key={item.id}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{
-                    opacity: isInView ? 1 : 0,
-                    y: isInView ? 0 : 10,
-                    scale: isSelected ? 1.02 : 1,
-                  }}
-                  transition={{ duration: 0.3, delay: 0.1 + index * 0.05 }}
-                  onClick={() => selectFeature(item.id)}
-                  className={cn(
-                    'text-left rounded-xl transition-all duration-300 cursor-pointer',
-                    'border hover:border-primary-teal/50',
-                    isSelected
-                      ? 'w-[calc(100%+16px)] lg:w-[calc(100%+24px)] -ml-2 lg:-ml-3 p-5 lg:p-6 bg-gradient-to-r from-primary-forest/10 to-primary-teal/5 border-primary-teal shadow-md'
-                      : 'w-full p-4 lg:p-5 bg-white/50 border-border hover:bg-white/80'
-                  )}
+                  className="reveal"
+                  style={{ '--reveal-delay': `${200 + index * 60}ms` } as React.CSSProperties}
                 >
-                  <div className="flex items-start gap-4">
-                    {/* Icon */}
-                    <div
+                  <button
+                    type="button"
+                    onClick={() => setSelectedIndex(index)}
+                    aria-pressed={isSelected}
+                    className={cn(
+                      'spotlight-card relative flex w-full items-start gap-4 overflow-hidden rounded-2xl border p-4 text-left lg:p-5',
+                      'transition-[background-color,border-color,box-shadow] duration-300',
+                      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-teal focus-visible:ring-offset-2',
+                      isSelected
+                        ? 'border-primary-teal/50 bg-white shadow-glass-lg'
+                        : 'border-border bg-white/50 hover:border-primary-teal/40 hover:bg-white/80'
+                    )}
+                  >
+                    {/* Selected wash */}
+                    <span
+                      aria-hidden="true"
                       className={cn(
-                        'flex-shrink-0 rounded-xl flex items-center justify-center transition-all duration-300',
-                        isSelected
-                          ? 'w-14 h-14 lg:w-16 lg:h-16 bg-primary-teal text-white'
-                          : 'w-11 h-11 lg:w-12 lg:h-12 bg-primary-forest/10 text-primary-forest'
+                        'pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-primary-teal/[0.08] via-transparent to-energy-lime/[0.08] transition-opacity duration-300',
+                        isSelected ? 'opacity-100' : 'opacity-0'
+                      )}
+                    />
+
+                    {/* Icon */}
+                    <span
+                      className={cn(
+                        'flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl transition-[background-color,color,box-shadow] duration-300',
+                        isSelected ? 'bg-gradient-brand text-white shadow-glow' : 'bg-primary-forest/10 text-primary-forest'
                       )}
                     >
-                      <div className={isSelected ? 'scale-125' : ''}>
-                        {item.icon}
-                      </div>
-                    </div>
+                      {item.icon}
+                    </span>
 
                     {/* Content */}
                     <div className="flex-1 min-w-0">
-                      <h3 className={cn(
-                        'font-display font-semibold text-foreground transition-all',
-                        isSelected ? 'text-lg lg:text-xl' : 'text-base lg:text-lg'
-                      )}>
+                      <h3
+                        className={cn(
+                          'font-display text-base font-semibold transition-colors duration-300 lg:text-lg',
+                          isSelected ? 'text-primary-forest' : 'text-foreground'
+                        )}
+                      >
                         {item.title}
                       </h3>
-                      <p className={cn(
-                        'text-muted mt-1 transition-all',
-                        isSelected ? 'text-sm lg:text-base line-clamp-3' : 'text-sm line-clamp-2'
-                      )}>
-                        {item.description}
-                      </p>
+                      <p className="text-muted mt-1 text-sm">{item.description}</p>
                     </div>
 
-                    {/* Arrow indicator - points left */}
-                    <div
+                    {/* Arrow toward the phone, which sits to the left on wide screens. */}
+                    <span
+                      aria-hidden="true"
                       className={cn(
-                        'flex-shrink-0 rounded-full flex items-center justify-center transition-all duration-300',
-                        isSelected
-                          ? 'w-8 h-8 bg-primary-teal text-white'
-                          : 'w-6 h-6 bg-transparent text-muted'
+                        'hidden h-7 w-7 flex-shrink-0 items-center justify-center rounded-full transition-colors duration-300 lg:flex',
+                        isSelected ? 'bg-primary-teal text-white' : 'text-muted'
                       )}
                     >
-                      <svg className={cn('rotate-180', isSelected ? 'w-5 h-5' : 'w-4 h-4')} fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                      <svg className="h-4 w-4 rotate-180" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                       </svg>
-                    </div>
-                  </div>
-                </motion.button>
+                    </span>
+
+                    {/* Autoplay timer; when it fills, the next feature takes over. */}
+                    {isSelected && (
+                      <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-[3px] overflow-hidden">
+                        <span
+                          className="feature-progress block h-full w-full bg-gradient-energy"
+                          style={{ animationPlayState: playing ? 'running' : 'paused' }}
+                          onAnimationEnd={advance}
+                        />
+                      </span>
+                    )}
+                  </button>
+                </div>
               );
             })}
-          </motion.div>
+          </SpotlightGroup>
         </div>
       </div>
     </section>

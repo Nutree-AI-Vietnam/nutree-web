@@ -109,21 +109,10 @@ Nutrition Accents:
 
 ### Typography
 
-**Display Font**: [Plus Jakarta Sans](https://fonts.google.com/specimen/Plus+Jakarta+Sans)
-- Weight: 400, 500, 600, 700, 800
-- Used for headings, hero section
-- Modern, warm, characterful personality
-
-**Body Font**: [DM Sans](https://fonts.google.com/specimen/DM+Sans)
-- Weight: 400, 500, 700
-- Used for body text, UI elements
-- Clean, readable, excellent readability
-
-Both fonts support:
-- Latin (EN, ES, FR, DE)
-- Vietnamese (VI)
-- Extended character sets
-- Multiple weight variations
+**Font**: [Be Vietnam Pro](https://fonts.google.com/specimen/Be+Vietnam+Pro), one family for headings and body text
+- Weights: 400, 500, 600, 700, 800
+- Loaded with `next/font/google` as `--font-be-vietnam`; Tailwind's `font-display` and `font-body` both use it
+- Designed for Vietnamese, so stacked diacritics (Ợ, Ỡ, Ạ) render cleanly in large headlines
 
 ### Effects & Animations
 

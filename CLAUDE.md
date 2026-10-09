@@ -21,7 +21,7 @@ src/
 │   └── changelog/    # Changelog page (ISR)
 │
 ├── components/       # React components
-│   ├── ui/           # Atomic components (Button, Logo)
+│   ├── ui/           # Atomic components (Logo, StoreBadges, PhoneMockup)
 │   ├── layout/       # Header, Footer, MobileMenu, AuroraBackground
 │   └── sections/     # Page sections (Hero, Features, etc.)
 │
@@ -99,8 +99,7 @@ Colors:
 - foreground: #0F1F1A
 
 Fonts:
-- Plus Jakarta Sans (display)
-- DM Sans (body)
+- Be Vietnam Pro (display and body, `--font-be-vietnam`)
 ```
 
 ## Animation
@@ -171,7 +170,6 @@ export const NAV_LINKS = [
 | Header | `components/layout/Header.tsx` | Sticky nav |
 | Footer | `components/layout/Footer.tsx` | Site footer |
 | Hero | `components/sections/Hero.tsx` | Hero section |
-| Button | `components/ui/Button.tsx` | Reusable button |
 | AuroraBackground | `components/layout/AuroraBackground.tsx` | Animated bg |
 
 ## Common Gotchas

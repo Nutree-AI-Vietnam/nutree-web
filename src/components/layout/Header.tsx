@@ -1,11 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
-import { motion, AnimatePresence } from 'framer-motion';
 import { Logo } from '@/components/ui/Logo';
-import { Button } from '@/components/ui/Button';
 import { AppleIcon } from '@/components/ui/AppleIcon';
+import { AndroidIcon } from '@/components/ui/AndroidIcon';
 import { CartIcon } from '@/components/ui/CartIcon';
 import { MobileMenu } from './MobileMenu';
 import { cn } from '@/lib/cn';
@@ -13,10 +12,14 @@ import { NAV_LINKS, SITE_CONFIG } from '@/lib/constants';
 import { useLocale } from '@/lib/locale-context';
 import { getNavLabel } from '@/lib/translations';
 
+const pillClass =
+  'inline-flex h-10 items-center gap-2 rounded-full border border-primary-forest/20 px-3 text-sm font-medium text-primary-forest transition-colors hover:border-primary-forest/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-teal focus-visible:ring-offset-2';
+
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { locale, setLocale, t } = useLocale();
+  const closeMobileMenu = useCallback(() => setIsMobileMenuOpen(false), []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,9 +32,7 @@ export function Header() {
 
   return (
     <>
-      <motion.header
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
+      <header
         className={cn(
           'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
           isScrolled
@@ -57,13 +58,9 @@ export function Header() {
               ))}
             </nav>
 
-            {/* Desktop: Cart + Language Toggle + App Store */}
+            {/* Desktop: Cart + Language Toggle + Store links */}
             <div className="hidden items-center gap-3 md:flex">
-              <Link
-                href="/pay"
-                aria-label={t.common.cartLabel}
-                className="inline-flex h-10 items-center gap-2 rounded-full border border-primary-forest/20 px-3 text-sm font-medium text-primary-forest transition-colors hover:border-primary-forest/40"
-              >
+              <Link href="/pay" aria-label={t.common.cartLabel} className={pillClass}>
                 <CartIcon className="h-4 w-4" />
                 <span>{t.common.cart}</span>
               </Link>
@@ -78,19 +75,23 @@ export function Header() {
                 <span className={locale === 'vi' ? 'text-foreground' : 'text-muted'}>VI</span>
               </button>
 
-              <Link
+              {/* Visible store names stay inside the accessible name (WCAG 2.5.3). */}
+              <a
                 href={SITE_CONFIG.stores.appStore}
                 aria-label={t.common.appStoreDownloadLabel}
+                className={pillClass}
               >
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  className="gap-2 border-primary-forest/20 hover:border-primary-forest/40"
-                >
-                  <AppleIcon className="h-4 w-4" />
-                  <span className="hidden lg:inline">App Store</span>
-                </Button>
-              </Link>
+                <AppleIcon className="h-4 w-4" />
+                <span className="hidden xl:inline">App Store</span>
+              </a>
+              <a
+                href={SITE_CONFIG.stores.googlePlay}
+                aria-label={t.common.googlePlayDownloadLabel}
+                className={pillClass}
+              >
+                <AndroidIcon className="h-4 w-4" />
+                <span className="hidden xl:inline">Google Play</span>
+              </a>
             </div>
 
             {/* Mobile: Cart + Menu */}
@@ -106,6 +107,7 @@ export function Header() {
                 className="flex h-10 w-10 items-center justify-center"
                 onClick={() => setIsMobileMenuOpen(true)}
                 aria-label="Open menu"
+                aria-expanded={isMobileMenuOpen}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -113,6 +115,7 @@ export function Header() {
                   viewBox="0 0 24 24"
                   strokeWidth={2}
                   stroke="currentColor"
+                  aria-hidden="true"
                   className="h-6 w-6"
                 >
                   <path
@@ -125,14 +128,10 @@ export function Header() {
             </div>
           </div>
         </div>
-      </motion.header>
+      </header>
 
       {/* Mobile Menu */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <MobileMenu onClose={() => setIsMobileMenuOpen(false)} />
-        )}
-      </AnimatePresence>
+      {isMobileMenuOpen && <MobileMenu onClose={closeMobileMenu} />}
     </>
   );
 }

@@ -1,16 +1,13 @@
-import type { Metadata } from 'next';
 import { LegalPageClient } from '@/components/legal/LegalPageClient';
 import { cancellationPolicyContent } from '@/lib/cancellation-policy-content';
+import { createPageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Cancellation & Refund Policy | Nutree',
+export const metadata = createPageMetadata({
+  title: 'Chính sách hủy & hoàn tiền | Nutree',
   description:
-    'How to cancel your Nutree subscription, what happens after cancel, and how refunds work.',
-  openGraph: {
-    title: 'Cancellation & Refund Policy | Nutree',
-    type: 'website',
-  },
-};
+    'Cách hủy gói đăng ký Nutree, điều gì xảy ra sau khi hủy và hoàn tiền được xử lý như thế nào.',
+  path: '/cancellation',
+});
 
 export default function CancellationPolicyPage() {
   return (

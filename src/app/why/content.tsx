@@ -1,12 +1,9 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import Link from 'next/link';
-import { Button } from '@/components/ui/Button';
+import { StoreBadges } from '@/components/ui/StoreBadges';
 import { useInView } from '@/hooks/useInView';
-import { SITE_CONFIG } from '@/lib/constants';
 import { useLocale } from '@/lib/locale-context';
-import { AppleIcon } from '@/components/ui/AppleIcon';
 
 /**
  * Locale-aware feature demo clips, keyed by solution.features array index.
@@ -395,23 +392,9 @@ export function WhyNutreeContent() {
                 {w.cta.subtext}
               </p>
 
-              <Link href={SITE_CONFIG.stores.appStore} aria-label={t.common.appStoreDownloadLabel}>
-                <Button
-                  variant="secondary"
-                  size="lg"
-                  className="gap-3 bg-white text-primary-forest border-white hover:bg-white/90 hover:border-white/90"
-                >
-                  <AppleIcon className="h-6 w-6" />
-                  <div className="text-left">
-                    <div className="text-xs font-normal opacity-70">
-                      {w.cta.downloadOnThe}
-                    </div>
-                    <div className="text-sm font-semibold -mt-0.5">{w.cta.appStore}</div>
-                  </div>
-                </Button>
-              </Link>
+              <StoreBadges className="justify-center" />
 
-              <p className="mt-6 text-sm text-white/50">{w.cta.fineprint}</p>
+              <p className="mt-6 text-sm text-white/70">{w.cta.fineprint}</p>
             </div>
           </motion.div>
         </div>

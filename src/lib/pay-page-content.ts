@@ -9,6 +9,11 @@ export interface PayPlanCopy {
   features: string[];
   badge?: string;
   highlight?: boolean;
+  /** What the same period costs on the monthly plan, shown struck through next to `savings`. */
+  compareAtPrice?: string;
+  /** Screen-reader context for `compareAtPrice`. */
+  compareAtLabel?: string;
+  savings?: string;
 }
 
 export interface PayCheckoutCopy {
@@ -106,12 +111,15 @@ export const payPageContent: Record<Locale, PayPageCopy> = {
         cta: 'Add to cart',
         badge: 'Most popular',
         highlight: true,
+        compareAtPrice: '1.188.000đ',
+        compareAtLabel: '12 months on the monthly plan:',
+        savings: 'Save 66%',
         stats: [
           { value: '~33.000đ', label: 'Per month equivalent' },
           { value: 'Weekly', label: 'Budget rebalance' },
           { value: 'Unlimited', label: 'AI meal scans' },
         ],
-        features: [...sharedFeaturesEn, 'Best value'],
+        features: [...sharedFeaturesEn, 'One payment covers 12 months'],
       },
     ],
   },
@@ -164,12 +172,15 @@ export const payPageContent: Record<Locale, PayPageCopy> = {
         cta: 'Thêm vào giỏ',
         badge: 'Phổ biến nhất',
         highlight: true,
+        compareAtPrice: '1.188.000đ',
+        compareAtLabel: '12 tháng theo gói tháng:',
+        savings: 'Tiết kiệm 66%',
         stats: [
           { value: '~33.000đ', label: 'Quy đổi mỗi tháng' },
           { value: 'Hàng tuần', label: 'Cân bằng ngân sách' },
           { value: 'Không giới hạn', label: 'Quét món bằng AI' },
         ],
-        features: [...sharedFeaturesVi, 'Tiết kiệm nhất'],
+        features: [...sharedFeaturesVi, 'Thanh toán một lần cho 12 tháng'],
       },
     ],
   },

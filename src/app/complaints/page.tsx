@@ -1,16 +1,13 @@
-import type { Metadata } from 'next';
 import { LegalPageClient } from '@/components/legal/LegalPageClient';
 import { complaintsPolicyContent } from '@/lib/complaints-policy-content';
+import { createPageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Complaints Policy | Nutree',
+export const metadata = createPageMetadata({
+  title: 'Tiếp nhận và giải quyết khiếu nại | Nutree',
   description:
-    'How Nutree receives and resolves feedback, support requests, and complaints.',
-  openGraph: {
-    title: 'Complaints Policy | Nutree',
-    type: 'website',
-  },
-};
+    'Cách Nutree tiếp nhận và giải quyết phản ánh, yêu cầu hỗ trợ và khiếu nại về tài khoản, thanh toán, dữ liệu và chất lượng dịch vụ.',
+  path: '/complaints',
+});
 
 export default function ComplaintsPolicyPage() {
   return (
