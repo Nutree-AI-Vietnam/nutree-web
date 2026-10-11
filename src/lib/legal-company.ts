@@ -28,6 +28,18 @@ export const LEGAL_COMPANY = {
   bctRegistrationUrl: 'https://online.gov.vn/nen-tang/8827acb5-d544-4881-8984-e67248f540d3',
 } as const;
 
+/** Bộ Công Thương e-commerce notification on online.gov.vn. */
+export const BO_CONG_THUONG_NOTICE = {
+  href: LEGAL_COMPANY.bctRegistrationUrl,
+  imageSrc: '/badges/da-thong-bao.png',
+  imageWidth: 230,
+  imageHeight: 86,
+  /** Slightly larger than the 44px official snippet so it reads in the footer. */
+  displayHeight: 56,
+  title: 'Đã xác nhận với Bộ Công Thương',
+  alt: 'Đã xác nhận',
+} as const;
+
 export type LegalLocale = 'vi' | 'en';
 
 /** English path slugs for all legal policy pages. */
