@@ -4,7 +4,7 @@
 
 | Item | Value |
 |------|-------|
-| **Framework** | Next.js 14 (App Router) |
+| **Framework** | Next.js 15 (App Router) |
 | **Language** | TypeScript 5+ (strict) |
 | **Styling** | Tailwind CSS 3.4 |
 | **Animation** | Framer Motion 11 |

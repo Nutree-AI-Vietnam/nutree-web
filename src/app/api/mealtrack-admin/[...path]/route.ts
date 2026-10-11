@@ -7,9 +7,9 @@ const LEGACY_MEALTRACK_API_URL = (
 ).replace(/\/$/, '');
 
 interface RouteContext {
-  params: {
+  params: Promise<{
     path: string[];
-  };
+  }>;
 }
 
 export async function GET(request: NextRequest, context: RouteContext) {
@@ -29,7 +29,8 @@ async function proxyMealTrackRequest(request: NextRequest, context: RouteContext
     );
   }
 
-  const path = context.params.path.join('/');
+  const { path: pathSegments } = await context.params;
+  const path = pathSegments.join('/');
   const target = new URL(`/v1/admin/${path}`, backendUrl);
   request.nextUrl.searchParams.forEach((value, key) => target.searchParams.set(key, value));
 
