@@ -4,6 +4,7 @@ import { HeroBackdrop } from '@/components/sections/HeroBackdrop';
 import { HeroScanShowcase } from '@/components/sections/HeroScanShowcase';
 import { StoreBadges } from '@/components/ui/StoreBadges';
 import { cn } from '@/lib/cn';
+import { SITE_CONFIG } from '@/lib/constants';
 import { useLocale } from '@/lib/locale-context';
 
 // Heroicons outline paths: trophy, check-badge, language.
@@ -80,13 +81,33 @@ export function HeroV2() {
               {t.hero.subheadline}
             </p>
 
+            {/* Primary path: the quiz on its own subdomain. Store badges follow as the direct install route. */}
             <div className="hero-fade-up" style={{ animationDelay: '540ms' }}>
+              <a
+                href={SITE_CONFIG.quizUrl}
+                className="group inline-flex h-12 items-center gap-2 rounded-full bg-primary-forest px-6 text-base font-semibold text-white shadow-[0_14px_32px_-14px_rgba(26,71,57,0.65)] transition duration-300 hover:bg-primary-emerald hover:shadow-glow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-teal focus-visible:ring-offset-2 motion-reduce:transition-none"
+              >
+                {t.hero.getStartedCta}
+                <svg
+                  aria-hidden="true"
+                  className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-0.5 motion-reduce:transition-none"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={2}
+                  stroke="currentColor"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
+              </a>
+            </div>
+
+            <div className="hero-fade-up mt-4" style={{ animationDelay: '600ms' }}>
               <StoreBadges className="justify-center lg:justify-start" />
             </div>
 
             <ul
               className="hero-fade-up mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm text-muted lg:justify-start"
-              style={{ animationDelay: '600ms' }}
+              style={{ animationDelay: '660ms' }}
             >
               {TRUST_ITEMS.map((item) => (
                 <li key={item.key} className="flex items-center gap-2">

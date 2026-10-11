@@ -3,6 +3,8 @@ export const SITE_CONFIG = {
   tagline: 'Not another calorie counter. An AI Nutrition Assistant that adapts.',
   description: 'Not another calorie counter. Nutree is an AI Nutrition Assistant that adapts your daily targets, plans meals, and tracks every macro automatically.',
   url: 'https://nutreeai.com',
+  // Home hero "Get started" target; the quiz lives on its own subdomain.
+  quizUrl: 'https://quiz.nutreeai.com',
   supportEmail: 'nutreeaidev@gmail.com',
   stores: {
     appStore: 'https://apps.apple.com/vn/app/nutree-eat-with-science/id6751159552',

@@ -42,6 +42,7 @@ interface TranslationStrings {
     headlines: string[];
     subheadline: string;
     tagline?: string;
+    getStartedCta: string;
     trustBadges: { rating: string; personalizedPlan: string; languages: string };
   };
   socialProof: {
@@ -205,6 +206,7 @@ export const translations: Record<Locale, TranslationStrings> = {
       headlines: ['IDEAS.', 'TRACK.', 'THRIVE.'],
       subheadline:
         'Not another calorie counter. Nutree adapts your daily targets, plans your meals, and tracks every macro — automatically.',
+      getStartedCta: 'Get started',
       trustBadges: {
         rating: '#1 Health & Fitness',
         personalizedPlan: 'Personalized Premium plans',
@@ -678,6 +680,7 @@ export const translations: Record<Locale, TranslationStrings> = {
       subheadline:
         'Không phải app đếm calo bình thường. Nutree tự điều chỉnh mục tiêu mỗi ngày, gợi ý bữa ăn và track macro giúp bạn — tự động hoàn toàn.',
       tagline: 'Tăng Cơ Giảm Mỡ',
+      getStartedCta: 'Bắt đầu ngay',
       trustBadges: {
         rating: '#1 Sức khỏe & Thể hình',
         personalizedPlan: 'Gói Premium cá nhân hóa',
