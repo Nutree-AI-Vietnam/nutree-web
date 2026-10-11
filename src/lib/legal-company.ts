@@ -24,6 +24,8 @@ export const LEGAL_COMPANY = {
   effectiveDate: '06/08/2026',
   version: '1.0',
   representative: 'Lê Thanh Trường',
+  /** Public listing on the MoIT e-commerce portal (online.gov.vn); target of the "Đã thông báo Bộ Công Thương" badge. */
+  bctRegistrationUrl: 'https://online.gov.vn/nen-tang/8827acb5-d544-4881-8984-e67248f540d3',
 } as const;
 
 export type LegalLocale = 'vi' | 'en';

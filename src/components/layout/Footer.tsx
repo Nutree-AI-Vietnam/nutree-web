@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { Logo } from '@/components/ui/Logo';
 import { StoreBadges } from '@/components/ui/StoreBadges';
@@ -50,6 +51,20 @@ export function Footer() {
               </p>
               <p className="max-w-xs">{address}</p>
             </div>
+            <a
+              href={LEGAL_COMPANY.bctRegistrationUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-5 inline-flex rounded-lg transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-teal focus-visible:ring-offset-2"
+            >
+              <Image
+                src="/badges/bo-cong-thuong.webp"
+                alt={t.footer.bctBadgeAlt}
+                width={160}
+                height={52}
+                unoptimized
+              />
+            </a>
           </div>
 
           <div>

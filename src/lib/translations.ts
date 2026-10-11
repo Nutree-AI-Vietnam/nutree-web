@@ -100,6 +100,7 @@ interface TranslationStrings {
     taxIssuedPlace: string;
     address: string;
     email: string;
+    bctBadgeAlt: string;
   };
   homePricing: {
     title: string;
@@ -358,6 +359,8 @@ export const translations: Record<Locale, TranslationStrings> = {
       taxIssuedPlace: 'Issuing authority',
       address: 'Registered address',
       email: 'Email',
+      bctBadgeAlt:
+        'Notified to the Vietnam Ministry of Industry and Trade — view our listing on online.gov.vn',
     },
     homePricing: {
       badge: 'Plans',
@@ -845,6 +848,7 @@ export const translations: Record<Locale, TranslationStrings> = {
       taxIssuedPlace: 'Nơi cấp',
       address: 'Địa chỉ',
       email: 'Email',
+      bctBadgeAlt: 'Đã thông báo Bộ Công Thương — xem hồ sơ trên online.gov.vn',
     },
     homePricing: {
       badge: 'Gói dịch vụ',
