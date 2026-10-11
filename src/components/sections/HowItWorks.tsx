@@ -81,7 +81,9 @@ export function HowItWorks() {
 
       <div className="container relative mx-auto px-4">
         <div className="reveal mx-auto mb-14 max-w-2xl text-center md:mb-20">
+          <p className="section-eyebrow text-energy-lime">{t.howItWorks.eyebrow}</p>
           <h2 className="section-title text-white">{renderTitle(t.howItWorks.title)}</h2>
+          <p className="section-subtitle text-white/70">{t.howItWorks.subtitle}</p>
         </div>
 
         <ol className="mx-auto grid max-w-5xl gap-10 md:grid-cols-3 md:gap-8">

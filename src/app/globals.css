@@ -50,6 +50,16 @@
   .section-subtitle {
     @apply mt-4 text-lg md:text-xl text-muted max-w-2xl mx-auto;
   }
+
+  /* Small label over a section title; the dot takes the text colour, so it works on dark bands. */
+  .section-eyebrow {
+    @apply mb-4 inline-flex items-center gap-2.5 text-xs font-bold uppercase tracking-[0.2em] text-primary-emerald;
+  }
+
+  .section-eyebrow::before {
+    content: '';
+    @apply h-1.5 w-1.5 rounded-full bg-current;
+  }
 }
 
 @layer utilities {
@@ -205,6 +215,28 @@
     opacity: 0;
     transform: translateY(16px);
   }
+}
+
+/* Primary button: a soft highlight sweeps across once on hover. */
+.cta-primary {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.cta-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(110deg, transparent 35%, rgba(255, 255, 255, 0.22) 50%, transparent 65%);
+  transform: translateX(-120%);
+  transition: transform 0.8s var(--ease-out-expo);
+  pointer-events: none;
+}
+
+.cta-primary:hover::after {
+  transform: translateX(120%);
 }
 
 .hero-grid {
@@ -527,7 +559,8 @@
     animation: none;
   }
 
-  .feature-progress {
+  .feature-progress,
+  .cta-primary::after {
     display: none;
   }
 

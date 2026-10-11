@@ -42,7 +42,12 @@ interface TranslationStrings {
     headlines: string[];
     subheadline: string;
     tagline?: string;
-    getStartedCta: string;
+    /** Primary action: the quiz on quiz.nutreeai.com that builds a personalized plan. */
+    primaryCta: string;
+    /** One line under the button saying what the quiz does. */
+    primaryCtaHint: string;
+    /** Introduces the store badges as the quieter, direct-install route. */
+    orDownload: string;
     trustBadges: { rating: string; personalizedPlan: string; languages: string };
   };
   socialProof: {
@@ -52,13 +57,28 @@ interface TranslationStrings {
     languages: string;
   };
   howItWorks: {
+    eyebrow: string;
     title: string;
+    subtitle: string;
     steps: Array<{ title: string; description: string }>;
   };
   features: {
+    eyebrow: string;
     title: string;
+    subtitle: string;
     swipeHint: string;
     items: Array<{ id: string; title: string; description: string }>;
+  };
+  /** Calorie counter vs. Nutree, row by row. Every Nutree cell states a documented product rule. */
+  comparison: {
+    eyebrow: string;
+    title: string;
+    subtitle: string;
+    columns: { counter: string; nutree: string };
+    rows: Array<{ label: string; counter: string; nutree: string }>;
+    /** Short lead-in plus the link text that points to the FAQ, where the rules are spelled out. */
+    footnote: string;
+    footnoteLink: string;
   };
   testimonials: {
     title: string;
@@ -74,6 +94,8 @@ interface TranslationStrings {
     badge: string;
     headline: string;
     subtext: string;
+    primaryCta: string;
+    orDownload: string;
     trustMessage: string;
   };
   footer: {
@@ -206,7 +228,9 @@ export const translations: Record<Locale, TranslationStrings> = {
       headlines: ['IDEAS.', 'TRACK.', 'THRIVE.'],
       subheadline:
         'Not another calorie counter. Nutree adapts your daily targets, plans your meals, and tracks every macro — automatically.',
-      getStartedCta: 'Get started',
+      primaryCta: 'Build my plan',
+      primaryCtaHint: 'Answer a few questions and get a plan built around your body and goal.',
+      orDownload: 'or get the app',
       trustBadges: {
         rating: '#1 Health & Fitness',
         personalizedPlan: 'Personalized Premium plans',
@@ -220,7 +244,9 @@ export const translations: Record<Locale, TranslationStrings> = {
       languages: 'Languages Supported',
     },
     howItWorks: {
+      eyebrow: 'Three steps a day',
       title: 'How {Nutree} works',
+      subtitle: 'You log what you eat. Nutree does the math and adapts your targets, so all that is left is to eat and train.',
       steps: [
         {
           title: 'Log',
@@ -237,7 +263,9 @@ export const translations: Record<Locale, TranslationStrings> = {
       ],
     },
     features: {
+      eyebrow: 'Everything in one app',
       title: 'What does {Nutree} include?',
+      subtitle: 'From your first TDEE calculation to tonight’s dinner suggestion.',
       swipeHint: 'Swipe to browse features',
       items: [
         {
@@ -277,6 +305,37 @@ export const translations: Record<Locale, TranslationStrings> = {
             'Use Nutree in English, Vietnamese, Spanish, French, German, Japanese, or Simplified Chinese — with dark/light themes and metric/imperial support.',
         },
       ],
+    },
+    comparison: {
+      eyebrow: 'Not another calorie counter',
+      title: 'A calorie counter vs. {Nutree}',
+      subtitle:
+        'Counting is the easy part. Nutree is built for what happens after a skipped lunch, a big dinner, or a long week.',
+      columns: { counter: 'Calorie counter', nutree: 'Nutree' },
+      rows: [
+        {
+          label: 'Daily targets',
+          counter: 'The same number every day.',
+          nutree: 'A weekly budget that rebalances the days you have left.',
+        },
+        {
+          label: 'Logging a meal',
+          counter: 'Weigh it, search it, pick a serving size.',
+          nutree: 'A photo, a barcode, or one sentence. AI breaks down every ingredient.',
+        },
+        {
+          label: 'What to eat next',
+          counter: 'You figure it out.',
+          nutree: 'Suggestions with exact portions and recipes that fit what is left today.',
+        },
+        {
+          label: 'After a big day',
+          counter: 'Start over tomorrow.',
+          nutree: 'Extra calories spread across the week. Protein stays fixed; carbs and fat move.',
+        },
+      ],
+      footnote: 'Want the exact rules behind the weekly budget and its daily swing caps?',
+      footnoteLink: 'Read the FAQ',
     },
     testimonials: {
       title: 'Why choose {Nutree}?',
@@ -319,7 +378,9 @@ export const translations: Record<Locale, TranslationStrings> = {
       badge: 'Start Your Transformation',
       headline: 'Life gets busy. Nutree keeps your nutrition targets on track.',
       subtext:
-        'Download Nutree for nutrition guidance that adapts to real life — so you never have to start over.',
+        'Answer a few questions, get your plan, and let Nutree adapt it to real life — so you never have to start over.',
+      primaryCta: 'Build my plan',
+      orDownload: 'or get the app',
       trustMessage: 'Built around your goals',
     },
     footer: {
@@ -680,7 +741,9 @@ export const translations: Record<Locale, TranslationStrings> = {
       subheadline:
         'Không phải app đếm calo bình thường. Nutree tự điều chỉnh mục tiêu mỗi ngày, gợi ý bữa ăn và track macro giúp bạn — tự động hoàn toàn.',
       tagline: 'Tăng Cơ Giảm Mỡ',
-      getStartedCta: 'Bắt đầu ngay',
+      primaryCta: 'Tạo kế hoạch cho tôi',
+      primaryCtaHint: 'Trả lời vài câu hỏi để nhận kế hoạch dinh dưỡng theo cơ thể và mục tiêu của bạn.',
+      orDownload: 'hoặc tải app',
       trustBadges: {
         rating: '#1 Sức khỏe & Thể hình',
         personalizedPlan: 'Gói Premium cá nhân hóa',
@@ -694,7 +757,9 @@ export const translations: Record<Locale, TranslationStrings> = {
       languages: 'Ngôn ngữ hỗ trợ',
     },
     howItWorks: {
+      eyebrow: 'Ba bước mỗi ngày',
       title: '{Nutree} dùng thế nào',
+      subtitle: 'Bạn ghi lại bữa ăn. Nutree tính toán và điều chỉnh mục tiêu, việc còn lại chỉ là ăn và tập.',
       steps: [
         {
           title: 'Chụp',
@@ -711,7 +776,9 @@ export const translations: Record<Locale, TranslationStrings> = {
       ],
     },
     features: {
+      eyebrow: 'Tất cả trong một app',
       title: '{Nutree} có gì?',
+      subtitle: 'Từ lần tính TDEE đầu tiên đến gợi ý bữa tối nay.',
       swipeHint: 'Vuốt để xem thêm',
       items: [
         {
@@ -751,6 +818,37 @@ export const translations: Record<Locale, TranslationStrings> = {
             'Dùng Nutree bằng tiếng Anh, Việt, Tây Ban Nha, Pháp, Đức, Nhật hoặc Trung giản thể — kèm giao diện tối/sáng và đơn vị tùy chọn.',
         },
       ],
+    },
+    comparison: {
+      eyebrow: 'Không chỉ đếm calo',
+      title: 'App đếm calo vs. {Nutree}',
+      subtitle:
+        'Đếm calo là phần dễ. Nutree được xây cho những gì xảy ra sau một bữa trưa bỏ lỡ, một bữa tối thịnh soạn hay một tuần dài.',
+      columns: { counter: 'App đếm calo', nutree: 'Nutree' },
+      rows: [
+        {
+          label: 'Mục tiêu mỗi ngày',
+          counter: 'Một con số giống nhau mỗi ngày.',
+          nutree: 'Ngân sách theo tuần, tự cân bằng lại cho các ngày còn lại.',
+        },
+        {
+          label: 'Ghi bữa ăn',
+          counter: 'Cân, tìm kiếm, chọn khẩu phần.',
+          nutree: 'Một tấm ảnh, một mã vạch hoặc một câu mô tả. AI phân tích từng nguyên liệu.',
+        },
+        {
+          label: 'Ăn gì tiếp theo',
+          counter: 'Bạn tự nghĩ.',
+          nutree: 'Gợi ý kèm khẩu phần chính xác và công thức, vừa với phần còn lại trong ngày.',
+        },
+        {
+          label: 'Sau một ngày ăn nhiều',
+          counter: 'Ngày mai làm lại từ đầu.',
+          nutree: 'Calo dư được chia cho cả tuần. Protein giữ nguyên; carb và fat điều chỉnh.',
+        },
+      ],
+      footnote: 'Muốn biết chính xác quy tắc của ngân sách tuần và giới hạn biên độ mỗi ngày?',
+      footnoteLink: 'Đọc FAQ',
     },
     testimonials: {
       title: 'Sao mọi người chọn {Nutree}?',
@@ -793,7 +891,9 @@ export const translations: Record<Locale, TranslationStrings> = {
       badge: 'Bắt đầu ngay',
       headline: 'Ngày bận rộn vẫn theo đúng plan. Nutree lo phần mục tiêu.',
       subtext:
-        'Tải Nutree để có hướng dẫn dinh dưỡng thích nghi với nhịp sống của bạn — không cần bắt đầu lại từ đầu.',
+        'Trả lời vài câu hỏi, nhận kế hoạch của bạn, rồi để Nutree điều chỉnh theo nhịp sống thật — không cần bắt đầu lại từ đầu.',
+      primaryCta: 'Tạo kế hoạch cho tôi',
+      orDownload: 'hoặc tải app',
       trustMessage: 'Thiết kế theo mục tiêu của bạn',
     },
     footer: {

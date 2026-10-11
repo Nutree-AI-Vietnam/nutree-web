@@ -142,10 +142,10 @@ export function BentoFeatures() {
     <section ref={ref} id="features" data-inview={isInView} className="section-padding relative overflow-hidden">
       <div className="container mx-auto px-4">
         {/* Section Header */}
-        <div className="reveal mb-10 text-center">
-          <h2 className="section-title">
-            {renderTitle(t.features.title)}
-          </h2>
+        <div className="reveal mx-auto mb-10 max-w-2xl text-center md:mb-14">
+          <p className="section-eyebrow">{t.features.eyebrow}</p>
+          <h2 className="section-title">{renderTitle(t.features.title)}</h2>
+          <p className="section-subtitle">{t.features.subtitle}</p>
         </div>
 
         {/* Side-by-side Layout: Preview (left) | Features (right) */}

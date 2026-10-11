@@ -81,13 +81,29 @@ export function HeroV2() {
               {t.hero.subheadline}
             </p>
 
-            {/* Primary path: the quiz on its own subdomain. Store badges follow as the direct install route. */}
+            {/* Primary path: the quiz on its own subdomain builds a personalized plan, and the line
+                under the button says so. The store badges follow as the quieter direct-install
+                route, so the two never compete for the same click. */}
             <div className="hero-fade-up" style={{ animationDelay: '540ms' }}>
               <a
                 href={SITE_CONFIG.quizUrl}
-                className="group inline-flex h-12 items-center gap-2 rounded-full bg-primary-forest px-6 text-base font-semibold text-white shadow-[0_14px_32px_-14px_rgba(26,71,57,0.65)] transition duration-300 hover:bg-primary-emerald hover:shadow-glow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-teal focus-visible:ring-offset-2 motion-reduce:transition-none"
+                className="cta-primary group inline-flex h-14 w-full items-center justify-center gap-2.5 rounded-full bg-primary-forest px-8 text-base font-semibold text-white shadow-[0_18px_40px_-16px_rgba(26,71,57,0.7)] transition duration-300 hover:bg-primary-emerald hover:shadow-glow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-teal focus-visible:ring-offset-2 motion-reduce:transition-none sm:w-auto"
               >
-                {t.hero.getStartedCta}
+                <svg
+                  aria-hidden="true"
+                  className="h-5 w-5 text-energy-lime"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={2}
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"
+                  />
+                </svg>
+                {t.hero.primaryCta}
                 <svg
                   aria-hidden="true"
                   className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-0.5 motion-reduce:transition-none"
@@ -99,15 +115,23 @@ export function HeroV2() {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                 </svg>
               </a>
+              <p className="mx-auto mt-3 max-w-sm text-sm leading-relaxed text-muted lg:mx-0">
+                {t.hero.primaryCtaHint}
+              </p>
             </div>
 
-            <div className="hero-fade-up mt-4" style={{ animationDelay: '600ms' }}>
-              <StoreBadges className="justify-center lg:justify-start" />
+            <div className="hero-fade-up mt-7" style={{ animationDelay: '600ms' }}>
+              <p className="mb-3 flex items-center justify-center gap-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted/80 lg:justify-start">
+                <span aria-hidden="true" className="h-px w-8 bg-border lg:hidden" />
+                {t.hero.orDownload}
+                <span aria-hidden="true" className="h-px w-8 bg-border" />
+              </p>
+              <StoreBadges size="sm" className="justify-center lg:justify-start" />
             </div>
 
             <ul
               className="hero-fade-up mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm text-muted lg:justify-start"
-              style={{ animationDelay: '660ms' }}
+              style={{ animationDelay: '700ms' }}
             >
               {TRUST_ITEMS.map((item) => (
                 <li key={item.key} className="flex items-center gap-2">
