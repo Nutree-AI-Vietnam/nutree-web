@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { Logo } from '@/components/ui/Logo';
 import { AppleIcon } from '@/components/ui/AppleIcon';
 import { AndroidIcon } from '@/components/ui/AndroidIcon';
-import { CartIcon } from '@/components/ui/CartIcon';
 import { MobileMenu } from './MobileMenu';
 import { cn } from '@/lib/cn';
 import { NAV_LINKS, SITE_CONFIG } from '@/lib/constants';
@@ -58,13 +57,8 @@ export function Header() {
               ))}
             </nav>
 
-            {/* Desktop: Cart + Language Toggle + Store links */}
+            {/* Desktop: Language Toggle + Store links */}
             <div className="hidden items-center gap-3 md:flex">
-              <Link href="/pay" aria-label={t.common.cartLabel} className={pillClass}>
-                <CartIcon className="h-4 w-4" />
-                <span>{t.common.cart}</span>
-              </Link>
-
               <button
                 onClick={() => setLocale(locale === 'en' ? 'vi' : 'en')}
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium border border-primary-forest/20 hover:border-primary-forest/40 transition-colors"
@@ -94,38 +88,29 @@ export function Header() {
               </a>
             </div>
 
-            {/* Mobile: Cart + Menu */}
-            <div className="flex items-center gap-1 md:hidden">
-              <Link
-                href="/pay"
-                aria-label={t.common.cartLabel}
-                className="flex h-10 w-10 items-center justify-center text-primary-forest"
+            {/* Mobile Menu Button */}
+            <button
+              className="flex h-10 w-10 items-center justify-center md:hidden"
+              onClick={() => setIsMobileMenuOpen(true)}
+              aria-label="Open menu"
+              aria-expanded={isMobileMenuOpen}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={2}
+                stroke="currentColor"
+                aria-hidden="true"
+                className="h-6 w-6"
               >
-                <CartIcon />
-              </Link>
-              <button
-                className="flex h-10 w-10 items-center justify-center"
-                onClick={() => setIsMobileMenuOpen(true)}
-                aria-label="Open menu"
-                aria-expanded={isMobileMenuOpen}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={2}
-                  stroke="currentColor"
-                  aria-hidden="true"
-                  className="h-6 w-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-                  />
-                </svg>
-              </button>
-            </div>
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                />
+              </svg>
+            </button>
           </div>
         </div>
       </header>

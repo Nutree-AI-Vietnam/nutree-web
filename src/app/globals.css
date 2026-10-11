@@ -282,27 +282,6 @@
   }
 }
 
-/* Rotating conic beam: the parent clips it to a thin animated border. */
-.beam-spin {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 250%;
-  aspect-ratio: 1;
-  transform: translate(-50%, -50%);
-  animation: beam-spin 6s linear infinite;
-}
-
-@keyframes beam-spin {
-  from {
-    transform: translate(-50%, -50%) rotate(0deg);
-  }
-
-  to {
-    transform: translate(-50%, -50%) rotate(360deg);
-  }
-}
-
 /* Cursor spotlight: SpotlightGroup writes --spot-x/--spot-y on every card, so neighbouring cards
    catch the edge of the light too. ::before tints the surface, ::after lights a 1px border. */
 .spotlight-card {
@@ -540,7 +519,6 @@
   .hero-blob,
   .hero-halo,
   .hero-bob,
-  .beam-spin,
   .scroll-cue-dot,
   .cta-pool,
   .marquee-track,

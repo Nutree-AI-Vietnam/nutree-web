@@ -14,6 +14,8 @@ const nextConfig = {
       { source: '/chinh-sach-su-dung', destination: '/usage', permanent: true },
       { source: '/hoan-tien', destination: '/cancellation', permanent: true },
       { source: '/khieu-nai', destination: '/complaints', permanent: true },
+      // Web checkout was retired; old /pay links land on the home page.
+      { source: '/pay', destination: '/', permanent: false },
     ];
   },
   images: {

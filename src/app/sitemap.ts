@@ -9,8 +9,6 @@ const ROUTES: Array<Pick<SitemapEntry, 'changeFrequency' | 'priority'> & { path:
   { path: '/faq', changeFrequency: 'monthly', priority: 0.8 },
   { path: '/research', changeFrequency: 'monthly', priority: 0.7 },
   { path: '/contact', changeFrequency: 'yearly', priority: 0.5 },
-  // Checkout step: worth indexing for plan and price searches, but not a landing page.
-  { path: '/pay', changeFrequency: 'monthly', priority: 0.4 },
   { path: '/privacy', changeFrequency: 'yearly', priority: 0.3 },
   { path: '/terms', changeFrequency: 'yearly', priority: 0.3 },
   { path: '/usage', changeFrequency: 'yearly', priority: 0.3 },

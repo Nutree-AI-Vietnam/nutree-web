@@ -37,7 +37,7 @@ export const usagePolicyContent: Record<Locale, LegalPageContent> = {
       {
         title: 'Step 1 — Choose a plan on the website',
         body: [
-          'Open the Nutree website and go to [Pay](/pay) (also linked from the homepage plans section).',
+          'Open the Nutree website and choose a plan.',
           'Select Monthly or Yearly. Prices and features are shown before you continue to checkout.',
         ],
         images: [
@@ -59,7 +59,7 @@ export const usagePolicyContent: Record<Locale, LegalPageContent> = {
           {
             src: '/pay/mbbank-vietqr.png',
             alt: 'Example VietQR bank-transfer checkout for Nutree',
-            caption: 'Example: scan VietQR or copy bank details on the pay page, then transfer the exact amount.',
+            caption: 'Example: scan VietQR or copy the bank details, then transfer the exact amount.',
           },
         ],
       },
@@ -132,7 +132,7 @@ export const usagePolicyContent: Record<Locale, LegalPageContent> = {
       {
         title: 'Bước 1 — Chọn gói trên website',
         body: [
-          'Truy cập website Nutree và vào trang [Thanh toán](/pay) (hoặc chọn gói ngay trên trang chủ).',
+          'Truy cập website Nutree và chọn gói.',
           'Chọn gói Tháng hoặc gói Năm. Giá và quyền lợi được hiển thị trước khi tiếp tục thanh toán.',
         ],
         images: [
@@ -154,7 +154,7 @@ export const usagePolicyContent: Record<Locale, LegalPageContent> = {
           {
             src: '/pay/mbbank-vietqr.png',
             alt: 'Ví dụ mã VietQR thanh toán Nutree',
-            caption: 'Ví dụ: quét VietQR hoặc sao chép thông tin tài khoản trên trang thanh toán, rồi chuyển đúng số tiền.',
+            caption: 'Ví dụ: quét VietQR hoặc sao chép thông tin tài khoản, rồi chuyển đúng số tiền.',
           },
         ],
       },

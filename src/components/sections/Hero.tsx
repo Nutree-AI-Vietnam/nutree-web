@@ -84,19 +84,9 @@ export function HeroV2() {
               <StoreBadges className="justify-center lg:justify-start" />
             </div>
 
-            {/* A second path for visitors who want the price before they install. */}
-            <div className="hero-fade-up mt-5" style={{ animationDelay: '600ms' }}>
-              <a
-                href="#pricing"
-                className="rounded text-sm font-semibold text-primary-forest underline decoration-primary-teal/40 decoration-2 underline-offset-4 transition-colors hover:decoration-primary-teal focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-teal focus-visible:ring-offset-4"
-              >
-                {t.hero.plansCta}
-              </a>
-            </div>
-
             <ul
               className="hero-fade-up mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm text-muted lg:justify-start"
-              style={{ animationDelay: '660ms' }}
+              style={{ animationDelay: '600ms' }}
             >
               {TRUST_ITEMS.map((item) => (
                 <li key={item.key} className="flex items-center gap-2">

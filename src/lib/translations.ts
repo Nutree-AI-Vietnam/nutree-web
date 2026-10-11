@@ -3,13 +3,11 @@ export type Locale = 'en' | 'vi';
 /** Map nav link href to translated label */
 export function getNavLabel(
   href: string,
-  nav: { howItWorks: string; features: string; pricing: string; download: string; pay: string },
+  nav: { howItWorks: string; features: string; download: string },
 ): string {
   if (href === '/#how-it-works') return nav.howItWorks;
   if (href === '/#features') return nav.features;
-  if (href === '/#pricing') return nav.pricing;
   if (href === '/#download') return nav.download;
-  if (href === '/pay') return nav.pay;
   return '';
 }
 
@@ -35,19 +33,16 @@ interface TranslationStrings {
     dashboardScreenshotAlt: string;
     featureScreenshotAlt: (title: string) => string;
     ctaScreenshotAlt: string;
-    cart: string;
-    cartLabel: string;
     pauseAnimation: string;
     playAnimation: string;
   };
-  nav: { howItWorks: string; features: string; pricing: string; download: string; pay: string };
+  nav: { howItWorks: string; features: string; download: string };
   hero: {
     badge: string;
     headlines: string[];
     subheadline: string;
     tagline?: string;
     trustBadges: { rating: string; personalizedPlan: string; languages: string };
-    plansCta: string;
   };
   socialProof: {
     mealsTracked: string;
@@ -101,13 +96,6 @@ interface TranslationStrings {
     address: string;
     email: string;
     bctBadgeAlt: string;
-  };
-  homePricing: {
-    title: string;
-    subtitle: string;
-    footnote: string;
-    badge: string;
-    assurances: { payment: string; activation: string; devices: string };
   };
   contact: {
     eyebrow: string;
@@ -204,17 +192,13 @@ export const translations: Record<Locale, TranslationStrings> = {
       dashboardScreenshotAlt: 'Nutree daily dashboard screenshot',
       featureScreenshotAlt: (title) => `${title} screenshot`,
       ctaScreenshotAlt: 'Nutree app onboarding screenshot',
-      cart: 'Cart',
-      cartLabel: 'Shopping cart',
       pauseAnimation: 'Pause animation',
       playAnimation: 'Play animation',
     },
     nav: {
       howItWorks: 'How it works',
       features: 'Features',
-      pricing: 'Plans',
       download: 'Download',
-      pay: 'Pay',
     },
     hero: {
       badge: 'AI Nutrition Assistant',
@@ -226,7 +210,6 @@ export const translations: Record<Locale, TranslationStrings> = {
         personalizedPlan: 'Personalized Premium plans',
         languages: '7 Languages',
       },
-      plansCta: 'See Premium plans',
     },
     socialProof: {
       mealsTracked: 'Meals Tracked',
@@ -361,17 +344,6 @@ export const translations: Record<Locale, TranslationStrings> = {
       email: 'Email',
       bctBadgeAlt:
         'Notified to the Vietnam Ministry of Industry and Trade — view our listing on online.gov.vn',
-    },
-    homePricing: {
-      badge: 'Plans',
-      title: 'Choose your {Nutree} plan',
-      subtitle: 'Both plans unlock every Premium feature. The only difference is how often you pay.',
-      footnote: '* Amounts are confirmed at checkout. After payment, we email a deeplink to open the app.',
-      assurances: {
-        payment: 'Pay by VietQR or bank transfer',
-        activation: 'Activation link sent by email',
-        devices: 'Works on iPhone and Android',
-      },
     },
     contact: {
       eyebrow: 'Talk to a real person',
@@ -692,17 +664,13 @@ export const translations: Record<Locale, TranslationStrings> = {
       dashboardScreenshotAlt: 'Ảnh màn hình dashboard hằng ngày của Nutree',
       featureScreenshotAlt: (title) => `Ảnh màn hình ${title}`,
       ctaScreenshotAlt: 'Ảnh màn hình onboarding app Nutree',
-      cart: 'Giỏ hàng',
-      cartLabel: 'Giỏ hàng',
       pauseAnimation: 'Tạm dừng chuyển động',
       playAnimation: 'Phát chuyển động',
     },
     nav: {
       howItWorks: 'Cách dùng',
       features: 'Tính năng',
-      pricing: 'Các gói',
       download: 'Tải app',
-      pay: 'Thanh toán',
     },
     hero: {
       badge: 'Trợ lý dinh dưỡng AI',
@@ -715,7 +683,6 @@ export const translations: Record<Locale, TranslationStrings> = {
         personalizedPlan: 'Gói Premium cá nhân hóa',
         languages: '7 ngôn ngữ',
       },
-      plansCta: 'Xem gói Premium',
     },
     socialProof: {
       mealsTracked: 'Bữa ăn đã track',
@@ -849,17 +816,6 @@ export const translations: Record<Locale, TranslationStrings> = {
       address: 'Địa chỉ',
       email: 'Email',
       bctBadgeAlt: 'Đã thông báo Bộ Công Thương — xem hồ sơ trên online.gov.vn',
-    },
-    homePricing: {
-      badge: 'Gói dịch vụ',
-      title: 'Chọn gói {Nutree} của bạn',
-      subtitle: 'Cả hai gói đều mở khóa mọi tính năng Premium — chỉ khác chu kỳ thanh toán.',
-      footnote: '* Số tiền được xác nhận lúc checkout. Sau thanh toán, Nutree gửi deeplink kích hoạt qua email.',
-      assurances: {
-        payment: 'Thanh toán bằng VietQR hoặc chuyển khoản',
-        activation: 'Nhận link kích hoạt qua email',
-        devices: 'Dùng được trên iPhone và Android',
-      },
     },
     contact: {
       eyebrow: 'Trò chuyện trực tiếp với Nutree',
