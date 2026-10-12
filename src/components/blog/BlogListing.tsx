@@ -67,8 +67,8 @@ export function BlogListing({ posts, page, category, getPagePath }: BlogListingP
 
           {pagePosts.length > 0 ? (
             <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {pagePosts.map((post) => (
-                <PostCard key={post.slug} post={post} />
+              {pagePosts.map((post, index) => (
+                <PostCard key={post.slug} post={post} priority={index === 0} />
               ))}
             </div>
           ) : (

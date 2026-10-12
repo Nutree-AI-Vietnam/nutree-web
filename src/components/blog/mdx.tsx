@@ -1,12 +1,13 @@
 import type { ComponentProps } from 'react';
-import type { Element, ElementContent, Root } from 'hast';
+import type { Element, ElementContent, Root, RootContent } from 'hast';
+import Image from 'next/image';
 import Link from 'next/link';
 import { compileMDX } from 'next-mdx-remote/rsc';
 import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
 import { AppCta } from '@/components/blog/AppCta';
 import { Callout } from '@/components/blog/Callout';
-import type { BlogPost } from '@/lib/blog';
+import type { BlogPost, PostImage } from '@/lib/blog';
 import { cn } from '@/lib/cn';
 import { SITE_CONFIG } from '@/lib/constants';
 
@@ -116,11 +117,25 @@ const components = {
   td: (props: ComponentProps<'td'>) => (
     <td className="border-b border-border/60 px-4 py-3 align-top text-foreground/85" {...props} />
   ),
-  img: ({ alt = '', ...props }: ComponentProps<'img'>) => (
-    // Article images have unknown sizes, so a plain lazy image beats next/image's fixed boxes.
-    // eslint-disable-next-line @next/next/no-img-element
-    <img alt={alt} loading="lazy" decoding="async" className="mx-auto my-8 block h-auto max-w-full rounded-2xl" {...props} />
+  figure: (props: ComponentProps<'figure'>) => <figure className="my-8" {...props} />,
+  figcaption: (props: ComponentProps<'figcaption'>) => (
+    <figcaption className="mt-3 text-balance text-center text-sm leading-relaxed text-muted" {...props} />
   ),
+  img: ({ src, alt = '', width, height, ...props }: ComponentProps<'img'>) =>
+    // imageFigures gives every image the post validated its pixel size, so next/image can resize it.
+    typeof src === 'string' && width && height ? (
+      <Image
+        src={src}
+        alt={alt}
+        width={Number(width)}
+        height={Number(height)}
+        sizes="(min-width: 768px) 736px, 100vw"
+        className="h-auto w-full rounded-2xl bg-primary-forest/5"
+      />
+    ) : (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img src={src} alt={alt} loading="lazy" decoding="async" className="mx-auto block h-auto max-w-full rounded-2xl" {...props} />
+    ),
   section: ({ className, ...props }: ComponentProps<'section'>) => (
     <section
       className={cn(
@@ -146,7 +161,7 @@ export async function renderPostBody(post: BlogPost) {
       options: {
         mdxOptions: {
           remarkPlugins: [remarkGfm],
-          rehypePlugins: [rehypeSlug, collectHeadings(headings)],
+          rehypePlugins: [rehypeSlug, collectHeadings(headings), imageFigures(post.images)],
           remarkRehypeOptions: { footnoteLabel: 'Chú thích', footnoteBackLabel: 'Quay lại nội dung' },
         },
       },
@@ -166,6 +181,44 @@ function collectHeadings(headings: PostHeading[]) {
       }
     }
   };
+}
+
+/**
+ * Turns each image standing alone in a paragraph into a figure captioned with its Markdown title,
+ * and gives it the pixel size the loader read from the file.
+ */
+function imageFigures(images: PostImage[]) {
+  const bySrc = new Map(images.map((image) => [image.src, image]));
+
+  const toFigure = (node: Element): Element | undefined => {
+    const content = node.children.filter((child) => child.type !== 'text' || child.value.trim());
+    const [img] = content;
+    if (node.tagName !== 'p' || content.length !== 1 || img?.type !== 'element' || img.tagName !== 'img') {
+      return undefined;
+    }
+    const image = bySrc.get(String(img.properties.src));
+    const { title } = img.properties;
+    delete img.properties.title;
+    if (image) Object.assign(img.properties, { width: image.width, height: image.height });
+
+    const caption = image?.caption ?? (typeof title === 'string' ? title.trim() : '');
+    const children: ElementContent[] = [img];
+    if (caption) {
+      children.push({ type: 'element', tagName: 'figcaption', properties: {}, children: [{ type: 'text', value: caption }] });
+    }
+    return { type: 'element', tagName: 'figure', properties: {}, children };
+  };
+
+  // Callouts are MDX elements rather than HTML ones, so walk anything with children.
+  const walk = (parent: { children: Array<RootContent | ElementContent> }) => {
+    parent.children.forEach((child, index) => {
+      const figure = child.type === 'element' ? toFigure(child) : undefined;
+      if (figure) parent.children[index] = figure;
+      else if ('children' in child) walk(child);
+    });
+  };
+
+  return () => (tree: Root) => walk(tree);
 }
 
 function textOf(node: Element | ElementContent): string {

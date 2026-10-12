@@ -60,7 +60,17 @@ export function getPostStructuredData(post: BlogPost) {
         mainEntityOfPage: url,
         headline: post.title,
         description: post.description,
-        image: [absoluteUrl(post.image?.src ?? DEFAULT_OG_IMAGE.url)],
+        // The 16:9 cover first, then the pictures in the article, so search can show any of them.
+        image:
+          post.images.length > 0
+            ? post.images.map((image) => ({
+                '@type': 'ImageObject',
+                url: absoluteUrl(image.src),
+                width: image.width,
+                height: image.height,
+                ...(image.caption && { caption: image.caption }),
+              }))
+            : [absoluteUrl(DEFAULT_OG_IMAGE.url)],
         datePublished: toIsoDateTime(post.date),
         dateModified: toIsoDateTime(post.updated),
         author: { '@type': 'Organization', '@id': ORGANIZATION_ID, name: SITE_CONFIG.name, url: SITE_CONFIG.url },

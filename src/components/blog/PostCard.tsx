@@ -6,9 +6,11 @@ interface PostCardProps {
   post: BlogPost;
   /** h2 on listing pages; h3 where the cards sit under a section heading. */
   headingLevel?: 'h2' | 'h3';
+  /** Loads the cover right away; set it on the first card of a listing, the page's largest picture. */
+  priority?: boolean;
 }
 
-export function PostCard({ post, headingLevel: Heading = 'h2' }: PostCardProps) {
+export function PostCard({ post, headingLevel: Heading = 'h2', priority = false }: PostCardProps) {
   return (
     <article className="group relative flex flex-col overflow-hidden rounded-3xl border border-border bg-white shadow-glass transition duration-300 hover:-translate-y-1 hover:shadow-glass-lg has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-primary-teal motion-reduce:transition-none motion-reduce:hover:translate-y-0">
       {post.image && (
@@ -18,6 +20,7 @@ export function PostCard({ post, headingLevel: Heading = 'h2' }: PostCardProps) 
             src={post.image.src}
             alt=""
             fill
+            priority={priority}
             sizes="(min-width: 1024px) 384px, (min-width: 640px) 50vw, 100vw"
             className="object-cover"
           />

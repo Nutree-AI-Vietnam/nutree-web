@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="380" viewBox="0 0 640 380">
+  <!--
+    Glass plate for blog illustrations (see "Images" in content/blog/README.md).
+    Copy this file to content/blog/images/_objects/<name>.svg, draw the food inside
+    <g id="contents"> at the end of <defs>, and change nothing else.
+
+    - The well is the ellipse cx=320 cy=263 rx=222 ry=62; light comes from the top left.
+    - Keep the food on the well. It may rise above the back of the plate, to about y=20.
+    - The plate draws its front lip over the food. Draw no background and no shadow: the compose
+      step adds the shadow under the plate.
+  -->
+  <defs>
+    <path id="silhouette" d="M32,250 A288,80 0 0 1 608,250 L608,261 A288,80 0 0 1 32,261 Z"/>
+    <path id="rimRing" fill-rule="evenodd" d="M32,250 A288,80 0 0 1 608,250 A288,80 0 0 1 32,250 Z M76,250 A244,68 0 0 1 564,250 A244,68 0 0 1 76,250 Z"/>
+    <path id="edge" d="M32,250 A288,80 0 0 0 608,250 L608,261 A288,80 0 0 1 32,261 Z"/>
+    <path id="lip" d="M76,250 A244,68 0 0 0 564,250 L608,250 L608,261 A288,80 0 0 1 32,261 L32,250 Z"/>
+    <ellipse id="opening" cx="320" cy="250" rx="244" ry="68"/>
+    <ellipse id="well" cx="320" cy="263" rx="222" ry="62"/>
+
+    <clipPath id="openingClip"><use href="#opening"/></clipPath>
+    <clipPath id="lipClip"><use href="#lip"/></clipPath>
+    <clipPath id="backHalf"><rect width="640" height="250"/></clipPath>
+    <clipPath id="frontHalf"><rect y="250" width="640" height="130"/></clipPath>
+
+    <linearGradient id="rimFill" x1="32" y1="0" x2="608" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F4FFFB" stop-opacity="0.95"/>
+      <stop offset="0.35" stop-color="#C9F3E4" stop-opacity="0.85"/>
+      <stop offset="0.75" stop-color="#9FE5CD" stop-opacity="0.85"/>
+      <stop offset="1" stop-color="#5DCCA8" stop-opacity="0.92"/>
+    </linearGradient>
+    <linearGradient id="slopeFill" x1="0" y1="182" x2="0" y2="318" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#3DB993" stop-opacity="0.7"/>
+      <stop offset="0.35" stop-color="#8FDFC4" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#D8F7EC" stop-opacity="0.4"/>
+    </linearGradient>
+    <radialGradient id="wellFill" gradientUnits="userSpaceOnUse" cx="290" cy="250" r="240" gradientTransform="translate(290 250) scale(1 0.32) translate(-290 -250)">
+      <stop offset="0" stop-color="#F6FFFB" stop-opacity="0.75"/>
+      <stop offset="0.7" stop-color="#C6F1E2" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#8ADBC0" stop-opacity="0.6"/>
+    </radialGradient>
+    <linearGradient id="edgeFill" x1="32" y1="0" x2="608" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#C4F4E3" stop-opacity="0.92"/>
+      <stop offset="0.45" stop-color="#7ADABB" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#2CAA85" stop-opacity="0.95"/>
+    </linearGradient>
+    <linearGradient id="rimShine" x1="32" y1="0" x2="608" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="1"/>
+      <stop offset="0.5" stop-color="#FFFFFF" stop-opacity="0.85"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.35"/>
+    </linearGradient>
+
+    <filter id="seeThrough" filterUnits="userSpaceOnUse" x="0" y="0" width="640" height="380" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="1.2"/>
+      <feColorMatrix values="0.82 0 0 0 0.03  0 0.93 0 0 0.07  0 0 0.88 0 0.06  0 0 0 1 0"/>
+    </filter>
+    <filter id="soft1" filterUnits="userSpaceOnUse" x="-100" y="-100" width="840" height="580"><feGaussianBlur stdDeviation="1.2"/></filter>
+    <filter id="soft4" filterUnits="userSpaceOnUse" x="-100" y="-100" width="840" height="580"><feGaussianBlur stdDeviation="4"/></filter>
+
+    <g id="contents">
+      <!-- Draw the food here. -->
+    </g>
+  </defs>
+
+  <!-- The plate behind the food: the back of the rim, the slope and the well -->
+  <use href="#silhouette" fill="#D4F5EA" fill-opacity="0.25"/>
+  <use href="#rimRing" fill="url(#rimFill)" clip-path="url(#backHalf)"/>
+  <use href="#opening" fill="url(#slopeFill)"/>
+  <use href="#well" fill="url(#wellFill)" clip-path="url(#openingClip)"/>
+  <path d="M84,268 A222,62 0 0 1 102,236" fill="none" stroke="#FFFFFF" stroke-opacity="0.5" stroke-width="2" clip-path="url(#openingClip)"/>
+  <path d="M32,250 A288,80 0 0 1 608,250" fill="none" stroke="#178A6A" stroke-opacity="0.4" stroke-width="1.2"/>
+  <path d="M76,250 A244,68 0 0 1 564,250" fill="none" stroke="#FFFFFF" stroke-opacity="0.65" stroke-width="1.5"/>
+  <path d="M55,224 A282,77 0 0 1 201,180" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" filter="url(#soft1)"/>
+  <path d="M461,183 A282,77 0 0 1 576,217" fill="none" stroke="#FFFFFF" stroke-opacity="0.6" stroke-width="3" stroke-linecap="round" filter="url(#soft1)"/>
+
+  <!-- The food -->
+  <use href="#contents"/>
+
+  <!-- The front lip: the food behind it seen through the glass, then the rim and its edge -->
+  <g clip-path="url(#lipClip)">
+    <use href="#contents" filter="url(#seeThrough)"/>
+    <use href="#rimRing" fill="url(#rimFill)"/>
+    <use href="#edge" fill="url(#edgeFill)"/>
+    <path d="M60,286 C150,318 250,328 330,329" fill="none" stroke="#FFFFFF" stroke-opacity="0.7" stroke-width="6" stroke-linecap="round" filter="url(#soft4)"/>
+  </g>
+  <path d="M76,250 A244,68 0 0 0 564,250" fill="none" stroke="#FFFFFF" stroke-opacity="0.75" stroke-width="2"/>
+  <path d="M34,254 A286,79 0 0 0 606,254" fill="none" stroke="url(#rimShine)" stroke-width="2.5"/>
+  <use href="#edge" fill="none" stroke="#178A6A" stroke-opacity="0.45" stroke-width="1.2"/>
+  <path d="M40,265 A282,78 0 0 0 250,337" fill="none" stroke="#FFFFFF" stroke-opacity="0.8" stroke-width="2" stroke-linecap="round" filter="url(#soft1)"/>
+  <path d="M74,262 Q76,271 85,273 Q76,275 74,284 Q72,275 63,273 Q72,271 74,262 Z" fill="#FFFFFF"/>
+</svg>

@@ -8,12 +8,16 @@ RSS feed (`/blog/feed.xml`) all pick up new files on the next build.
 
 ## Adding a post
 
+In a fresh checkout, run `npm ci` first: the build and the image scripts need it.
+
 1. Check what already exists: `grep -h '^title:' content/blog/*.mdx`. If a post already targets the
    same search question, improve that post and set `updated` to today instead of writing a second one.
 2. Create `content/blog/<slug>.mdx` from the template below.
-3. Run `npm run build` (run `npm ci` first in a fresh checkout). The build checks every post and fails
-   with a plain-language list of problems, naming the file. Fix them and build again.
-4. Commit the `.mdx` file plus any images under `public/blog/<slug>/`. Nothing else needs to change.
+3. Make its pictures: a cover and 1–2 images in the body (see [Images](#images)).
+4. Run `npm run build`. The build checks every post and fails with a plain-language list of problems,
+   naming the file. Fix them and build again.
+5. Commit the `.mdx` file, `public/blog/<slug>/`, `content/blog/images/<slug>/` and any new object
+   recipe with its `.svg`. Nothing else needs to change.
 
 ## File name = URL
 
@@ -34,6 +38,8 @@ description: "Calo và macro của các loại phở bò, phần nào nhiều ca
 date: 2026-10-13
 category: calo-mon-viet
 tags: ["phở bò", "calo", "giảm cân"]
+image: /blog/pho-bo-bao-nhieu-calo/pho-bo-tai-chin.jpg
+imageAlt: "Tô phở bò tái chín trong bát thuỷ tinh, bên cạnh đĩa rau thơm, giá đỗ và chanh"
 ---
 ```
 
@@ -45,11 +51,11 @@ tags: ["phở bò", "calo", "giảm cân"]
 | `updated` | no | Date of the last meaningful revision, `YYYY-MM-DD`, not earlier than `date`. Small fixes such as an added link don't need it. |
 | `category` | yes | One slug from the table below. |
 | `tags` | no | 3–6 short Vietnamese phrases, e.g. `["phở", "calo"]`. |
-| `image` | no | Cover image path under `public/`, starting with `/`, e.g. `/blog/<slug>/cover.webp`. The file must exist. |
-| `imageAlt` | with `image` | What the cover shows, in Vietnamese. |
-| `draft` | no | `true` keeps the post off the live site; it still shows in `npm run dev`. |
+| `image` | yes | The 16:9 cover, saved as `public/blog/<slug>/<name>.jpg` and written as `/blog/<slug>/<name>.jpg`. See [Images](#images). |
+| `imageAlt` | yes | What the cover shows, in Vietnamese, under 150 characters. Wrap it in double quotes. |
+| `draft` | no | `true` keeps the post off the live site; it still shows in `npm run dev`. A draft may skip the cover. |
 
-- Wrap `title` and `description` in double quotes. For quotation marks inside them, use “ ” instead of `"`.
+- Wrap `title`, `description` and `imageAlt` in double quotes. For quotation marks inside them, use “ ” instead of `"`.
 - No other fields are accepted. The byline is always "Đội ngũ Nutree", so there is no author field.
 
 ### Categories
@@ -71,7 +77,7 @@ writing a post.
 - Open with 2–3 sentences that directly answer the search question; Google often quotes this paragraph.
 - Three or more `##` sections get an automatic table of contents.
 - Available Markdown: paragraphs, **bold**, *italic*, lists, links, `>` quotes, tables, footnotes (`[^1]`),
-  `---` dividers and images.
+  `---` dividers and captioned images (see [Images](#images)).
 - Write in Vietnamese with full diacritics. Use Vietnamese number format (`2.000 kcal`, `0,8 g/kg`) and an
   en dash for ranges (`45–65%`).
 
@@ -127,15 +133,109 @@ Xin thêm rau và giá, chọn thịt nạc và bớt nước béo.
   gia, Bộ Y tế, national dietary guidelines and peer-reviewed studies (link the DOI or PubMed page).
   Don't link to other calorie-counting apps.
 
-## Images (optional)
+## Images
 
-- Save files in `public/blog/<slug>/` and reference them from `/blog/<slug>/...`.
-- Cover image: set `image` and `imageAlt`. Use a 16:9 `.webp` or `.jpg`, at least 1200×675 px, ideally
-  under 200 KB. It appears at the top of the post and on social share cards; without one, the site's
-  default share image is used.
-- In the body: `![Một tô phở bò với rau thơm](/blog/<slug>/pho-bo.webp)`. Alt text is required.
-- Only use images Nutree may publish (its own photos, generated or licensed images). Never link images
-  from other websites.
+Every published post has a cover and usually 1–2 pictures in the body; the build fails without a cover.
+The cover heads the post and shows on post cards, share cards, Google Discover and image search. Body
+pictures break up long sections and show the food the text is about.
+
+Draw every picture with the scripts below. Don't download pictures from other websites or stock sites,
+and don't use image-generation services. A photo or render that Nutree owns can still be used as an
+object in a scene (see [Composing a picture](#composing-a-picture)).
+
+### The look
+
+Food in glossy, see-through mint-green glass bowls, plates and glasses, on a soft white studio
+background with gentle shadows, seen slightly from above and lit from the top left. No people, hands,
+text or logos. Each picture shows the dishes or foods its section talks about, recognisably.
+
+### Ready-made objects
+
+Objects are single vessels of food, drawn once and reused. They are in `content/blog/images/_objects/`:
+
+| Object | Shows |
+| --- | --- |
+| `bowl-avocado-nuts` | Almonds and macadamias with two avocado halves |
+| `bowl-chicken-egg` | Salad greens with grilled chicken, boiled egg halves and cherry tomatoes |
+| `bowl-eggs` | Whole eggs |
+| `bowl-nuoc-mam` | Nước mắm with sliced chilli and garlic |
+| `bowl-rice` | White rice |
+| `bowl-tofu-edamame` | Edamame with fried tofu, sesame and spring onion |
+| `glass-milk` | A glass of milk |
+| `plate-com-tam` | Cơm tấm: broken rice, mỡ hành, grilled pork chop, fried egg, cucumber, tomato and đồ chua |
+| `plate-salmon` | Baked salmon on salad leaves with lemon and cherry tomatoes |
+
+Reuse these whenever they fit. Add a row here for every new object.
+
+### Drawing a new object
+
+1. Copy the closest recipe in `scripts/blog-art/objects/` to `<vessel>-<food>.mjs`, e.g. `bowl-pho.mjs`.
+   A recipe exports `vessel` (`BOWL`, `PLATE` or `CUP` from `../kit.mjs`), a one-line English
+   `description` and `draw()`, which returns the SVG of the food inside the glass.
+2. Build the food from the helpers in `scripts/blog-art/food.mjs`: rice and other heaps, leaves, chicken,
+   salmon, pork chop, eggs, tofu, tomato, cucumber, lemon, avocado, nuts, edamame, pickles, sesame and
+   spring onion. `kit.mjs` places things in 3D (`frame`, `heap`, `inOrder`) and shades them. When a food
+   is missing, add a helper to `food.mjs` rather than drawing it inline.
+3. Run `npm run blog:objects -- <name>`. It saves `content/blog/images/_objects/<name>.svg` and prints the
+   path of a preview PNG. Open the preview and check that the food is recognisable and sits inside the
+   glass; redraw until it does.
+
+Objects have no background: the glass template draws only the vessel and its contents, and
+`blog:image` adds the background and shadows when it composes the picture.
+
+### Composing a picture
+
+A scene places 1–4 objects on the background. Save it as `content/blog/images/<slug>/<name>.json`,
+named like the picture it makes:
+
+```json
+{
+  "objects": [
+    { "src": "../_objects/glass-milk.svg", "x": 0.5, "bottom": 0.56, "height": 0.4 },
+    { "src": "../_objects/bowl-eggs.svg", "x": 0.22, "bottom": 0.7, "height": 0.36 },
+    { "src": "../_objects/bowl-tofu-edamame.svg", "x": 0.78, "bottom": 0.7, "height": 0.36 },
+    { "src": "../_objects/plate-salmon.svg", "x": 0.5, "bottom": 0.95, "width": 0.46 }
+  ]
+}
+```
+
+- `x` is the object's centre and `bottom` the line it stands on, as fractions of the picture's width and
+  height measured from the left and top edges. Size it with `height` (fraction of the picture's height)
+  or `width` (fraction of its width).
+- List objects back to front. Objects further back stand higher (smaller `bottom`): tall glasses and
+  bowls go behind, low plates in front, so nothing looks stacked on something else.
+- `src` can also be a `.png`, `.jpg` or `.webp` photo on a white background; the white is removed.
+
+Render it, then open the JPEG and check it before using it:
+
+```bash
+npm run blog:image -- --input content/blog/images/<slug>/<name>.json --out /blog/<slug>/<name>.jpg --width 1600 --ai
+```
+
+- The cover must be 16:9, the default. Body pictures may also use `--aspect 3:2` or `--aspect 4:3`.
+- `--ai` labels the file as AI-made in its IPTC metadata, which Google reads. Always pass it.
+- The tool prints the frontmatter or Markdown to paste into the post.
+
+### File names, alt text and captions
+
+- Name files after what they show, in Vietnamese without accents: `com-tam-du-ba-nhom-macro.jpg`, not
+  `cover.jpg` or `image-1.jpg`. Google reads the file name.
+- Alt text describes the picture for people who can't see it and for image search: name the foods, in
+  Vietnamese, under 150 characters. Don't start with "Hình ảnh" or "Ảnh". Write "quả bơ" for avocado,
+  since "bơ" alone means butter.
+- Put each body picture on its own line, with a blank line above and below, right after the paragraph it
+  illustrates and outside lists, tables and callouts. The text in quotes is the caption, a sentence
+  shown under the picture:
+
+```mdx
+![Đĩa cơm tấm với sườn nướng, trứng ốp la và mỡ hành](/blog/<slug>/com-tam-du-ba-nhom-macro.jpg "Một đĩa cơm tấm có đủ ba nhóm macro.")
+```
+
+- Captions follow the health content rules like any other sentence: no numbers without a source.
+
+The build checks that every picture is in `public/blog/<slug>/` with a lowercase hyphenated name, is a
+JPEG, PNG or WebP at least 1200 px wide and under 400 KB, and has alt text; that the cover is 16:9; and
+that each body picture has a caption and appears once.
 
 ## Health content rules
 
@@ -168,6 +268,9 @@ your own.
   `###` questions works well.
 - Put numbers in tables (calories per dish, comparisons).
 - Write as long as the topic needs, usually 1.000–2.000 words. Don't stuff keywords.
+- Show the dish or food the post is about in the cover, and use the main search phrase, without accents,
+  in the cover's file name and naturally in its alt text. Pictures bring visits from Google Images and
+  Discover.
 
 ## Preview and publish
 

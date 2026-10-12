@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
     title: `${post.title} | Nutree`,
     description: post.description,
     path: post.url,
-    image: post.image && { url: post.image.src, alt: post.image.alt },
+    image: post.image && { url: post.image.src, alt: post.image.alt, width: post.image.width, height: post.image.height },
     article: {
       publishedTime: toIsoDateTime(post.date),
       modifiedTime: toIsoDateTime(post.updated),

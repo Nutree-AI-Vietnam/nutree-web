@@ -1,0 +1,6 @@
+{
+  "objects": [
+    { "src": "../_objects/bowl-nuoc-mam.svg", "x": 0.85, "bottom": 0.5, "height": 0.22 },
+    { "src": "../_objects/plate-com-tam.svg", "x": 0.46, "bottom": 0.78, "width": 0.86 }
+  ]
+}

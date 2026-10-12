@@ -49,6 +49,7 @@ function blogEntries(): MetadataRoute.Sitemap {
       lastModified: post.updated,
       changeFrequency: 'monthly',
       priority: 0.7,
+      images: post.images.map((image) => `${SITE_CONFIG.url}${image.src}`),
     })),
   ];
 }

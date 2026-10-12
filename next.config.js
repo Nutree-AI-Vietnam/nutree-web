@@ -6,6 +6,10 @@ const hasPostHogSourceMapConfig =
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'standalone',
+  // Blog picture sources are only read by the image scripts, so keep them out of the server bundles.
+  outputFileTracingExcludes: {
+    '*': ['content/blog/images/**'],
+  },
   async redirects() {
     return [
       // Legacy Vietnamese slugs → English legal paths

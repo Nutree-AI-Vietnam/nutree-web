@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "blog:image": "node scripts/blog-image.mjs",
+    "blog:objects": "node scripts/blog-art/objects.mjs"
   },
   "dependencies": {
     "@posthog/nextjs-config": "^1.11.1",
@@ -20,6 +22,7 @@
     "react-dom": "^19.3.0",
     "rehype-slug": "^6.0.0",
     "remark-gfm": "^4.0.1",
+    "sharp": "^0.35.5",
     "tailwind-merge": "^2.2.0",
     "yaml": "^2.9.1"
   },

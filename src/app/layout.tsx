@@ -45,6 +45,10 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+    // Lets Google Discover and image results show full-width pictures and full snippets.
+    'max-image-preview': 'large',
+    'max-snippet': -1,
+    'max-video-preview': -1,
   },
 };
 

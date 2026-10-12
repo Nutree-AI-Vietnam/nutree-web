@@ -1,10 +1,19 @@
-import { BLOG_DESCRIPTION, BLOG_FEED_PATH, BLOG_NAME, BLOG_PATH, getAllPosts, toIsoDateTime } from '@/lib/blog';
+import fs from 'node:fs';
+import path from 'node:path';
+import { BLOG_DESCRIPTION, BLOG_FEED_PATH, BLOG_NAME, BLOG_PATH, getAllPosts, toIsoDateTime, type PostImage } from '@/lib/blog';
 import { SITE_CONFIG } from '@/lib/constants';
 
 // Built once per deploy, like the pages it lists.
 export const dynamic = 'force-static';
 
 const FEED_SIZE = 50;
+
+const IMAGE_TYPES: Record<string, string> = {
+  '.jpg': 'image/jpeg',
+  '.jpeg': 'image/jpeg',
+  '.png': 'image/png',
+  '.webp': 'image/webp',
+};
 
 const XML_ENTITIES: Record<string, string> = {
   '&': '&amp;',
@@ -16,6 +25,13 @@ const XML_ENTITIES: Record<string, string> = {
 
 function escapeXml(value: string): string {
   return value.replace(/[&<>"']/g, (char) => XML_ENTITIES[char]);
+}
+
+/** The cover as an RSS enclosure, which feed readers show as the item's picture. */
+function enclosure(image: PostImage): string {
+  const { size } = fs.statSync(path.join(process.cwd(), 'public', image.src));
+  const type = IMAGE_TYPES[path.extname(image.src)];
+  return `\n      <enclosure url="${SITE_CONFIG.url}${image.src}" length="${size}" type="${type}" />`;
 }
 
 /** RFC 822 date, as RSS 2.0 requires. */
@@ -38,7 +54,7 @@ export function GET() {
       <guid isPermaLink="true">${url}</guid>
       <description>${escapeXml(post.description)}</description>
       <category>${escapeXml(post.category.label)}</category>
-      <pubDate>${toRssDate(post.date)}</pubDate>
+      <pubDate>${toRssDate(post.date)}</pubDate>${post.image ? enclosure(post.image) : ''}
     </item>`;
   });
 

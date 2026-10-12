@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { parse as parseYaml } from 'yaml';
 import { BLOG_CATEGORIES, getCategory, type BlogCategory } from './blog-categories';
+import { getImageSize } from './image-size';
 
 /** Articles live in content/blog/<slug>.mdx; content/blog/README.md documents the format. */
 export const BLOG_CONTENT_DIR = path.join(process.cwd(), 'content', 'blog');
@@ -21,6 +22,24 @@ const ALLOWED_FIELDS = ['title', 'description', 'date', 'updated', 'category', '
 export const POST_COMPONENT_NAMES: readonly string[] = ['Callout', 'AppCta'];
 // Vietnamese words are single syllables, so this runs faster than English reading speeds.
 const WORDS_PER_MINUTE = 230;
+/** Largest image file a post may use. Keep in sync with MAX_BYTES in scripts/blog-image.mjs. */
+export const MAX_IMAGE_BYTES = 400 * 1024;
+// Google Discover and large image previews in search want pictures at least 1200 px wide.
+const MIN_IMAGE_WIDTH = 1200;
+const MAX_ALT_LENGTH = 150;
+const IMAGE_NAME_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*\.(?:jpe?g|png|webp)$/;
+// ![alt text](/blog/<slug>/<name>.jpg "caption")
+const BODY_IMAGE_PATTERN = /!\[([^\]]*)\]\(\s*([^)\s]+)(?:\s+"([^"]*)")?\s*\)/g;
+
+export interface PostImage {
+  /** Path under public/, e.g. /blog/macro-la-gi/com-tam-du-ba-nhom-macro.jpg. */
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  /** Shown under a body image; the cover has none. */
+  caption?: string;
+}
 
 export interface BlogPost {
   slug: string;
@@ -33,8 +52,10 @@ export interface BlogPost {
   updated: string;
   category: BlogCategory;
   tags: string[];
-  /** Cover image path under public/, used for the post header and share cards. */
-  image?: { src: string; alt: string };
+  /** 16:9 cover for the post header, post cards and share cards. Only drafts may leave it out. */
+  image?: PostImage;
+  /** The cover, then the body images in order, for structured data and the image sitemap. */
+  images: PostImage[];
   draft: boolean;
   readingMinutes: number;
   /** MDX body without the frontmatter. */
@@ -232,21 +253,18 @@ function parsePostFile(fileName: string): { post?: BlogPost; errors: string[] } 
     }
   }
 
-  let image: BlogPost['image'];
+  let image: PostImage | undefined;
   if (data.image !== undefined) {
-    const src = data.image;
-    const alt = data.imageAlt;
-    if (typeof src !== 'string' || !src.startsWith('/') || src.includes('..')) {
-      errors.push('"image" must be a path inside public/, starting with "/" (e.g. /blog/pho-bo/cover.webp)');
-    } else if (!fs.existsSync(path.join(process.cwd(), 'public', src))) {
-      errors.push(`"image" points to public${src}, which does not exist`);
-    } else if (typeof alt !== 'string' || !alt.trim()) {
-      errors.push('"imageAlt" is required when "image" is set; describe what the picture shows');
-    } else {
-      image = { src, alt: alt.trim() };
+    const file = readImageFile(slug, data.image, '"image"', errors);
+    const alt = readAltText(data.imageAlt, '"imageAlt"', errors);
+    if (file && Math.abs(file.width / file.height - 16 / 9) > 0.01) {
+      errors.push(`"image" is ${file.width}×${file.height}; covers must be 16:9, which npm run blog:image makes by default`);
     }
+    if (file && alt) image = { ...file, alt };
   } else if (data.imageAlt !== undefined) {
     errors.push('"imageAlt" is set but "image" is missing');
+  } else if (data.draft !== true) {
+    errors.push('"image" is required: every published post needs a 16:9 cover (see "Images" in content/blog/README.md)');
   }
 
   if (data.draft !== undefined && typeof data.draft !== 'boolean') {
@@ -260,6 +278,7 @@ function parsePostFile(fileName: string): { post?: BlogPost; errors: string[] } 
     errors.push('remove "# " headings: the page already shows the title as the only H1, so sections start at "## "');
   }
   errors.push(...findMdxProblems(body));
+  const bodyImages = readBodyImages(slug, body, image, errors);
 
   if (errors.length > 0 || !title || !description || !date || !updated || !category) {
     return { errors };
@@ -277,6 +296,7 @@ function parsePostFile(fileName: string): { post?: BlogPost; errors: string[] } 
       category,
       tags,
       image,
+      images: image ? [image, ...bodyImages] : bodyImages,
       draft: data.draft === true,
       readingMinutes: Math.max(1, Math.round(countWords(body) / WORDS_PER_MINUTE)),
       body,
@@ -317,8 +337,10 @@ function requireDate(value: unknown, field: string, errors: string[]): string | 
 function findBrokenBlogLinks(body: string, slugs: Set<string>, categorySlugs: Set<string>): string[] {
   const errors: string[] = [];
   const pattern = /(?:\]\(|href=["'])(?:https:\/\/nutreeai\.com)?\/blog\/([^)"'\s#?]+)/g;
+  // Images live under /blog/<slug>/ too; readBodyImages checks those.
+  const links = withoutCode(body).replace(BODY_IMAGE_PATTERN, '');
 
-  for (const [, target] of withoutCode(body).matchAll(pattern)) {
+  for (const [, target] of links.matchAll(pattern)) {
     const parts = target.replace(/\/$/, '').split('/');
     if (parts[0] === 'chu-de') {
       if (!categorySlugs.has(parts[1] ?? '')) {
@@ -360,18 +382,87 @@ function findMdxProblems(body: string): string[] {
     }
   }
 
-  for (const [, alt, src] of text.matchAll(/!\[([^\]]*)\]\(\s*([^)\s]+)/g)) {
-    if (!alt.trim()) {
-      problems.push(`image ${src} needs alt text: ![what the picture shows](${src})`);
-    }
-    if (!src.startsWith('/') || src.startsWith('//') || src.includes('..')) {
-      problems.push(`image ${src} must be a file saved under public/blog/ and linked as /blog/...`);
-    } else if (!fs.existsSync(path.join(process.cwd(), 'public', src))) {
-      problems.push(`image ${src} does not exist; save it as public${src}`);
-    }
+  return problems;
+}
+
+/**
+ * Images in the body, each alone between blank lines so it renders as a figure, with alt text and a
+ * caption written as the Markdown title.
+ */
+function readBodyImages(slug: string, body: string, cover: PostImage | undefined, errors: string[]): PostImage[] {
+  const images: PostImage[] = [];
+  const lines = withoutCode(body).split('\n');
+
+  if (lines.some((line) => /!\[[^\]]*\]\[/.test(line))) {
+    errors.push('write images as ![alt text](/blog/<slug>/<name>.jpg "caption"), not as ![alt text][reference]');
   }
 
-  return problems;
+  lines.forEach((line, index) => {
+    const found = Array.from(line.matchAll(BODY_IMAGE_PATTERN));
+    for (const [markdown, altText, src, captionText] of found) {
+      const label = `image ${src}`;
+      if (found.length > 1 || line.trim() !== markdown || lines[index - 1]?.trim() || lines[index + 1]?.trim()) {
+        errors.push(`${label} must be on a line of its own, with a blank line above and below`);
+      }
+      const file = readImageFile(slug, src, 'image', errors);
+      const alt = readAltText(altText, `alt text of ${label}`, errors);
+      const caption = captionText?.trim().replace(/\s+/g, ' ');
+      if (!caption) {
+        errors.push(`${label} needs a caption: ![alt text](${src} "one sentence shown under the picture")`);
+      }
+      if (src === cover?.src) {
+        errors.push(`${label} is the cover, which already shows above the post; pick another picture`);
+      } else if (images.some((image) => image.src === src)) {
+        errors.push(`${label} appears twice; show each picture once`);
+      } else if (file && alt && caption) {
+        images.push({ ...file, alt, caption });
+      }
+    }
+  });
+  return images;
+}
+
+/** Checks that an image is a file in the post's folder, big enough and small enough, and reads its size. */
+function readImageFile(slug: string, src: unknown, label: string, errors: string[]) {
+  const folder = `${BLOG_PATH}/${slug}/`;
+  if (typeof src !== 'string' || !src.startsWith(folder) || !IMAGE_NAME_PATTERN.test(src.slice(folder.length))) {
+    errors.push(
+      `${label} ${String(src)} must be saved in public${folder}, named in lowercase words and hyphens and ending in .jpg, .png or .webp`
+    );
+    return undefined;
+  }
+  const file = path.join(process.cwd(), 'public', src);
+  if (!fs.existsSync(file)) {
+    errors.push(`${label} ${src} does not exist; save it as public${src}`);
+    return undefined;
+  }
+  const data = fs.readFileSync(file);
+  const size = getImageSize(data);
+  if (!size) {
+    errors.push(`${label} ${src} is not a readable JPEG, PNG or WebP image`);
+    return undefined;
+  }
+  if (size.width < MIN_IMAGE_WIDTH) {
+    errors.push(`${label} ${src} is ${size.width} px wide; images must be at least ${MIN_IMAGE_WIDTH} px wide`);
+  }
+  if (data.length > MAX_IMAGE_BYTES) {
+    errors.push(
+      `${label} ${src} is ${Math.round(data.length / 1024)} KB; keep images under ${MAX_IMAGE_BYTES / 1024} KB (npm run blog:image compresses them)`
+    );
+  }
+  return { src, ...size };
+}
+
+function readAltText(value: unknown, label: string, errors: string[]): string | undefined {
+  const alt = typeof value === 'string' ? value.trim().replace(/\s+/g, ' ') : '';
+  if (!alt) {
+    errors.push(`${label} is required: say what the picture shows, in Vietnamese`);
+    return undefined;
+  }
+  if (alt.length > MAX_ALT_LENGTH) {
+    errors.push(`${label} is ${alt.length} characters; keep it under ${MAX_ALT_LENGTH}`);
+  }
+  return alt;
 }
 
 function hasHeadingLevelOne(body: string): boolean {
