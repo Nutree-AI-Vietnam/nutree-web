@@ -1,0 +1,6 @@
+{
+  "objects": [
+    { "src": "../_objects/bowl-pho-bo.svg", "x": 0.38, "bottom": 0.86, "height": 0.68 },
+    { "src": "../_objects/plate-rau-pho.svg", "x": 0.77, "bottom": 0.93, "width": 0.46 }
+  ]
+}

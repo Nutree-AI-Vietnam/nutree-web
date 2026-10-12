@@ -8,11 +8,13 @@ import {
   blob,
   blur,
   bounds,
+  clamp,
   clipTo,
   define,
   ellipsePoints,
   frame,
   frameOf,
+  inOrder,
   lightOn,
   linear,
   mix,
@@ -666,4 +668,243 @@ export function sesame([x, y], angle) {
 /** A ring of chopped spring onion at a screen point, glossy with oil. */
 export function scallionRing([x, y], { size = 4.5, angle = 0 } = {}) {
   return `<g transform="translate(${n(x)} ${n(y)}) rotate(${n(angle)})"><ellipse rx="${n(size)}" ry="${n(size * 0.55)}" fill="#A8DC6A" fill-opacity="0.85" stroke="#2F7A1A" stroke-width="${n(size * 0.45)}"/><ellipse cx="${n(-size * 0.35)}" cy="${n(-size * 0.3)}" rx="${n(size * 0.4)}" ry="${n(size * 0.15)}" fill="#FFFFFF" fill-opacity="0.8"/></g>`;
+}
+
+// ---------- phở: noodles, beef, broth and herbs ----------
+/** A flat rice noodle (bánh phở) lying along a screen polyline: a pale ribbon with a soft shine. */
+export function noodleRibbon(points, { width = 9, light = 1, opacity = 1 } = {}) {
+  const d = openPath(points);
+  const body = tone(['#FFFDF6', '#B9B29C'], light);
+  const edge = tone(['#D8D0B8', '#857C64'], light);
+  return (
+    `<g fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="${n(opacity)}">` +
+    `<path d="${d}" stroke="${edge}" stroke-width="${n(width + 1.6)}"/>` +
+    `<path d="${d}" stroke="${body}" stroke-width="${n(width)}"/>` +
+    `<path d="${d}" transform="translate(${n(LIGHT_2D[0] * width * 0.2)} ${n(LIGHT_2D[1] * width * 0.2)})" stroke="#FFFFFF" stroke-opacity="${n(0.55 * light)}" stroke-width="${n(width * 0.28)}"/>` +
+    `</g>`
+  );
+}
+
+/** A wavy noodle path on a frame: starts at [p, q], heads off at angle degrees, length long. */
+export function noodlePath(rand, at, [p, q], angle, length, { wave = 10, steps = 18 } = {}) {
+  const points = [];
+  let a = rad(angle);
+  let [x, y] = [p, q];
+  const phase = rand.range(0, 6);
+  for (let i = 0; i <= steps; i++) {
+    points.push(at(x, y));
+    a += 0.18 * Math.sin(phase + i * 0.7) + rand.range(-0.08, 0.08);
+    x += (Math.cos(a) * length) / steps;
+    y += (Math.sin(a) * length) / steps + (wave / steps) * Math.sin(phase + i);
+  }
+  return points;
+}
+
+/** Rice noodles heaped on a mound: a pale bed and ribbons draped over it, lit by their slope. */
+export function noodleHeap(rand, origin, mound, { count = 70, width = 10 } = {}) {
+  const bed = heapBed(origin, mound, ['#F6F1E2', '#DCD3BC', '#ABA28A']);
+  const ribbons = mound.scatter(origin, rand, count).map((p) => {
+    const X = p.point[0];
+    const Z = p.point[2];
+    const angle = rand.range(0, 360);
+    const length = rand.range(200, 320);
+    const pts3 = [];
+    for (let i = 0; i <= 14; i++) {
+      const t = (i / 14 - 0.5) * length;
+      const wobble = 8 * Math.sin(i * 0.9 + angle);
+      const x = X + Math.cos(rad(angle)) * t - Math.sin(rad(angle)) * wobble;
+      const z = Z + Math.sin(rad(angle)) * t * 0.6 + Math.cos(rad(angle)) * wobble;
+      if (x * x + z * z > mound.rx * mound.rx * 0.97) continue;
+      pts3.push(project(origin, mound.at(x, z, 2)));
+    }
+    const { diffuse, spec } = lightOn(p.normal);
+    return { depth: p.depth, svg: pts3.length > 2 ? noodleRibbon(pts3, { width, light: clamp(diffuse * 0.75 + 0.3 + spec * 0.3) }) : '' };
+  });
+  return `${bed}\n${inOrder(ribbons)}`;
+}
+
+export const BEEF = {
+  // Rare beef (tái) cooked pink by the hot broth, and well-done brisket or flank (chín).
+  tai: { top: ['#D98C80', '#8A3C34'], side: ['#B86A5E', '#6A2A24'], core: '#E9A49A' },
+  chin: { top: ['#B89880', '#6A4A38'], side: ['#9C7A64', '#4E3426'], core: '#C9AE98' },
+  // Raw sliced beef, deep red with white fat.
+  raw: { top: ['#E2584E', '#8E1C18'], side: ['#C8443C', '#6E1410'], core: '#EC6E62' },
+};
+
+/** A thin slice of beef with a ragged edge and a few streaks of fat, its length along u. */
+export function beefSlice(origin, fr, { length = 120, width = 70, thick = 4, kind = BEEF.tai, seed = 1 } = {}) {
+  const rand = (k) => Math.sin(seed * 12.9898 + k * 78.233) * 0.5 + 0.5;
+  const outline = Array.from({ length: 44 }, (_, i) => {
+    const t = (2 * Math.PI * i) / 44;
+    const k = 1 + 0.07 * Math.sin(3 * t + seed) + 0.04 * Math.sin(7 * t + seed * 2) + 0.03 * (rand(i) - 0.5);
+    return [(length / 2) * k * Math.cos(t), (width / 2) * k * Math.sin(t) * (0.85 + 0.15 * Math.cos(t))];
+  });
+  return slab(origin, fr, outline, thick, {
+    top: kind.top,
+    side: kind.side,
+    gloss: 0.7,
+    bevel: 3,
+    rim: 0.45,
+    rimShade: 0.35,
+    shadow: { opacity: 0.3, blur: 2.5 },
+    decorate: ({ project: at, top }) => {
+      const box = bounds(top);
+      const core = `<path d="${discOn(at, [length * 0.05, 0], [length * 0.3, width * 0.25], 10)}" fill="${kind.core}" fill-opacity="0.55" filter="${blur(4, box)}"/>`;
+      // Thin, irregular streaks of fat across the grain.
+      let fat = '';
+      for (let k = 0; k < 4; k++) {
+        const p = length * (rand(k + 10) - 0.5) * 0.75;
+        const q = width * (rand(k + 20) - 0.5) * 0.5;
+        const reach = width * (0.12 + 0.18 * rand(k + 30));
+        fat += `<path d="${openPath([at(p - 6, q - reach), at(p + 3, q), at(p - 2, q + reach)])}"/>`;
+      }
+      return `${core}<g fill="none" stroke="#FFF4EA" stroke-opacity="0.5" stroke-width="2" stroke-linecap="round" filter="${blur(0.8, box)}">${fat}</g>`;
+    },
+  });
+}
+
+/** A thin ring of white onion lying flat on a frame. */
+export function onionRing(origin, fr, { r = 20 } = {}) {
+  const ring = (a, b) => ellipsePoints(a, b, 32).map(([p, q]) => project(origin, fr.at(p, q)));
+  const d = pathOf(ring(r, r * 0.92)) + pathOf(ring(r * 0.78, r * 0.7));
+  const lit = project(origin, fr.at(-r * 0.55, -r * 0.55));
+  return {
+    depth: nearness(fr.origin),
+    svg:
+      `<path d="${d}" fill-rule="evenodd" fill="#FBF7EC" fill-opacity="0.92" stroke="#B8B09A" stroke-opacity="0.5" stroke-width="0.7"/>` +
+      `<circle cx="${n(lit[0])}" cy="${n(lit[1])}" r="${n(r * 0.16)}" fill="#FFFFFF" fill-opacity="0.8"/>`,
+  };
+}
+
+/** A cilantro (ngò) leaf: three rounded, toothed lobes, flat on screen. */
+export function cilantroLeaf([x, y], { size = 12, angle = 0, color = '#3E8E2A' } = {}) {
+  let lobes = '';
+  for (const [dx, dy, s] of [[0, -0.9, 1], [-0.85, 0.15, 0.85], [0.85, 0.15, 0.85]]) {
+    const pts2 = Array.from({ length: 14 }, (_, i) => {
+      const t = (2 * Math.PI * i) / 14;
+      const k = s * size * 0.55 * (1 + 0.16 * Math.cos(5 * t));
+      return [dx * size * 0.62 + k * Math.cos(t), dy * size * 0.62 + k * Math.sin(t) * 0.9];
+    });
+    lobes += `<path d="${pathOf(pts2)}"/>`;
+  }
+  return (
+    `<g transform="translate(${n(x)} ${n(y)}) rotate(${n(angle)})">` +
+    `<g transform="translate(1.5 2)" fill="#0E2A0A" fill-opacity="0.25">${lobes}</g>` +
+    `<g fill="${color}" stroke="#1E5212" stroke-width="0.8">${lobes}</g>` +
+    `<path d="M0,${n(size * 1.6)} L0,${n(-size * 0.3)} M0,0 L${n(-size * 0.5)},${n(size * 0.1)} M0,0 L${n(size * 0.5)},${n(size * 0.1)}" stroke="#A8D878" stroke-width="1.1" fill="none" stroke-linecap="round"/>` +
+    `<ellipse cx="${n(-size * 0.3)}" cy="${n(-size * 0.75)}" rx="${n(size * 0.28)}" ry="${n(size * 0.12)}" fill="#FFFFFF" fill-opacity="0.45"/>` +
+    `</g>`
+  );
+}
+
+/** A slice of red chilli, flat on screen, with its pale seeds. */
+export function chilliSlice([x, y], { size = 10, angle = 0 } = {}) {
+  const rx = size;
+  const ry = size * 0.7;
+  return (
+    `<g transform="translate(${n(x)} ${n(y)}) rotate(${n(angle)})">` +
+    `<ellipse cx="1.5" cy="2" rx="${n(rx)}" ry="${n(ry)}" fill="#3A0A04" fill-opacity="0.25"/>` +
+    `<ellipse rx="${n(rx)}" ry="${n(ry)}" fill="#D8261A" stroke="#8E1208" stroke-width="1"/>` +
+    `<ellipse rx="${n(rx * 0.62)}" ry="${n(ry * 0.58)}" fill="#F6B886"/>` +
+    `<circle cx="${n(-rx * 0.2)}" cy="0" r="${n(size * 0.12)}" fill="#FFF2C8"/><circle cx="${n(rx * 0.22)}" cy="${n(ry * 0.1)}" r="${n(size * 0.12)}" fill="#FFF2C8"/>` +
+    `<ellipse cx="${n(-rx * 0.45)}" cy="${n(-ry * 0.55)}" rx="${n(rx * 0.35)}" ry="${n(ry * 0.18)}" fill="#FFFFFF" fill-opacity="0.65"/>` +
+    `</g>`
+  );
+}
+
+/** A bean sprout (giá đỗ) along a screen curve: a crisp white stem, a yellow-green head and a thin tail. */
+export function beanSprout([x, y], { length = 60, angle = 0, bend = 0.25, light = 1 } = {}) {
+  const L = length;
+  const d = `M${n(-L / 2)},0 Q0,${n(-L * bend)} ${n(L / 2)},0`;
+  const stem = tone(['#FFFFF4', '#B8B6A0'], light);
+  return (
+    `<g transform="translate(${n(x)} ${n(y)}) rotate(${n(angle)})">` +
+    `<path d="${d}" transform="translate(1.5 2.5)" fill="none" stroke="#2B2014" stroke-opacity="0.18" stroke-width="7" stroke-linecap="round"/>` +
+    `<path d="${d}" fill="none" stroke="#C9C6AE" stroke-width="7.2" stroke-linecap="round"/>` +
+    `<path d="${d}" fill="none" stroke="${stem}" stroke-width="5.6" stroke-linecap="round"/>` +
+    `<path d="${d}" transform="translate(-0.8 -1.4)" fill="none" stroke="#FFFFFF" stroke-opacity="0.8" stroke-width="1.6" stroke-linecap="round"/>` +
+    `<path d="M${n(L / 2)},0 q${n(L * 0.12)},${n(L * 0.04)} ${n(L * 0.22)},${n(L * 0.12)}" fill="none" stroke="#C8BC98" stroke-width="1.4" stroke-linecap="round"/>` +
+    `<ellipse cx="${n(-L / 2 - 3)}" cy="-1" rx="6" ry="4.4" transform="rotate(-20 ${n(-L / 2 - 3)} -1)" fill="#E2DE7A" stroke="#8E8A3A" stroke-width="0.8"/>` +
+    `<path d="M${n(-L / 2 - 6)},-3 q-4,-5 -1,-9" fill="none" stroke="#9CC452" stroke-width="2.4" stroke-linecap="round"/>` +
+    `</g>`
+  );
+}
+
+/** Thai basil (húng quế) leaves: glossy, deep green, for leaf(). */
+export const BASIL = { top: ['#5FB040', '#164A10'], side: ['#3E8A2A', '#103A0A'] };
+
+/** A lime slice (chanh). */
+export function limeSlice(origin, fr, { r = 34, thick = 6 } = {}) {
+  return roundSlice(origin, fr, {
+    r,
+    thick,
+    top: ['#E8F7A8', '#9CC040'],
+    side: ['#6FB22A', '#3A7410'],
+    rings: [
+      [1, '#4E9A1E'],
+      [0.9, '#F4FBDC'],
+      [0.84, '#C8E66A'],
+    ],
+    details: (at) => {
+      let lines = '';
+      for (let k = 0; k < 9; k++) {
+        const a = (2 * Math.PI * k) / 9;
+        lines += `<path d="${openPath([at(0, 0), at(Math.cos(a) * r * 0.84, Math.sin(a) * r * 0.84)])}"/>`;
+      }
+      return `<g stroke="#F4FBDC" stroke-width="${n(r * 0.05)}" stroke-linecap="round">${lines}</g><path d="${discOn(at, [0, 0], [r * 0.09, r * 0.09])}" fill="#F4FBDC"/>`;
+    },
+  });
+}
+
+/**
+ * Clear phở broth in a bowl, its surface 40 below the rim: the broth seen through the glass (with
+ * noodles under it when noodles is set) and its golden surface dotted with fat. Returns
+ * { below, surface, onSurface }: draw below, then surface, then the toppings. onSurface(X, Z, spin)
+ * is the frame of a point on the surface.
+ */
+export function phoBroth(rand, { noodles = true, fat = 34 } = {}) {
+  const [CX, CY, RX, RY] = [320, 210.4, 250, 69.4];
+  const clip = uid();
+  define(`<clipPath id="${clip}"><use href="#interior"/></clipPath>`);
+  const body = `M${CX - RX},${CY} A${RX},${RY} 0 0 1 ${CX + RX},${CY} L640,560 L0,560 Z`;
+  const amber = linear([0, CY], [0, 420], [
+    [0, '#F2CF7E'],
+    [0.6, '#DDA850'],
+    [1, '#B9822E'],
+  ]);
+  let sunk = '';
+  if (noodles) {
+    for (let k = 0; k < 26; k++) {
+      const x0 = rand.range(110, 520);
+      const y0 = rand.range(250, 390);
+      const line = Array.from({ length: 10 }, (_, i) => [x0 + (i - 5) * 16 + rand.range(-3, 3), y0 + 9 * Math.sin(i * 0.8 + k) + (i - 5) * rand.range(-3, 3)]);
+      sunk += noodleRibbon(line, { width: 10, light: 0.75 - (y0 - 250) / 400, opacity: 0.75 });
+    }
+  }
+  const surface = linear([0, CY - RY], [0, CY + RY], [
+    [0, '#FBE3A6'],
+    [0.5, '#F0C670'],
+    [1, '#D9A245'],
+  ]);
+  const shine = [CX - RX * 0.4, CY - RY * 0.45];
+  const box = [CX - RX, CY - RY, CX + RX, CY + RY];
+  let drops = '';
+  for (let k = 0; k < fat; k++) {
+    const a = rand.range(0, 2 * Math.PI);
+    const d = 0.9 * Math.sqrt(rand());
+    const [x, y] = [CX + Math.cos(a) * d * RX, CY + Math.sin(a) * d * RY];
+    const r = rand.range(2.5, 7);
+    drops += `<ellipse cx="${n(x)}" cy="${n(y)}" rx="${n(r)}" ry="${n(r * 0.45)}" fill="#F8D27A" stroke="#B88430" stroke-opacity="0.55" stroke-width="0.8"/><ellipse cx="${n(x - r * 0.3)}" cy="${n(y - r * 0.15)}" rx="${n(r * 0.4)}" ry="${n(r * 0.14)}" fill="#FFFFFF" fill-opacity="0.85"/>`;
+  }
+  return {
+    below: `<g clip-path="url(#${clip})"><path d="${body}" fill="${amber}" fill-opacity="0.9"/>${sunk}</g>`,
+    surface: [
+      `<ellipse cx="${CX}" cy="${CY}" rx="${RX}" ry="${RY}" fill="${surface}"/>`,
+      `<ellipse cx="${n(shine[0])}" cy="${n(shine[1])}" rx="${n(RX * 0.34)}" ry="${n(RY * 0.18)}" fill="#FFFFFF" fill-opacity="0.5" filter="${blur(5, box)}"/>`,
+      `<path d="M${CX - RX + 2},${CY} A${RX - 2},${RY - 1} 0 0 1 ${CX + RX - 2},${CY}" fill="none" stroke="#FFF6DE" stroke-opacity="0.85" stroke-width="3"/>`,
+      `<path d="M${CX - RX + 4},${CY + 2} A${RX - 4},${RY - 2} 0 0 0 ${CX + RX - 4},${CY + 2}" fill="none" stroke="#9A6A20" stroke-opacity="0.3" stroke-width="2.5"/>`,
+      drops,
+    ].join('\n'),
+    onSurface: (X, Z, spin = 0) => frame([X, -40, Z], [0, 1, 0], spin),
+  };
 }
