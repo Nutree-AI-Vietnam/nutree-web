@@ -20,5 +20,6 @@ export const SITE_CONFIG = {
 export const NAV_LINKS = [
   { href: '/#how-it-works', label: 'How it works' },
   { href: '/#features', label: 'Features' },
+  { href: '/blog', label: 'Blog' },
   { href: '/#download', label: 'Download' },
 ] as const;

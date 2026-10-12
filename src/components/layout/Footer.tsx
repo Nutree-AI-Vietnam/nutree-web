@@ -95,6 +95,12 @@ export function Footer() {
               >
                 {t.footer.why}
               </Link>
+              <Link
+                href="/blog"
+                className="min-h-9 inline-flex items-center transition-colors hover:text-primary-forest"
+              >
+                {t.footer.blog}
+              </Link>
             </nav>
           </div>
         </div>

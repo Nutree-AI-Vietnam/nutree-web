@@ -2,11 +2,11 @@ import { SITE_CONFIG } from './constants';
 import { LEGAL_COMPANY } from './legal-company';
 import { SITE_DESCRIPTION } from './seo';
 
-const ORGANIZATION_ID = `${SITE_CONFIG.url}/#organization`;
-const WEBSITE_ID = `${SITE_CONFIG.url}/#website`;
+export const ORGANIZATION_ID = `${SITE_CONFIG.url}/#organization`;
+export const WEBSITE_ID = `${SITE_CONFIG.url}/#website`;
 const LOGO_URL = `${SITE_CONFIG.url}/logo-512.png`;
 
-const organization = {
+export const organization = {
   '@type': 'Organization',
   '@id': ORGANIZATION_ID,
   name: SITE_CONFIG.name,
@@ -25,7 +25,7 @@ const organization = {
   sameAs: [SITE_CONFIG.social.tiktok],
 };
 
-const website = {
+export const website = {
   '@type': 'WebSite',
   '@id': WEBSITE_ID,
   url: SITE_CONFIG.url,
