@@ -3,10 +3,11 @@ export type Locale = 'en' | 'vi';
 /** Map nav link href to translated label */
 export function getNavLabel(
   href: string,
-  nav: { howItWorks: string; features: string; download: string },
+  nav: { howItWorks: string; features: string; blog: string; download: string },
 ): string {
   if (href === '/#how-it-works') return nav.howItWorks;
   if (href === '/#features') return nav.features;
+  if (href === '/blog') return nav.blog;
   if (href === '/#download') return nav.download;
   return '';
 }
@@ -36,7 +37,7 @@ interface TranslationStrings {
     pauseAnimation: string;
     playAnimation: string;
   };
-  nav: { howItWorks: string; features: string; download: string };
+  nav: { howItWorks: string; features: string; blog: string; download: string };
   hero: {
     badge: string;
     headlines: string[];
@@ -110,6 +111,7 @@ interface TranslationStrings {
     research: string;
     faq: string;
     why: string;
+    blog: string;
     contact: string;
     companyInfo: string;
     companyName: string;
@@ -221,6 +223,7 @@ export const translations: Record<Locale, TranslationStrings> = {
     nav: {
       howItWorks: 'How it works',
       features: 'Features',
+      blog: 'Blog',
       download: 'Download',
     },
     hero: {
@@ -397,6 +400,7 @@ export const translations: Record<Locale, TranslationStrings> = {
       research: 'Science & Sources',
       faq: 'FAQ',
       why: 'Why Nutree',
+      blog: 'Nutrition Blog',
       contact: 'Contact Us',
       companyInfo: 'Company contact',
       companyName: 'Company name',
@@ -733,6 +737,7 @@ export const translations: Record<Locale, TranslationStrings> = {
     nav: {
       howItWorks: 'Cách dùng',
       features: 'Tính năng',
+      blog: 'Blog',
       download: 'Tải app',
     },
     hero: {
@@ -910,6 +915,7 @@ export const translations: Record<Locale, TranslationStrings> = {
       research: 'Khoa học & nguồn',
       faq: 'Câu hỏi thường gặp',
       why: 'Vì sao chọn Nutree',
+      blog: 'Blog dinh dưỡng',
       contact: 'Liên hệ',
       companyInfo: 'Thông tin liên hệ',
       companyName: 'Tên công ty',

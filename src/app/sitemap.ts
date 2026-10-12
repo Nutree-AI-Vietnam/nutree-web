@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next';
+import { BLOG_PATH, getActiveCategories, getAllPosts, getCategoryPath, type BlogPost } from '@/lib/blog';
 import { SITE_CONFIG } from '@/lib/constants';
 
 type SitemapEntry = MetadataRoute.Sitemap[number];
@@ -18,10 +19,46 @@ const ROUTES: Array<Pick<SitemapEntry, 'changeFrequency' | 'priority'> & { path:
   { path: '/complaints', changeFrequency: 'yearly', priority: 0.3 },
 ];
 
+/** Newest `updated` date among the posts, so a listing changes date whenever one of its posts does. */
+function latestUpdate(posts: BlogPost[]): string | undefined {
+  return posts.reduce<string | undefined>(
+    (latest, post) => (!latest || post.updated > latest ? post.updated : latest),
+    undefined
+  );
+}
+
+/** The blog index, each category with posts, and every post. Numbered pages stay out: they only list posts. */
+function blogEntries(): MetadataRoute.Sitemap {
+  const posts = getAllPosts();
+
+  return [
+    {
+      url: `${SITE_CONFIG.url}${BLOG_PATH}`,
+      lastModified: latestUpdate(posts),
+      changeFrequency: 'daily',
+      priority: 0.8,
+    },
+    ...getActiveCategories().map((category): SitemapEntry => ({
+      url: `${SITE_CONFIG.url}${getCategoryPath(category.slug)}`,
+      lastModified: latestUpdate(posts.filter((post) => post.category.slug === category.slug)),
+      changeFrequency: 'weekly',
+      priority: 0.6,
+    })),
+    ...posts.map((post): SitemapEntry => ({
+      url: `${SITE_CONFIG.url}${post.url}`,
+      lastModified: post.updated,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    })),
+  ];
+}
+
 export default function sitemap(): MetadataRoute.Sitemap {
-  return ROUTES.map(({ path, changeFrequency, priority }) => ({
+  const pages = ROUTES.map(({ path, changeFrequency, priority }) => ({
     url: `${SITE_CONFIG.url}${path}`,
     changeFrequency,
     priority,
   }));
+
+  return [...pages, ...blogEntries()];
 }

@@ -10,6 +10,17 @@
 | **Animation** | Framer Motion 11 |
 | **Package Manager** | npm |
 
+## Blog content (MDX)
+
+Articles live in `content/blog/<slug>.mdx` and are published at `/blog/<slug>`. Before writing or
+editing a post, read `content/blog/README.md`: it defines the file name, frontmatter, categories,
+allowed components and the health-content rules. `npm run build` validates every post.
+
+- Loading and validation: `src/lib/blog.ts`
+- Categories: `src/lib/blog-categories.ts`
+- MDX components and styles: `src/components/blog/`
+- Routes, including the RSS feed at `/blog/feed.xml`: `src/app/blog/`
+
 ## Architecture
 
 ```
