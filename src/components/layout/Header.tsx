@@ -25,6 +25,9 @@ export function Header() {
       setIsScrolled(window.scrollY > 50);
     };
 
+    // A reload or a /#section link can open the page already scrolled, before this listener
+    // exists; without this read the header stays transparent over the content until the next scroll.
+    handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
