@@ -1,0 +1,7 @@
+{
+  "objects": [
+    { "src": "../_objects/bowl-rice.svg", "x": 0.3, "bottom": 0.66, "height": 0.42 },
+    { "src": "../_objects/bowl-chicken-egg.svg", "x": 0.7, "bottom": 0.66, "height": 0.42 },
+    { "src": "../_objects/plate-salmon.svg", "x": 0.5, "bottom": 0.96, "width": 0.58 }
+  ]
+}
