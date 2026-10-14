@@ -908,3 +908,158 @@ export function phoBroth(rand, { noodles = true, fat = 34 } = {}) {
     onSurface: (X, Z, spin = 0) => frame([X, -40, Z], [0, 1, 0], spin),
   };
 }
+
+// ---------- bánh mì: the baguette and its fillings ----------
+const CRUST = ['#F6C474', '#8A4810'];
+
+/** A rounded length of baguette crust along u, depth tall along w; ridge adds the oven scores this far toward +v (a fraction of width). */
+function loafHalf(origin, fr, { length, width, depth, ridge }) {
+  return blob(origin, fr, [length / 2, width / 2, depth], {
+    colors: CRUST,
+    gloss: 0.4,
+    shine: 0.28,
+    rimLight: 0.34,
+    shadow: { opacity: 0.32 },
+    decorate: ({ box }) => {
+      if (ridge === undefined) return '';
+      // Diagonal scores along the top where the crust opened in the oven, pale and blistered.
+      let scores = '';
+      for (let k = 0; k < 5; k++) {
+        const p = (k / 4 - 0.5) * length * 0.62;
+        const line = [-1, -0.5, 0, 0.5, 1].map((t) => {
+          const pp = p + t * length * 0.075;
+          const q = width * (ridge + 0.14 * t);
+          const k2 = Math.sqrt(Math.max(0, 1 - (pp / (length / 2)) ** 2 - (q / (width / 2)) ** 2));
+          return project(origin, fr.at(pp, q, depth * k2));
+        });
+        scores +=
+          `<path d="${openPath(line)}" transform="translate(1.5 3.5)" fill="none" stroke="#6A3006" stroke-opacity="0.45" stroke-width="4" stroke-linecap="round" filter="${blur(1.2, box)}"/>` +
+          `<path d="${openPath(line)}" fill="none" stroke="#FCE6B4" stroke-opacity="0.9" stroke-width="8" stroke-linecap="round" filter="${blur(1.6, box)}"/>`;
+      }
+      return scores;
+    },
+  });
+}
+
+/**
+ * A Vietnamese baguette (bánh mì) lying along the frame's u, split along its front and filled:
+ * a smear of pâté, slices of chả lụa and roast pork, cucumber, pickles, coriander and chilli
+ * showing in the opening. frameIn sits on the cut, at the loaf's centre.
+ */
+export function banhMi(rand, origin, frameIn, { length = 400, width = 120, gap = 38 } = {}) {
+  // Turn u around so that v, and the opening, faces the viewer.
+  const fr = frameOf(frameIn.origin, scale(frameIn.u, -1), frameIn.w);
+  const half = length / 2;
+  const front = (p) => (width / 2) * Math.sqrt(Math.max(0, 1 - (p / half) ** 2));
+  const bottom = loafHalf(origin, frameOf(fr.origin, fr.u, scale(fr.w, -1)), { length, width, depth: 34 });
+  // The open crumb of the lower half, edged with pâté.
+  const at = (p, q, r = 0) => project(origin, fr.at(p, q, r));
+  const crumb = discOn(at, [0, 0], [half * 0.98, width * 0.49], 0, 48);
+  const crumbBox = bounds([at(-half, 0), at(half, 0), at(0, width / 2), at(0, -width / 2)]);
+  const pate = Array.from({ length: 25 }, (_, i) => {
+    const p = (i / 24 - 0.5) * length * 0.8;
+    return at(p, front(p) * 0.8, 3);
+  });
+  const bed =
+    `<path d="${crumb}" fill="#FBEFD2" stroke="#D8A860" stroke-width="2"/>` +
+    `<path d="${openPath(pate)}" fill="none" stroke="#8A5A36" stroke-width="9" stroke-linecap="round" filter="${blur(1, crumbBox)}"/>`;
+  const pieces = [];
+  const front3 = [];
+  // Slices standing in the opening, leaning out toward the viewer.
+  const lean = (p, q, r, back = 0.4) => frameOf(fr.at(p, q, r), fr.u, norm(add(scale(fr.v, 1), scale(fr.w, back))));
+  for (let k = 0; k < 7; k++) {
+    const p = (k / 6 - 0.5) * length * 0.62 + rand.range(-8, 8);
+    const q = front(p) * 0.86;
+    const pork = k % 2 === 1;
+    const outline = ellipsePoints(pork ? 42 : 36, gap * (pork ? 0.6 : 0.7), 32);
+    pieces.push(
+      slab(origin, lean(p, q, gap * 0.55, rand.range(0.2, 0.5)), outline, 3, {
+        top: pork ? ['#F6B49A', '#9A4A32'] : ['#FBE2CE', '#B88E72'],
+        side: pork ? ['#C8402A', '#7A1A0E'] : ['#E8D2BC', '#8E7460'],
+        gloss: 0.5,
+        bevel: 2,
+        rim: 0.5,
+        rimShade: 0.3,
+        shadow: { opacity: 0.25, blur: 2 },
+        edge: pork ? '#B8301C' : '#8E7460',
+        decorate: ({ top }) =>
+          pork ? `<path d="${pathOf(top)}" fill="none" stroke="#C8341E" stroke-width="7" filter="${blur(1.2, bounds(top))}"/>` : '',
+      }),
+    );
+  }
+  // Long cucumber strips poking out at the front.
+  for (let k = 0; k < 4; k++) {
+    const p = (k / 3 - 0.5) * length * 0.5 + rand.range(-10, 10);
+    const fr2 = frameOf(fr.at(p, front(p) * 0.85, gap * 0.35), add(fr.u, scale(fr.v, rand.range(-0.15, 0.15))), norm(add(fr.w, scale(fr.v, 0.9))));
+    const L = rand.range(70, 95);
+    front3.push(
+      slab(origin, fr2, [[-L / 2, -7], [L / 2, -7], [L / 2, 7], [-L / 2, 7]], 6, {
+        top: ['#E6F6C2', '#9CC06A'],
+        side: ['#3E7E22', '#1A440C'],
+        gloss: 0.8,
+        bevel: 1.5,
+        rim: 0.6,
+        shadow: { opacity: 0.28, blur: 2 },
+        decorate: ({ project: pr }) => `<path d="${openPath([pr(-L / 2, -6), pr(L / 2, -6)])}" stroke="#2E6B1C" stroke-width="3" fill="none"/>`,
+      }),
+    );
+  }
+  // Pickled carrot and daikon sticking out of the front between the slices.
+  for (let k = 0; k < 9; k++) {
+    const p = rand.range(-0.36, 0.36) * length;
+    const fr2 = frameOf(fr.at(p, front(p) * 0.95, gap * rand.range(0.3, 0.7)), norm([rand.range(-0.4, 0.4), 0, 1]), norm(add(fr.w, scale(fr.v, 0.4))));
+    front3.push(pickleStick(origin, frame(fr2.origin, fr2.w, rand.range(60, 120)), { length: rand.range(34, 46), carrot: rand() < 0.55 }));
+  }
+  const filling = inOrder(pieces);
+  const poking = inOrder(front3);
+  // Coriander sprigs and chilli along the opening, drawn flat on screen.
+  let herbs = '';
+  for (let k = 0; k < 11; k++) {
+    const p = rand.range(-0.38, 0.38) * length;
+    const [x, y] = at(p, front(p) * rand.range(0.85, 1.05), gap * rand.range(0.5, 1));
+    herbs += cilantroLeaf([x, y - rand.range(0, 10)], { size: rand.range(10, 14), angle: rand.range(-50, 50) });
+  }
+  for (let k = 0; k < 4; k++) {
+    const p = rand.range(-0.3, 0.3) * length;
+    herbs += chilliSlice(at(p, front(p) * 1.02, gap * 0.4), { size: rand.range(7, 9), angle: rand.range(-30, 30) });
+  }
+  // The upper half, lifted on the filling and set back a little, so the filling shows at the front.
+  const lid = loafHalf(origin, frameOf(fr.at(0, -width * 0.1, gap), fr.u, norm(add(fr.w, scale(fr.v, -0.32)))), {
+    length: length * 0.98,
+    width: width * 0.92,
+    depth: 50,
+    ridge: 0.3,
+  });
+  return [bottom.svg, bed, filling, lid.svg, poking, herbs].join('\n');
+}
+
+/** A whole, unfilled baguette (ổ bánh mì không) lying along u. */
+export function baguette(origin, fr, { length = 380, width = 110, depth = 52 } = {}) {
+  return loafHalf(origin, frameOf(fr.origin, scale(fr.u, -1), fr.w), { length, width, depth, ridge: 0.12 });
+}
+
+/** A round slice of chả lụa: pale pink pork roll with a thin golden-brown skin. */
+export function chaLuaSlice(origin, fr, { r = 62, thick = 6 } = {}) {
+  return slab(origin, fr, ellipsePoints(r, r, 48), thick, {
+    top: ['#FCE6D6', '#B8927A'],
+    side: ['#D9A070', '#7A4A24'],
+    gloss: 0.45,
+    bevel: 2,
+    rim: 0.6,
+    rimShade: 0.3,
+    shadow: { opacity: 0.28 },
+    decorate: ({ project: at, top }) => {
+      const box = bounds(top);
+      let pores = '';
+      for (let k = 0; k < 18; k++) {
+        const a = k * 2.4;
+        const d = r * 0.75 * Math.sqrt((k + 0.5) / 18);
+        pores += `<path d="${discOn(at, [Math.cos(a) * d, Math.sin(a) * d], [2.2, 1.6], a * 40, 10)}"/>`;
+      }
+      return (
+        `<path d="${discOn(at, [0, 0], [r, r], 0, 48)}" fill="none" stroke="#C88A52" stroke-width="${n(r * 0.1)}" filter="${blur(0.8, box)}"/>` +
+        `<g fill="#D8B49C" fill-opacity="0.7">${pores}</g>`
+      );
+    },
+  });
+}
