@@ -1063,3 +1063,37 @@ export function chaLuaSlice(origin, fr, { r = 62, thick = 6 } = {}) {
     },
   });
 }
+
+// ---------- rau muống: boiled water spinach ----------
+/** Water spinach leaves (lá rau muống), dark and soft from boiling, for leaf(). */
+export const WATER_SPINACH = { top: ['#4E8E2E', '#0E2C08'], side: ['#3A7020', '#0A2406'] };
+
+/** A boiled water spinach stem along a screen polyline: a glossy, hollow green tube. */
+export function waterSpinachStem(points, { width = 8, light = 1 } = {}) {
+  const d = openPath(points);
+  const body = tone(['#8CC650', '#24521A'], light);
+  const edge = tone(['#3E7A1E', '#0E2A06'], light);
+  return (
+    `<g fill="none" stroke-linecap="round" stroke-linejoin="round">` +
+    `<path d="${d}" transform="translate(2 3)" stroke="#10260A" stroke-opacity="0.22" stroke-width="${n(width + 2)}"/>` +
+    `<path d="${d}" stroke="${edge}" stroke-width="${n(width + 1.8)}"/>` +
+    `<path d="${d}" stroke="${body}" stroke-width="${n(width)}"/>` +
+    `<path d="${d}" transform="translate(${n(LIGHT_2D[0] * width * 0.22)} ${n(LIGHT_2D[1] * width * 0.22)})" stroke="#F4FFE0" stroke-opacity="${n(0.6 * light)}" stroke-width="${n(width * 0.24)}"/>` +
+    `</g>`
+  );
+}
+
+// ---------- trà sữa: milk tea with tapioca pearls ----------
+/** A tapioca pearl (trân châu đen) at a screen point: a dark, glossy, slightly see-through ball. */
+export function tapiocaPearl([x, y], { r = 16, light = 1 } = {}) {
+  const fill = radial({ center: [x, y], radii: [r, r], focus: [-0.35, -0.4] }, [
+    [0, tone(['#7A4A2A', '#3A1E0E'], light)],
+    [0.55, tone(['#3E2010', '#1A0A04'], light)],
+    [1, '#120602'],
+  ]);
+  return (
+    `<circle cx="${n(x + 1.5)}" cy="${n(y + 2)}" r="${n(r)}" fill="#2B1608" fill-opacity="0.3"/>` +
+    `<circle cx="${n(x)}" cy="${n(y)}" r="${n(r)}" fill="${fill}"/>` +
+    `<ellipse cx="${n(x - r * 0.38)}" cy="${n(y - r * 0.42)}" rx="${n(r * 0.32)}" ry="${n(r * 0.18)}" transform="rotate(-35 ${n(x - r * 0.38)} ${n(y - r * 0.42)})" fill="#FFFFFF" fill-opacity="${n(0.75 * light)}"/>`
+  );
+}

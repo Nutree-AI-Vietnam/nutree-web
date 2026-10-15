@@ -1,0 +1,6 @@
+{
+  "objects": [
+    { "src": "../_objects/glass-tra-sua.svg", "x": 0.3, "bottom": 0.8, "height": 0.7 },
+    { "src": "../_objects/plate-banh-mi-thit.svg", "x": 0.66, "bottom": 0.94, "width": 0.56 }
+  ]
+}
