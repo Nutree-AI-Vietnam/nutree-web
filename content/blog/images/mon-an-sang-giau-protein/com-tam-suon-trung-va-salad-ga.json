@@ -1,0 +1,7 @@
+{
+  "objects": [
+    { "src": "../_objects/bowl-chicken-egg.svg", "x": 0.3, "bottom": 0.62, "height": 0.42 },
+    { "src": "../_objects/glass-sua-dau-nanh.svg", "x": 0.78, "bottom": 0.6, "height": 0.44 },
+    { "src": "../_objects/plate-com-tam.svg", "x": 0.52, "bottom": 0.96, "width": 0.56 }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "objects": [
+    { "src": "../_objects/glass-sua-dau-nanh.svg", "x": 0.5, "bottom": 0.6, "height": 0.44 },
+    { "src": "../_objects/bowl-eggs.svg", "x": 0.24, "bottom": 0.9, "height": 0.44 },
+    { "src": "../_objects/bowl-tofu-edamame.svg", "x": 0.76, "bottom": 0.9, "height": 0.44 }
+  ]
+}

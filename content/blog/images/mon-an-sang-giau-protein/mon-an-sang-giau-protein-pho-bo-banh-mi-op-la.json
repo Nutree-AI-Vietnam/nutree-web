@@ -1,0 +1,7 @@
+{
+  "objects": [
+    { "src": "../_objects/bowl-pho-bo.svg", "x": 0.27, "bottom": 0.66, "height": 0.46 },
+    { "src": "../_objects/glass-sua-dau-nanh.svg", "x": 0.8, "bottom": 0.66, "height": 0.5 },
+    { "src": "../_objects/plate-banh-mi-op-la.svg", "x": 0.56, "bottom": 0.96, "width": 0.52 }
+  ]
+}

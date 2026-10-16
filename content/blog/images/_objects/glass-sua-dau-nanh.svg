@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="600" viewBox="0 0 400 600">
+  <!-- A glass of Vietnamese soy milk (sua dau nanh). Drawn by scripts/blog-art in _templates/glass-cup.svg. -->
+  <defs>
+    <path id="silhouette" d="M50,96 A150,42 0 0 1 350,96 L322,528 A122,34 0 0 1 78,528 Z"/>
+    <path id="frontWall" d="M50,96 A150,42 0 0 0 350,96 L322,528 A122,34 0 0 1 78,528 Z"/>
+    <path id="interior" d="M61,97 A139,39 0 0 1 339,97 L312,494 A112,31 0 0 1 88,494 Z"/>
+    <path id="glassBand" fill-rule="evenodd" d="M50,96 A150,42 0 0 1 350,96 L322,528 A122,34 0 0 1 78,528 Z M61,97 A139,39 0 0 1 339,97 L312,494 A112,31 0 0 1 88,494 Z"/>
+    <path id="base" d="M88,494 A112,31 0 0 0 312,494 L322,528 A122,34 0 0 1 78,528 Z"/>
+    <ellipse id="opening" cx="200" cy="97" rx="139" ry="39"/>
+    <path id="rim" fill-rule="evenodd" d="M50,96 A150,42 0 0 1 350,96 A150,42 0 0 1 50,96 Z M61,97 A139,39 0 0 1 339,97 A139,39 0 0 1 61,97 Z"/>
+
+    <clipPath id="contentsClip"><use href="#silhouette"/><rect width="400" height="97"/></clipPath>
+    <clipPath id="frontClip"><use href="#frontWall"/></clipPath>
+    <clipPath id="backHalf"><rect width="400" height="96"/></clipPath>
+    <clipPath id="frontHalf"><rect y="96" width="400" height="504"/></clipPath>
+
+    <linearGradient id="innerWall" x1="0" y1="58" x2="0" y2="136" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#4FC4A0" stop-opacity="0.7"/>
+      <stop offset="0.5" stop-color="#A8EAD3" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#E4FAF2" stop-opacity="0.55"/>
+    </linearGradient>
+    <linearGradient id="rimFill" x1="50" y1="0" x2="350" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F4FFFB" stop-opacity="0.96"/>
+      <stop offset="0.35" stop-color="#C9F3E4" stop-opacity="0.9"/>
+      <stop offset="0.75" stop-color="#9FE5CD" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#5DCCA8" stop-opacity="0.95"/>
+    </linearGradient>
+    <linearGradient id="wallTint" x1="0" y1="100" x2="0" y2="560" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#D8F7EC" stop-opacity="0.12"/>
+      <stop offset="0.6" stop-color="#A3E8D0" stop-opacity="0.2"/>
+      <stop offset="1" stop-color="#4CC39C" stop-opacity="0.4"/>
+    </linearGradient>
+    <linearGradient id="wallEdges" x1="50" y1="0" x2="350" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1E9A78" stop-opacity="0.55"/>
+      <stop offset="0.08" stop-color="#4FC9A3" stop-opacity="0.28"/>
+      <stop offset="0.24" stop-color="#BFF0E0" stop-opacity="0"/>
+      <stop offset="0.76" stop-color="#BFF0E0" stop-opacity="0"/>
+      <stop offset="0.92" stop-color="#3FBE97" stop-opacity="0.32"/>
+      <stop offset="1" stop-color="#17896A" stop-opacity="0.62"/>
+    </linearGradient>
+    <linearGradient id="bandFill" x1="0" y1="100" x2="0" y2="560" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#8FE1C6" stop-opacity="0.65"/>
+      <stop offset="0.7" stop-color="#58CDA8" stop-opacity="0.7"/>
+      <stop offset="1" stop-color="#22A07D" stop-opacity="0.85"/>
+    </linearGradient>
+    <linearGradient id="baseFill" x1="0" y1="494" x2="0" y2="562" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#7EDCBE" stop-opacity="0.85"/>
+      <stop offset="0.5" stop-color="#C5F4E4" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#2FAE89" stop-opacity="0.95"/>
+    </linearGradient>
+    <linearGradient id="streak" x1="0" y1="120" x2="0" y2="500" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0"/>
+      <stop offset="0.12" stop-color="#FFFFFF" stop-opacity="1"/>
+      <stop offset="0.8" stop-color="#FFFFFF" stop-opacity="0.85"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="rimShine" x1="50" y1="0" x2="350" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="1"/>
+      <stop offset="0.5" stop-color="#FFFFFF" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.4"/>
+    </linearGradient>
+
+    <filter id="seeThrough" filterUnits="userSpaceOnUse" x="0" y="0" width="400" height="600" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="1.2"/>
+      <feColorMatrix values="0.82 0 0 0 0.03  0 0.93 0 0 0.07  0 0 0.88 0 0.06  0 0 0 1 0"/>
+    </filter>
+    <filter id="soft1" filterUnits="userSpaceOnUse" x="-100" y="-100" width="600" height="800"><feGaussianBlur stdDeviation="1.2"/></filter>
+    <filter id="soft3" filterUnits="userSpaceOnUse" x="-100" y="-100" width="600" height="800"><feGaussianBlur stdDeviation="3"/></filter>
+    <filter id="soft8" filterUnits="userSpaceOnUse" x="-100" y="-100" width="600" height="800"><feGaussianBlur stdDeviation="8"/></filter>
+    <filter id="soft16" filterUnits="userSpaceOnUse" x="-100" y="-100" width="600" height="800"><feGaussianBlur stdDeviation="16"/></filter>
+
+    <g id="contents">
+<defs>
+<linearGradient id="q1" gradientUnits="userSpaceOnUse" x1="62" y1="0" x2="338" y2="0"><stop offset="0" stop-color="#B79F74"/><stop offset="0.08" stop-color="#D8C7A3"/><stop offset="0.26" stop-color="#EFE3C8"/><stop offset="0.42" stop-color="#F7EDD6"/><stop offset="0.62" stop-color="#F1E6CC"/><stop offset="0.86" stop-color="#D9C8A4"/><stop offset="1" stop-color="#B19A70"/></linearGradient>
+<linearGradient id="q2" gradientUnits="userSpaceOnUse" x1="0" y1="111" x2="0" y2="525"><stop offset="0" stop-color="#F7EDD6" stop-opacity="0"/><stop offset="0.7" stop-color="#CDB88F" stop-opacity="0.25"/><stop offset="1" stop-color="#9E8660" stop-opacity="0.5"/></linearGradient>
+<radialGradient id="q3" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="1" fx="0" fy="0" gradientTransform="translate(158.6 99.4) rotate(0) scale(179.462 50.249)"><stop offset="0" stop-color="#FAF2DF"/><stop offset="0.6" stop-color="#F2E7CE"/><stop offset="1" stop-color="#DCCBA6"/></radialGradient>
+</defs>
+<path d="M62,111 A138,38.7 0 0 1 338,111 L312,494 A112,31 0 0 1 88,494 Z" fill="url(#q1)"/>
+<path d="M62,111 A138,38.7 0 0 1 338,111 L312,494 A112,31 0 0 1 88,494 Z" fill="url(#q2)"/>
+<ellipse cx="200" cy="111" rx="138" ry="38.7" fill="url(#q3)"/>
+<path d="M63,111 A137,38.2 0 0 1 337,111" fill="none" stroke="#FFFFFF" stroke-width="4"/>
+<path d="M65,113 A135,37.2 0 0 0 335,113" fill="none" stroke="#B9A27A" stroke-opacity="0.7" stroke-width="3"/>
+<ellipse cx="147.5" cy="98.6" rx="41.4" ry="8.5" fill="#FFFFFF" fill-opacity="0.9"/>
+    </g>
+  </defs>
+
+  <!-- The back of the glass, behind the drink -->
+  <use href="#silhouette" fill="#D4F5EA" fill-opacity="0.3"/>
+  <use href="#rim" fill="url(#rimFill)" clip-path="url(#backHalf)"/>
+  <use href="#opening" fill="url(#innerWall)"/>
+  <path d="M50,96 A150,42 0 0 1 350,96" fill="none" stroke="#178A6A" stroke-opacity="0.45" stroke-width="1.5"/>
+  <path d="M63,94 A137,37 0 0 1 337,94" fill="none" stroke="#FFFFFF" stroke-opacity="0.7" stroke-width="2"/>
+  <path d="M58,84 A146,40 0 0 1 150,57" fill="none" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" filter="url(#soft1)"/>
+
+  <!-- The drink -->
+  <g clip-path="url(#contentsClip)"><use href="#contents"/></g>
+
+  <!-- The front wall: the drink seen through tinted glass, thicker and greener at the edges and base -->
+  <g clip-path="url(#frontClip)">
+    <use href="#contents" filter="url(#seeThrough)"/>
+    <use href="#frontWall" fill="url(#wallTint)"/>
+    <use href="#glassBand" fill="url(#bandFill)"/>
+    <use href="#frontWall" fill="url(#wallEdges)"/>
+    <use href="#base" fill="url(#baseFill)"/>
+    <path d="M94,520 A114,30 0 0 0 306,520" fill="none" stroke="#FFFFFF" stroke-opacity="0.85" stroke-width="5" filter="url(#soft3)"/>
+    <path d="M88,494 A112,31 0 0 0 312,494" fill="none" stroke="#FFFFFF" stroke-opacity="0.85" stroke-width="2"/>
+    <path d="M82,130 L104,470" fill="none" stroke="#FFFFFF" stroke-opacity="0.3" stroke-width="40" stroke-linecap="round" filter="url(#soft16)"/>
+    <path d="M72,134 L92,486" fill="none" stroke="url(#streak)" stroke-width="9" stroke-linecap="round" filter="url(#soft1)"/>
+    <path d="M104,170 L114,420" fill="none" stroke="#FFFFFF" stroke-opacity="0.5" stroke-width="3" stroke-linecap="round" filter="url(#soft1)"/>
+    <path d="M330,150 L312,470" fill="none" stroke="#FFFFFF" stroke-opacity="0.7" stroke-width="4" stroke-linecap="round" filter="url(#soft1)"/>
+    <path d="M306,260 L296,420" fill="none" stroke="#FFFFFF" stroke-opacity="0.3" stroke-width="12" stroke-linecap="round" filter="url(#soft8)"/>
+  </g>
+  <g clip-path="url(#frontClip)">
+    <use href="#silhouette" fill="none" stroke="#159272" stroke-opacity="0.35" stroke-width="14" filter="url(#soft8)"/>
+  </g>
+
+  <!-- The front of the rim -->
+  <use href="#rim" fill="url(#rimFill)" clip-path="url(#frontHalf)"/>
+  <path d="M61,97 A139,39 0 0 0 339,97" fill="none" stroke="#FFFFFF" stroke-opacity="0.75" stroke-width="2"/>
+  <use href="#frontWall" fill="none" stroke="#178A6A" stroke-opacity="0.5" stroke-width="1.5"/>
+  <path d="M52,101 A148,40 0 0 0 348,101" fill="none" stroke="url(#rimShine)" stroke-width="3"/>
+  <path d="M74,120 A146,40 0 0 0 140,134" fill="none" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" filter="url(#soft1)"/>
+  <path d="M80,116 Q82,125 91,127 Q82,129 80,138 Q78,129 69,127 Q78,125 80,116 Z" fill="#FFFFFF"/>
+</svg>
