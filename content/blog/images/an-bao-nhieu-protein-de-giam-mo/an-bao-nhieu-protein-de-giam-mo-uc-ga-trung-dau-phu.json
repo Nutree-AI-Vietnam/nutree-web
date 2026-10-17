@@ -1,0 +1,8 @@
+{
+  "objects": [
+    { "src": "../_objects/glass-milk.svg", "x": 0.5, "bottom": 0.58, "height": 0.42 },
+    { "src": "../_objects/bowl-eggs.svg", "x": 0.2, "bottom": 0.72, "height": 0.38 },
+    { "src": "../_objects/bowl-tofu-edamame.svg", "x": 0.8, "bottom": 0.72, "height": 0.38 },
+    { "src": "../_objects/plate-uc-ga.svg", "x": 0.5, "bottom": 0.97, "width": 0.54 }
+  ]
+}

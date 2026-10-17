@@ -1,0 +1,7 @@
+{
+  "objects": [
+    { "src": "../_objects/bowl-rice.svg", "x": 0.27, "bottom": 0.66, "height": 0.42 },
+    { "src": "../_objects/plate-rau-muong-luoc.svg", "x": 0.74, "bottom": 0.66, "width": 0.44 },
+    { "src": "../_objects/plate-uc-ga.svg", "x": 0.48, "bottom": 0.97, "width": 0.56 }
+  ]
+}
