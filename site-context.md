@@ -28,8 +28,8 @@ Filled in with the team, one question at a time. Anything not yet answered is ma
 - **MacroFactor**: a macro tracker by Stronger By Science.
   [App Store](https://apps.apple.com/us/app/-/id1553503471)
 - **MyFitnessPal**: https://www.myfitnesspal.com
-- **Dietfit**: which app this is has not been confirmed. Research found more than one App Store
-  app by this name (see the chat), so this entry is open until the team picks one.
+- **Dietfit**: Dietfit AI: Calorie Tracker by c0x12c Inc. It estimates calories from meal photos
+  and runs on a subscription. [App Store](https://apps.apple.com/app/id6747063701)
 
 ## 5. Current authority
 
