@@ -33,7 +33,17 @@ Filled in with the team, one question at a time. Anything not yet answered is ma
 
 ## 5. Current authority
 
-_TBD_
+From the free Ahrefs Website Authority Checker for `nutreeai.com`, read on 2026-10-18:
+
+| Metric | Value |
+|--------|-------|
+| Domain Rating | **0** |
+| Referring domains ("Linking websites") | **861** (35% dofollow) |
+| Backlinks | **913** (35% dofollow) |
+
+Note: a DR of 0 alongside 861 referring domains usually means almost none of the linking sites
+carry authority of their own. Review the "Top 100 backlinks" list in Ahrefs before relying on
+these links.
 
 ## 6. Pages that make money today
 
