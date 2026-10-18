@@ -56,6 +56,17 @@ Source: "The complete 20-prompt SEO campaign process with Claude Opus 5.5" (X po
     the loop. Later pages in that category copy it as their template.
 20. **Honest comparisons.** A comparison page says where the rival wins.
 
+## The weekly content routine
+
+The "Nutree - SEM" routine runs every Monday at 01:05 UTC (08:05 in Vietnam). It reads this file,
+`site-context.md` and `seo-roadmap.md` before every run. It was changed from daily to weekly on
+2026-10-18 to follow rule 16.
+
+- It publishes one page a week, only in a category whose first page has already been approved.
+- The first page of a new category goes to the team as a pull request (rule 19).
+- Any change to a page that gets clicks also goes to the team as a pull request, with the diff
+  (rule 9).
+
 ## How each rule works in this repo
 
 1. **Existing pages:** the sitemap is `src/app/sitemap.ts` (live at `/sitemap.xml`). To find
@@ -79,9 +90,6 @@ Source: "The complete 20-prompt SEO campaign process with Claude Opus 5.5" (X po
 
 ## Open questions
 
-- **Pace vs. the daily routine:** the "Nutree - SEM" routine publishes one article a day straight
-  to `main`. Rule 16 says about one a week at our authority. Its topic plan is also mostly "what is
-  X" articles (TDEE là gì, macro là gì, thâm hụt calo là gì), which rule 12 ranks last.
 - **Named author:** the guide says a real named author beats "the editorial team". The README
   fixes the byline as "Đội ngũ Nutree" (the Nutree team). This is the same question as Person
   markup below.

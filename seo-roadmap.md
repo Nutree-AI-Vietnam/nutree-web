@@ -68,9 +68,20 @@ from Paul Vengeons' 20-prompt guide). Last updated 2026-10-18. Every number here
 
 ## Part 5: keep the machine honest
 
-- **Pace:** at most one page a day, about one a week at our authority (rule 16). The current daily
-  routine runs above that. This is an open question in `seo-process.md`.
+- **Pace:** about one page a week at our authority (rule 16). The "Nutree - SEM" routine was moved
+  from daily to weekly (Mondays) on 2026-10-18. See "The weekly content routine" in
+  `seo-process.md`.
+- **Categories with an approved first page** (the routine may publish more pages in these):
+  - Vietnamese dish calories. Template: `content/blog/pho-bo-bao-nhieu-calo.mdx`.
+- **New categories waiting for a first page** (the routine drafts these as a pull request and
+  never publishes them):
+  - "[competitor] alternative"
+  - "[A] vs [B]"
+  - "[app] for [audience]"
 - **90-day review (prompt 19):** each published page gets a check 90 days after it goes live.
   The first is due 2027-01-10 for `macro-la-gi` and `pho-bo-bao-nhieu-calo`.
-- **Monday loop (prompt 20):** a weekly run that returns 5 tasks, not a report. **Not set up yet:**
-  without a data source it would have nothing real to work from.
+- **Monday loop (prompt 20):** a weekly run that returns 5 tasks, not a report.
+  - **Partly set up:** the weekly routine ends every run with up to 5 next tasks taken from this
+    file.
+  - **Missing:** a data-driven loop that reads Search Console. That waits for a working data
+    source.
