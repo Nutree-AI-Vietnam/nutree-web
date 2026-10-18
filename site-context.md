@@ -22,7 +22,27 @@ Anything still open is marked _Missing_ or "not yet defined".
   - A gym-goer tracking protein
   - Someone managing a health condition
   - A busy office worker
-- **Words buyers use:** "scan calo", "keep track", "gym", "hydration", "meal planner"
+- **Words buyers use (per the team):** "scan calo", "keep track", "gym", "hydration", "meal planner"
+- **What people actually search (Google Search Console, top queries, last 3 months, read on
+  2026-10-18):**
+
+  | Query | Clicks | Impressions |
+  |-------|-------:|------------:|
+  | nutreeai | 460 | 586 |
+  | nutree | 297 | 656 |
+  | nutree ai | 285 | 362 |
+  | nutreeai com | 151 | 166 |
+  | nutree app | 90 | 182 |
+  | nutreai | 24 | 29 |
+  | nutreeai.com | 21 | 25 |
+  | nutree apk | 12 | 27 |
+  | app nutree | 10 | 31 |
+  | nutree ai vietnam | 3 | 7 |
+
+  Every top query is a search for the brand name. People who find us on Google already know the
+  name. None of the buyer words above, and no generic phrase such as "calorie counter" or "app
+  đếm calo", reaches the top 10 yet.
+- **Target languages:** _Missing._
 
 ## 4. Main competitors
 
@@ -52,7 +72,7 @@ these links.
   and leads to the purchase. The site sends people there from the home hero, the final CTA and
   the CTA in every blog post (`SITE_CONFIG.quizUrl` in `src/lib/constants.ts`).
 - **Top pages by clicks.** Source: Google Search Console, Performance, last 3 months, read on
-  2026-10-18 from a screenshot. Rows 1 to 9 are shown; row 10 was cut off.
+  2026-10-18 from screenshots. Search Console lists 13 pages in total; the top 10 are below.
 
   | # | Page | Clicks | Impressions |
   |---|------|-------:|------------:|
@@ -65,6 +85,7 @@ these links.
   | 7 | https://nutreeai.com/terms | 5 | 935 |
   | 8 | https://quiz.nutreeai.com/ | 3 | 129 |
   | 9 | https://nutreeai.com/research | 2 | 403 |
+  | 10 | https://nutreeai.com/blog/macro-la-gi | 0 | 48 |
 
 - **What the data shows:**
   - The home page gets nearly all organic clicks.
@@ -72,7 +93,7 @@ these links.
     arrives through links from the main site, not from Google.
   - Rows 2 to 7 are policy pages. `/pricing` is a pricing *policy* page with no specific prices,
     which fits rule 1 in section 7.
-  - No blog post appears in the top 9.
+  - The only blog post in the top 10 is `/blog/macro-la-gi`, with 0 clicks and 48 impressions.
 
 ## 7. What we must never do
 
@@ -92,4 +113,8 @@ The team confirmed these apply everywhere. Rules 2 to 8 match the health content
 7. Never call the quiz free or say how long it takes.
 8. Never link to other calorie-counting apps.
 
-Not yet defined: tone of voice, and legal limits on naming or comparing competitors.
+**Tone of voice:** friendly.
+
+**Competitors:** the team said yes when asked whether content may name competitors (MacroFactor,
+MyFitnessPal, Dietfit) and compare Nutree with them. Rule 8 still applies, so name them but don't
+link to them. Rules 3 and 4 still apply, so every comparison claim needs a source.
