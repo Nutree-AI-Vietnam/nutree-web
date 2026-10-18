@@ -1,6 +1,7 @@
 # Site context
 
-Filled in with the team, one question at a time. Anything not yet answered is marked _TBD_.
+Filled in with the team on 2026-10-18. Every answer came from the team or from a named source.
+Anything still open is marked _Missing_ or "not yet defined".
 
 ## 1. Site and CMS
 
@@ -56,4 +57,20 @@ these links.
 
 ## 7. What we must never do
 
-_TBD_
+The team confirmed these apply everywhere. Rules 2 to 8 match the health content rules in
+`content/blog/README.md`.
+
+1. Never state a price. We sell at several price variants.
+2. Never make medical promises: no "chữa khỏi" (cures), "đảm bảo" (guaranteed), or "lose X kg in
+   Y days". For illness, pregnancy, eating disorders or medication, tell readers to ask a doctor.
+3. Never invent statistics, studies, quotes, experts, testimonials, user counts or rankings. Never
+   say a doctor or dietitian wrote or reviewed content.
+4. Never give a number without a source.
+5. Never recommend extreme diets, skipping meals, diet pills or supplements, or fasting for
+   at-risk people.
+6. Never claim Nutree is free, 100% accurate or a medical tool. Never cite user numbers, ratings
+   or store rankings.
+7. Never call the quiz free or say how long it takes.
+8. Never link to other calorie-counting apps.
+
+Not yet defined: tone of voice, and legal limits on naming or comparing competitors.
