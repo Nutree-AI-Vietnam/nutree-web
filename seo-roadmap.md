@@ -24,6 +24,32 @@ from Paul Vengeons' 20-prompt guide). Last updated 2026-10-18. Every number here
 - **Current search demand:**
   - Every top query in Search Console is the brand name ("nutreeai", "nutree", "nutree ai", ...).
   - We have no non-brand clicks yet.
+- **Search Console trend.** Source: the team's daily export of site-wide clicks, impressions, CTR
+  and position, 2026-07-17 to 2026-10-16.
+
+  | Period | Days | Clicks | Clicks/day | Impressions | CTR |
+  |--------|-----:|-------:|-----------:|------------:|----:|
+  | Jul 17 – Aug 7 | 22 | 152 | 6.9 | 484 | 31.4% |
+  | **Aug 8 – Aug 28 (spike)** | 21 | **1,260** | **60.0** | 2,244 | 56.1% |
+  | Aug 29 – Oct 6 | 39 | 278 | 7.1 | 915 | 30.4% |
+  | Oct 7 – Oct 8 (small spike) | 2 | 50 | 25.0 | 132 | 37.9% |
+  | Oct 9 – Oct 16 | 8 | 63 | 7.9 | 323 | 19.5% |
+  | **Total** | 92 | **1,803** | 19.6 | 4,098 | 44.0% |
+
+  - **70% of all clicks (1,260 of 1,803) came in three weeks, Aug 8–28.** The peak was 248
+    clicks on Aug 9.
+    - The average position was about 1.4 and the CTR over 50%, which looks like people
+      searching the brand name.
+    - **The cause is unknown and the team needs to supply it:** a launch, press, ads or a social
+      post?
+  - **Outside the spikes, the site gets about 7 clicks a day.** That was true before the spike
+    and is true again after it.
+  - **Since the blog started (Oct 12):** impressions are up a little (about 40 a day against
+    about 23 a day in September), but CTR fell to about 18–20%.
+    - The new impressions aren't turning into clicks yet.
+    - It's too early to judge, because of the 90-day rule (rule 17).
+  - **This export has no per-page or per-query positions**, so the quick wins (prompt 6) still
+    need the Pages and Queries export with the Position column.
 - **Content so far:** 8 blog posts in 7 days (2026-10-12 to 2026-10-18).
   - 4 are "what is X / how to calculate" posts: macro, TDEE, thâm hụt calo, protein.
   - 2 are Vietnamese food calories: phở bò, bánh mì thịt.
