@@ -58,9 +58,10 @@ Source: "The complete 20-prompt SEO campaign process with Claude Opus 5.5" (X po
 
 ## The weekly content routine
 
-The "Nutree - SEM" routine runs every Monday at 01:05 UTC (08:05 in Vietnam). It reads this file,
-`site-context.md` and `seo-roadmap.md` before every run. It was changed from daily to weekly on
-2026-10-18 to follow rule 16.
+**Status: pending.** The team still has to apply this change in the routine's settings. Until
+then, the "Nutree - SEM" routine still runs daily with its old instructions. Once applied, it runs
+every Monday at 01:05 UTC (08:05 in Vietnam), reads this file, `site-context.md` and
+`seo-roadmap.md` before every run, and follows rule 16.
 
 - It publishes one page a week, only in a category whose first page has already been approved.
 - The first page of a new category goes to the team as a pull request (rule 19).

@@ -68,9 +68,9 @@ from Paul Vengeons' 20-prompt guide). Last updated 2026-10-18. Every number here
 
 ## Part 5: keep the machine honest
 
-- **Pace:** about one page a week at our authority (rule 16). The "Nutree - SEM" routine was moved
-  from daily to weekly (Mondays) on 2026-10-18. See "The weekly content routine" in
-  `seo-process.md`.
+- **Pace:** about one page a week at our authority (rule 16). The "Nutree - SEM" routine is moving
+  from daily to weekly (Mondays). This is pending until the team applies it; see "The weekly
+  content routine" in `seo-process.md`.
 - **Categories with an approved first page** (the routine may publish more pages in these):
   - Vietnamese dish calories. Template: `content/blog/pho-bo-bao-nhieu-calo.mdx`.
 - **New categories waiting for a first page** (the routine drafts these as a pull request and
