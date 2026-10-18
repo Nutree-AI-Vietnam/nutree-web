@@ -47,7 +47,6 @@ const mobileApplication = {
   operatingSystem: 'iOS, Android',
   applicationCategory: 'HealthApplication',
   downloadUrl: [SITE_CONFIG.stores.appStore, SITE_CONFIG.stores.googlePlay],
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'VND' },
   publisher: { '@id': ORGANIZATION_ID },
 };
 

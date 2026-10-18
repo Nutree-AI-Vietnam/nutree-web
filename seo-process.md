@@ -102,7 +102,3 @@ every Monday at 01:05 UTC (08:05 in Vietnam), reads this file, `site-context.md`
 - **At least 5 incoming links:** the blog has 8 posts, so most topics don't yet have 5 pages on
   the same topic. When there are fewer, should the new page wait, or link from as many as exist?
 - **FAQPage:** posts have a "Câu hỏi thường gặp" section, but no FAQPage markup is generated yet.
-- **Wrong price in the app's structured data:** `src/lib/structured-data.ts:50` tells search
-  engines the app costs `price: '0'` (free). That contradicts "no free tier" and "never state a
-  price" in `site-context.md`. It is on the home page, which gets clicks, so rule 9 applies to
-  any fix.
