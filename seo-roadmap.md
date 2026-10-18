@@ -40,8 +40,8 @@ from Paul Vengeons' 20-prompt guide). Last updated 2026-10-18. Every number here
     clicks on Aug 9.
     - The average position was about 1.4 and the CTR over 50%, which looks like people
       searching the brand name.
-    - **The cause is unknown and the team needs to supply it:** a launch, press, ads or a social
-      post?
+    - **The cause is unknown.** The team wasn't sure when asked on 2026-10-18. Don't attribute
+      the spike to anything without a source.
   - **Outside the spikes, the site gets about 7 clicks a day.** That was true before the spike
     and is true again after it.
   - **Since the blog started (Oct 12):** impressions are up a little (about 40 a day against
