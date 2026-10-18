@@ -31,17 +31,17 @@ export function Logo({ size = 'md', className, linkHome = true }: LogoProps) {
       )}
       aria-label="Nutree"
     >
-      <picture>
-        <source srcSet="/logo-gradient-200.webp" type="image/webp" />
-        <Image
-          src="/logo-gradient-200.png"
-          alt="Nutree Icon"
-          width={iconSize}
-          height={iconSize}
-          className="object-contain rounded-lg"
-          priority={size === 'sm'}
-        />
-      </picture>
+      {/* 96px covers the largest icon at 2x. The header copy loads eagerly but without a preload,
+          so this small icon never competes with the fonts and hero text for early bandwidth. */}
+      <Image
+        src="/logo-gradient-96.webp"
+        alt="Nutree Icon"
+        width={iconSize}
+        height={iconSize}
+        unoptimized
+        className="object-contain rounded-lg"
+        loading={size === 'sm' ? 'eager' : 'lazy'}
+      />
       <span
         className={cn(
           'font-display font-semibold bg-gradient-to-r from-primary-forest via-primary-emerald to-primary-teal bg-clip-text text-transparent',

@@ -72,7 +72,7 @@ export function StartupPartners() {
           <span aria-hidden="true" className="h-px flex-1 bg-gradient-to-r from-transparent to-border" />
           <h2
             id="startup-partners-title"
-            className="text-center text-xs font-semibold uppercase tracking-[0.22em] text-primary-teal"
+            className="text-center text-xs font-semibold uppercase tracking-[0.22em] text-primary-forest"
           >
             {t.common.startupPartners}
           </h2>

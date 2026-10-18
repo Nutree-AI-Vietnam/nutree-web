@@ -93,7 +93,7 @@ export function HeroScanShowcase() {
                     <p className="line-clamp-2 text-balance text-sm font-semibold leading-snug text-foreground">
                       {showcase.mealName}
                     </p>
-                    <p className="mt-1 text-xs font-semibold text-primary-emerald">{showcase.mealEnergy}</p>
+                    <p className="mt-1 text-xs font-semibold text-primary-forest">{showcase.mealEnergy}</p>
                   </div>
                 </div>
               </div>

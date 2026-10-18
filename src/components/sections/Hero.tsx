@@ -74,10 +74,9 @@ export function HeroV2() {
               )}
             </h1>
 
-            <p
-              className="hero-fade-up mx-auto mb-8 max-w-md text-lg text-muted md:text-xl lg:mx-0"
-              style={{ animationDelay: '420ms' }}
-            >
+            {/* The largest text on a phone screen, so it is the LCP element: it paints with the first
+                frame instead of fading in, which would push LCP back by the fade's delay. */}
+            <p className="mx-auto mb-8 max-w-md text-lg text-muted md:text-xl lg:mx-0">
               {t.hero.subheadline}
             </p>
 
