@@ -10,7 +10,9 @@ Filled in with the team, one question at a time. Anything not yet answered is ma
 
 ## 2. What we sell, to whom, at what price
 
-_TBD_
+- **Product:** Nutree, a paid mobile app. There is no free tier.
+- **For whom:** People everywhere who care about health and wellness.
+- **Price:** We sell at several price variants. Never state a specific price in content.
 
 ## 3. Who buys
 
