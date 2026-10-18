@@ -47,7 +47,12 @@ these links.
 
 ## 6. Pages that make money today
 
-_TBD_
+- **Money page (per the team):** https://quiz.nutreeai.com. The quiz builds a personalized plan
+  and leads to the purchase. The site sends people there from the home hero, the final CTA and
+  the CTA in every blog post (`SITE_CONFIG.quizUrl` in `src/lib/constants.ts`).
+- **Top pages by clicks (Search Console):** _Missing._ The connected Ahrefs account returned
+  "Insufficient plan" for its Search Console data, and no Search Console export has been
+  provided yet.
 
 ## 7. What we must never do
 
