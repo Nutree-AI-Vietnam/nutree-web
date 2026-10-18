@@ -20,6 +20,42 @@ context (audience, competitors, tone, what we must never claim) is in `site-cont
 9. **Show the diff before publishing on a page that already gets clicks.** No change goes live on
    such a page until it has been approved.
 
+## Campaign rules (from Paul Vengeons' guide, adopted 2026-10-18)
+
+Source: "The complete 20-prompt SEO campaign process with Claude Opus 5.5" (X post by @VengeonsP,
+2026-10-17). The guide presents these as rules of thumb from one practitioner, not proven laws.
+
+10. **Rank every action by the five levers.** The levers are: search intent, the keyword in the
+    title, internal links, site authority, and links to the page. An action that serves none of
+    them goes to the bottom of the list.
+11. **Match the search intent.** Read the live Google results before writing. The page type
+    Google shows for a query is the only page type that can rank for it.
+12. **Pick battles our authority can win.** Say so plainly when a keyword is out of reach.
+    - Prefer keywords with buying intent ("[competitor] alternative", "[A] vs [B]", "[tool] for
+      [audience]") over "what is X".
+    - Prefer keywords that fewer than half of the top 10 results have in their title.
+13. **Title formula.** The keyword word for word, then a colon, then one promise shaped by the
+    intent.
+    - Add the current year to rankings, comparisons and "best" pages.
+    - Keep the title to about 600px and the description to about 920px.
+14. **Protect what already ranks.** Before editing a page, check which queries it already gets
+    clicks for. If optimizing it for a new query could cost those clicks, create a new page instead.
+15. **Verify the report, not just the work.** After every edit, check the diff removed nothing
+    that wasn't asked for. Check every ranking we claim on the live Google results that day.
+16. **Pace.** At most one new page a day. On a site with little authority, about one a week.
+17. **The 90-day rule.** After a real change, leave the page alone for 90 days. If someone asks
+    how to improve it in that time, the answer is "nothing, work on the next keyword".
+18. **Links in this order.**
+    - Internal links come first.
+    - Start homepage links from day one.
+    - Add links to a specific page only once it has shown potential, and only as many as the top 3
+      results have.
+    - Never buy a link to a page less than 90 days old.
+    - Never do A-to-B link exchanges.
+19. **One page by hand per category first.** Build the first page of a category with the team in
+    the loop. Later pages in that category copy it as their template.
+20. **Honest comparisons.** A comparison page says where the rival wins.
+
 ## How each rule works in this repo
 
 1. **Existing pages:** the sitemap is `src/app/sitemap.ts` (live at `/sitemap.xml`). To find
@@ -42,6 +78,13 @@ context (audience, competitors, tone, what we must never claim) is in `site-cont
 9. **Pages with clicks:** the list of pages that get clicks is in section 6 of `site-context.md`.
 
 ## Open questions
+
+- **Pace vs. the daily routine:** the "Nutree - SEM" routine publishes one article a day straight
+  to `main`. Rule 16 says about one a week at our authority. Its topic plan is also mostly "what is
+  X" articles (TDEE là gì, macro là gì, thâm hụt calo là gì), which rule 12 ranks last.
+- **Named author:** the guide says a real named author beats "the editorial team". The README
+  fixes the byline as "Đội ngũ Nutree" (the Nutree team). This is the same question as Person
+  markup below.
 
 - **Person for the author:** posts have no author field, and the README fixes the byline as
   "Đội ngũ Nutree". It also forbids saying a doctor or dietitian wrote or reviewed a post. There

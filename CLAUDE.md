@@ -14,7 +14,8 @@
 
 Before creating or editing any page, read `seo-process.md` and follow it: it applies every time,
 without being asked, and wins over `content/blog/README.md` where it is stricter. Business context
-(audience, competitors, tone, what never to claim) is in `site-context.md`.
+(audience, competitors, tone, what never to claim) is in `site-context.md`; campaign status and next
+steps are in `seo-roadmap.md`.
 
 ## Blog content (MDX)
 
