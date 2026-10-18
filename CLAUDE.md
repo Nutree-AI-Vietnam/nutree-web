@@ -10,6 +10,12 @@
 | **Animation** | Framer Motion 11 |
 | **Package Manager** | npm |
 
+## SEO rules (every page)
+
+Before creating or editing any page, read `seo-process.md` and follow it: it applies every time,
+without being asked, and wins over `content/blog/README.md` where it is stricter. Business context
+(audience, competitors, tone, what never to claim) is in `site-context.md`.
+
 ## Blog content (MDX)
 
 Articles live in `content/blog/<slug>.mdx` and are published at `/blog/<slug>`. Before writing or
