@@ -16,7 +16,12 @@ Filled in with the team, one question at a time. Anything not yet answered is ma
 
 ## 3. Who buys
 
-_TBD_
+- **Buyer situations (all count):**
+  - Someone trying to lose weight
+  - A gym-goer tracking protein
+  - Someone managing a health condition
+  - A busy office worker
+- **Words buyers use:** "scan calo", "keep track", "gym", "hydration", "meal planner"
 
 ## 4. Main competitors
 
