@@ -25,7 +25,11 @@ Filled in with the team, one question at a time. Anything not yet answered is ma
 
 ## 4. Main competitors
 
-_TBD_
+Spellings are exactly as given and still need confirming:
+
+- dietfit
+- macrogactor
+- mindfitnesspal
 
 ## 5. Current authority
 
