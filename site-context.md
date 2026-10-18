@@ -4,7 +4,9 @@ Filled in with the team, one question at a time. Anything not yet answered is ma
 
 ## 1. Site and CMS
 
-_TBD_
+- **URL:** https://nutreeai.com
+- **CMS:** None. Content is MDX files in this repo (`content/blog/<slug>.mdx`), published at
+  `/blog/<slug>` by the Next.js 15 (App Router) site.
 
 ## 2. What we sell, to whom, at what price
 
