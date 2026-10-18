@@ -42,7 +42,8 @@ Source: "The complete 20-prompt SEO campaign process with Claude Opus 5.5" (X po
     clicks for. If optimizing it for a new query could cost those clicks, create a new page instead.
 15. **Verify the report, not just the work.** After every edit, check the diff removed nothing
     that wasn't asked for. Check every ranking we claim on the live Google results that day.
-16. **Pace.** At most one new page a day. On a site with little authority, about one a week.
+16. **Pace.** At most one new page a day. On 2026-10-18 the team chose one a day. The guide
+    suggests about one a week for a site with little authority.
 17. **The 90-day rule.** After a real change, leave the page alone for 90 days. If someone asks
     how to improve it in that time, the answer is "nothing, work on the next keyword".
 18. **Links in this order.**
@@ -56,14 +57,16 @@ Source: "The complete 20-prompt SEO campaign process with Claude Opus 5.5" (X po
     the loop. Later pages in that category copy it as their template.
 20. **Honest comparisons.** A comparison page says where the rival wins.
 
-## The weekly content routine
+## The daily content routine
 
-**Status: pending.** The team still has to apply this change in the routine's settings. Until
-then, the "Nutree - SEM" routine still runs daily with its old instructions. Once applied, it runs
-every Monday at 01:05 UTC (08:05 in Vietnam), reads this file, `site-context.md` and
-`seo-roadmap.md` before every run, and follows rule 16.
+The "Nutree - SEM" routine runs every day at 01:05 UTC (08:05 in Vietnam).
 
-- It publishes one page a week, only in a category whose first page has already been approved.
+**Status: pending.** The team still has to paste the new instructions into the routine's
+settings. Until then it runs with its old instructions. Once the new instructions are in, it
+reads this file, `site-context.md` and `seo-roadmap.md` before every run.
+
+- It publishes at most one page a day (rule 16), only in a category whose first page has
+  already been approved.
 - The first page of a new category goes to the team as a pull request (rule 19).
 - Any change to a page that gets clicks also goes to the team as a pull request, with the diff
   (rule 9).
