@@ -51,9 +51,28 @@ these links.
 - **Money page (per the team):** https://quiz.nutreeai.com. The quiz builds a personalized plan
   and leads to the purchase. The site sends people there from the home hero, the final CTA and
   the CTA in every blog post (`SITE_CONFIG.quizUrl` in `src/lib/constants.ts`).
-- **Top pages by clicks (Search Console):** _Missing._ The connected Ahrefs account returned
-  "Insufficient plan" for its Search Console data, and no Search Console export has been
-  provided yet.
+- **Top pages by clicks.** Source: Google Search Console, Performance, last 3 months, read on
+  2026-10-18 from a screenshot. Rows 1 to 9 are shown; row 10 was cut off.
+
+  | # | Page | Clicks | Impressions |
+  |---|------|-------:|------------:|
+  | 1 | https://nutreeai.com/ | 1,749 | 3,720 |
+  | 2 | https://nutreeai.com/pricing | 30 | 1,270 |
+  | 3 | https://nutreeai.com/faq | 28 | 1,310 |
+  | 4 | https://nutreeai.com/cancellation | 10 | 761 |
+  | 5 | https://nutreeai.com/complaints | 10 | 705 |
+  | 6 | https://nutreeai.com/payment | 7 | 674 |
+  | 7 | https://nutreeai.com/terms | 5 | 935 |
+  | 8 | https://quiz.nutreeai.com/ | 3 | 129 |
+  | 9 | https://nutreeai.com/research | 2 | 403 |
+
+- **What the data shows:**
+  - The home page gets nearly all organic clicks.
+  - The quiz, which is the page that makes money, gets only 3 clicks from search. Its traffic
+    arrives through links from the main site, not from Google.
+  - Rows 2 to 7 are policy pages. `/pricing` is a pricing *policy* page with no specific prices,
+    which fits rule 1 in section 7.
+  - No blog post appears in the top 9.
 
 ## 7. What we must never do
 
