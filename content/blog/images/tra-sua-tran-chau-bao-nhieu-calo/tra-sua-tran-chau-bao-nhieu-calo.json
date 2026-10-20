@@ -1,0 +1,6 @@
+{
+  "objects": [
+    { "src": "../_objects/glass-tra-sua.svg", "x": 0.36, "bottom": 0.86, "height": 0.76 },
+    { "src": "../_objects/bowl-tran-chau.svg", "x": 0.72, "bottom": 0.93, "height": 0.46 }
+  ]
+}

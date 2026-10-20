@@ -1,0 +1,6 @@
+{
+  "objects": [
+    { "src": "../_objects/glass-tra-sua.svg", "x": 0.33, "bottom": 0.88, "height": 0.76 },
+    { "src": "../_objects/glass-tra-khong-duong.svg", "x": 0.67, "bottom": 0.88, "height": 0.7 }
+  ]
+}
