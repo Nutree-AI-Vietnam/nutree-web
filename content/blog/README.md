@@ -139,17 +139,67 @@ Every published post has a cover and usually 1–2 pictures in the body; the bui
 The cover heads the post and shows on post cards, share cards, Google Discover and image search. Body
 pictures break up long sections and show the food the text is about.
 
-Draw every picture with the scripts below. Don't download pictures from other websites or stock sites,
-and don't use image-generation services. A photo or render that Nutree owns can still be used as an
-object in a scene (see [Composing a picture](#composing-a-picture)).
+Since 21 Oct 2026 every new picture is a photorealistic food photo made with xAI's Grok image model
+(see [Grok photos](#grok-photos)) and turned into the published JPEG with `npm run blog:image`. Don't
+download pictures from other websites or stock sites, and don't use any other image-generation service.
+Pictures published before then keep their frosted-glass look (see
+[Older pictures: frosted glass](#older-pictures-frosted-glass)).
 
 ### The look
 
-Food in glossy, see-through mint-green glass bowls, plates and glasses, on a soft white studio
-background with gentle shadows, seen slightly from above and lit from the top left. No people, hands,
-text or logos. Each picture shows the dishes or foods its section talks about, recognisably.
+A photorealistic food photo, matching the food photos on Nutree's Facebook and Instagram posts: one
+true-to-life Vietnamese portion as sold or cooked at home, on a plain warm cream tabletop, shot from
+about 45 degrees in soft daylight from the left, with a shallow depth of field. Appetising but honest:
+no styling props, and no people, hands, text, letters, labels, logos or brand packaging. Each picture
+shows the dish or foods its section talks about, recognisably.
 
-### Ready-made objects
+### Grok photos
+
+1. The xAI key lives only in the "Nutree" cloud environment, whose proxy adds it to requests to
+   `api.x.ai`; never ask for, print or store a key. Pick the model once per run:
+   `GET https://api.x.ai/v1/image-generation-models` and use the newest image model it lists (if that
+   fails, `GET https://api.x.ai/v1/models` and use the newest id that contains `image`).
+2. For each picture, `POST https://api.x.ai/v1/images/generations` with `curl` and
+   `Content-Type: application/json`:
+
+   ```json
+   { "model": "<model>", "prompt": "<prompt>", "n": 1, "response_format": "b64_json", "aspect_ratio": "16:9" }
+   ```
+
+   Use `16:9` for the cover; a body picture may use `3:2` or `4:3`. If the API rejects `aspect_ratio`,
+   send the same body without it, since `blog:image` crops to the shape anyway. The prompt is always:
+
+   ```text
+   Photorealistic food photograph for a Vietnamese nutrition brand. <subject> Shot at a 45-degree angle on a plain warm cream tabletop, soft natural daylight from the left, shallow depth of field, true-to-life single portion as sold in Vietnam, appetizing but honest, no styling props. No people, no hands, no text, no letters, no labels, no logos, no brand packaging, no watermark.
+   ```
+
+   `<subject>` names the dish or foods in English, concretely: what is in it and what it sits on, for
+   example "One bowl of phở bò tái: flat rice noodles, rare beef slices, clear broth, spring onion and
+   herbs, in a white ceramic bowl."
+3. Decode `b64_json` into a file outside the repo and open it. If it shows people, hands, text,
+   letters, logos or packaging, or doesn't look like the dish, generate it once more with a sharper
+   subject; if that fails too, make that picture the older way (below) and say so.
+4. Turn it into the published JPEG, then open the JPEG and check that the crop kept the food:
+
+   ```bash
+   npm run blog:image -- --input /tmp/<name>.jpg --out /blog/<slug>/<name>.jpg --width 1600 --ai
+   ```
+
+   Add `--aspect 3:2` or `--aspect 4:3` for a body picture made in that shape. The tool prints the
+   frontmatter or Markdown to paste into the post. Commit only the JPEG in `public/blog/<slug>/`, not
+   Grok's original file.
+5. The photos are AI-made. Never say or suggest, in the text, alt text or captions, that one shows a
+   real shop's dish or a real person's meal.
+
+### Older pictures: frosted glass
+
+Posts published before 21 Oct 2026 show food in glossy, see-through mint-green glass bowls, plates and
+glasses on a soft white studio background, drawn as objects and composed into scenes. Use the parts
+below only to touch up those pictures, or for a new picture when Grok can't be reached. A photo or
+render that Nutree owns can still be used as an object in a scene (see
+[Composing a picture](#composing-a-picture)).
+
+#### Ready-made objects
 
 Objects are single vessels of food, drawn once and reused. They are in `content/blog/images/_objects/`:
 
@@ -167,7 +217,7 @@ Objects are single vessels of food, drawn once and reused. They are in `content/
 
 Reuse these whenever they fit. Add a row here for every new object.
 
-### Drawing a new object
+#### Drawing a new object
 
 1. Copy the closest recipe in `scripts/blog-art/objects/` to `<vessel>-<food>.mjs`, e.g. `bowl-pho.mjs`.
    A recipe exports `vessel` (`BOWL`, `PLATE` or `CUP` from `../kit.mjs`), a one-line English
@@ -183,7 +233,7 @@ Reuse these whenever they fit. Add a row here for every new object.
 Objects have no background: the glass template draws only the vessel and its contents, and
 `blog:image` adds the background and shadows when it composes the picture.
 
-### Composing a picture
+#### Composing a picture
 
 A scene places 1–4 objects on the background. Save it as `content/blog/images/<slug>/<name>.json`,
 named like the picture it makes:
