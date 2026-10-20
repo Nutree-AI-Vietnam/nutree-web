@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Be_Vietnam_Pro } from 'next/font/google';
+import localFont from 'next/font/local';
 import Script from 'next/script';
 import { AppChrome } from '@/components/layout/AppChrome';
 import { PostHogProvider } from '@/components/providers/PostHogProvider';
@@ -24,11 +24,17 @@ const TIKTOK_PIXEL_SCRIPT = `
 }(window, document, 'ttq');
 `;
 
-const beVietnamPro = Be_Vietnam_Pro({
-  subsets: ['latin', 'vietnamese'],
+// Self-hosted, one latin + Vietnamese file per weight; see src/app/fonts/README.md.
+const beVietnamPro = localFont({
+  src: [
+    { path: './fonts/BeVietnamPro-Regular.woff2', weight: '400', style: 'normal' },
+    { path: './fonts/BeVietnamPro-Medium.woff2', weight: '500', style: 'normal' },
+    { path: './fonts/BeVietnamPro-SemiBold.woff2', weight: '600', style: 'normal' },
+    { path: './fonts/BeVietnamPro-Bold.woff2', weight: '700', style: 'normal' },
+    { path: './fonts/BeVietnamPro-ExtraBold.woff2', weight: '800', style: 'normal' },
+  ],
   variable: '--font-be-vietnam',
   display: 'swap',
-  weight: ['400', '500', '600', '700', '800'],
 });
 
 // No canonical here: child segments inherit layout metadata, so a canonical set at the root
