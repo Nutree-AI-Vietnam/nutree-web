@@ -856,21 +856,29 @@ export function limeSlice(origin, fr, { r = 34, thick = 6 } = {}) {
   });
 }
 
+/** Broth colours for phoBroth: the glass-seen body, the surface, the fat drops and the rim. */
+const BROTH = {
+  pho: { body: ['#F2CF7E', '#DDA850', '#B9822E'], top: ['#FBE3A6', '#F0C670', '#D9A245'], drop: ['#F8D27A', '#B88430'], rim: ['#FFF6DE', '#9A6A20'] },
+  // Bún bò Huế: lemongrass broth turned red-orange by annatto and chilli oil.
+  bunBo: { body: ['#E88A4A', '#C8602A', '#9C3E18'], top: ['#F4A05E', '#E07A3C', '#BE5426'], drop: ['#F2683A', '#A8341A'], rim: ['#FFE2C8', '#8A3414'] },
+};
+
 /**
  * Clear phở broth in a bowl, its surface 40 below the rim: the broth seen through the glass (with
  * noodles under it when noodles is set) and its golden surface dotted with fat. Returns
  * { below, surface, onSurface }: draw below, then surface, then the toppings. onSurface(X, Z, spin)
- * is the frame of a point on the surface.
+ * is the frame of a point on the surface. tint picks the broth's colours from BROTH.
  */
-export function phoBroth(rand, { noodles = true, fat = 34 } = {}) {
+export function phoBroth(rand, { noodles = true, fat = 34, tint = 'pho' } = {}) {
+  const c = BROTH[tint];
   const [CX, CY, RX, RY] = [320, 210.4, 250, 69.4];
   const clip = uid();
   define(`<clipPath id="${clip}"><use href="#interior"/></clipPath>`);
   const body = `M${CX - RX},${CY} A${RX},${RY} 0 0 1 ${CX + RX},${CY} L640,560 L0,560 Z`;
   const amber = linear([0, CY], [0, 420], [
-    [0, '#F2CF7E'],
-    [0.6, '#DDA850'],
-    [1, '#B9822E'],
+    [0, c.body[0]],
+    [0.6, c.body[1]],
+    [1, c.body[2]],
   ]);
   let sunk = '';
   if (noodles) {
@@ -882,9 +890,9 @@ export function phoBroth(rand, { noodles = true, fat = 34 } = {}) {
     }
   }
   const surface = linear([0, CY - RY], [0, CY + RY], [
-    [0, '#FBE3A6'],
-    [0.5, '#F0C670'],
-    [1, '#D9A245'],
+    [0, c.top[0]],
+    [0.5, c.top[1]],
+    [1, c.top[2]],
   ]);
   const shine = [CX - RX * 0.4, CY - RY * 0.45];
   const box = [CX - RX, CY - RY, CX + RX, CY + RY];
@@ -894,15 +902,15 @@ export function phoBroth(rand, { noodles = true, fat = 34 } = {}) {
     const d = 0.9 * Math.sqrt(rand());
     const [x, y] = [CX + Math.cos(a) * d * RX, CY + Math.sin(a) * d * RY];
     const r = rand.range(2.5, 7);
-    drops += `<ellipse cx="${n(x)}" cy="${n(y)}" rx="${n(r)}" ry="${n(r * 0.45)}" fill="#F8D27A" stroke="#B88430" stroke-opacity="0.55" stroke-width="0.8"/><ellipse cx="${n(x - r * 0.3)}" cy="${n(y - r * 0.15)}" rx="${n(r * 0.4)}" ry="${n(r * 0.14)}" fill="#FFFFFF" fill-opacity="0.85"/>`;
+    drops += `<ellipse cx="${n(x)}" cy="${n(y)}" rx="${n(r)}" ry="${n(r * 0.45)}" fill="${c.drop[0]}" stroke="${c.drop[1]}" stroke-opacity="0.55" stroke-width="0.8"/><ellipse cx="${n(x - r * 0.3)}" cy="${n(y - r * 0.15)}" rx="${n(r * 0.4)}" ry="${n(r * 0.14)}" fill="#FFFFFF" fill-opacity="0.85"/>`;
   }
   return {
     below: `<g clip-path="url(#${clip})"><path d="${body}" fill="${amber}" fill-opacity="0.9"/>${sunk}</g>`,
     surface: [
       `<ellipse cx="${CX}" cy="${CY}" rx="${RX}" ry="${RY}" fill="${surface}"/>`,
       `<ellipse cx="${n(shine[0])}" cy="${n(shine[1])}" rx="${n(RX * 0.34)}" ry="${n(RY * 0.18)}" fill="#FFFFFF" fill-opacity="0.5" filter="${blur(5, box)}"/>`,
-      `<path d="M${CX - RX + 2},${CY} A${RX - 2},${RY - 1} 0 0 1 ${CX + RX - 2},${CY}" fill="none" stroke="#FFF6DE" stroke-opacity="0.85" stroke-width="3"/>`,
-      `<path d="M${CX - RX + 4},${CY + 2} A${RX - 4},${RY - 2} 0 0 0 ${CX + RX - 4},${CY + 2}" fill="none" stroke="#9A6A20" stroke-opacity="0.3" stroke-width="2.5"/>`,
+      `<path d="M${CX - RX + 2},${CY} A${RX - 2},${RY - 1} 0 0 1 ${CX + RX - 2},${CY}" fill="none" stroke="${c.rim[0]}" stroke-opacity="0.85" stroke-width="3"/>`,
+      `<path d="M${CX - RX + 4},${CY + 2} A${RX - 4},${RY - 2} 0 0 0 ${CX + RX - 4},${CY + 2}" fill="none" stroke="${c.rim[1]}" stroke-opacity="0.3" stroke-width="2.5"/>`,
       drops,
     ].join('\n'),
     onSurface: (X, Z, spin = 0) => frame([X, -40, Z], [0, 1, 0], spin),

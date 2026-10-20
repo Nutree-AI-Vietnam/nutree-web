@@ -1,0 +1,8 @@
+{
+  "objects": [
+    { "src": "../_objects/bowl-bun.svg", "x": 0.24, "bottom": 0.62, "height": 0.42 },
+    { "src": "../_objects/bowl-nuoc-dung-bun-bo.svg", "x": 0.76, "bottom": 0.62, "height": 0.42 },
+    { "src": "../_objects/plate-thit-bo-tai.svg", "x": 0.3, "bottom": 0.95, "width": 0.4 },
+    { "src": "../_objects/plate-cha-lua.svg", "x": 0.72, "bottom": 0.95, "width": 0.36 }
+  ]
+}
