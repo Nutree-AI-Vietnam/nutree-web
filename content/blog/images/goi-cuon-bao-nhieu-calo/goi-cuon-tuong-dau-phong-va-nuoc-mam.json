@@ -1,0 +1,7 @@
+{
+  "objects": [
+    { "src": "../_objects/bowl-tuong-dau-phong.svg", "x": 0.26, "bottom": 0.62, "height": 0.42 },
+    { "src": "../_objects/bowl-nuoc-mam.svg", "x": 0.74, "bottom": 0.62, "height": 0.42 },
+    { "src": "../_objects/plate-goi-cuon.svg", "x": 0.5, "bottom": 0.97, "width": 0.58 }
+  ]
+}
