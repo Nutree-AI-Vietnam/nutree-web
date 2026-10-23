@@ -1,0 +1,7 @@
+{
+  "objects": [
+    { "src": "../_objects/plate-banh-xeo.svg", "x": 0.3, "bottom": 0.6, "width": 0.5 },
+    { "src": "../_objects/bowl-nuoc-mam.svg", "x": 0.8, "bottom": 0.6, "height": 0.4 },
+    { "src": "../_objects/plate-rau-song.svg", "x": 0.5, "bottom": 0.97, "width": 0.62 }
+  ]
+}
