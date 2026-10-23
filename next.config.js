@@ -18,8 +18,8 @@ const nextConfig = {
       { source: '/chinh-sach-su-dung', destination: '/usage', permanent: true },
       { source: '/hoan-tien', destination: '/cancellation', permanent: true },
       { source: '/khieu-nai', destination: '/complaints', permanent: true },
-      // Web checkout was retired; old /pay links land on the home page.
-      { source: '/pay', destination: '/', permanent: false },
+      // /pay was the old checkout; it now leads to the purchase page (the query string is kept).
+      { source: '/pay', destination: '/mua-goi', permanent: false },
     ];
   },
   images: {

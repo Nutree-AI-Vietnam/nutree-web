@@ -3,11 +3,12 @@ export type Locale = 'en' | 'vi';
 /** Map nav link href to translated label */
 export function getNavLabel(
   href: string,
-  nav: { howItWorks: string; features: string; blog: string; download: string },
+  nav: { howItWorks: string; features: string; blog: string; purchase: string; download: string },
 ): string {
   if (href === '/#how-it-works') return nav.howItWorks;
   if (href === '/#features') return nav.features;
   if (href === '/blog') return nav.blog;
+  if (href === '/mua-goi') return nav.purchase;
   if (href === '/#download') return nav.download;
   return '';
 }
@@ -37,7 +38,7 @@ interface TranslationStrings {
     pauseAnimation: string;
     playAnimation: string;
   };
-  nav: { howItWorks: string; features: string; blog: string; download: string };
+  nav: { howItWorks: string; features: string; blog: string; purchase: string; download: string };
   hero: {
     badge: string;
     headlines: string[];
@@ -224,6 +225,7 @@ export const translations: Record<Locale, TranslationStrings> = {
       howItWorks: 'How it works',
       features: 'Features',
       blog: 'Blog',
+      purchase: 'Purchase',
       download: 'Download',
     },
     hero: {
@@ -738,6 +740,7 @@ export const translations: Record<Locale, TranslationStrings> = {
       howItWorks: 'Cách dùng',
       features: 'Tính năng',
       blog: 'Blog',
+      purchase: 'Mua gói',
       download: 'Tải app',
     },
     hero: {
