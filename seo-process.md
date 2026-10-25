@@ -59,14 +59,13 @@ Source: "The complete 20-prompt SEO campaign process with Claude Opus 5.5" (X po
 
 ## The daily content routine
 
-The "Nutree - SEM" routine runs every day at 01:05 UTC (08:05 in Vietnam).
+The "Nutree - SEM" routine runs every day at 20:05 UTC (03:05 in Vietnam). It reads this file,
+`site-context.md`, `seo-roadmap.md` and `content/blog/README.md` before every run.
 
-**Status: pending.** The team still has to paste the new instructions into the routine's
-settings. Until then it runs with its old instructions. Once the new instructions are in, it
-reads this file, `site-context.md` and `seo-roadmap.md` before every run.
-
-- It publishes at most one page a day (rule 16), only in a category whose first page has
-  already been approved.
+- Content goes out one page a day, never in bulk (Alex, 2026-10-25). The routine takes the next
+  row of the "Daily content queue" in `seo-roadmap.md`: Vietnamese and English pages alternate,
+  and both count toward the one page a day (rule 16).
+- It publishes only in a category whose first page has already been approved.
 - The first page of a new category goes to the team as a pull request (rule 19).
 - Any change to a page that gets clicks also goes to the team as a pull request, with the diff
   (rule 9).

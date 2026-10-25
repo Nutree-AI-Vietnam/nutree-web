@@ -115,9 +115,9 @@ following vinamilk.com.vn/blogs.
   and ignores `lang`, so this does not affect ranking. Changing it means splitting the app into two
   root layouts, a larger change.
 - **Next:**
-  1. Translate the Vietnamese posts that suit English searchers, one page a day at most (rule 16). The
-     next candidates are the other dish posts: bánh mì, cơm tấm, bún bò Huế and bún chả. Check each
-     English keyword on the live results first.
+  1. Translate the Vietnamese posts that suit English searchers through the daily routine, one
+     page a day at most (rule 16), in the order of the "Daily content queue" below: bánh mì, cơm
+     tấm, bún bò Huế and bún chả first. Check each English keyword on the live results first.
   2. Give each English post links from other English posts (rule 3) as the English blog grows.
   3. Add Search Console filters for `/en/` to track the English blog separately.
 
@@ -185,17 +185,84 @@ quiz, where people actually buy.
 
 - **Pace:** at most one page a day. The team chose this on 2026-10-18 (rule 16). The guide's
   suggestion for a site with little authority is about one a week.
-  - The new routine instructions are pending until the team pastes them in; see "The daily
-    content routine" in `seo-process.md`.
+  - The daily routine follows the "Daily content queue" below; see "The daily content routine" in
+    `seo-process.md`.
   - At the 90-day reviews, check whether daily publishing got pages indexed. If most of them
     weren't indexed, slow down.
 - **Categories with an approved first page** (the routine may publish more pages in these):
   - Vietnamese dish calories. Template: `content/blog/pho-bo-bao-nhieu-calo.mdx`.
+  - English translations of Vietnamese dish calories, once pull request #34 is merged. Template:
+    `content/blog/en/pho-calories.mdx`.
 - **New categories waiting for a first page** (the routine drafts these as a pull request and
   never publishes them):
   - "[competitor] alternative"
   - "[A] vs [B]"
   - "[app] for [audience]"
+  - "Thực phẩm giàu [X]" (a food list, Vinamilk's "thuc-pham-giau-X" pattern)
+  - "[Situation] nên ăn gì" (Vinamilk's "nên ăn gì" pattern)
+
+## Daily content queue (from 2026-10-26)
+
+Content goes out one page a day, never in bulk (Alex, 2026-10-25: "This should be daily job everyday
+not a bulk publishing now"). The daily "Nutree - SEM" routine takes the first row marked "Next" that
+it is allowed to do, then marks it "Done <date>" (or "Draft PR <link>") in the same commit. One page
+a day in total, English and Vietnamese together (rule 16). Rows that start a new category only ever
+go to the team as a draft pull request (rule 19), at most one open at a time; the routine then moves
+on to the next row the following day.
+
+| # | Lang | Page | Type | Status |
+| --- | --- | --- | --- | --- |
+| 1 | EN | `banh-mi-calories`: translation of `banh-mi-thit-bao-nhieu-calo` | Approved after PR #34 | Next |
+| 2 | VI | Next "[món] bao nhiêu calo" dish the routine picks (rule 1 check first) | Approved | Next |
+| 3 | EN | `com-tam-calories`: translation of `com-tam-bao-nhieu-calo` | Approved after PR #34 | Next |
+| 4 | VI | "Thực phẩm giàu chất xơ ít calo" (research notes below) | New category: draft PR | Next |
+| 5 | EN | `bun-bo-hue-calories`: translation of `bun-bo-hue-bao-nhieu-calo` | Approved after PR #34 | Next |
+| 6 | VI | Next "[món] bao nhiêu calo" dish | Approved | Next |
+| 7 | EN | `bun-cha-calories`: translation of `bun-cha-bao-nhieu-calo` | Approved after PR #34 | Next |
+| 8 | VI | Next "[món] bao nhiêu calo" dish | Approved | Next |
+
+- **English rows wait for pull request #34.** Until `content/blog/en/` exists on `main`, skip
+  English rows and do the next Vietnamese one. Each English row needs its own live-results check
+  for the English keyword first (rule 11): keep the article format only if the results are articles.
+- **When the queue runs out**, the routine picks a Vietnamese dish as before and adds the next
+  8 rows here in the same pattern (English translations of published dish posts, alternating with
+  new Vietnamese dishes), plus at most one row from the Vinamilk topic ideas in "Lessons from
+  vinamilk.com.vn/blogs" above.
+
+**Research notes for row 4 (checked 2026-10-25; reuse, don't redo):**
+- Keyword: "thực phẩm giàu chất xơ ít calo". The head term "thực phẩm giàu chất xơ" is out of reach
+  (rule 12): its live results are numbered list articles from Vinmec, Pharmacity and Long Châu, all
+  with the phrase in the title. Use a numbered list format, as they do.
+- WHO (2023): adults should eat at least 25 g of naturally occurring dietary fibre a day, and at
+  least 400 g of vegetables and fruit.
+  [WHO news, 17 Jul 2023](https://www.who.int/news/item/17-07-2023-who-updates-guidelines-on-fats-and-carbohydrates).
+- Reynolds et al. (2019), Lancet 393:434–445,
+  [doi:10.1016/S0140-6736(18)31809-9](https://doi.org/10.1016/S0140-6736(18)31809-9): trials show
+  lower body weight with higher fibre intakes; risk reduction was greatest at 25–29 g a day.
+- Miketinas et al. (2019), J Nutr 149:1742–1748,
+  [doi:10.1093/jn/nxz117](https://doi.org/10.1093/jn/nxz117): in adults on calorie-restricted
+  diets (POUNDS Lost, 345 people, 6 months), fibre intake was the strongest predictor of weight loss
+  and was linked to sticking to the diet.
+- NIDDK, [Eating, diet & nutrition for constipation](https://www.niddk.nih.gov/health-information/digestive-diseases/constipation/eating-diet-nutrition):
+  add fibre "a little at a time" and "drink plenty of liquids". NIDDK,
+  [gas page](https://www.niddk.nih.gov/health-information/digestive-diseases/gas-digestive-tract/eating-diet-nutrition):
+  "Some people have more gas symptoms when they consume too much fiber."
+- USDA FoodData Central (SR Legacy), fibre and energy per 100 g, link as
+  `https://fdc.nal.usda.gov/food-details/<id>/nutrients`: ổi 5,4 g / 68 kcal (173044); quả bơ
+  6,7 g / 160 kcal (171705); lê 3,1 g / 57 kcal (169118); táo cả vỏ 2,4 g / 52 kcal (171688); chuối
+  2,6 g / 89 kcal (173944); cam 2,4 g / 47 kcal (169097); đu đủ 1,7 g / 43 kcal (169926); xoài
+  1,6 g / 60 kcal (169910); bông cải xanh luộc 3,3 g / 35 kcal (169967); đậu bắp luộc 2,5 g / 22 kcal
+  (169261); cà rốt sống 2,8 g / 41 kcal (170393); bắp cải sống 2,5 g / 25 kcal (169975); rau bina
+  sống 2,2 g / 23 kcal (168462); giá đỗ 1,8 g / 30 kcal (169957); đậu đen luộc 8,7 g / 132 kcal
+  (173735); đậu xanh (hạt) luộc 7,6 g / 105 kcal (174257); đậu nành Nhật chín 5,2 g / 121 kcal
+  (168411); đậu phụ cứng 2,3 g / 144 kcal (172475); khoai lang nướng cả vỏ 3,3 g / 90 kcal (168483);
+  bắp ngọt luộc 2,4 g / 96 kcal (169999); yến mạch khô 10,1 g / 379 kcal (173904); yến mạch nấu với
+  nước 1,7 g / 71 kcal (173905); gạo lứt nấu chín 1,6 g / 123 kcal (169704); cơm trắng 0,4 g /
+  130 kcal (168878); bánh mì nguyên cám 6,0 g / 252 kcal (172688); bánh mì trắng 2,7 g / 266 kcal
+  (174924); hạt chia 34,4 g / 486 kcal (170554); đậu phộng rang 8,4 g / 587 kcal (173806).
+- Angle: fibre helps you stay full on fewer calories; whole-food swaps (gạo lứt for some cơm trắng,
+  bánh mì nguyên cám, fruit instead of juice); no fibre supplements (site rule: no supplements).
+  Readers with digestive conditions ask a doctor. Re-check every number on the USDA page before use.
 - **90-day review (prompt 19):** each published page gets a check 90 days after it goes live.
   The first is due 2027-01-10 for `macro-la-gi` and `pho-bo-bao-nhieu-calo`.
 - **Monday loop (prompt 20):** a weekly run that returns 5 tasks, not a report.
