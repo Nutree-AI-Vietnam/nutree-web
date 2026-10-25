@@ -146,22 +146,40 @@ would be a new category, so its first page goes to the team first (rule 19).
 
 ## SEM (paid search)
 
-Nothing in the site code tracks paid search yet: the site has the TikTok pixel and PostHog, but no
-Google Ads tag, no Meta pixel and no UTM handling. Before spending on search ads:
+Before 2026-10-25 nothing in the site code supported paid search: the site had the TikTok pixel and
+PostHog, but no Google Ads tag and no UTM handling, and ad click IDs were lost on the way to the
+quiz, where people actually buy.
 
-1. **Conversion tracking (needs the team):** a Google Ads account and its conversion ID, and a decision
-   on which event counts as a conversion (quiz completed or purchase on quiz.nutreeai.com). Add the tag
-   only once the ID exists; don't ship placeholders.
-2. **Brand campaign first:** every top organic query is the brand name (section 3 of
-   `site-context.md`), so a small brand campaign protects those searches from competitors' ads.
-   Landing page: the home page or the quiz.
-3. **Non-brand ad groups mirror the blog categories**, each landing on the matching post or category
-   page with the quiz CTA: "[món] bao nhiêu calo" → the dish post; "app đếm calo" →
-   `/blog/app-tinh-calo-bang-hinh-anh`; English "pho calories" → `/en/blog/pho-calories`. Check
-   volumes and costs in Keyword Planner first; this file has no numbers for them yet.
-4. **Ad copy follows section 7 of `site-context.md`:** no price, no "free", no medical promises, no
-   user counts.
-5. **Paid data feeds SEO:** paid search terms that convert are the best candidates for new blog posts.
+- **Done (2026-10-25, `src/components/providers/AdAttribution.tsx`):**
+  - **Attribution reaches the quiz.** UTM tags and ad click IDs (`gclid`, `gbraid`, `wbraid`,
+    `fbclid`, `ttclid`, `msclkid`) from the landing URL are kept for the session and added to every
+    link to quiz.nutreeai.com, even after the visitor browses other pages first. Paid clicks can now
+    be matched to quiz purchases, as long as the quiz records these parameters with the purchase
+    (check with the quiz team).
+  - **Quiz clicks are measured.** Each click through to the quiz is sent to PostHog as
+    `quiz_cta_click`, with the page it came from and the campaign tags. This shows which blog posts and
+    campaigns send people to the money page.
+  - **Google Ads is ready to switch on.** Set `NEXT_PUBLIC_GOOGLE_ADS_ID` (the `AW-...` ID) and the
+    Google tag loads, linked across to the quiz domain. Set `NEXT_PUBLIC_GOOGLE_ADS_QUIZ_LABEL` too and
+    each quiz click counts as a conversion. With neither set, nothing loads.
+- **Needs the team:**
+  1. A Google Ads account: put its ID and conversion label in the deploy environment.
+  2. Make the purchase on quiz.nutreeai.com the main conversion (a Google tag on the quiz's thank-you
+     page, same `AW-` ID). The quiz-click conversion is a secondary signal.
+- **Campaign plan:**
+  1. **Brand campaign first:** every top organic query is the brand name (section 3 of
+     `site-context.md`), so a small brand campaign protects those searches from competitors' ads.
+     Landing page: the home page or the quiz.
+  2. **Non-brand ad groups mirror the blog categories**, each landing on the matching post or category
+     page with the quiz CTA: "[món] bao nhiêu calo" → the dish post; "app đếm calo" →
+     `/blog/app-tinh-calo-bang-hinh-anh`; English "pho calories" → `/en/blog/pho-calories`. Check
+     volumes and costs in Keyword Planner first; this file has no numbers for them yet.
+  3. **Tag every ad URL** with `utm_source`, `utm_medium=cpc` and `utm_campaign`, so PostHog's
+     `quiz_cta_click` events can be split by campaign.
+  4. **Ad copy follows section 7 of `site-context.md`:** no price, no "free", no medical promises, no
+     user counts.
+  5. **Paid data feeds SEO:** paid search terms that convert are the best candidates for new blog
+     posts.
 
 ## Part 5: keep the machine honest
 
