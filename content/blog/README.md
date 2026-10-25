@@ -6,6 +6,9 @@ RSS feed (`/blog/feed.xml`) all pick up new files on the next build.
 
 `macro-la-gi.mdx` is a complete example that follows every rule below.
 
+The blog has a separate English edition: see [English posts](#english-posts). Everything below applies
+to both languages unless that section says otherwise.
+
 ## Adding a post
 
 In a fresh checkout, run `npm ci` first: the build and the image scripts need it.
@@ -324,6 +327,52 @@ your own.
 - Show the dish or food the post is about in the cover, and use the main search phrase, without accents,
   in the cover's file name and naturally in its alt text. Pictures bring visits from Google Images and
   Discover.
+
+## English posts
+
+Like vinamilk.com.vn (`/blogs` and `/en/blogs`), each language is its own blog with its own URLs, so
+search engines index and rank each language separately:
+
+| | Vietnamese | English |
+| --- | --- | --- |
+| File | `content/blog/<slug>.mdx` | `content/blog/en/<slug>.mdx` |
+| Post URL | `/blog/<slug>` | `/en/blog/<slug>` |
+| Category page | `/blog/chu-de/<category>` | `/en/blog/topic/<category>` |
+| Feed | `/blog/feed.xml` | `/en/blog/feed.xml` |
+| Reserved slugs | `trang`, `chu-de`, `feed` | `page`, `topic`, `feed` |
+
+- **Slug:** the English search phrase, e.g. `pho-calories`. Don't reuse the Vietnamese slug.
+- **Write for English searchers.** Pick the phrase English speakers type (check the live Google results
+  first, as for any page) and put it at the start of the title. English number format: `2,000 kcal`,
+  `0.8 g/kg`. Keep dish names in Vietnamese with diacritics after the English name the first time,
+  e.g. "beef pho (phở bò)".
+- **Categories** use the English slugs:
+
+  | `category` | Shown as | Same topic as |
+  | --- | --- | --- |
+  | `vietnamese-food-calories` | Vietnamese food calories | `calo-mon-viet` |
+  | `weight-loss-muscle-gain` | Weight loss & muscle gain | `giam-can-tang-co` |
+  | `nutrition-basics` | Nutrition & calorie counting | `dinh-duong` |
+  | `meal-plans` | Meal plans & healthy eating | `thuc-don` |
+  | `ai-calorie-tracking` | Apps & AI | `ung-dung-ai` |
+
+- **Translations:** a post that translates a post in the other language names its original with
+  `translationOf: <original slug>`. The build then links the pair both ways: `hreflang` tags, a
+  "read in the other language" link under the title, `workTranslation`/`translationOfWork` structured
+  data and sitemap alternates. Never edit the original to do this. Each article has at most one
+  translation, and the original must be published.
+- **Pictures:** a translation may reuse its original's pictures (`/blog/<original slug>/...`) with
+  English alt text and captions. A post that is not a translation keeps its pictures in
+  `public/en/blog/<slug>/`.
+- **Links:** link English posts as `/en/blog/<slug>`. A link to a Vietnamese post is allowed but says so,
+  e.g. "(in Vietnamese)". The build checks links in both languages.
+- **Sources:** the same health content rules apply. When a source is only in Vietnamese, say "(in
+  Vietnamese)" after the link, and name sections `## Frequently asked questions` and `## References`.
+- **Components:** `<Callout>` and `<AppCta />` work the same; their labels switch to English
+  automatically, as do the byline, dates, disclaimer and table of contents.
+
+`content/blog/en/pho-calories.mdx` is the complete English example (a translation of
+`pho-bo-bao-nhieu-calo.mdx`).
 
 ## Preview and publish
 

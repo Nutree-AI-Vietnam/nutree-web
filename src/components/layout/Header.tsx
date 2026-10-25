@@ -9,7 +9,7 @@ import { MobileMenu } from './MobileMenu';
 import { cn } from '@/lib/cn';
 import { NAV_LINKS, SITE_CONFIG } from '@/lib/constants';
 import { useLocale } from '@/lib/locale-context';
-import { getNavLabel } from '@/lib/translations';
+import { getNavHref, getNavLabel } from '@/lib/translations';
 
 const pillClass =
   'inline-flex h-10 items-center gap-2 rounded-full border border-primary-forest/20 px-3 text-sm font-medium text-primary-forest transition-colors hover:border-primary-forest/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-teal focus-visible:ring-offset-2';
@@ -52,7 +52,7 @@ export function Header() {
               {NAV_LINKS.map((link) => (
                 <Link
                   key={link.href}
-                  href={link.href}
+                  href={getNavHref(link.href, locale)}
                   className="font-body text-sm text-foreground/70 transition-colors hover:text-foreground"
                 >
                   {getNavLabel(link.href, t.nav)}

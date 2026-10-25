@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { formatPostDate, type BlogPost } from '@/lib/blog';
+import { BLOG_LOCALES } from '@/lib/blog-locales';
 
 interface PostCardProps {
   post: BlogPost;
@@ -40,9 +41,9 @@ export function PostCard({ post, headingLevel: Heading = 'h2', priority = false 
         </Heading>
         <p className="mt-3 line-clamp-3 text-[0.9375rem] leading-relaxed text-muted">{post.description}</p>
         <p className="mt-auto pt-5 text-sm text-muted">
-          <time dateTime={post.date}>{formatPostDate(post.date)}</time>
+          <time dateTime={post.date}>{formatPostDate(post.date, post.locale)}</time>
           <span aria-hidden="true"> · </span>
-          {post.readingMinutes} phút đọc
+          {BLOG_LOCALES[post.locale].text.minutesRead(post.readingMinutes)}
         </p>
       </div>
     </article>

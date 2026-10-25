@@ -1,7 +1,7 @@
 # SEO roadmap
 
 Where nutreeai.com stands on each part of the campaign process in `seo-process.md` (rules 10 to 20,
-from Paul Vengeons' 20-prompt guide). Last updated 2026-10-18. Every number here comes from
+from Paul Vengeons' 20-prompt guide). Last updated 2026-10-25. Every number here comes from
 `site-context.md` or the repo. Anything that needs data we don't have yet is marked **Needs data**.
 
 ## Part 0: setup
@@ -91,6 +91,77 @@ from Paul Vengeons' 20-prompt guide). Last updated 2026-10-18. Every number here
   only free source of the searches AI assistants actually make.
 - **Third-party lists:** get Nutree into other people's lists, reviews and threads. Never rank
   Nutree first on our own site (rule 8).
+
+## Bilingual blog (added 2026-10-25)
+
+The team asked for a Vietnamese and an English blog, kept apart so each language ranks on its own,
+following vinamilk.com.vn/blogs.
+
+- **Done:**
+  - `/en/blog` is a separate English blog with its own categories (`/en/blog/topic/...`), feed
+    (`/en/blog/feed.xml`) and sitemap entries. `/blog` and every Vietnamese URL are unchanged.
+  - Translated posts are paired by `translationOf`. The pair gets `hreflang` (vi, en, x-default → vi),
+    a link to the other language under the title, and `workTranslation`/`translationOfWork` data.
+  - English pages carry `og:locale en_US`, `inLanguage en`, English breadcrumbs and an English header
+    and footer. The EN/VI switch on a blog page opens the translation, or the other blog's home when
+    there is none.
+  - First English post: `/en/blog/pho-calories`, a translation of the category template
+    `pho-bo-bao-nhieu-calo`. The live results for "pho calories" are articles (LIVESTRONG, FatSecret
+    and similar), so an article matches the intent. With no authority, this keyword is a long shot
+    (rule 12); its first job is to serve English readers.
+- **Not possible yet:** the root `<html lang>` stays `vi` in the server HTML on English pages, since
+  the whole site shares one root layout. The content wrapper carries `lang="en"`, and the browser
+  switches the root to `en` after load. Google says it detects a page's language from its content
+  and ignores `lang`, so this does not affect ranking. Changing it means splitting the app into two
+  root layouts, a larger change.
+- **Next:**
+  1. Translate the Vietnamese posts that suit English searchers, one page a day at most (rule 16). The
+     next candidates are the other dish posts: bánh mì, cơm tấm, bún bò Huế and bún chả. Check each
+     English keyword on the live results first.
+  2. Give each English post links from other English posts (rule 3) as the English blog grows.
+  3. Add Search Console filters for `/en/` to track the English blog separately.
+
+## Lessons from vinamilk.com.vn/blogs (studied 2026-10-25)
+
+What their blog does, and what we take from it. We learn from their structure and do not copy their
+text: copying would be someone else's work, and Google filters duplicate pages.
+
+| They do | We do |
+| --- | --- |
+| Separate trees per language (`/blogs`, `/en/blogs`), localized category and article slugs, `hreflang` only between real translations | Same since 2026-10-25 |
+| English edition is smaller: only some articles are translated | Same: translate selectively |
+| Titles are a question plus a promise: "Sữa A2 là gì? Lợi ích…", "Bé bị tiêu chảy nên ăn gì và hạn chế ăn gì…", "TOP 10+ …" | Already our pattern; add the "[situation] nên ăn gì" form (see below) |
+| Numbered outline: `1.`, `2.`, `3.` H2s and `3.1`, `3.2` H3s in list articles | Use numbered H3s in list posts, e.g. "món ăn sáng giàu protein" |
+| In-body links with descriptive anchors to related posts and to product pages | We link related posts; also link the quiz from the body where the topic fits |
+| Category pages act as topic hubs | Same (`/blog/chu-de/...`) |
+| Expert author box with Person markup (a real, named doctor) | Open question: no real named author yet; never invent one |
+| Article + BreadcrumbList data, `wordCount`, meta keyword | We now also send `wordCount` and `thumbnailUrl` |
+| Weak spots: listing descriptions repeat the label, articles use `og:type website`, many posts have no sources or FAQ | We already do better on all three |
+
+**Topic ideas from their pattern** (need a volume and live-results check before use, rule 11):
+"giảm cân nên ăn gì", "tập gym nên ăn gì", "ăn kiêng nên ăn gì buổi tối", "TOP món ăn ít calo".
+Medical-condition topics ("tiểu đường nên ăn gì") need extra care under the health content rules.
+A recipe category like their "Công thức món ngon" (low-calorie recipes with calories per serving)
+would be a new category, so its first page goes to the team first (rule 19).
+
+## SEM (paid search)
+
+Nothing in the site code tracks paid search yet: the site has the TikTok pixel and PostHog, but no
+Google Ads tag, no Meta pixel and no UTM handling. Before spending on search ads:
+
+1. **Conversion tracking (needs the team):** a Google Ads account and its conversion ID, and a decision
+   on which event counts as a conversion (quiz completed or purchase on quiz.nutreeai.com). Add the tag
+   only once the ID exists; don't ship placeholders.
+2. **Brand campaign first:** every top organic query is the brand name (section 3 of
+   `site-context.md`), so a small brand campaign protects those searches from competitors' ads.
+   Landing page: the home page or the quiz.
+3. **Non-brand ad groups mirror the blog categories**, each landing on the matching post or category
+   page with the quiz CTA: "[món] bao nhiêu calo" → the dish post; "app đếm calo" →
+   `/blog/app-tinh-calo-bang-hinh-anh`; English "pho calories" → `/en/blog/pho-calories`. Check
+   volumes and costs in Keyword Planner first; this file has no numbers for them yet.
+4. **Ad copy follows section 7 of `site-context.md`:** no price, no "free", no medical promises, no
+   user counts.
+5. **Paid data feeds SEO:** paid search terms that convert are the best candidates for new blog posts.
 
 ## Part 5: keep the machine honest
 

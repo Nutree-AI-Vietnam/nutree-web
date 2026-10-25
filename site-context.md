@@ -42,7 +42,8 @@ Anything still open is marked _Missing_ or "not yet defined".
   Every top query is a search for the brand name. People who find us on Google already know the
   name. None of the buyer words above, and no generic phrase such as "calorie counter" or "app
   đếm calo", reaches the top 10 yet.
-- **Target language:** Vietnamese.
+- **Target language:** Vietnamese first. Since 2026-10-25 (the team's request) there is also an English
+  blog at `/en/blog`, separate from the Vietnamese one so each language ranks on its own.
 - **Content production:** the daily "Nutree - SEM" routine writes one Vietnamese SEO article per
   day and publishes it to `main`. Its topic mix is 40% Vietnamese food calories, 30% weight loss
   and nutrition, 20% meal plans and healthy eating, and 10% AI calorie tracking and apps.

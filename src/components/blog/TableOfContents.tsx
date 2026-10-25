@@ -1,13 +1,14 @@
 import type { PostHeading } from '@/components/blog/mdx';
+import { BLOG_LOCALES, type BlogLocale } from '@/lib/blog-locales';
 
 /** Jump links to a post's sections; short posts with fewer than three skip it. */
-export function TableOfContents({ headings }: { headings: PostHeading[] }) {
+export function TableOfContents({ headings, locale }: { headings: PostHeading[]; locale: BlogLocale }) {
   if (headings.length < 3) return null;
 
   return (
     <nav aria-labelledby="toc-heading" className="mt-10 rounded-2xl border border-border bg-white p-5 md:p-6">
       <p id="toc-heading" className="text-xs font-bold uppercase tracking-[0.16em] text-primary-forest">
-        Nội dung bài viết
+        {BLOG_LOCALES[locale].text.toc}
       </p>
       <ol className="mt-3 space-y-1 text-[0.9375rem]">
         {headings.map((heading, index) => (

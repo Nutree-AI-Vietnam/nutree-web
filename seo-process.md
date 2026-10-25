@@ -74,7 +74,8 @@ reads this file, `site-context.md` and `seo-roadmap.md` before every run.
 ## How each rule works in this repo
 
 1. **Existing pages:** the sitemap is `src/app/sitemap.ts` (live at `/sitemap.xml`). To find
-   blog posts that already target a keyword, run `grep -h '^title:' content/blog/*.mdx`. Search
+   blog posts that already target a keyword, run `grep -h '^title:' content/blog/*.mdx` (Vietnamese)
+   and `grep -h '^title:' content/blog/en/*.mdx` (English). Search
    Console data comes from the team: the Ahrefs connector has no API access on the current plan.
 2. **Title:** `title` in the post frontmatter is the page's H1 and its search title. Rule 2 is
    stricter than the README, which only asks for the keyword "near the start".
@@ -84,13 +85,19 @@ reads this file, `site-context.md` and `seo-roadmap.md` before every run.
    it doesn't already point to a different page.
 5. **Structured data:** it is built in `src/lib/structured-data.ts` (Organization, WebSite,
    MobileApplication) and `src/lib/blog-structured-data.ts` (BlogPosting, Blog, BreadcrumbList,
-   ItemList). Validate with Google's Rich Results Test and the Schema Markup Validator.
-6. **Sitemap:** blog posts and categories are added to the sitemap automatically. Any other new
+   ItemList; one Blog per language, and `workTranslation`/`translationOfWork` between translated
+   posts). Validate with Google's Rich Results Test and the Schema Markup Validator.
+6. **Sitemap:** blog posts and categories in both languages are added to the sitemap automatically,
+   with `hreflang` alternates for translated pairs. Any other new
    page has to be added to `ROUTES` in `src/app/sitemap.ts` by hand.
 7. **Missing facts:** this is the same rule as the README's "Invent nothing" and rule 3 in
    `site-context.md`.
 8. **Tool lists:** competitors may be named but never linked (rule 8 in `site-context.md`).
 9. **Pages with clicks:** the list of pages that get clicks is in section 6 of `site-context.md`.
+
+10. **Two languages:** the Vietnamese blog is `/blog`, the English one `/en/blog` (see "English posts"
+    in `content/blog/README.md`). Each English page is a new page for rules 1–20: its own keyword, its
+    own live-results check and the one-page-a-day pace. Translated pairs get `hreflang` automatically.
 
 ## Open questions
 

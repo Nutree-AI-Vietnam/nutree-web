@@ -1,9 +1,11 @@
 import Link from 'next/link';
-import { BLOG_PATH, getCategoryPath } from '@/lib/blog';
+import { getCategoryPath } from '@/lib/blog';
 import type { BlogCategory } from '@/lib/blog-categories';
+import { BLOG_LOCALES, type BlogLocale } from '@/lib/blog-locales';
 import { cn } from '@/lib/cn';
 
 interface CategoryNavProps {
+  locale: BlogLocale;
   categories: BlogCategory[];
   /** Slug of the category being viewed; undefined on the all-posts listing. */
   activeSlug?: string;
@@ -14,25 +16,26 @@ const chipClassName =
 const activeClassName = 'border-primary-forest bg-primary-forest text-white';
 const idleClassName = 'border-border bg-white text-foreground/80 hover:border-primary-teal hover:text-primary-forest';
 
-export function CategoryNav({ categories, activeSlug }: CategoryNavProps) {
+export function CategoryNav({ locale, categories, activeSlug }: CategoryNavProps) {
   if (categories.length < 2) return null;
+  const { path, text } = BLOG_LOCALES[locale];
 
   return (
-    <nav aria-label="Chủ đề" className="mt-8">
+    <nav aria-label={text.topic} className="mt-8">
       <ul className="flex flex-wrap gap-2">
         <li>
           <Link
-            href={BLOG_PATH}
+            href={path}
             aria-current={activeSlug ? undefined : 'true'}
             className={cn(chipClassName, activeSlug ? idleClassName : activeClassName)}
           >
-            Tất cả
+            {text.allTopics}
           </Link>
         </li>
         {categories.map((category) => (
           <li key={category.slug}>
             <Link
-              href={getCategoryPath(category.slug)}
+              href={getCategoryPath(locale, category.slug)}
               aria-current={category.slug === activeSlug ? 'true' : undefined}
               className={cn(chipClassName, category.slug === activeSlug ? activeClassName : idleClassName)}
             >

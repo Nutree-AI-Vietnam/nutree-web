@@ -6,6 +6,7 @@ import { Logo } from '@/components/ui/Logo';
 import { StoreBadges } from '@/components/ui/StoreBadges';
 import { LEGAL_COMPANY, LEGAL_LINKS } from '@/lib/legal-company';
 import { useLocale } from '@/lib/locale-context';
+import { getNavHref } from '@/lib/translations';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -96,7 +97,7 @@ export function Footer() {
                 {t.footer.why}
               </Link>
               <Link
-                href="/blog"
+                href={getNavHref('/blog', locale)}
                 className="min-h-9 inline-flex items-center transition-colors hover:text-primary-forest"
               >
                 {t.footer.blog}

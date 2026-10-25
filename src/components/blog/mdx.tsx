@@ -8,6 +8,7 @@ import remarkGfm from 'remark-gfm';
 import { AppCta } from '@/components/blog/AppCta';
 import { Callout } from '@/components/blog/Callout';
 import type { BlogPost, PostImage } from '@/lib/blog';
+import { BLOG_LOCALES, type BlogLocale } from '@/lib/blog-locales';
 import { cn } from '@/lib/cn';
 import { SITE_CONFIG } from '@/lib/constants';
 
@@ -18,7 +19,7 @@ export interface PostHeading {
 
 const bodyText = 'text-[1.0625rem] leading-[1.8] text-foreground/85 md:text-lg';
 
-function MdxLink({ href = '', className, children, ...props }: ComponentProps<'a'>) {
+function MdxLink({ href = '', className, children, locale, ...props }: ComponentProps<'a'> & { locale: BlogLocale }) {
   const linkClassName = cn(
     'font-medium text-primary-forest underline decoration-primary-teal decoration-2 underline-offset-[3px] transition-colors hover:decoration-primary-forest',
     className
@@ -36,7 +37,7 @@ function MdxLink({ href = '', className, children, ...props }: ComponentProps<'a
     return (
       <a href={href} target="_blank" rel="noopener noreferrer" className={linkClassName} {...props}>
         {children}
-        <span className="sr-only"> (mở tab mới)</span>
+        <span className="sr-only"> {BLOG_LOCALES[locale].text.opensInNewTab}</span>
       </a>
     );
   }
@@ -70,7 +71,6 @@ const components = {
     <h4 className="mb-2 mt-7 scroll-mt-6 font-display text-lg font-semibold text-foreground" {...props} />
   ),
   p: (props: ComponentProps<'p'>) => <p className={cn('my-5', bodyText)} {...props} />,
-  a: MdxLink,
   ul: (props: ComponentProps<'ul'>) => (
     <ul className={cn('my-5 list-disc space-y-2 pl-6 marker:text-primary-teal', bodyText)} {...props} />
   ),
@@ -146,9 +146,17 @@ const components = {
       {...props}
     />
   ),
-  Callout,
-  AppCta,
 };
+
+/** The components with the post's language bound, for link labels and component text. */
+function componentsFor(locale: BlogLocale) {
+  return {
+    ...components,
+    a: (props: ComponentProps<'a'>) => <MdxLink {...props} locale={locale} />,
+    Callout: (props: ComponentProps<typeof Callout>) => <Callout {...props} locale={locale} />,
+    AppCta: () => <AppCta locale={locale} />,
+  };
+}
 
 /** Compiles a post body to React, returning its h2 sections for the table of contents. */
 export async function renderPostBody(post: BlogPost) {
@@ -157,18 +165,21 @@ export async function renderPostBody(post: BlogPost) {
   try {
     const { content } = await compileMDX({
       source: post.body,
-      components,
+      components: componentsFor(post.locale),
       options: {
         mdxOptions: {
           remarkPlugins: [remarkGfm],
           rehypePlugins: [rehypeSlug, collectHeadings(headings), imageFigures(post.images)],
-          remarkRehypeOptions: { footnoteLabel: 'Chú thích', footnoteBackLabel: 'Quay lại nội dung' },
+          remarkRehypeOptions: {
+            footnoteLabel: BLOG_LOCALES[post.locale].text.footnotes,
+            footnoteBackLabel: BLOG_LOCALES[post.locale].text.footnoteBack,
+          },
         },
       },
     });
     return { content, headings };
   } catch (error) {
-    throw new Error(`content/blog/${post.slug}.mdx: ${(error as Error).message}`);
+    throw new Error(`${BLOG_LOCALES[post.locale].contentDir}/${post.slug}.mdx: ${(error as Error).message}`);
   }
 }
 
