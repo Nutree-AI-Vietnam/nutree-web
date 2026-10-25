@@ -13,6 +13,11 @@ export function getNavLabel(
   return '';
 }
 
+/** Nav link target in the given language: the blog has its own English URL, the rest is shared. */
+export function getNavHref(href: string, locale: Locale): string {
+  return href === '/blog' && locale === 'en' ? '/en/blog' : href;
+}
+
 export interface FaqItem {
   question: string;
   answer: string;

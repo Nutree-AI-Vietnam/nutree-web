@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import Script from 'next/script';
 import { AppChrome } from '@/components/layout/AppChrome';
+import { AdAttribution } from '@/components/providers/AdAttribution';
 import { PostHogProvider } from '@/components/providers/PostHogProvider';
 import { TikTokEvents } from '@/components/providers/TikTokEvents';
 import { SITE_CONFIG } from '@/lib/constants';
@@ -81,6 +82,7 @@ export default function RootLayout({
           {TIKTOK_PIXEL_SCRIPT}
         </Script>
         <TikTokEvents />
+        <AdAttribution />
         <PostHogProvider>
           <LocaleProvider>
             <AppChrome>{children}</AppChrome>

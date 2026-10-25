@@ -6,7 +6,7 @@ import { Logo } from '@/components/ui/Logo';
 import { StoreBadges } from '@/components/ui/StoreBadges';
 import { NAV_LINKS } from '@/lib/constants';
 import { useLocale } from '@/lib/locale-context';
-import { getNavLabel } from '@/lib/translations';
+import { getNavHref, getNavLabel } from '@/lib/translations';
 import { cn } from '@/lib/cn';
 
 interface MobileMenuProps {
@@ -82,7 +82,7 @@ export function MobileMenu({ onClose }: MobileMenuProps) {
           {NAV_LINKS.map((link, index) => (
             <div key={link.href} className="menu-item-in" style={rowDelay(index)}>
               <Link
-                href={link.href}
+                href={getNavHref(link.href, locale)}
                 className="font-display text-2xl font-semibold text-foreground transition-colors hover:text-primary-emerald"
                 onClick={onClose}
               >

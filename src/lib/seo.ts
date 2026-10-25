@@ -28,6 +28,10 @@ interface PageMetadataInput {
   keywords?: string[];
   /** RSS feed advertised with a <link rel="alternate">, so feed readers can find it from the page. */
   feed?: { url: string; title: string };
+  /** Open Graph locale such as en_US; defaults to the site's Vietnamese. */
+  ogLocale?: string;
+  /** hreflang → path of this page in each language, rendered as <link rel="alternate" hreflang>. */
+  languages?: Record<string, string>;
 }
 
 /**
@@ -45,6 +49,8 @@ export function createPageMetadata({
   article,
   keywords,
   feed,
+  ogLocale = 'vi_VN',
+  languages,
 }: PageMetadataInput): Metadata {
   const socialDescription = ogDescription ?? description;
   const openGraph = {
@@ -52,7 +58,7 @@ export function createPageMetadata({
     description: socialDescription,
     ...(path && { url: path }),
     siteName: SITE_CONFIG.name,
-    locale: 'vi_VN',
+    locale: ogLocale,
     images: [image],
   };
 
@@ -60,9 +66,10 @@ export function createPageMetadata({
     title,
     description,
     ...(keywords && keywords.length > 0 && { keywords }),
-    ...((path || feed) && {
+    ...((path || feed || languages) && {
       alternates: {
         ...(path && { canonical: path }),
+        ...(languages && { languages }),
         ...(feed && { types: { 'application/rss+xml': [feed] } }),
       },
     }),

@@ -1,7 +1,9 @@
 import Link from 'next/link';
+import { BLOG_LOCALES, type BlogLocale } from '@/lib/blog-locales';
 import { cn } from '@/lib/cn';
 
 interface PaginationProps {
+  locale: BlogLocale;
   currentPage: number;
   totalPages: number;
   getPagePath: (page: number) => string;
@@ -21,17 +23,18 @@ function getPageList(currentPage: number, totalPages: number): Array<number | 'g
   );
 }
 
-export function Pagination({ currentPage, totalPages, getPagePath }: PaginationProps) {
+export function Pagination({ locale, currentPage, totalPages, getPagePath }: PaginationProps) {
   if (totalPages <= 1) return null;
+  const { text } = BLOG_LOCALES[locale];
 
   return (
-    <nav aria-label="Phân trang" className="mt-12 flex flex-wrap items-center justify-center gap-2">
+    <nav aria-label={text.pagination} className="mt-12 flex flex-wrap items-center justify-center gap-2">
       {currentPage > 1 && (
         <Link
           href={getPagePath(currentPage - 1)}
           className={cn(itemClassName, 'border border-border bg-white text-foreground hover:border-primary-teal')}
         >
-          <span aria-hidden="true">←&nbsp;</span>Mới hơn
+          <span aria-hidden="true">←&nbsp;</span>{text.newer}
         </Link>
       )}
       <ol className="flex flex-wrap items-center gap-2">
@@ -44,7 +47,7 @@ export function Pagination({ currentPage, totalPages, getPagePath }: PaginationP
             <li key={page}>
               {page === currentPage ? (
                 <span aria-current="page" className={cn(itemClassName, 'bg-primary-forest text-white')}>
-                  <span className="sr-only">Trang </span>
+                  <span className="sr-only">{text.pageWord} </span>
                   {page}
                 </span>
               ) : (
@@ -52,7 +55,7 @@ export function Pagination({ currentPage, totalPages, getPagePath }: PaginationP
                   href={getPagePath(page)}
                   className={cn(itemClassName, 'text-foreground hover:bg-primary-teal/10')}
                 >
-                  <span className="sr-only">Trang </span>
+                  <span className="sr-only">{text.pageWord} </span>
                   {page}
                 </Link>
               )}
@@ -65,7 +68,7 @@ export function Pagination({ currentPage, totalPages, getPagePath }: PaginationP
           href={getPagePath(currentPage + 1)}
           className={cn(itemClassName, 'border border-border bg-white text-foreground hover:border-primary-teal')}
         >
-          Cũ hơn<span aria-hidden="true">&nbsp;→</span>
+          {text.older}<span aria-hidden="true">&nbsp;→</span>
         </Link>
       )}
     </nav>

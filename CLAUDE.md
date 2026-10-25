@@ -19,14 +19,18 @@ steps are in `seo-roadmap.md`.
 
 ## Blog content (MDX)
 
-Articles live in `content/blog/<slug>.mdx` and are published at `/blog/<slug>`. Before writing or
+Vietnamese articles live in `content/blog/<slug>.mdx` and are published at `/blog/<slug>`; English
+articles live in `content/blog/en/<slug>.mdx` and are published at `/en/blog/<slug>`, a separate blog
+paired with the Vietnamese one by `hreflang`. Before writing or
 editing a post, read `content/blog/README.md`: it defines the file name, frontmatter, categories,
 allowed components and the health-content rules. `npm run build` validates every post.
 
 - Loading and validation: `src/lib/blog.ts`
+- Languages (URLs, UI text): `src/lib/blog-locales.ts`
 - Categories: `src/lib/blog-categories.ts`
 - MDX components and styles: `src/components/blog/`
-- Routes, including the RSS feed at `/blog/feed.xml`: `src/app/blog/`
+- Routes: `src/components/blog/blog-routes.tsx`, re-exported by `src/app/blog/` and `src/app/en/blog/`
+  (RSS feeds at `/blog/feed.xml` and `/en/blog/feed.xml`)
 
 ## Architecture
 

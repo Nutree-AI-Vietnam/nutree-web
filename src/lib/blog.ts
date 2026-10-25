@@ -2,26 +2,40 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { parse as parseYaml } from 'yaml';
 import { BLOG_CATEGORIES, getCategory, type BlogCategory } from './blog-categories';
+import {
+  BLOG_LOCALES,
+  BLOG_LOCALE_LIST,
+  DEFAULT_BLOG_LOCALE,
+  otherLocale,
+  type BlogLocale,
+} from './blog-locales';
 import { getImageSize } from './image-size';
 
-/** Articles live in content/blog/<slug>.mdx; content/blog/README.md documents the format. */
-export const BLOG_CONTENT_DIR = path.join(process.cwd(), 'content', 'blog');
-export const BLOG_PATH = '/blog';
-export const BLOG_FEED_PATH = '/blog/feed.xml';
-export const BLOG_NAME = 'Blog dinh dưỡng Nutree';
-export const BLOG_DESCRIPTION =
-  'Kiến thức dinh dưỡng dễ áp dụng: calo món Việt, giảm cân và tăng cơ, macro, TDEE và thực đơn lành mạnh, kèm nguồn tham khảo.';
+/**
+ * Vietnamese articles live in content/blog/<slug>.mdx and English ones in content/blog/en/<slug>.mdx;
+ * content/blog/README.md documents the format. Each language is a separate blog with its own URLs
+ * (see blog-locales.ts).
+ */
 export const POSTS_PER_PAGE = 12;
 
-/** Route segments under /blog that a post slug would collide with. */
-const RESERVED_SLUGS = new Set(['trang', 'chu-de', 'feed']);
 const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
-const ALLOWED_FIELDS = ['title', 'description', 'date', 'updated', 'category', 'tags', 'image', 'imageAlt', 'draft'];
+const ALLOWED_FIELDS = [
+  'title',
+  'description',
+  'date',
+  'updated',
+  'category',
+  'tags',
+  'image',
+  'imageAlt',
+  'draft',
+  'translationOf',
+];
 /** Custom components a post may use; src/components/blog/mdx.tsx provides them. */
 export const POST_COMPONENT_NAMES: readonly string[] = ['Callout', 'AppCta'];
 // Vietnamese words are single syllables, so this runs faster than English reading speeds.
-const WORDS_PER_MINUTE = 230;
+const WORDS_PER_MINUTE: Record<BlogLocale, number> = { vi: 230, en: 200 };
 /** Largest image file a post may use. Keep in sync with MAX_BYTES in scripts/blog-image.mjs. */
 export const MAX_IMAGE_BYTES = 400 * 1024;
 // Google Discover and large image previews in search want pictures at least 1200 px wide.
@@ -42,6 +56,7 @@ export interface PostImage {
 }
 
 export interface BlogPost {
+  locale: BlogLocale;
   slug: string;
   url: string;
   title: string;
@@ -58,6 +73,9 @@ export interface BlogPost {
   images: PostImage[];
   draft: boolean;
   readingMinutes: number;
+  wordCount: number;
+  /** Slug of the same article in the other language; set on both posts of a translated pair. */
+  translationSlug?: string;
   /** MDX body without the frontmatter. */
   body: string;
 }
@@ -65,42 +83,65 @@ export interface BlogPost {
 interface ParsedFile {
   post: BlogPost;
   file: string;
+  /** The `translationOf` frontmatter: slug of the original article in the other language. */
+  translationOf?: string;
 }
 
+type PostsByLocale = Record<BlogLocale, BlogPost[]>;
+
 const isProduction = process.env.NODE_ENV === 'production';
-let cachedPosts: BlogPost[] | undefined;
+let cachedPosts: PostsByLocale | undefined;
 
 /**
- * Every publishable post, newest first. Drafts appear in development only. Throws one error
- * listing every invalid file, so a bad post fails the build instead of shipping broken.
+ * Every publishable post in one language, newest first. Drafts appear in development only. Throws
+ * one error listing every invalid file in either language, so a bad post fails the build instead of
+ * shipping broken.
  */
-export function getAllPosts(): BlogPost[] {
-  // Production reads the folder once per build worker; development rereads it so new files show up.
+export function getAllPosts(locale: BlogLocale): BlogPost[] {
+  return loadPosts()[locale];
+}
+
+function loadPosts(): PostsByLocale {
+  // Production reads the folders once per build worker; development rereads them so new files show up.
   if (isProduction && cachedPosts) return cachedPosts;
 
   const errors: string[] = [];
-  const parsed: ParsedFile[] = [];
+  const visible = {} as Record<BlogLocale, ParsedFile[]>;
 
-  for (const fileName of listPostFiles()) {
-    const file = `content/blog/${fileName}`;
-    const result = parsePostFile(fileName);
-    if (result.errors.length > 0) {
-      errors.push(`${file}\n${result.errors.map((error) => `  - ${error}`).join('\n')}`);
-    } else if (result.post) {
-      parsed.push({ post: result.post, file });
+  for (const locale of BLOG_LOCALE_LIST) {
+    const { contentDir } = BLOG_LOCALES[locale];
+    const parsed: ParsedFile[] = [];
+    for (const fileName of listPostFiles(contentDir)) {
+      const file = `${contentDir}/${fileName}`;
+      const result = parsePostFile(locale, fileName);
+      if (result.errors.length > 0) {
+        errors.push(`${file}\n${result.errors.map((error) => `  - ${error}`).join('\n')}`);
+      } else if (result.post) {
+        parsed.push({ post: result.post, file, translationOf: result.translationOf });
+      }
     }
+    visible[locale] = parsed.filter(({ post }) => !(isProduction && post.draft));
   }
 
-  const visible = parsed.filter(({ post }) => !(isProduction && post.draft));
-  const slugs = new Set(visible.map(({ post }) => post.slug));
-  const categorySlugs = new Set(visible.map(({ post }) => post.category.slug));
+  const targets = Object.fromEntries(
+    BLOG_LOCALE_LIST.map((locale) => [
+      locale,
+      {
+        slugs: new Set(visible[locale].map(({ post }) => post.slug)),
+        categorySlugs: new Set(visible[locale].map(({ post }) => post.category.slug)),
+      },
+    ])
+  ) as Record<BlogLocale, LinkTargets>;
 
-  for (const { post, file } of visible) {
-    const linkErrors = findBrokenBlogLinks(post.body, slugs, categorySlugs);
-    if (linkErrors.length > 0) {
-      errors.push(`${file}\n${linkErrors.map((error) => `  - ${error}`).join('\n')}`);
+  for (const locale of BLOG_LOCALE_LIST) {
+    for (const { post, file } of visible[locale]) {
+      const linkErrors = findBrokenBlogLinks(post.body, targets);
+      if (linkErrors.length > 0) {
+        errors.push(`${file}\n${linkErrors.map((error) => `  - ${error}`).join('\n')}`);
+      }
     }
   }
+  errors.push(...pairTranslations(visible));
 
   if (errors.length > 0) {
     throw new Error(
@@ -108,34 +149,107 @@ export function getAllPosts(): BlogPost[] {
     );
   }
 
-  const posts = visible
-    .map(({ post }) => post)
-    .sort((a, b) => b.date.localeCompare(a.date) || a.slug.localeCompare(b.slug));
+  const posts = Object.fromEntries(
+    BLOG_LOCALE_LIST.map((locale) => [
+      locale,
+      visible[locale]
+        .map(({ post }) => post)
+        .sort((a, b) => b.date.localeCompare(a.date) || a.slug.localeCompare(b.slug)),
+    ])
+  ) as PostsByLocale;
 
   if (isProduction) cachedPosts = posts;
   return posts;
 }
 
-export function getPostBySlug(slug: string): BlogPost | undefined {
-  return getAllPosts().find((post) => post.slug === slug);
+/**
+ * Links each `translationOf` post with its original in the other language, both ways, so either
+ * page can point search engines and readers to the other.
+ */
+function pairTranslations(visible: Record<BlogLocale, ParsedFile[]>): string[] {
+  const errors: string[] = [];
+
+  for (const locale of BLOG_LOCALE_LIST) {
+    const other = otherLocale(locale);
+    for (const { post, file, translationOf } of visible[locale]) {
+      if (!translationOf) continue;
+      const target = visible[other].find((candidate) => candidate.post.slug === translationOf)?.post;
+      if (!target) {
+        errors.push(
+          `${file}\n  - "translationOf": no published post in ${BLOG_LOCALES[other].contentDir}/ has the slug "${translationOf}"`
+        );
+      } else if (
+        (target.translationSlug && target.translationSlug !== post.slug) ||
+        (post.translationSlug && post.translationSlug !== target.slug)
+      ) {
+        errors.push(
+          `${file}\n  - "translationOf": ${target.url} is already paired with another post; each article has at most one translation`
+        );
+      } else {
+        post.translationSlug = target.slug;
+        target.translationSlug = post.slug;
+      }
+    }
+  }
+  return errors;
 }
 
-export function getPostsByCategory(categorySlug: string): BlogPost[] {
-  return getAllPosts().filter((post) => post.category.slug === categorySlug);
+export function getPostBySlug(locale: BlogLocale, slug: string): BlogPost | undefined {
+  return getAllPosts(locale).find((post) => post.slug === slug);
+}
+
+/** The same article in the other language, if it has been translated. */
+export function getTranslation(post: BlogPost): BlogPost | undefined {
+  return post.translationSlug ? getPostBySlug(otherLocale(post.locale), post.translationSlug) : undefined;
+}
+
+export function getPostsByCategory(locale: BlogLocale, categorySlug: string): BlogPost[] {
+  return getAllPosts(locale).filter((post) => post.category.slug === categorySlug);
 }
 
 /** Categories that have at least one post, in their configured order. */
-export function getActiveCategories(): BlogCategory[] {
-  const used = new Set(getAllPosts().map((post) => post.category.slug));
-  return BLOG_CATEGORIES.filter((category) => used.has(category.slug));
+export function getActiveCategories(locale: BlogLocale): BlogCategory[] {
+  const used = new Set(getAllPosts(locale).map((post) => post.category.slug));
+  return BLOG_CATEGORIES[locale].filter((category) => used.has(category.slug));
 }
 
 /** Same-category posts first, then the newest others, so short categories still fill the row. */
 export function getRelatedPosts(post: BlogPost, limit = 3): BlogPost[] {
-  const others = getAllPosts().filter((candidate) => candidate.slug !== post.slug);
+  const others = getAllPosts(post.locale).filter((candidate) => candidate.slug !== post.slug);
   const sameCategory = others.filter((candidate) => candidate.category.slug === post.category.slug);
   const rest = others.filter((candidate) => candidate.category.slug !== post.category.slug);
   return [...sameCategory, ...rest].slice(0, limit);
+}
+
+/**
+ * hreflang → path for a page that exists in more than one language, plus x-default on the default
+ * language's version. Undefined when only one language has the page: there is nothing to pair.
+ */
+export function getLanguageAlternates(
+  paths: Partial<Record<BlogLocale, string>>
+): Record<string, string> | undefined {
+  const locales = BLOG_LOCALE_LIST.filter((locale) => paths[locale]);
+  if (locales.length < 2) return undefined;
+  return {
+    ...Object.fromEntries(locales.map((locale) => [BLOG_LOCALES[locale].htmlLang, paths[locale] as string])),
+    'x-default': paths[DEFAULT_BLOG_LOCALE] ?? (paths[locales[0]] as string),
+  };
+}
+
+/** Paths of a post and its translation, keyed by language. */
+export function getPostPaths(post: BlogPost): Partial<Record<BlogLocale, string>> {
+  const translation = getTranslation(post);
+  return { [post.locale]: post.url, ...(translation && { [translation.locale]: translation.url }) };
+}
+
+/** Paths of a category page in every language where that topic has posts. */
+export function getCategoryPaths(category: BlogCategory): Partial<Record<BlogLocale, string>> {
+  return Object.fromEntries(
+    BLOG_LOCALE_LIST.flatMap((locale) => {
+      const match = getActiveCategories(locale).find((candidate) => candidate.id === category.id);
+      return match ? [[locale, getCategoryPath(locale, match.slug)]] : [];
+    })
+  );
 }
 
 export function getTotalPages(count: number): number {
@@ -159,18 +273,23 @@ export function parsePageNumber(segment: string, count: number): number | undefi
   return page >= 2 && page <= getTotalPages(count) ? page : undefined;
 }
 
-export function getCategoryPath(categorySlug: string, page = 1): string {
-  const base = `${BLOG_PATH}/chu-de/${categorySlug}`;
-  return page > 1 ? `${base}/trang/${page}` : base;
+export function getCategoryPath(locale: BlogLocale, categorySlug: string, page = 1): string {
+  const { path: blogPath, categorySegment, pageSegment } = BLOG_LOCALES[locale];
+  const base = `${blogPath}/${categorySegment}/${categorySlug}`;
+  return page > 1 ? `${base}/${pageSegment}/${page}` : base;
 }
 
-export function getBlogPagePath(page = 1): string {
-  return page > 1 ? `${BLOG_PATH}/trang/${page}` : BLOG_PATH;
+export function getBlogPagePath(locale: BlogLocale, page = 1): string {
+  const { path: blogPath, pageSegment } = BLOG_LOCALES[locale];
+  return page > 1 ? `${blogPath}/${pageSegment}/${page}` : blogPath;
 }
 
-/** "12 tháng 10, 2026". Dates are calendar days, so format in UTC to avoid shifting them. */
-export function formatPostDate(date: string): string {
-  return new Intl.DateTimeFormat('vi-VN', {
+/**
+ * "12 tháng 10, 2026" or "October 12, 2026". Dates are calendar days, so format in UTC to avoid
+ * shifting them.
+ */
+export function formatPostDate(date: string, locale: BlogLocale): string {
+  return new Intl.DateTimeFormat(BLOG_LOCALES[locale].dateLocale, {
     day: 'numeric',
     month: 'long',
     year: 'numeric',
@@ -183,28 +302,36 @@ export function toIsoDateTime(date: string): string {
   return `${date}T00:00:00+07:00`;
 }
 
-function listPostFiles(): string[] {
-  if (!fs.existsSync(BLOG_CONTENT_DIR)) return [];
+function listPostFiles(contentDir: string): string[] {
+  const dir = path.join(process.cwd(), contentDir);
+  if (!fs.existsSync(dir)) return [];
   return fs
-    .readdirSync(BLOG_CONTENT_DIR)
+    .readdirSync(dir)
     .filter((fileName) => fileName.endsWith('.mdx'))
     .sort();
 }
 
-function parsePostFile(fileName: string): { post?: BlogPost; errors: string[] } {
+function parsePostFile(
+  locale: BlogLocale,
+  fileName: string
+): { post?: BlogPost; translationOf?: string; errors: string[] } {
   const errors: string[] = [];
+  const config = BLOG_LOCALES[locale];
+  const other = BLOG_LOCALES[otherLocale(locale)];
   const slug = fileName.replace(/\.mdx$/, '');
+  // Route segments under the blog path that a post slug would collide with.
+  const reserved = new Set([config.categorySegment, config.pageSegment, 'feed']);
 
   if (!SLUG_PATTERN.test(slug) || slug.length > 90) {
     errors.push(
       'file name must be the URL slug: lowercase a-z, 0-9 and single hyphens, no Vietnamese accents (e.g. pho-bo-bao-nhieu-calo.mdx)'
     );
   }
-  if (RESERVED_SLUGS.has(slug)) {
+  if (reserved.has(slug)) {
     errors.push(`"${slug}" is reserved by a blog route; choose another file name`);
   }
 
-  const raw = fs.readFileSync(path.join(BLOG_CONTENT_DIR, fileName), 'utf8').replace(/^\uFEFF/, '');
+  const raw = fs.readFileSync(path.join(process.cwd(), config.contentDir, fileName), 'utf8').replace(/^\uFEFF/, '');
   const match = /^---\r?\n([\s\S]*?)\r?\n---[ \t]*(?:\r?\n|$)/.exec(raw);
   if (!match) {
     errors.push('file must start with a YAML frontmatter block between two "---" lines');
@@ -239,15 +366,29 @@ function parsePostFile(fileName: string): { post?: BlogPost; errors: string[] } 
     errors.push('"updated" cannot be earlier than "date"');
   }
 
-  const category = typeof data.category === 'string' ? getCategory(data.category) : undefined;
+  const category = typeof data.category === 'string' ? getCategory(locale, data.category) : undefined;
   if (!category) {
-    errors.push(`"category" must be one of: ${BLOG_CATEGORIES.map((item) => item.slug).join(', ')}`);
+    errors.push(`"category" must be one of: ${BLOG_CATEGORIES[locale].map((item) => item.slug).join(', ')}`);
   }
+
+  let translationOf: string | undefined;
+  if (data.translationOf !== undefined) {
+    if (typeof data.translationOf !== 'string' || !SLUG_PATTERN.test(data.translationOf)) {
+      errors.push(`"translationOf" must be the slug of the original post in ${other.contentDir}/, e.g. pho-bo-bao-nhieu-calo`);
+    } else {
+      translationOf = data.translationOf;
+    }
+  }
+  // A translation may reuse its original's pictures instead of copying them.
+  const imageFolders = [
+    `${config.path}/${slug}/`,
+    ...(translationOf ? [`${other.path}/${translationOf}/`] : []),
+  ];
 
   let tags: string[] = [];
   if (data.tags !== undefined) {
     if (!Array.isArray(data.tags) || !data.tags.every((tag) => typeof tag === 'string' && tag.trim())) {
-      errors.push('"tags" must be a list of words or phrases, e.g. ["phở", "calo"]');
+      errors.push(`"tags" must be a list of words or phrases, e.g. ${locale === 'vi' ? '["phở", "calo"]' : '["pho", "calories"]'}`);
     } else {
       tags = Array.from(new Set(data.tags.map((tag: string) => tag.trim())));
     }
@@ -255,7 +396,7 @@ function parsePostFile(fileName: string): { post?: BlogPost; errors: string[] } 
 
   let image: PostImage | undefined;
   if (data.image !== undefined) {
-    const file = readImageFile(slug, data.image, '"image"', errors);
+    const file = readImageFile(imageFolders, data.image, '"image"', errors);
     const alt = readAltText(data.imageAlt, '"imageAlt"', errors);
     if (file && Math.abs(file.width / file.height - 16 / 9) > 0.01) {
       errors.push(`"image" is ${file.width}×${file.height}; covers must be 16:9, which npm run blog:image makes by default`);
@@ -278,17 +419,21 @@ function parsePostFile(fileName: string): { post?: BlogPost; errors: string[] } 
     errors.push('remove "# " headings: the page already shows the title as the only H1, so sections start at "## "');
   }
   errors.push(...findMdxProblems(body));
-  const bodyImages = readBodyImages(slug, body, image, errors);
+  const bodyImages = readBodyImages(imageFolders, body, image, errors);
 
   if (errors.length > 0 || !title || !description || !date || !updated || !category) {
     return { errors };
   }
 
+  const wordCount = countWords(body);
+
   return {
     errors,
+    translationOf,
     post: {
+      locale,
       slug,
-      url: `${BLOG_PATH}/${slug}`,
+      url: `${config.path}/${slug}`,
       title,
       description,
       date,
@@ -298,7 +443,8 @@ function parsePostFile(fileName: string): { post?: BlogPost; errors: string[] } 
       image,
       images: image ? [image, ...bodyImages] : bodyImages,
       draft: data.draft === true,
-      readingMinutes: Math.max(1, Math.round(countWords(body) / WORDS_PER_MINUTE)),
+      readingMinutes: Math.max(1, Math.round(wordCount / WORDS_PER_MINUTE[locale])),
+      wordCount,
       body,
     },
   };
@@ -333,23 +479,34 @@ function requireDate(value: unknown, field: string, errors: string[]): string | 
   return value;
 }
 
-/** Links to /blog/<slug> or /blog/chu-de/<category> that would 404. Category pages exist only once they have a post. */
-function findBrokenBlogLinks(body: string, slugs: Set<string>, categorySlugs: Set<string>): string[] {
+interface LinkTargets {
+  slugs: Set<string>;
+  categorySlugs: Set<string>;
+}
+
+/**
+ * Links to a post or category page, in either language's blog, that would 404. Category pages exist
+ * only once they have a post.
+ */
+function findBrokenBlogLinks(body: string, targets: Record<BlogLocale, LinkTargets>): string[] {
   const errors: string[] = [];
-  const pattern = /(?:\]\(|href=["'])(?:https:\/\/nutreeai\.com)?\/blog\/([^)"'\s#?]+)/g;
+  const pattern = /(?:\]\(|href=["'])(?:https:\/\/nutreeai\.com)?(\/en)?\/blog\/([^)"'\s#?]+)/g;
   // Images live under /blog/<slug>/ too; readBodyImages checks those.
   const links = withoutCode(body).replace(BODY_IMAGE_PATTERN, '');
 
-  for (const [, target] of links.matchAll(pattern)) {
+  for (const [, en, target] of links.matchAll(pattern)) {
+    const locale: BlogLocale = en ? 'en' : 'vi';
+    const { path: blogPath, categorySegment, pageSegment } = BLOG_LOCALES[locale];
+    const { slugs, categorySlugs } = targets[locale];
     const parts = target.replace(/\/$/, '').split('/');
-    if (parts[0] === 'chu-de') {
+    if (parts[0] === categorySegment) {
       if (!categorySlugs.has(parts[1] ?? '')) {
-        errors.push(`link to /blog/${target}: no such category, or it has no published posts yet`);
+        errors.push(`link to ${blogPath}/${target}: no such category, or it has no published posts yet`);
       }
-    } else if (parts[0] === 'trang' || parts[0] === 'feed.xml') {
+    } else if (parts[0] === pageSegment || parts[0] === 'feed.xml') {
       continue;
     } else if (parts.length > 1 || !slugs.has(parts[0])) {
-      errors.push(`link to /blog/${target}: no published post has that slug`);
+      errors.push(`link to ${blogPath}/${target}: no published post has that slug`);
     }
   }
   return errors;
@@ -389,7 +546,12 @@ function findMdxProblems(body: string): string[] {
  * Images in the body, each alone between blank lines so it renders as a figure, with alt text and a
  * caption written as the Markdown title.
  */
-function readBodyImages(slug: string, body: string, cover: PostImage | undefined, errors: string[]): PostImage[] {
+function readBodyImages(
+  folders: string[],
+  body: string,
+  cover: PostImage | undefined,
+  errors: string[]
+): PostImage[] {
   const images: PostImage[] = [];
   const lines = withoutCode(body).split('\n');
 
@@ -404,7 +566,7 @@ function readBodyImages(slug: string, body: string, cover: PostImage | undefined
       if (found.length > 1 || line.trim() !== markdown || lines[index - 1]?.trim() || lines[index + 1]?.trim()) {
         errors.push(`${label} must be on a line of its own, with a blank line above and below`);
       }
-      const file = readImageFile(slug, src, 'image', errors);
+      const file = readImageFile(folders, src, 'image', errors);
       const alt = readAltText(altText, `alt text of ${label}`, errors);
       const caption = captionText?.trim().replace(/\s+/g, ' ');
       if (!caption) {
@@ -422,12 +584,15 @@ function readBodyImages(slug: string, body: string, cover: PostImage | undefined
   return images;
 }
 
-/** Checks that an image is a file in the post's folder, big enough and small enough, and reads its size. */
-function readImageFile(slug: string, src: unknown, label: string, errors: string[]) {
-  const folder = `${BLOG_PATH}/${slug}/`;
-  if (typeof src !== 'string' || !src.startsWith(folder) || !IMAGE_NAME_PATTERN.test(src.slice(folder.length))) {
+/**
+ * Checks that an image is a file in one of the post's folders (its own, or its original's when it is a
+ * translation), big enough and small enough, and reads its size.
+ */
+function readImageFile(folders: string[], src: unknown, label: string, errors: string[]) {
+  const folder = typeof src === 'string' ? folders.find((candidate) => src.startsWith(candidate)) : undefined;
+  if (typeof src !== 'string' || !folder || !IMAGE_NAME_PATTERN.test(src.slice(folder.length))) {
     errors.push(
-      `${label} ${String(src)} must be saved in public${folder}, named in lowercase words and hyphens and ending in .jpg, .png or .webp`
+      `${label} ${String(src)} must be saved in public${folders[0]}, named in lowercase words and hyphens and ending in .jpg, .png or .webp`
     );
     return undefined;
   }
@@ -456,7 +621,7 @@ function readImageFile(slug: string, src: unknown, label: string, errors: string
 function readAltText(value: unknown, label: string, errors: string[]): string | undefined {
   const alt = typeof value === 'string' ? value.trim().replace(/\s+/g, ' ') : '';
   if (!alt) {
-    errors.push(`${label} is required: say what the picture shows, in Vietnamese`);
+    errors.push(`${label} is required: say what the picture shows, in the post's language`);
     return undefined;
   }
   if (alt.length > MAX_ALT_LENGTH) {
