@@ -17,7 +17,7 @@ export const LEGAL_COMPANY = {
   addressStreet: ADDRESS_STREET,
   addressEn:
     'NL1-G01, Sang Quang Residential Area, Nguyen Van Linh Street, Hamlet 6, Phu Loi Ward, Can Tho City, Vietnam',
-  email: 'nutreeaidev@gmail.com',
+  email: 'support@nutreeai.com',
   website: 'https://nutreeai.com',
   websiteDisplay: 'nutreeai.com',
   product: 'Nutree',

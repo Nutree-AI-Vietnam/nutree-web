@@ -547,7 +547,7 @@ export const translations: Record<Locale, TranslationStrings> = {
             },
             {
               question: 'How do I request a refund?',
-              answer: 'Cancel auto-renewal in Apple Settings → Subscriptions → Nutree. For refunds, Apple decides at reportaproblem.apple.com. You can also email nutreeaidev@gmail.com with your receipt. Full steps: nutreeai.com/cancellation.',
+              answer: 'Cancel auto-renewal in Apple Settings → Subscriptions → Nutree. For refunds, Apple decides at reportaproblem.apple.com. You can also email support@nutreeai.com with your receipt. Full steps: nutreeai.com/cancellation.',
             },
             {
               question: 'How do I restore my purchase on a new device?',
@@ -585,7 +585,7 @@ export const translations: Record<Locale, TranslationStrings> = {
             },
             {
               question: 'How do I contact support?',
-              answer: 'Email us at nutreeaidev@gmail.com, message us on Facebook Messenger, or follow us on TikTok @nutree.ai.',
+              answer: 'Email us at support@nutreeai.com, message us on Facebook Messenger, or follow us on TikTok @nutree.ai.',
             },
           ],
         },
@@ -1062,7 +1062,7 @@ export const translations: Record<Locale, TranslationStrings> = {
             },
             {
               question: 'Làm sao yêu cầu hoàn tiền?',
-              answer: 'Hủy gia hạn trong Cài đặt Apple → Đăng ký → Nutree. Hoàn tiền do Apple xem xét tại reportaproblem.apple.com. Có thể gửi biên nhận tới nutreeaidev@gmail.com. Hướng dẫn đầy đủ: nutreeai.com/cancellation.',
+              answer: 'Hủy gia hạn trong Cài đặt Apple → Đăng ký → Nutree. Hoàn tiền do Apple xem xét tại reportaproblem.apple.com. Có thể gửi biên nhận tới support@nutreeai.com. Hướng dẫn đầy đủ: nutreeai.com/cancellation.',
             },
             {
               question: 'Làm sao khôi phục gói đăng ký trên thiết bị mới?',
@@ -1100,7 +1100,7 @@ export const translations: Record<Locale, TranslationStrings> = {
             },
             {
               question: 'Làm sao để liên hệ hỗ trợ?',
-              answer: 'Gửi email đến nutreeaidev@gmail.com, nhắn tin qua Facebook Messenger, hoặc theo dõi chúng tôi trên TikTok @nutree.ai.',
+              answer: 'Gửi email đến support@nutreeai.com, nhắn tin qua Facebook Messenger, hoặc theo dõi chúng tôi trên TikTok @nutree.ai.',
             },
           ],
         },
