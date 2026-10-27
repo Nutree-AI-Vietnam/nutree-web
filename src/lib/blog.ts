@@ -302,8 +302,21 @@ export function toIsoDateTime(date: string): string {
   return `${date}T00:00:00+07:00`;
 }
 
+/**
+ * Every language's posts live under this folder. Next bundles the files a server function may read by
+ * following the paths written in this module, so the literal root must come first: joining
+ * process.cwd() with a variable folder pulled the whole repo (node_modules and the build cache) into
+ * the blog functions, past Vercel's 250 MB limit.
+ */
+const BLOG_CONTENT_ROOT = path.join(process.cwd(), 'content', 'blog');
+
+/** Absolute path of a language's contentDir, which is relative to the repo root. */
+function contentDirPath(contentDir: string): string {
+  return path.join(BLOG_CONTENT_ROOT, path.relative(path.join('content', 'blog'), contentDir));
+}
+
 function listPostFiles(contentDir: string): string[] {
-  const dir = path.join(process.cwd(), contentDir);
+  const dir = contentDirPath(contentDir);
   if (!fs.existsSync(dir)) return [];
   return fs
     .readdirSync(dir)
@@ -331,7 +344,7 @@ function parsePostFile(
     errors.push(`"${slug}" is reserved by a blog route; choose another file name`);
   }
 
-  const raw = fs.readFileSync(path.join(process.cwd(), config.contentDir, fileName), 'utf8').replace(/^\uFEFF/, '');
+  const raw = fs.readFileSync(path.join(contentDirPath(config.contentDir), fileName), 'utf8').replace(/^\uFEFF/, '');
   const match = /^---\r?\n([\s\S]*?)\r?\n---[ \t]*(?:\r?\n|$)/.exec(raw);
   if (!match) {
     errors.push('file must start with a YAML frontmatter block between two "---" lines');
