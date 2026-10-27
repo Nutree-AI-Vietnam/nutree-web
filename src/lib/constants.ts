@@ -5,7 +5,7 @@ export const SITE_CONFIG = {
   url: 'https://nutreeai.com',
   // Home hero "Get started" target; the quiz lives on its own subdomain.
   quizUrl: 'https://quiz.nutreeai.com',
-  supportEmail: 'nutreeaidev@gmail.com',
+  supportEmail: 'support@nutreeai.com',
   stores: {
     appStore: 'https://apps.apple.com/vn/app/nutree-eat-with-science/id6751159552',
     googlePlay: 'https://play.google.com/store/apps/details?id=com.nutreeai.mobile',
