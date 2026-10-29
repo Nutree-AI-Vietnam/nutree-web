@@ -3,33 +3,27 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { BankTransferCheckout } from '@/components/sections/BankTransferCheckout';
-import { PricingTable } from '@/components/sections/PricingTable';
+import { PricingCard } from '@/components/sections/PricingCard';
 import { useLocale } from '@/lib/locale-context';
-import type { PayPlanId } from '@/lib/pay-bank';
 import { payPageContent } from '@/lib/pay-page-content';
-
-function isPayPlanId(value: string | null): value is PayPlanId {
-  return value === 'monthly' || value === 'yearly';
-}
 
 export function MuaGoiPageClient() {
   const { locale } = useLocale();
   const copy = payPageContent[locale];
-  const [selectedId, setSelectedId] = useState<PayPlanId | null>(null);
+  const [isCheckout, setIsCheckout] = useState(false);
 
-  // Old /pay?plan=yearly links redirect here and still open on that plan. Read after mount instead of
-  // useSearchParams, which would drop the whole page out of the static HTML.
+  // Old /pay?plan=yearly links redirect here and still open checkout. The monthly plan is no longer
+  // sold, so ?plan=monthly shows the plan instead. Read after mount instead of useSearchParams, which
+  // would drop the whole page out of the static HTML.
   useEffect(() => {
     const requested = new URLSearchParams(window.location.search).get('plan');
-    if (isPayPlanId(requested)) setSelectedId(requested);
-  }, []);
+    if (requested === copy.plan.id) setIsCheckout(true);
+  }, [copy.plan.id]);
 
-  const select = (id: PayPlanId | null) => {
-    setSelectedId(id);
+  const showCheckout = (value: boolean) => {
+    setIsCheckout(value);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
-
-  const selectedPlan = copy.plans.find((plan) => plan.id === selectedId) ?? null;
   const legalLinks = [
     { href: '/payment', label: copy.legalPayment },
     { href: '/pricing', label: copy.legalPricing },
@@ -39,17 +33,22 @@ export function MuaGoiPageClient() {
 
   return (
     <div className="container mx-auto px-4 pb-16 pt-28 md:pt-32">
-      <h1 className="text-center font-display text-3xl font-bold text-foreground md:text-4xl">{copy.title}</h1>
-
-      {selectedPlan ? (
-        <div className="mt-8">
-          <BankTransferCheckout plan={selectedPlan} copy={copy.checkout} onBack={() => select(null)} />
-        </div>
+      {isCheckout ? (
+        <>
+          <h1 className="sr-only">{copy.title}</h1>
+          <BankTransferCheckout plan={copy.plan} copy={copy.checkout} onBack={() => showCheckout(false)} />
+        </>
       ) : (
         <>
-          <p className="mx-auto mt-3 max-w-xl text-center text-muted">{copy.subtitle}</p>
-          <div className="mt-10">
-            <PricingTable plans={copy.plans} onSelect={select} />
+          <p className="text-center text-xs font-semibold uppercase tracking-[0.2em] text-primary-emerald">
+            {copy.eyebrow}
+          </p>
+          <h1 className="mx-auto mt-3 max-w-2xl text-balance text-center font-display text-3xl font-extrabold tracking-tight text-primary-forest md:text-5xl">
+            {copy.title}
+          </h1>
+          <p className="mx-auto mt-4 max-w-xl text-center text-base text-muted md:text-lg">{copy.subtitle}</p>
+          <div className="mt-12">
+            <PricingCard plan={copy.plan} onSelect={() => showCheckout(true)} />
           </div>
           <p className="mt-6 text-center text-sm text-muted">{copy.footnote}</p>
         </>

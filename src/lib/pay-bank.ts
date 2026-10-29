@@ -6,9 +6,9 @@ export const PAY_BANK = {
   qrAlt: 'MB Bank VietQR for NUTREE AI VIETNAM',
 } as const;
 
+// Nutree sells one plan only: the yearly plan.
 export const PAY_AMOUNTS = {
-  monthly: 99_000,
-  yearly: 399_000,
+  yearly: 599_000,
 } as const;
 
 export type PayPlanId = keyof typeof PAY_AMOUNTS;

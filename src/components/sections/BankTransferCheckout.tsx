@@ -125,7 +125,7 @@ export function BankTransferCheckout({ plan, copy, onBack }: BankTransferCheckou
         <div className="py-3">
           <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted">{copy.planLabel}</p>
           <p className="font-display text-base font-bold text-foreground">
-            {plan.name} · {plan.price.replace('*', '')}
+            {plan.name} · {plan.amount} {plan.period}
           </p>
         </div>
       </div>
