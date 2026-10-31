@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "deny": [
+      "mcp__rea",
+      "Bash(rea:*)",
+      "Bash(npx rea-agents:*)",
+      "Bash(npx -y rea-agents:*)",
+      "Bash(npx --yes rea-agents:*)",
+      "Bash(bunx rea-agents:*)",
+      "Bash(bunx -y rea-agents:*)"
+    ]
+  },
+  "enableAllProjectMcpServers": false,
+  "disabledMcpjsonServers": ["rea"]
+}

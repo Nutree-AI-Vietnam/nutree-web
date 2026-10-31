@@ -10,6 +10,17 @@
 | **Animation** | Framer Motion 11 |
 | **Package Manager** | npm |
 
+## Tooling policy: no reverse-engineering MCP
+
+This repo must not wire reverse-engineering / binary-analysis tooling into any agent.
+Do not add REA (`rea-agents`) or similar RE / decompiler MCP servers (Ghidra, IDA, JADX,
+Frida, etc.) to `.mcp.json`, `.claude/`, or any committed agent config, and do not run
+`npx rea-agents` from this repo. `.claude/settings.json` denies the `rea` MCP server and
+its CLI as a guardrail, and project MCP servers are not auto-enabled; add any new RE tool
+to that `deny` list. This governs our own team and agents only — it does not protect
+shipped apps. For hardening the mobile/web apps against reverse engineering, see
+`docs/mobile-re-hardening.md`.
+
 ## SEO rules (every page)
 
 Before creating or editing any page, read `seo-process.md` and follow it: it applies every time,
