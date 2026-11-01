@@ -37,6 +37,30 @@ export const SUPPLEMENT_NUTRIENT_UNITS: Record<string, string> = {
   selenium: 'mcg',
 };
 
+/** Readable names for the tracked nutrient keys. */
+export const SUPPLEMENT_NUTRIENT_NAMES: Record<string, string> = {
+  vitamin_a: 'Vitamin A',
+  vitamin_a_preformed: 'Vitamin A (preformed)',
+  vitamin_c: 'Vitamin C',
+  vitamin_d: 'Vitamin D',
+  vitamin_e: 'Vitamin E',
+  vitamin_k: 'Vitamin K',
+  thiamin: 'Vitamin B1',
+  riboflavin: 'Vitamin B2',
+  niacin: 'Vitamin B3',
+  vitamin_b6: 'Vitamin B6',
+  vitamin_b12: 'Vitamin B12',
+  folate: 'Folate',
+  calcium: 'Calcium',
+  iron: 'Iron',
+  magnesium: 'Magnesium',
+  phosphorus: 'Phosphorus',
+  potassium: 'Potassium',
+  sodium: 'Sodium',
+  zinc: 'Zinc',
+  selenium: 'Selenium',
+};
+
 export type SupplementReviewKind = 'catalog' | 'scan';
 export type SupplementReviewAction = 'approve' | 'edit' | 'reject';
 
@@ -74,6 +98,17 @@ export interface SupplementReviewItem {
   reviewed_at: string | null;
   reviewed_by: string | null;
   created_at: string | null;
+  updated_at: string | null;
+  /** For a scan: the shared row its barcode already belongs to. */
+  barcode_match: SupplementBarcodeMatch | null;
+}
+
+export interface SupplementBarcodeMatch {
+  id: string;
+  name: string;
+  brand: string | null;
+  catalog_key: string | null;
+  review_status: string;
 }
 
 export interface SupplementReviewListResponse {

@@ -6,6 +6,7 @@ import { AdminPageShell } from '@/components/admin/AdminPageShell';
 import { MealCatalogPagination } from '@/components/admin/MealCatalogPagination';
 import { SupplementReviewCard } from '@/components/admin/SupplementReviewCard';
 import { adminErrorMessage, useAdminSession } from '@/hooks/useAdminSession';
+import { MealTrackAdminApiError } from '@/lib/mealtrack-admin-api';
 import { fetchSupplementReview, reviewSupplement } from '@/lib/supplement-admin-api';
 import type {
   SupplementEdits,
@@ -24,13 +25,16 @@ const KINDS: { value: SupplementReviewKind | 'all'; label: string }[] = [
 
 export function AdminSupplementsPageClient() {
   const [kind, setKind] = useState<SupplementReviewKind | 'all'>('all');
+  const [query, setQuery] = useState('');
+  const [draftQuery, setDraftQuery] = useState('');
   const [page, setPage] = useState(0);
   const [reloadKey, setReloadKey] = useState(0);
   const [data, setData] = useState<SupplementReviewListResponse>(emptyData);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [actionMessage, setActionMessage] = useState<string | null>(null);
-  const [busyId, setBusyId] = useState<string | null>(null);
+  const [busyIds, setBusyIds] = useState<ReadonlySet<string>>(new Set());
+  const [actionTone, setActionTone] = useState<'info' | 'error'>('info');
   // Only the newest queue request may paint, so a fetch started before a
   // decision (or by a token refresh) cannot bring a decided card back.
   const latestRequest = useRef(0);
@@ -55,7 +59,7 @@ export function AdminSupplementsPageClient() {
     setError(null);
     try {
       const token = await getValidToken();
-      const response = await fetchSupplementReview({ kind, limit: PAGE_SIZE, offset: page * PAGE_SIZE }, token, environment);
+      const response = await fetchSupplementReview({ kind, q: query, limit: PAGE_SIZE, offset: page * PAGE_SIZE }, token, environment);
       if (request !== latestRequest.current) return;
       const lastPage = Math.max(0, Math.ceil(response.total / PAGE_SIZE) - 1);
       if (response.items.length === 0 && page > lastPage) {
@@ -69,7 +73,7 @@ export function AdminSupplementsPageClient() {
     } finally {
       if (request === latestRequest.current) setIsLoading(false);
     }
-  }, [environment, getValidToken, isPreviewMode, kind, page, session]);
+  }, [environment, getValidToken, isPreviewMode, kind, page, query, session]);
 
   useEffect(() => {
     void loadQueue();
@@ -78,7 +82,9 @@ export function AdminSupplementsPageClient() {
   const handleReview = useCallback(
     async (item: SupplementReviewItem, action: SupplementReviewAction, changes: SupplementEdits | null) => {
       if (action === 'reject' && !window.confirm(rejectPrompt(item))) return;
-      setBusyId(item.id);
+      // A queue fetch already in flight predates this decision; never let it paint.
+      latestRequest.current += 1;
+      setBusyIds((current) => new Set(current).add(item.id));
       setActionMessage(null);
       try {
         const token = await getValidToken();
@@ -97,15 +103,31 @@ export function AdminSupplementsPageClient() {
           // Later rows move up into this page; fetch it again so none is skipped.
           reload();
         }
+        setActionTone('info');
         setActionMessage(outcomeMessage(item, action, response.merged_into));
       } catch (requestError) {
+        setActionTone('error');
         setActionMessage(adminErrorMessage(requestError));
+        // Decided elsewhere or gone: refresh so the card stops offering actions.
+        const status = requestError instanceof MealTrackAdminApiError ? requestError.status : undefined;
+        if (status === 404 || status === 409) reload();
       } finally {
-        setBusyId(null);
+        setBusyIds((current) => {
+          const next = new Set(current);
+          next.delete(item.id);
+          return next;
+        });
       }
     },
     [environment, getValidToken, reload]
   );
+
+  const find = useCallback((nextQuery: string) => {
+    setDraftQuery(nextQuery);
+    setQuery(nextQuery);
+    setKind('all');
+    setPage(0);
+  }, []);
 
   const totalPages = Math.max(1, Math.ceil(data.total / PAGE_SIZE));
   const visibleStart = data.total === 0 ? 0 : data.offset + 1;
@@ -117,19 +139,41 @@ export function AdminSupplementsPageClient() {
       current="/admin/supplements"
       title="Supplements"
       description="Check held-back catalog rows and people's label scans against their source, then approve, correct or reject them. Approved rows join the shared catalog."
-      toolbar={KINDS.map((option) => (
-        <button
-          key={option.value}
-          type="button"
-          onClick={() => {
-            setKind(option.value);
-            setPage(0);
+      toolbar={<>
+        {KINDS.map((option) => (
+          <button
+            key={option.value}
+            type="button"
+            onClick={() => {
+              setKind(option.value);
+              setPage(0);
+            }}
+            className={`border px-3 py-2 text-xs font-bold ${kind === option.value ? 'border-primary-forest bg-primary-forest text-white' : 'border-border text-muted hover:border-primary-teal'}`}
+          >
+            {option.label}
+          </button>
+        ))}
+        <form
+          className="flex min-w-0 flex-1 gap-1 sm:flex-none"
+          onSubmit={(event) => {
+            event.preventDefault();
+            find(draftQuery.trim());
           }}
-          className={`border px-3 py-2 text-xs font-bold ${kind === option.value ? 'border-primary-forest bg-primary-forest text-white' : 'border-border text-muted hover:border-primary-teal'}`}
         >
-          {option.label}
-        </button>
-      ))}
+          <input
+            aria-label="Find by catalog key, name or brand"
+            className="min-w-0 flex-1 border border-border bg-white px-3 py-2 text-xs sm:w-64"
+            onChange={(event) => setDraftQuery(event.target.value)}
+            placeholder="Catalog key, name or brand"
+            value={draftQuery}
+          />
+          {query && (
+            <button type="button" onClick={() => find('')} className="border border-border px-3 py-2 text-xs font-bold text-muted hover:border-primary-teal">
+              Clear
+            </button>
+          )}
+        </form>
+      </>}
     >
       {isPreviewMode && (
         <AdminBanner
@@ -139,7 +183,9 @@ export function AdminSupplementsPageClient() {
         />
       )}
       {error && <AdminBanner tone="error" title="Review queue request failed" message={error} />}
-      {actionMessage && <AdminBanner tone="info" title="Action status" message={actionMessage} />}
+      {actionMessage && (
+        <AdminBanner tone={actionTone} title={actionTone === 'error' ? 'Action failed' : 'Action status'} message={actionMessage} />
+      )}
 
       <MealCatalogPagination
         isLoading={isLoading}
@@ -156,7 +202,7 @@ export function AdminSupplementsPageClient() {
         <p className="border border-border bg-white p-6 text-sm text-muted">Nothing is waiting for review.</p>
       )}
       {data.items.map((item) => (
-        <SupplementReviewCard key={`${item.id}:${item.reviewed_at ?? ''}`} item={item} isBusy={busyId === item.id} onReview={(...args) => void handleReview(...args)} />
+        <SupplementReviewCard key={`${item.id}:${item.reviewed_at ?? ''}:${item.updated_at ?? ''}`} item={item} isBusy={busyIds.has(item.id)} onReview={(...args) => void handleReview(...args)} onFind={find} />
       ))}
     </AdminPageShell>
   );
@@ -164,8 +210,8 @@ export function AdminSupplementsPageClient() {
 
 function rejectPrompt(item: SupplementReviewItem): string {
   return item.kind === 'scan'
-    ? `Reject "${item.name}"? It stays on the person's own list but never joins the catalog.`
-    : `Reject "${item.name}"? It stays hidden from search and barcode lookups.`;
+    ? `Reject "${item.name}"? It stays on the person's own list but never joins the catalog. This is final.`
+    : `Reject "${item.name}"? It stays hidden from search and barcode lookups, and re-imports will not bring it back. This is final.`;
 }
 
 function outcomeMessage(item: SupplementReviewItem, action: SupplementReviewAction, mergedInto: string | null): string {

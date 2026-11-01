@@ -10,6 +10,8 @@ import type {
 
 export interface SupplementReviewParams {
   kind: SupplementReviewKind | 'all';
+  /** A catalog key, or part of a name or brand. */
+  q: string;
   limit: number;
   offset: number;
 }
@@ -25,6 +27,9 @@ export function fetchSupplementReview(
   });
   if (params.kind !== 'all') {
     search.set('kind', params.kind);
+  }
+  if (params.q.trim()) {
+    search.set('q', params.q.trim());
   }
   return requestAdminJson(`/supplements/review?${search.toString()}`, token, environment);
 }

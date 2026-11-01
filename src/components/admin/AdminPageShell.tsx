@@ -93,7 +93,7 @@ export function AdminPageShell({ admin, current, title, description, toolbar, ch
             </div>
           </div>
         </div>
-        {toolbar && <div className="mx-auto flex max-w-[1440px] gap-1 px-4 pb-4 md:px-6">{toolbar}</div>}
+        {toolbar && <div className="mx-auto flex max-w-[1440px] flex-wrap gap-1 px-4 pb-4 md:px-6">{toolbar}</div>}
       </header>
 
       <main className="mx-auto grid max-w-[1440px] gap-4 px-4 py-5 md:px-6">{children}</main>
