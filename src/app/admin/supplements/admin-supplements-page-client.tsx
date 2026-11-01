@@ -17,14 +17,17 @@ import type {
 } from '@/types/supplement-admin';
 
 const PAGE_SIZE = 20;
-const KINDS: { value: SupplementReviewKind | 'all'; label: string }[] = [
+type QueueView = SupplementReviewKind | 'all' | 'approved';
+const VIEWS: { value: QueueView; label: string }[] = [
   { value: 'all', label: 'All waiting' },
   { value: 'scan', label: 'Label scans' },
   { value: 'catalog', label: 'Held-back catalog rows' },
+  // Live products, to correct one; past doses keep their own amounts.
+  { value: 'approved', label: 'Approved' },
 ];
 
 export function AdminSupplementsPageClient() {
-  const [kind, setKind] = useState<SupplementReviewKind | 'all'>('all');
+  const [kind, setKind] = useState<QueueView>('all');
   const [query, setQuery] = useState('');
   const [draftQuery, setDraftQuery] = useState('');
   const [page, setPage] = useState(0);
@@ -59,7 +62,17 @@ export function AdminSupplementsPageClient() {
     setError(null);
     try {
       const token = await getValidToken();
-      const response = await fetchSupplementReview({ kind, q: query, limit: PAGE_SIZE, offset: page * PAGE_SIZE }, token, environment);
+      const response = await fetchSupplementReview(
+        {
+          kind: kind === 'approved' ? 'all' : kind,
+          approved: kind === 'approved',
+          q: query,
+          limit: PAGE_SIZE,
+          offset: page * PAGE_SIZE,
+        },
+        token,
+        environment
+      );
       if (request !== latestRequest.current) return;
       const lastPage = Math.max(0, Math.ceil(response.total / PAGE_SIZE) - 1);
       if (response.items.length === 0 && page > lastPage) {
@@ -122,12 +135,16 @@ export function AdminSupplementsPageClient() {
     [environment, getValidToken, reload]
   );
 
-  const find = useCallback((nextQuery: string) => {
+  const search = useCallback((nextQuery: string) => {
     setDraftQuery(nextQuery);
     setQuery(nextQuery);
-    setKind('all');
     setPage(0);
   }, []);
+  // The row blocking a scan waits for review, so it is found among those waiting.
+  const find = useCallback((nextQuery: string) => {
+    search(nextQuery);
+    setKind('all');
+  }, [search]);
 
   const totalPages = Math.max(1, Math.ceil(data.total / PAGE_SIZE));
   const visibleStart = data.total === 0 ? 0 : data.offset + 1;
@@ -140,7 +157,7 @@ export function AdminSupplementsPageClient() {
       title="Supplements"
       description="Check held-back catalog rows and people's label scans against their source, then approve, correct or reject them. Approved rows join the shared catalog."
       toolbar={<>
-        {KINDS.map((option) => (
+        {VIEWS.map((option) => (
           <button
             key={option.value}
             type="button"
@@ -157,7 +174,7 @@ export function AdminSupplementsPageClient() {
           className="flex min-w-0 flex-1 gap-1 sm:flex-none"
           onSubmit={(event) => {
             event.preventDefault();
-            find(draftQuery.trim());
+            search(draftQuery.trim());
           }}
         >
           <input
@@ -168,7 +185,7 @@ export function AdminSupplementsPageClient() {
             value={draftQuery}
           />
           {query && (
-            <button type="button" onClick={() => find('')} className="border border-border px-3 py-2 text-xs font-bold text-muted hover:border-primary-teal">
+            <button type="button" onClick={() => search('')} className="border border-border px-3 py-2 text-xs font-bold text-muted hover:border-primary-teal">
               Clear
             </button>
           )}
@@ -215,9 +232,13 @@ function rejectPrompt(item: SupplementReviewItem): string {
 }
 
 function outcomeMessage(item: SupplementReviewItem, action: SupplementReviewAction, mergedInto: string | null): string {
-  if (action === 'edit') return `Saved edits to ${item.name}. It is still waiting for review.`;
+  if (action === 'edit') {
+    return item.review_status === 'approved'
+      ? `Saved edits to ${item.name}. Future doses use them; past doses keep their amounts.`
+      : `Saved edits to ${item.name}. It is still waiting for review.`;
+  }
   if (action === 'reject') return `Rejected ${item.name}.`;
-  if (mergedInto) return `${item.name} matched a shared product by barcode; the person's list now uses that product.`;
+  if (mergedInto) return `${item.name} matched a shared product by barcode; the person's list and doses now use that product, and their scan was removed.`;
   return `Approved ${item.name}. It is now in the shared catalog.`;
 }
 

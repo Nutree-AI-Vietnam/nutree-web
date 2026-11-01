@@ -38,12 +38,14 @@ export function SupplementReviewCard({ item, isBusy, onReview, onFind }: Props) 
   const disabled = isBusy || Boolean(invalid);
   const match = item.barcode_match;
   const waitsForCatalogRow = match?.review_status === 'pending_review';
+  // A live product is only corrected, never approved again or withdrawn.
+  const live = item.review_status === 'approved';
 
   return (
     <article className="grid gap-4 border border-border bg-white p-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1.1fr)]">
       <section className="grid content-start gap-3">
         <div className="flex flex-wrap items-center gap-2 text-xs font-bold uppercase">
-          <span className="border border-border px-2 py-1 text-muted">{item.kind === 'scan' ? 'Label scan' : 'Held-back catalog row'}</span>
+          <span className="border border-border px-2 py-1 text-muted">{live ? 'Live in the catalog' : item.kind === 'scan' ? 'Label scan' : 'Held-back catalog row'}</span>
           {item.origin_country && <span className="text-muted">{item.origin_country}</span>}
           {item.catalog_key && <span className="font-mono normal-case text-muted">{item.catalog_key}</span>}
         </div>
@@ -109,8 +111,11 @@ export function SupplementReviewCard({ item, isBusy, onReview, onFind }: Props) 
         </div>
         <SupplementNutrientEditor values={draft.nutrients} disabled={isBusy} onChange={(nutrients) => setDraft({ ...draft, nutrients })} />
         {invalid && <p className="text-sm font-semibold text-red-700">{invalid}</p>}
+        {live && (
+          <p className="text-xs text-muted">Live in the catalog. Edits apply to future doses; past doses keep their amounts.</p>
+        )}
         <div className="flex flex-wrap gap-2 pt-1">
-          <button
+          {!live && <button
             type="button"
             disabled={disabled || waitsForCatalogRow}
             title={waitsForCatalogRow ? 'Decide the held-back catalog row with this barcode first.' : undefined}
@@ -118,13 +123,13 @@ export function SupplementReviewCard({ item, isBusy, onReview, onFind }: Props) 
             className="bg-primary-forest px-4 py-2 text-xs font-bold text-white disabled:opacity-50"
           >
             {approveLabel(Boolean(changes), match?.review_status === 'approved')}
-          </button>
+          </button>}
           <button type="button" disabled={disabled || !changes} onClick={() => onReview(item, 'edit', changes)} className="border border-border px-4 py-2 text-xs font-bold text-muted hover:border-primary-teal disabled:opacity-50">
             Save edits
           </button>
-          <button type="button" disabled={isBusy} onClick={() => onReview(item, 'reject', null)} className="border border-red-300 px-4 py-2 text-xs font-bold text-red-800 hover:bg-red-50 disabled:opacity-50">
+          {!live && <button type="button" disabled={isBusy} onClick={() => onReview(item, 'reject', null)} className="border border-red-300 px-4 py-2 text-xs font-bold text-red-800 hover:bg-red-50 disabled:opacity-50">
             Reject
-          </button>
+          </button>}
           {changes && (
             <button type="button" disabled={isBusy} onClick={() => setDraft(toDraft(item))} className="px-2 text-xs font-bold text-muted hover:text-foreground">
               Undo edits
@@ -141,7 +146,7 @@ function BarcodeMatchNote({ match, onFind }: { match: SupplementBarcodeMatch; on
   const where = match.catalog_key ? ` (${match.catalog_key})` : '';
   return match.review_status === 'approved' ? (
     <p className="border border-primary-teal/40 bg-primary-teal/10 p-3 text-sm text-foreground">
-      Already in the catalog as {label}{where}. Approving moves this person&apos;s list and doses there; their scan stays private.
+      Already in the catalog as {label}{where}. Approving moves this person&apos;s list and doses there and removes their scan.
     </p>
   ) : (
     <div className="grid gap-2 border border-energy-orange/40 bg-energy-orange-soft p-3 text-sm text-foreground">

@@ -12,6 +12,8 @@ export interface SupplementReviewParams {
   kind: SupplementReviewKind | 'all';
   /** A catalog key, or part of a name or brand. */
   q: string;
+  /** Live catalog products instead of those waiting for review. */
+  approved: boolean;
   limit: number;
   offset: number;
 }
@@ -30,6 +32,9 @@ export function fetchSupplementReview(
   }
   if (params.q.trim()) {
     search.set('q', params.q.trim());
+  }
+  if (params.approved) {
+    search.set('status', 'approved');
   }
   return requestAdminJson(`/supplements/review?${search.toString()}`, token, environment);
 }
