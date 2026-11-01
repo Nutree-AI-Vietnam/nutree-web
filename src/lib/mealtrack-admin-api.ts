@@ -113,6 +113,36 @@ export async function approveMealCatalogFoodReference(
   );
 }
 
+/** JSON call to a `/v1/admin` path, through the proxy or straight to the API. */
+export async function requestAdminJson<T>(
+  path: string,
+  token: string,
+  environment: MealTrackAdminEnvironment,
+  init: { method?: 'GET' | 'POST'; body?: unknown } = {}
+): Promise<T> {
+  if (!USE_PROXY && !API_BASE_URL) {
+    throw new MealTrackAdminApiError('Preview mode: the MealTrack admin API is not configured.');
+  }
+
+  const headers: Record<string, string> = {
+    ...(buildHeaders(token, environment) as Record<string, string>),
+  };
+  if (init.body !== undefined) {
+    headers['Content-Type'] = 'application/json';
+  }
+  const response = await fetch(`${adminBasePath()}${path}`, {
+    method: init.method ?? 'GET',
+    headers,
+    body: init.body === undefined ? undefined : JSON.stringify(init.body),
+  });
+
+  if (!response.ok) {
+    throw new MealTrackAdminApiError(await readError(response), response.status);
+  }
+
+  return response.json() as Promise<T>;
+}
+
 async function postMealCatalogImportAction<T>(
   action: 'enrich' | 'resolve' | 'import' | 'approve-food-reference',
   request: MealCatalogImportRequest | { food_reference_id: number },
