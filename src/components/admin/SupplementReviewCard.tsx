@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { useMemo, useState } from 'react';
 import { SupplementNutrientEditor } from '@/components/admin/SupplementNutrientEditor';
+import { SupplementPhotoEditor } from '@/components/admin/SupplementPhotoEditor';
 import {
   SUPPLEMENT_FORMS,
   type SupplementBarcodeMatch,
@@ -16,6 +17,8 @@ interface Props {
   onReview: (item: SupplementReviewItem, action: SupplementReviewAction, changes: SupplementEdits | null) => void;
   /** Filters the queue down to one row (the catalog row holding a scan's barcode). */
   onFind: (query: string) => void;
+  /** Uploads a new product photo, or removes it when given null. */
+  onPhoto: (item: SupplementReviewItem, file: File | null) => void;
 }
 
 interface Draft {
@@ -30,7 +33,7 @@ interface Draft {
 }
 
 /** One product waiting for review: its source beside what was read from it. */
-export function SupplementReviewCard({ item, isBusy, onReview, onFind }: Props) {
+export function SupplementReviewCard({ item, isBusy, onReview, onFind, onPhoto }: Props) {
   const [draft, setDraft] = useState<Draft>(() => toDraft(item));
   const edits = useMemo(() => changesFrom(item, draft), [item, draft]);
   const invalid = typeof edits === 'string' ? edits : null;
@@ -60,6 +63,7 @@ export function SupplementReviewCard({ item, isBusy, onReview, onFind }: Props) 
         ) : (
           <p className="text-sm text-muted">No source link or label photo.</p>
         )}
+        <SupplementPhotoEditor item={item} disabled={isBusy} onChange={(file) => onPhoto(item, file)} />
         {item.reasons.length > 0 && (
           <ul className="grid gap-1 border border-energy-orange/40 bg-energy-orange-soft p-3 text-sm text-foreground">
             {item.reasons.map((reason) => <li key={reason}>{reason}</li>)}

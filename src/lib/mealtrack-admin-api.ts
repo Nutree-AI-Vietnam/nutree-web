@@ -118,7 +118,7 @@ export async function requestAdminJson<T>(
   path: string,
   token: string,
   environment: MealTrackAdminEnvironment,
-  init: { method?: 'GET' | 'POST'; body?: unknown } = {}
+  init: { method?: 'GET' | 'POST' | 'DELETE'; body?: unknown; form?: FormData } = {}
 ): Promise<T> {
   if (!USE_PROXY && !API_BASE_URL) {
     throw new MealTrackAdminApiError('Preview mode: the MealTrack admin API is not configured.');
@@ -130,10 +130,11 @@ export async function requestAdminJson<T>(
   if (init.body !== undefined) {
     headers['Content-Type'] = 'application/json';
   }
+  // A form sets its own multipart Content-Type, boundary included.
   const response = await fetch(`${adminBasePath()}${path}`, {
     method: init.method ?? 'GET',
     headers,
-    body: init.body === undefined ? undefined : JSON.stringify(init.body),
+    body: init.form ?? (init.body === undefined ? undefined : JSON.stringify(init.body)),
   });
 
   if (!response.ok) {
