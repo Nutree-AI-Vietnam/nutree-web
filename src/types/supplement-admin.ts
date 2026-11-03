@@ -62,6 +62,8 @@ export const SUPPLEMENT_NUTRIENT_NAMES: Record<string, string> = {
 };
 
 export type SupplementReviewKind = 'catalog' | 'scan';
+/** Every product, only those with a photo, or only those still missing one. */
+export type SupplementPhotoFilter = 'all' | 'with' | 'missing';
 export type SupplementReviewAction = 'approve' | 'edit' | 'reject';
 
 export interface SupplementLabelRow {
@@ -92,7 +94,10 @@ export interface SupplementReviewItem {
   source: string;
   source_name: string | null;
   source_url: string | null;
+  /** The person's own label photo, kept for review only. */
   label_image_url: string | null;
+  /** The product photo the app shows; catalog rows only. */
+  image_url: string | null;
   reasons: string[];
   review_status: string;
   reviewed_at: string | null;

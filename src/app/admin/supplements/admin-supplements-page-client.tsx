@@ -7,9 +7,16 @@ import { MealCatalogPagination } from '@/components/admin/MealCatalogPagination'
 import { SupplementReviewCard } from '@/components/admin/SupplementReviewCard';
 import { adminErrorMessage, useAdminSession } from '@/hooks/useAdminSession';
 import { MealTrackAdminApiError } from '@/lib/mealtrack-admin-api';
-import { fetchSupplementReview, reviewSupplement } from '@/lib/supplement-admin-api';
+import { shrinkPhotoForUpload } from '@/lib/shrink-photo-for-upload';
+import {
+  fetchSupplementReview,
+  removeSupplementPhoto,
+  reviewSupplement,
+  uploadSupplementPhoto,
+} from '@/lib/supplement-admin-api';
 import type {
   SupplementEdits,
+  SupplementPhotoFilter,
   SupplementReviewAction,
   SupplementReviewItem,
   SupplementReviewKind,
@@ -25,9 +32,15 @@ const VIEWS: { value: QueueView; label: string }[] = [
   // Live products, to correct one; past doses keep their own amounts.
   { value: 'approved', label: 'Approved' },
 ];
+const PHOTO_FILTERS: { value: SupplementPhotoFilter; label: string }[] = [
+  { value: 'all', label: 'Any photo' },
+  { value: 'missing', label: 'Missing photo' },
+  { value: 'with', label: 'Has photo' },
+];
 
 export function AdminSupplementsPageClient() {
   const [kind, setKind] = useState<QueueView>('all');
+  const [photo, setPhoto] = useState<SupplementPhotoFilter>('all');
   const [query, setQuery] = useState('');
   const [draftQuery, setDraftQuery] = useState('');
   const [page, setPage] = useState(0);
@@ -66,6 +79,7 @@ export function AdminSupplementsPageClient() {
         {
           kind: kind === 'approved' ? 'all' : kind,
           approved: kind === 'approved',
+          photo,
           q: query,
           limit: PAGE_SIZE,
           offset: page * PAGE_SIZE,
@@ -86,18 +100,27 @@ export function AdminSupplementsPageClient() {
     } finally {
       if (request === latestRequest.current) setIsLoading(false);
     }
-  }, [environment, getValidToken, isPreviewMode, kind, page, query, session]);
+  }, [environment, getValidToken, isPreviewMode, kind, page, photo, query, session]);
 
   useEffect(() => {
     void loadQueue();
   }, [loadQueue, reloadKey]);
+
+  const setBusy = useCallback((id: string, busy: boolean) => {
+    setBusyIds((current) => {
+      const next = new Set(current);
+      if (busy) next.add(id);
+      else next.delete(id);
+      return next;
+    });
+  }, []);
 
   const handleReview = useCallback(
     async (item: SupplementReviewItem, action: SupplementReviewAction, changes: SupplementEdits | null) => {
       if (action === 'reject' && !window.confirm(rejectPrompt(item))) return;
       // A queue fetch already in flight predates this decision; never let it paint.
       latestRequest.current += 1;
-      setBusyIds((current) => new Set(current).add(item.id));
+      setBusy(item.id, true);
       setActionMessage(null);
       try {
         const token = await getValidToken();
@@ -125,14 +148,41 @@ export function AdminSupplementsPageClient() {
         const status = requestError instanceof MealTrackAdminApiError ? requestError.status : undefined;
         if (status === 404 || status === 409) reload();
       } finally {
-        setBusyIds((current) => {
-          const next = new Set(current);
-          next.delete(item.id);
-          return next;
-        });
+        setBusy(item.id, false);
       }
     },
-    [environment, getValidToken, reload]
+    [environment, getValidToken, reload, setBusy]
+  );
+
+  const handlePhoto = useCallback(
+    async (item: SupplementReviewItem, file: File | null) => {
+      if (!file && !window.confirm(`Remove the photo of "${item.name}"? The app shows the plain mark again.`)) return;
+      setBusy(item.id, true);
+      setActionMessage(null);
+      try {
+        const token = await getValidToken();
+        const saved = file
+          ? await uploadSupplementPhoto(item.id, await shrinkPhotoForUpload(file), token, environment)
+          : await removeSupplementPhoto(item.id, token, environment);
+        setData((current) => ({
+          ...current,
+          items: current.items.map((row) => (row.id === item.id ? { ...row, image_url: saved.image_url } : row)),
+        }));
+        // A photo change keeps updated_at, so the reload keeps the card (and
+        // its unsaved edits) and replaces any fetch read before the change.
+        reload();
+        setActionTone('info');
+        setActionMessage(file ? `Saved the photo of ${item.name}.` : `Removed the photo of ${item.name}.`);
+      } catch (requestError) {
+        setActionTone('error');
+        setActionMessage(adminErrorMessage(requestError));
+        const status = requestError instanceof MealTrackAdminApiError ? requestError.status : undefined;
+        if (status === 404 || status === 409) reload();
+      } finally {
+        setBusy(item.id, false);
+      }
+    },
+    [environment, getValidToken, reload, setBusy]
   );
 
   const search = useCallback((nextQuery: string) => {
@@ -170,6 +220,17 @@ export function AdminSupplementsPageClient() {
             {option.label}
           </button>
         ))}
+        <select
+          aria-label="Filter by product photo"
+          value={photo}
+          onChange={(event) => {
+            setPhoto(event.target.value as SupplementPhotoFilter);
+            setPage(0);
+          }}
+          className="border border-border bg-white px-2 py-2 text-xs font-bold text-muted"
+        >
+          {PHOTO_FILTERS.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
+        </select>
         <form
           className="flex min-w-0 flex-1 gap-1 sm:flex-none"
           onSubmit={(event) => {
@@ -219,7 +280,7 @@ export function AdminSupplementsPageClient() {
         <p className="border border-border bg-white p-6 text-sm text-muted">Nothing is waiting for review.</p>
       )}
       {data.items.map((item) => (
-        <SupplementReviewCard key={`${item.id}:${item.reviewed_at ?? ''}:${item.updated_at ?? ''}`} item={item} isBusy={busyIds.has(item.id)} onReview={(...args) => void handleReview(...args)} onFind={find} />
+        <SupplementReviewCard key={`${item.id}:${item.reviewed_at ?? ''}:${item.updated_at ?? ''}`} item={item} isBusy={busyIds.has(item.id)} onReview={(...args) => void handleReview(...args)} onFind={find} onPhoto={(...args) => void handlePhoto(...args)} />
       ))}
     </AdminPageShell>
   );

@@ -20,6 +20,10 @@ export async function POST(request: NextRequest, context: RouteContext) {
   return proxyMealTrackRequest(request, context);
 }
 
+export async function DELETE(request: NextRequest, context: RouteContext) {
+  return proxyMealTrackRequest(request, context);
+}
+
 async function proxyMealTrackRequest(request: NextRequest, context: RouteContext) {
   const backendUrl = getBackendUrl(request);
   if (!backendUrl) {
@@ -49,7 +53,8 @@ async function proxyMealTrackRequest(request: NextRequest, context: RouteContext
   };
 
   if (request.method !== 'GET' && request.method !== 'HEAD') {
-    init.body = await request.text();
+    // Bytes, not text: a photo upload is binary multipart.
+    init.body = await request.arrayBuffer();
     const contentType = request.headers.get('content-type');
     if (contentType) {
       headers.set('Content-Type', contentType);
