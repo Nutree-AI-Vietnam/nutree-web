@@ -164,23 +164,25 @@ export function AdminSupplementsPageClient() {
         const saved = file
           ? await uploadSupplementPhoto(item.id, await shrinkPhotoForUpload(file), token, environment)
           : await removeSupplementPhoto(item.id, token, environment);
-        // Only the photo changes, so unsaved edits in the card are kept.
         setData((current) => ({
           ...current,
           items: current.items.map((row) => (row.id === item.id ? { ...row, image_url: saved.image_url } : row)),
         }));
-        // Under a photo filter the row no longer belongs on this page.
-        if (photo !== 'all') reload();
+        // A photo change keeps updated_at, so the reload keeps the card (and
+        // its unsaved edits) and replaces any fetch read before the change.
+        reload();
         setActionTone('info');
         setActionMessage(file ? `Saved the photo of ${item.name}.` : `Removed the photo of ${item.name}.`);
       } catch (requestError) {
         setActionTone('error');
         setActionMessage(adminErrorMessage(requestError));
+        const status = requestError instanceof MealTrackAdminApiError ? requestError.status : undefined;
+        if (status === 404 || status === 409) reload();
       } finally {
         setBusy(item.id, false);
       }
     },
-    [environment, getValidToken, photo, reload, setBusy]
+    [environment, getValidToken, reload, setBusy]
   );
 
   const search = useCallback((nextQuery: string) => {
