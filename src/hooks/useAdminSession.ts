@@ -102,8 +102,8 @@ export function useAdminSession({ onReset, onReload }: Options = {}) {
   }, [environment, onReset]);
 
   const changeEnvironment = useCallback((nextEnvironment: MealTrackAdminEnvironment) => {
+    // AdminEnvironmentSwitcher asks before PROD, on the page.
     if (nextEnvironment === environment) return;
-    if (nextEnvironment === 'prod' && !window.confirm('Switch to PROD? You will be viewing and operating on live production data.')) return;
     sessionStorage.setItem(ENVIRONMENT_STORAGE_KEY, nextEnvironment);
     const restoredSession = readStoredSession(nextEnvironment);
     setEnvironment(nextEnvironment);
