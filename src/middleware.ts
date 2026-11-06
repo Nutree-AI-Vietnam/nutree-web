@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { HOME_PATH, rootLanguageDecision } from '@/lib/home-language';
 
 const ADMIN_HOST = 'admin.nutreeai.com';
 const ADMIN_HOME_PATH = '/admin/meal-catalog';
@@ -12,7 +13,21 @@ export function middleware(request: NextRequest) {
     return NextResponse.rewrite(new URL(ADMIN_HOME_PATH, request.url));
   }
 
-  return NextResponse.next();
+  if (request.nextUrl.pathname !== HOME_PATH.vi) return NextResponse.next();
+
+  const decision = rootLanguageDecision({
+    cookieHeader: request.headers.get('cookie'),
+    acceptLanguage: request.headers.get('accept-language'),
+    userAgent: request.headers.get('user-agent'),
+  });
+  if (decision.action === 'stay') return NextResponse.next();
+
+  const destination = request.nextUrl.clone();
+  destination.pathname = HOME_PATH.en;
+  const response = NextResponse.redirect(destination, 302);
+  response.headers.set('Cache-Control', 'private, no-store');
+  response.headers.set('Vary', 'Cookie, Accept-Language');
+  return response;
 }
 
 export const config = {

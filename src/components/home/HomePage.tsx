@@ -9,20 +9,12 @@ import { StartupPartners } from '@/components/sections/StartupPartners';
 import { FinalCTA } from '@/components/sections/FinalCTA';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { ScrollProgressBar } from '@/components/ui/ScrollProgressBar';
-import { SITE_DESCRIPTION, SITE_TITLE, createPageMetadata } from '@/lib/seo';
-import { HOME_STRUCTURED_DATA } from '@/lib/structured-data';
+import { homeStructuredData } from '@/lib/structured-data';
 
-export const metadata = createPageMetadata({
-  title: SITE_TITLE,
-  description: SITE_DESCRIPTION,
-  path: '/',
-});
-
-export default function Home() {
+export function HomePage({ language }: { language: 'vi' | 'en' }) {
   return (
     <>
-      <JsonLd data={HOME_STRUCTURED_DATA} />
-      {/* Sections reveal when script flips their data-inview; without script nothing would. */}
+      <JsonLd data={homeStructuredData(language)} />
       <noscript>
         <style
           dangerouslySetInnerHTML={{ __html: '.reveal{opacity:1!important;transform:none!important}' }}
