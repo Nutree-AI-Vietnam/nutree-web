@@ -121,6 +121,7 @@ export function Testimonials() {
       <div className="container relative z-10 mx-auto px-4">
         <div className="reveal text-center">
           <h2 className="section-title">{renderTitle(t.testimonials.title)}</h2>
+          <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-muted">{t.testimonials.disclaimer}</p>
 
           <div aria-hidden="true" className="mt-6 flex items-center justify-center gap-3">
             <div className="flex -space-x-2">

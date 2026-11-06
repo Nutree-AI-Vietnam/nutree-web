@@ -5,22 +5,27 @@ import { SpotlightGroup } from '@/components/ui/SpotlightGroup';
 import { useInView } from '@/hooks/useInView';
 import { useLocale } from '@/lib/locale-context';
 
-interface StatConfig {
+interface CountStat {
+  kind: 'count';
   value: number;
   suffix: string;
-  key: 'mealsTracked' | 'rating' | 'accuracy' | 'languages';
+  key: 'languages';
+  countUp: true;
   icon: React.ReactNode;
-  prefix?: string;
-  /** Rankings read wrong mid-count ("#0"), so they stay put. */
-  countUp: boolean;
 }
+
+interface TextStat {
+  kind: 'text';
+  key: 'mealsTracked';
+  icon: React.ReactNode;
+}
+
+type StatConfig = CountStat | TextStat;
 
 const STAT_CONFIG: StatConfig[] = [
   {
-    value: 10,
-    suffix: 'K+',
+    kind: 'text',
     key: 'mealsTracked',
-    countUp: true,
     icon: (
       <svg aria-hidden="true" className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.75} stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" />
@@ -29,29 +34,7 @@ const STAT_CONFIG: StatConfig[] = [
     ),
   },
   {
-    value: 1,
-    suffix: '',
-    key: 'rating',
-    prefix: '#',
-    countUp: false,
-    icon: (
-      <svg aria-hidden="true" className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.75} stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c0-.621-.504-1.125-1.125-1.125h-6.75c-.621 0-1.125.504-1.125 1.125v3.375m9-13.5V6a3 3 0 01-3 3h-3a3 3 0 01-3-3v-.75m9 0h2.25A2.25 2.25 0 0121 7.5v.75a3.75 3.75 0 01-3.75 3.75H16.5m-9-6.75H5.25A2.25 2.25 0 003 7.5v.75A3.75 3.75 0 006.75 12H7.5" />
-      </svg>
-    ),
-  },
-  {
-    value: 95,
-    suffix: '%',
-    key: 'accuracy',
-    countUp: true,
-    icon: (
-      <svg aria-hidden="true" className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.75} stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
-      </svg>
-    ),
-  },
-  {
+    kind: 'count',
     value: 7,
     suffix: '',
     key: 'languages',
@@ -101,13 +84,11 @@ function useCountUp(value: number, start: boolean, delayMs: number, enabled: boo
 }
 
 function StatCell({ stat, index, start, label }: { stat: StatConfig; index: number; start: boolean; label: string }) {
-  const count = useCountUp(stat.value, start, index * STAGGER_MS, stat.countUp);
-  const prefix = stat.prefix ?? '';
+  const count = useCountUp(stat.kind === 'count' ? stat.value : 0, start, index * STAGGER_MS, stat.kind === 'count');
 
   return (
-    // The label leads in the markup (dt before dd); flex order shows icon and number first.
     <div className="spotlight-card group flex flex-col items-center bg-white px-3 py-7 text-center md:px-6 md:py-9">
-      <dt className="order-2 mt-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-muted md:text-xs">
+      <dt className={stat.kind === 'text' ? 'sr-only' : 'order-2 mt-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-muted md:text-xs'}>
         {label}
       </dt>
       <dd className="order-1 flex flex-col items-center">
@@ -117,18 +98,19 @@ function StatCell({ stat, index, start, label }: { stat: StatConfig; index: numb
         >
           {stat.icon}
         </span>
-        <span className="font-display text-4xl font-extrabold tracking-tight tabular-nums md:text-5xl lg:text-6xl">
-          <span className="sr-only">
-            {prefix}
-            {stat.value}
-            {stat.suffix}
+        {stat.kind === 'count' ? (
+          <span className="font-display text-4xl font-extrabold tracking-tight tabular-nums md:text-5xl lg:text-6xl">
+            <span className="sr-only">{stat.value}{stat.suffix}</span>
+            <span aria-hidden="true" className="gradient-text">
+              {count}
+              {stat.suffix}
+            </span>
           </span>
-          <span aria-hidden="true" className="gradient-text">
-            {prefix}
-            {count}
-            {stat.suffix}
-          </span>
-        </span>
+        ) : (
+          <p className="max-w-[12rem] font-display text-xl font-bold leading-snug text-primary-forest md:text-2xl">
+            {label}
+          </p>
+        )}
       </dd>
     </div>
   );
@@ -149,7 +131,7 @@ export function SocialProof() {
           />
           {/* The 1px gaps over the border colour draw the hairlines between cells. */}
           <SpotlightGroup className="relative overflow-hidden rounded-3xl border border-border/70 bg-border/70 shadow-glass-lg">
-            <dl className="grid grid-cols-2 gap-px md:grid-cols-4">
+            <dl className="grid grid-cols-2 gap-px">
               {STAT_CONFIG.map((stat, index) => (
                 <StatCell
                   key={stat.key}
