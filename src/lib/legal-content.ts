@@ -112,7 +112,7 @@ export const privacyContent: Record<Locale, LegalPageContent> = {
         title: 'AI and Image Processing',
         body: [
           'When you scan or describe a meal, Nutree may send the image, text, and relevant nutrition context to its configured AI provider to identify foods and estimate nutrition.',
-          'AI results are estimates. You can review, correct, or delete meal entries in the App. Nutree does not present AI output as medical advice.',
+          'AI results are estimates. You can review, correct, or delete meal entries in the App. Nutree does not present AI output as medical advice. Calories, macros, and daily targets Nutree calculates from health or nutrition information are estimates. They are not a clinical measurement and not medical advice.',
           'Nutree will align provider settings, contracts, retention terms, and this Policy. If Nutree uses any data for model training beyond providing the service, it will request separate consent where required.',
           'Meal photos and AI logs are retained only as needed for meal history, support, safety, legal compliance, and deletion workflows described in this Policy.',
         ],
@@ -257,7 +257,7 @@ export const privacyContent: Record<Locale, LegalPageContent> = {
         title: 'AI và xử lý hình ảnh',
         body: [
           'Khi bạn scan hoặc mô tả bữa ăn, Nutree có thể gửi ảnh, văn bản và ngữ cảnh dinh dưỡng liên quan tới nhà cung cấp AI đang cấu hình để nhận diện món ăn và ước tính dinh dưỡng.',
-          'Kết quả AI là ước tính. Bạn có thể xem lại, chỉnh sửa hoặc xóa bữa ăn trong Ứng dụng. Nutree không trình bày kết quả AI như tư vấn y tế.',
+          'Kết quả AI là ước tính. Bạn có thể xem lại, chỉnh sửa hoặc xóa bữa ăn trong Ứng dụng. Nutree không trình bày kết quả AI như tư vấn y tế. Calo, macro và mục tiêu hằng ngày mà Nutree tính từ thông tin sức khỏe hoặc dinh dưỡng là ước tính. Đó không phải số đo lâm sàng và không phải tư vấn y tế.',
           'Nutree sẽ đồng bộ cấu hình provider, hợp đồng, điều khoản lưu giữ và Chính sách này. Nếu Nutree dùng dữ liệu cho huấn luyện mô hình ngoài mục đích cung cấp dịch vụ, Nutree sẽ xin consent riêng khi pháp luật yêu cầu.',
           'Ảnh bữa ăn và log AI chỉ được lưu khi cần cho lịch sử bữa ăn, hỗ trợ, an toàn, tuân thủ pháp luật và quy trình xóa dữ liệu nêu trong Chính sách này.',
         ],

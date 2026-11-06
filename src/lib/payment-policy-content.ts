@@ -18,7 +18,7 @@ const dates = {
 export const paymentPolicyContent: Record<Locale, LegalPageContent> = {
   en: {
     title: 'Payment Policy',
-    description: 'How Nutree in-app purchases work on the Apple App Store.',
+    description: 'How Nutree purchases work on Apple, Google Play, Paddle, and one-time VietQR.',
     toc: 'Table of Contents',
     backHome: 'Back to Home',
     home: 'Home',
@@ -29,37 +29,39 @@ export const paymentPolicyContent: Record<Locale, LegalPageContent> = {
       {
         title: 'Scope',
         body: [
-          `At publication, Nutree iOS purchases are processed through the Apple App Store. Provider: ${LEGAL_COMPANY.legalNameEn}. Contact: ${LEGAL_COMPANY.email}. Address: ${LEGAL_COMPANY.addressEn}.`,
+          `Nutree is offered through Apple in-app purchase, Google Play in-app purchase, Paddle web checkout, and a one-time VietQR bank transfer. Provider: ${LEGAL_COMPANY.legalNameEn}. Address: ${LEGAL_COMPANY.addressEn}.`,
         ],
       },
       {
         title: 'Payment method',
         body: [
-          'You pay with the payment method linked to your Apple ID. Apple handles confirmation, charging, payment methods, and receipts.',
-          `${LEGAL_COMPANY.tradeName} receives transaction status needed to verify entitlements and does not store full card numbers or Apple ID credentials.`,
+          'Apple in-app purchase: you pay with the payment method on the Apple account. Apple shows the amount before you confirm.',
+          'Google Play in-app purchase: you pay with the payment method on the Google Play account. Google Play shows the amount before you confirm.',
+          'Paddle web checkout: Paddle is the merchant of record and shows the amount in its checkout. Nutree does not publish its own refund promise for that checkout. See the [Paddle Buyer Terms](https://www.paddle.com/legal/buyer-terms). This does not waive a consumer right that applicable law does not allow to be waived.',
+          'VietQR: you transfer the one-time amount shown at checkout. It does not renew automatically.',
+          `${LEGAL_COMPANY.tradeName} does not store full card numbers on this website.`,
         ],
       },
       {
         title: 'Checkout flow',
         body: [
-          'Choose a plan shown in the app (for example monthly or yearly). The price, period, currency, auto-renewal terms, and any promo or experiment offer are displayed before purchase.',
-          'Review Terms and Privacy Policy, then confirm. Apple may require Face ID, Touch ID, or password.',
-          'The amount confirmed on the Apple sheet is the final amount for that transaction.',
-          'Access unlocks after a successful verified transaction. Keep your Apple receipt for support or refund requests.',
+          'Choose the channel you are using. Apple, Google Play, Paddle, and the VietQR screen each show the amount before you confirm. This page does not publish that amount.',
+          'Apple may ask for Face ID, Touch ID, or a password. The amount confirmed on that channel is the amount for that transaction.',
+          'Access unlocks after a successful verified transaction.',
         ],
       },
       {
         title: 'Activation and restore',
         body: [
           'Paid access usually unlocks after verification. Use Restore when changing devices or if sync is delayed.',
-          `If access does not appear, check network, Apple subscription status, try Restore, then email ${LEGAL_COMPANY.email} with your receipt.`,
+          'If access does not appear, check the network and the status in the channel you paid with, then contact Facebook Messenger or nutreeaidev@gmail.com with your receipt.',
         ],
       },
       {
         title: 'Auto-renewal and cancellation',
         body: [
-          'Subscriptions renew until cancelled in Apple ID → Subscriptions.',
-          'Deleting the app or a Nutree account does not cancel Apple billing. After cancel, access usually continues until the paid period ends.',
+          'Apple and Google Play plans renew until cancelled in that store. Paddle web checkout renews until cancelled through Paddle. VietQR does not renew automatically.',
+          'Deleting the app or a Nutree account does not cancel an Apple, Google Play, or Paddle subscription.',
         ],
       },
       {
@@ -72,14 +74,14 @@ export const paymentPolicyContent: Record<Locale, LegalPageContent> = {
       {
         title: 'Contact',
         body: [
-          `Payment support: ${LEGAL_COMPANY.email}. See also the [Cancellation & Refund policy](/cancellation).`,
+          'Payment help: [Facebook Messenger](https://m.me/1019820571221637) or nutreeaidev@gmail.com. See also the [Cancellation & Refund policy](/cancellation).',
         ],
       },
     ],
   },
   vi: {
     title: 'Chính sách thanh toán',
-    description: 'Quy trình thanh toán gói Nutree qua Apple App Store.',
+    description: 'Quy trình thanh toán Nutree qua Apple, Google Play, Paddle và VietQR một lần.',
     toc: 'Mục lục',
     backHome: 'Về trang chủ',
     home: 'Trang chủ',
@@ -90,37 +92,39 @@ export const paymentPolicyContent: Record<Locale, LegalPageContent> = {
       {
         title: 'Phạm vi áp dụng',
         body: [
-          `Tại thời điểm ban hành, giao dịch trong ứng dụng Nutree trên iOS được thực hiện qua Apple App Store. Đơn vị cung cấp: ${LEGAL_COMPANY.legalName}. Liên hệ: ${LEGAL_COMPANY.email}. Địa chỉ: ${LEGAL_COMPANY.address}.`,
+          `Nutree được cung cấp qua mua trong ứng dụng Apple, mua trong ứng dụng Google Play, thanh toán web Paddle, và chuyển khoản VietQR một lần. Đơn vị cung cấp: ${LEGAL_COMPANY.legalName}. Địa chỉ: ${LEGAL_COMPANY.address}.`,
         ],
       },
       {
         title: 'Phương thức thanh toán',
         body: [
-          'Thanh toán bằng phương thức liên kết Tài khoản Apple. Apple thực hiện xác nhận, thu tiền, quản lý phương thức và biên nhận.',
-          `${LEGAL_COMPANY.tradeName} nhận trạng thái giao dịch để xác minh quyền sử dụng; không lưu toàn bộ số thẻ hoặc thông tin đăng nhập Apple.`,
+          'Mua trong ứng dụng Apple: thanh toán bằng phương thức của Tài khoản Apple. Apple hiển thị số tiền trước khi bạn xác nhận.',
+          'Mua trong ứng dụng Google Play: thanh toán bằng phương thức của tài khoản Google Play. Google Play hiển thị số tiền trước khi bạn xác nhận.',
+          'Thanh toán web Paddle: Paddle là đơn vị bán hàng (merchant of record) và hiển thị số tiền trong bước thanh toán của Paddle. Nutree không công bố cam kết hoàn tiền riêng cho bước đó. Xem [Điều khoản người mua của Paddle](https://www.paddle.com/legal/buyer-terms). Nội dung này không từ bỏ quyền người tiêu dùng mà pháp luật áp dụng không cho phép từ bỏ.',
+          'VietQR: bạn chuyển số tiền một lần được hiển thị lúc thanh toán. Giao dịch không tự động gia hạn.',
+          `${LEGAL_COMPANY.tradeName} không lưu toàn bộ số thẻ trên website này.`,
         ],
       },
       {
         title: 'Quy trình thanh toán',
         body: [
-          'Chọn gói hiển thị trong ứng dụng (ví dụ gói tháng hoặc gói năm). Mức giá, chu kỳ, đơn vị tiền tệ, cơ chế tự động gia hạn và ưu đãi/thử nghiệm (nếu có) được hiển thị trước khi mua.',
-          'Kiểm tra Điều khoản và Chính sách bảo mật, rồi xác nhận. Apple có thể yêu cầu Face ID, Touch ID hoặc mật khẩu.',
-          'Số tiền xác nhận trên giao diện Apple là số tiền cuối cùng của giao dịch đó.',
-          'Quyền sử dụng được kích hoạt sau khi giao dịch thành công và xác minh hợp lệ. Nên lưu biên nhận Apple để đối soát hoặc yêu cầu hoàn tiền.',
+          'Chọn kênh bạn đang dùng. Apple, Google Play, Paddle và màn hình VietQR đều hiển thị số tiền trước khi bạn xác nhận. Trang này không niêm yết số tiền đó.',
+          'Apple có thể yêu cầu Face ID, Touch ID hoặc mật khẩu. Số tiền bạn xác nhận trên kênh đó là số tiền của giao dịch đó.',
+          'Quyền sử dụng được kích hoạt sau khi giao dịch thành công và được xác minh.',
         ],
       },
       {
         title: 'Kích hoạt và khôi phục',
         body: [
           'Quyền trả phí thường được kích hoạt ngay sau khi xác minh. Dùng chức năng Khôi phục khi đổi thiết bị hoặc quyền chưa đồng bộ.',
-          `Nếu vẫn không nhận quyền: kiểm tra kết nối, trạng thái đăng ký Apple, thử Khôi phục, rồi gửi biên nhận tới ${LEGAL_COMPANY.email}.`,
+          'Nếu vẫn không nhận quyền: kiểm tra kết nối và trạng thái trên kênh đã trả tiền, rồi nhắn Facebook Messenger hoặc gửi biên nhận tới nutreeaidev@gmail.com.',
         ],
       },
       {
         title: 'Tự động gia hạn và hủy',
         body: [
-          'Gói tự động gia hạn đến khi hủy trong phần Đăng ký của Tài khoản Apple.',
-          'Xóa ứng dụng hoặc xóa tài khoản Nutree không tự động hủy đăng ký Apple. Sau khi hủy, thông thường vẫn dùng được đến hết chu kỳ đã thanh toán.',
+          'Gói Apple và Google Play gia hạn cho đến khi hủy trong cửa hàng đó. Thanh toán web Paddle gia hạn cho đến khi hủy qua Paddle. VietQR không tự động gia hạn.',
+          'Xóa ứng dụng hoặc tài khoản Nutree không hủy gói Apple, Google Play hoặc Paddle.',
         ],
       },
       {
@@ -133,7 +137,7 @@ export const paymentPolicyContent: Record<Locale, LegalPageContent> = {
       {
         title: 'Liên hệ',
         body: [
-          `Hỗ trợ thanh toán: ${LEGAL_COMPANY.email}. Xem thêm [Chính sách hủy & hoàn tiền](/cancellation).`,
+          'Hỗ trợ thanh toán: [Facebook Messenger](https://m.me/1019820571221637) hoặc nutreeaidev@gmail.com. Xem thêm [Chính sách hủy & hoàn tiền](/cancellation).',
         ],
       },
     ],

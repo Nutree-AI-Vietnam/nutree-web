@@ -52,11 +52,11 @@ export const termsContent: Record<Locale, LegalPageContent> = {
       {
         title: 'Subscription Terms',
         body: [
-          'Some Nutree features are provided through subscriptions or in-app purchases processed by Apple App Store, Google Play, or another relevant platform.',
+          'Some Nutree features are paid through Apple in-app purchase, Google Play in-app purchase, Paddle web checkout, or a one-time VietQR bank transfer.',
           'If you are under 18, any purchase or subscription must be authorized by your parent or legal guardian where required by law or the payment platform. Prices, billing cycles, and automatic-renewal terms are shown before you confirm a purchase.',
-          'Subscriptions may renew automatically unless cancelled at least 24 hours before the current billing period ends, or as otherwise stated by the payment platform.',
-          'Deleting your Nutree account does not automatically cancel a subscription purchased through Apple App Store, Google Play, or another platform. You must cancel the subscription in the payment platform’s subscription management settings to avoid future renewals.',
-          'Refunds are handled under the policies of the payment platform that processed the purchase.',
+          'Apple, Google Play, and Paddle purchases may renew until you cancel that channel. VietQR is a one-time payment and does not renew automatically. The renewal timing, if any, is the timing shown by that channel before you pay.',
+          'Deleting your Nutree account does not automatically cancel an Apple, Google Play, or Paddle subscription. Cancel it in that channel. A VietQR transfer has no later renewal to cancel.',
+          'Nutree does not publish its own refund promise for Paddle checkout. Paddle is the merchant of record for that checkout. Refund handling is described in the [Paddle Buyer Terms](https://www.paddle.com/legal/buyer-terms). Nothing here waives a consumer right that applicable law does not allow to be waived. Apple and Google Play handle their own refund requests. This section does not add a separate Nutree refund promise for VietQR.',
         ],
       },
       {
@@ -181,11 +181,11 @@ export const termsContent: Record<Locale, LegalPageContent> = {
       {
         title: 'Gói đăng ký',
         body: [
-          'Một số tính năng của Nutree được cung cấp thông qua gói đăng ký hoặc mua trong ứng dụng và được xử lý qua Apple App Store, Google Play hoặc nền tảng liên quan.',
+          'Một số tính năng của Nutree được thanh toán qua mua trong ứng dụng Apple, mua trong ứng dụng Google Play, thanh toán web Paddle, hoặc chuyển khoản VietQR một lần.',
           'Nếu bạn chưa đủ 18 tuổi, mọi giao dịch mua hoặc đăng ký phải được cha mẹ/người giám hộ cho phép khi pháp luật hoặc nền tảng thanh toán yêu cầu. Giá, thời gian dùng thử, chu kỳ thanh toán và điều kiện tự động gia hạn được hiển thị trước khi bạn xác nhận giao dịch.',
-          'Gói đăng ký có thể tự động gia hạn trừ khi bạn hủy ít nhất 24 giờ trước khi kỳ thanh toán hiện tại kết thúc, hoặc theo điều kiện khác do nền tảng thanh toán nêu.',
-          'Xóa tài khoản Nutree không tự động hủy gói đăng ký đã mua qua Apple App Store, Google Play hoặc nền tảng khác. Bạn phải hủy gói trong phần quản lý subscription của nền tảng thanh toán để tránh các lần gia hạn trong tương lai.',
-          'Hoàn tiền được xử lý theo chính sách của nền tảng thanh toán đã xử lý giao dịch.',
+          'Giao dịch Apple, Google Play và Paddle có thể gia hạn cho đến khi bạn hủy đúng kênh đó. VietQR là thanh toán một lần và không tự động gia hạn. Thời điểm gia hạn, nếu có, là thời điểm kênh đó hiển thị trước khi bạn trả tiền.',
+          'Xóa tài khoản Nutree không tự động hủy gói Apple, Google Play hoặc Paddle. Hãy hủy trên đúng kênh đó. Chuyển khoản VietQR không có lần gia hạn sau để hủy.',
+          'Nutree không đưa ra cam kết hoàn tiền riêng cho thanh toán Paddle. Paddle là đơn vị bán hàng (merchant of record) của thanh toán đó. Việc hoàn tiền được nêu trong [Điều khoản người mua của Paddle](https://www.paddle.com/legal/buyer-terms). Nội dung này không từ bỏ quyền người tiêu dùng mà pháp luật áp dụng không cho phép từ bỏ. Apple và Google Play tự xử lý yêu cầu hoàn tiền của họ. Mục này không thêm cam kết hoàn tiền riêng của Nutree cho VietQR.',
         ],
       },
       {
