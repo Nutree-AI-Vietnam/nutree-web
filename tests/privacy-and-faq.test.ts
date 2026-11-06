@@ -2,8 +2,8 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { metadata as englishPrivacyMetadata } from '../src/app/en/privacy/page';
-import { metadata as vietnamesePrivacyMetadata } from '../src/app/privacy/page';
+import { metadata as englishPrivacyMetadata } from '../src/app/(en)/en/privacy/page';
+import { metadata as vietnamesePrivacyMetadata } from '../src/app/(vi)/privacy/page';
 import { LegalPageView } from '../src/components/legal/LegalPageView';
 import { FaqAccordion } from '../src/components/sections/FaqAccordion';
 import { privacyContent, type LegalPageContent } from '../src/lib/legal-content';
@@ -109,7 +109,8 @@ test('route locale locks only URL-backed pages', () => {
   assert.equal(getRouteLocale('/privacy'), undefined);
   assert.equal(getRouteLocale('/en/privacy-policy'), undefined);
   assert.equal(getRouteLocale('/en/terms'), undefined);
-  assert.equal(getRouteLocale('/'), undefined);
+  assert.equal(getRouteLocale('/'), 'vi');
+  assert.equal(getRouteLocale('/en'), 'en');
   assert.equal(getRouteLocale(null), undefined);
 });
 

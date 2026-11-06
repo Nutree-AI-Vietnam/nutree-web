@@ -1,6 +1,6 @@
 import { SITE_CONFIG } from './constants';
 import { LEGAL_COMPANY } from './legal-company';
-import { SITE_DESCRIPTION } from './seo';
+import { SITE_DESCRIPTION, SITE_DESCRIPTION_EN } from './seo';
 
 export const ORGANIZATION_ID = `${SITE_CONFIG.url}/#organization`;
 export const WEBSITE_ID = `${SITE_CONFIG.url}/#website`;
@@ -55,3 +55,15 @@ export const HOME_STRUCTURED_DATA = {
   '@context': 'https://schema.org',
   '@graph': [organization, website, mobileApplication],
 };
+
+export function homeStructuredData(language: 'vi' | 'en') {
+  if (language === 'vi') return HOME_STRUCTURED_DATA;
+  return {
+    '@context': 'https://schema.org',
+    '@graph': [
+      organization,
+      { ...website, inLanguage: 'en', url: `${SITE_CONFIG.url}/en` },
+      { ...mobileApplication, description: SITE_DESCRIPTION_EN, url: `${SITE_CONFIG.url}/en` },
+    ],
+  };
+}

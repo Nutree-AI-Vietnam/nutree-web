@@ -10,12 +10,14 @@ import {
 } from '@/lib/blog';
 import { BLOG_LOCALES, BLOG_LOCALE_LIST, type BlogLocale } from '@/lib/blog-locales';
 import { SITE_CONFIG } from '@/lib/constants';
+import { HOME_LANGUAGE_ALTERNATES, HOME_PATH } from '@/lib/home-language';
 import { PRIVACY_LANGUAGE_ALTERNATES, PRIVACY_PATH } from '@/lib/privacy-path';
 
 type SitemapEntry = MetadataRoute.Sitemap[number];
 
 const ROUTES: Array<Pick<SitemapEntry, 'changeFrequency' | 'priority'> & { path: string }> = [
-  { path: '', changeFrequency: 'weekly', priority: 1 },
+  { path: HOME_PATH.vi, changeFrequency: 'weekly', priority: 1 },
+  { path: HOME_PATH.en, changeFrequency: 'weekly', priority: 1 },
   { path: '/why', changeFrequency: 'monthly', priority: 0.8 },
   { path: '/faq', changeFrequency: 'monthly', priority: 0.8 },
   { path: '/mua-goi', changeFrequency: 'monthly', priority: 0.8 },
@@ -87,6 +89,10 @@ const privacyLanguages = Object.fromEntries(
   Object.entries(PRIVACY_LANGUAGE_ALTERNATES).map(([lang, path]) => [lang, absoluteUrl(path)])
 );
 
+const homeLanguages = Object.fromEntries(
+  Object.entries(HOME_LANGUAGE_ALTERNATES).map(([lang, path]) => [lang, absoluteUrl(path)])
+);
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const pages = ROUTES.map(({ path, changeFrequency, priority }) => ({
     url: `${SITE_CONFIG.url}${path}`,
@@ -94,7 +100,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority,
     ...(path === PRIVACY_PATH.vi || path === PRIVACY_PATH.en
       ? { alternates: { languages: privacyLanguages } }
-      : {}),
+      : path === HOME_PATH.vi || path === HOME_PATH.en
+        ? { alternates: { languages: homeLanguages } }
+        : {}),
   }));
 
   return [...pages, ...BLOG_LOCALE_LIST.flatMap(blogEntries)];

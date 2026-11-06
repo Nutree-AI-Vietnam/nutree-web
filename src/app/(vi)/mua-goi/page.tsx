@@ -1,3 +1,5 @@
+import { cookies } from 'next/headers';
+import { parseLocalePreference } from '@/lib/locale-preference';
 import { createPageMetadata } from '@/lib/seo';
 import { MuaGoiPageClient } from './mua-goi-page-client';
 
@@ -8,6 +10,7 @@ export const metadata = createPageMetadata({
   path: '/mua-goi',
 });
 
-export default function MuaGoiPage() {
-  return <MuaGoiPageClient />;
+export default async function MuaGoiPage() {
+  const saved = parseLocalePreference((await cookies()).get('nutree-locale')?.value);
+  return <MuaGoiPageClient serverLocale={saved ?? 'vi'} />;
 }
