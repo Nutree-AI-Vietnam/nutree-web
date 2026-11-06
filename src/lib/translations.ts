@@ -555,7 +555,7 @@ export const translations: Record<Locale, TranslationStrings> = {
             },
             {
               question: 'How do I cancel my subscription?',
-              answer: 'iOS: Settings → Apple ID → Subscriptions → Nutree → Cancel. Deleting the app does not cancel billing. Android: Google Play → Profile → Payments & subscriptions → Subscriptions → Nutree → Cancel.',
+              answer: 'iOS: Settings → Apple ID → Subscriptions → Nutree → Cancel. Deleting the app does not cancel billing. Android: Google Play → Profile → Payments & subscriptions → Subscriptions → Nutree → Cancel. Paddle web checkout: use the “Manage subscription” link in the Paddle transaction email or visit paddle.net. VietQR is a one-time transfer and has no renewal to cancel.',
             },
             {
               question: 'When will I be charged for Premium?',
@@ -567,7 +567,7 @@ export const translations: Record<Locale, TranslationStrings> = {
             },
             {
               question: 'How do I restore my purchase on a new device?',
-              answer: 'Sign in with the same Google or Apple account. Your subscription restores automatically.',
+              answer: 'An Apple or Google Play subscription can be restored in the Nutree app by signing in with the same store account. This answer does not say that a Paddle web checkout or a VietQR transfer restores automatically. If access is missing, contact https://m.me/1019820571221637 or nutreeaidev@gmail.com.',
             },
           ],
         },
@@ -1079,7 +1079,7 @@ export const translations: Record<Locale, TranslationStrings> = {
             },
             {
               question: 'Làm sao để hủy gói đăng ký?',
-              answer: 'iOS: Cài đặt → Apple ID → Đăng ký → Nutree → Hủy. Xóa app không hủy thanh toán. Android: Google Play → Ảnh hồ sơ → Thanh toán và gói thuê bao → Gói thuê bao → Nutree → Hủy.',
+              answer: 'iOS: Cài đặt → Apple ID → Đăng ký → Nutree → Hủy. Xóa app không hủy thanh toán. Android: Google Play → Ảnh hồ sơ → Thanh toán và gói thuê bao → Gói thuê bao → Nutree → Hủy. Thanh toán web Paddle: dùng liên kết “Manage subscription” trong email giao dịch Paddle hoặc vào paddle.net. VietQR là chuyển khoản một lần và không có lần gia hạn để hủy.',
             },
             {
               question: 'Khi nào tôi bị tính phí Premium?',
@@ -1091,7 +1091,7 @@ export const translations: Record<Locale, TranslationStrings> = {
             },
             {
               question: 'Làm sao khôi phục gói đăng ký trên thiết bị mới?',
-              answer: 'Đăng nhập bằng cùng tài khoản Google hoặc Apple. Gói đăng ký sẽ tự động khôi phục.',
+              answer: 'Gói Apple hoặc Google Play có thể được khôi phục trong app Nutree khi bạn đăng nhập cùng tài khoản cửa hàng đã mua. Câu trả lời này không nói rằng thanh toán web Paddle hoặc chuyển khoản VietQR tự khôi phục. Nếu thiếu quyền dùng, liên hệ https://m.me/1019820571221637 hoặc nutreeaidev@gmail.com.',
             },
           ],
         },

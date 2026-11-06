@@ -67,8 +67,8 @@ export const paymentPolicyContent: Record<Locale, LegalPageContent> = {
       {
         title: 'Failed, duplicate, or unrecognized charges',
         body: [
-          'Update Apple payment methods and retry per Apple guidance for failed charges.',
-          'For duplicates, check purchase history and contact us with receipts. For unrecognized charges, secure your Apple ID and Family Sharing settings and notify us if your Nutree account may be compromised.',
+          'If a charge fails, follow the guidance on the channel you used: Apple, Google Play, or Paddle. A VietQR transfer is one-time; if it does not complete, the checkout can show the amount again. This page does not add a retry deadline.',
+          'For a duplicate or unrecognized charge, check the history in the channel that billed you. For an Apple purchase, also check the Apple account and Family Sharing if someone else manages it. Then contact [Facebook Messenger](https://m.me/1019820571221637) or nutreeaidev@gmail.com with the receipt. Do not send a full card number.',
         ],
       },
       {
@@ -130,8 +130,8 @@ export const paymentPolicyContent: Record<Locale, LegalPageContent> = {
       {
         title: 'Giao dịch thất bại, trùng lặp hoặc không nhận biết',
         body: [
-          'Cập nhật phương thức thanh toán Apple và thử lại theo hướng dẫn của Apple nếu giao dịch thất bại.',
-          'Với giao dịch trùng lặp, kiểm tra lịch sử mua hàng và gửi biên nhận. Với giao dịch không nhận biết, bảo vệ Tài khoản Apple, kiểm tra Chia sẻ trong gia đình và thông báo cho chúng tôi nếu tài khoản Nutree có dấu hiệu truy cập trái phép.',
+          'Nếu giao dịch thất bại, làm theo hướng dẫn của kênh bạn đã dùng: Apple, Google Play hoặc Paddle. VietQR là chuyển một lần; nếu chưa xong, màn hình thanh toán có thể hiện lại số tiền. Trang này không thêm hạn thử lại.',
+          'Với giao dịch trùng hoặc không nhận ra, kiểm tra lịch sử của kênh đã tính tiền. Với giao dịch Apple, cũng kiểm tra Tài khoản Apple và Chia sẻ trong gia đình nếu người khác quản lý tài khoản. Sau đó liên hệ [Facebook Messenger](https://m.me/1019820571221637) hoặc nutreeaidev@gmail.com kèm biên nhận. Không gửi đầy đủ số thẻ.',
         ],
       },
       {

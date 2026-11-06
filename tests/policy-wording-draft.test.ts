@@ -1,9 +1,13 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { cancellationPolicyContent } from '../src/lib/cancellation-policy-content';
+import { complaintsPolicyContent } from '../src/lib/complaints-policy-content';
 import { privacyContent } from '../src/lib/legal-content';
 import { paymentPolicyContent } from '../src/lib/payment-policy-content';
+import { pricingPolicyContent } from '../src/lib/pricing-policy-content';
 import { termsContent } from '../src/lib/terms-content';
+import { translations } from '../src/lib/translations';
+import { usagePolicyContent } from '../src/lib/usage-policy-content';
 
 const AGE_EN =
   'Nutree is intended for users aged 12 and older. Under Vietnamese law, a person under 16 is a child. Before activating an account for a user aged 12 to under 16, or processing the user’s health, nutrition, meal-photo, or related personal data, Nutree requires verifiable consent from a parent or legal guardian and obtains the child’s age-appropriate assent where required.';
@@ -42,4 +46,82 @@ test('payment draft names four channels and does not promise a Paddle refund win
   assert.match(blob, /VietQR là thanh toán một lần và không tự động gia hạn/);
   assert.match(JSON.stringify(privacyContent), /are estimates/);
   assert.match(JSON.stringify(privacyContent), /là ước tính/);
+});
+
+const CHANNELS = ['Apple', 'Google Play', 'Paddle', 'VietQR'];
+
+function sectionText(page: { sections: Array<{ title: string; body?: string[]; table?: string[][] }> }, title: string) {
+  const section = page.sections.find((item) => item.title === title);
+  assert.ok(section, `missing section ${title}`);
+  return [...(section.body ?? []), ...(section.table ?? []).flat()].join('\n');
+}
+
+function expectChannels(text: string, label: string) {
+  const missing = CHANNELS.filter((name) => !text.includes(name));
+  assert.deepEqual(missing, [], `${label} is missing ${missing.join(', ')}`);
+}
+
+test('later pricing, payment, usage, and complaint sections name the same four channels', () => {
+  const cases: Array<[object, 'en' | 'vi', string]> = [
+    [pricingPolicyContent.en, 'en', 'Displayed price and final charge'],
+    [pricingPolicyContent.en, 'en', 'Promo codes, referrals, and special offers'],
+    [pricingPolicyContent.en, 'en', 'Auto-renewal and price changes'],
+    [pricingPolicyContent.en, 'en', 'If a price looks wrong'],
+    [pricingPolicyContent.vi, 'vi', 'Giá hiển thị và giá thanh toán cuối cùng'],
+    [pricingPolicyContent.vi, 'vi', 'Mã ưu đãi, mã giới thiệu và khuyến mại'],
+    [pricingPolicyContent.vi, 'vi', 'Tự động gia hạn và thay đổi giá'],
+    [pricingPolicyContent.vi, 'vi', 'Lỗi hiển thị hoặc sai lệch giá'],
+    [paymentPolicyContent.en, 'en', 'Failed, duplicate, or unrecognized charges'],
+    [paymentPolicyContent.vi, 'vi', 'Giao dịch thất bại, trùng lặp hoặc không nhận biết'],
+    [usagePolicyContent.en, 'en', 'Scope'],
+    [usagePolicyContent.vi, 'vi', 'Phạm vi áp dụng'],
+    [complaintsPolicyContent.en, 'en', 'Information to provide'],
+    [complaintsPolicyContent.vi, 'vi', 'Thông tin cần cung cấp'],
+  ];
+  for (const [page, , title] of cases) {
+    expectChannels(sectionText(page as { sections: Array<{ title: string; body?: string[]; table?: string[][] }> }, title), title);
+  }
+  const usageEn = sectionText(usagePolicyContent.en, 'Scope');
+  const usageVi = sectionText(usagePolicyContent.vi, 'Phạm vi áp dụng');
+  assert.match(usageEn, /does not say those three channels use this VietQR deeplink/);
+  assert.match(usageVi, /không nói ba kênh đó dùng deeplink VietQR này/);
+});
+
+test('store refunds, restore, and the privacy processor row stay channel-specific', () => {
+  const google = sectionText(cancellationPolicyContent.en, 'Google Play in-app refunds');
+  const googleVi = sectionText(cancellationPolicyContent.vi, 'Hoàn tiền trong ứng dụng Google Play');
+  assert.match(google, /request a refund in Google Play/);
+  assert.match(google, /does not publish its own refund promise/);
+  assert.equal(google.includes('14 calendar'), false);
+  assert.match(googleVi, /trong Google Play/);
+  assert.equal(googleVi.includes('14 ngày'), false);
+
+  const cancel = translations.en.faq.sections.flatMap((section) => section.items).find((item) => item.question === 'How do I cancel my subscription?');
+  const cancelVi = translations.vi.faq.sections.flatMap((section) => section.items).find((item) => item.question === 'Làm sao để hủy gói đăng ký?');
+  assert.ok(cancel && cancelVi);
+  expectChannels(cancel.answer, 'faq cancel');
+  expectChannels(cancelVi.answer, 'faq cancel vi');
+  assert.match(cancel.answer, /paddle\.net/);
+  assert.match(cancel.answer, /no renewal to cancel/);
+
+  const restore = translations.en.faq.sections.flatMap((section) => section.items).find((item) => item.question === 'How do I restore my purchase on a new device?');
+  const restoreVi = translations.vi.faq.sections.flatMap((section) => section.items).find((item) => item.question === 'Làm sao khôi phục gói đăng ký trên thiết bị mới?');
+  assert.ok(restore && restoreVi);
+  assert.match(restore.answer, /Apple or Google Play subscription can be restored/);
+  assert.match(restore.answer, /does not say that a Paddle web checkout or a VietQR transfer restores automatically/);
+  assert.equal(restore.answer.includes('Your subscription restores automatically.'), false);
+  assert.match(restoreVi.answer, /không nói rằng thanh toán web Paddle hoặc chuyển khoản VietQR tự khôi phục/);
+  assert.equal(restoreVi.answer.includes('Gói đăng ký sẽ tự động khôi phục.'), false);
+
+  const processor = (privacyContent.en.sections.find((section) => section.title === 'Third-Party Services')?.table ?? []).find((row) => row[0].includes('Paddle'));
+  const processorVi = (privacyContent.vi.sections.find((section) => section.title === 'Dịch vụ bên thứ ba')?.table ?? []).find((row) => row[0].includes('Paddle'));
+  assert.ok(processor && processorVi);
+  assert.match(processor[0], /merchant of record for Nutree web checkout/);
+  assert.match(processorVi[0], /đơn vị bán hàng cho thanh toán web Nutree/);
+  assert.equal(processor.join(' ').includes('VietQR'), false);
+  assert.equal(processorVi.join(' ').includes('VietQR'), false);
+
+  const deletion = translations.en.faq.sections.flatMap((section) => section.items).find((item) => item.question === 'How do I delete my account?');
+  assert.match(deletion?.answer ?? '', /nutreeai.com\/delete-account/);
+  assert.equal((deletion?.answer ?? '').includes('permanently removed'), false);
 });

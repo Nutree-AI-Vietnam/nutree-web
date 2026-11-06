@@ -63,6 +63,14 @@ export const cancellationPolicyContent: Record<Locale, LegalPageContent> = {
         ],
       },
       {
+        title: 'Google Play in-app refunds',
+        body: [
+          'For a purchase processed by Google Play, request a refund in Google Play with the account that paid.',
+          'Nutree does not publish its own refund promise for that store, and this section does not say the purchase is non-refundable.',
+          'For help finding the purchase, use Facebook Messenger or email nutreeaidev@gmail.com with your Nutree account email and the Google Play receipt.',
+        ],
+      },
+      {
         title: 'iOS in-app refunds (Apple App Store)',
         body: [
           'For purchases processed by the Apple App Store, Apple processes refund requests.',
@@ -131,6 +139,14 @@ export const cancellationPolicyContent: Record<Locale, LegalPageContent> = {
           'Nutree không công bố cam kết hoàn tiền riêng cho thanh toán này, và trang này không nói rằng các giao dịch đó không được hoàn tiền. Việc có hoàn tiền hay không nằm ở [Điều khoản người mua của Paddle](https://www.paddle.com/legal/buyer-terms).',
           'Nội dung này không từ bỏ quyền người tiêu dùng mà pháp luật áp dụng không cho phép từ bỏ.',
           'Nếu cần tìm giao dịch Paddle, dùng Facebook Messenger hoặc gửi nutreeaidev@gmail.com kèm email tài khoản Nutree, mã giao dịch, ngày và số tiền.',
+        ],
+      },
+      {
+        title: 'Hoàn tiền trong ứng dụng Google Play',
+        body: [
+          'Với giao dịch do Google Play xử lý, gửi yêu cầu hoàn tiền trong Google Play bằng tài khoản đã trả.',
+          'Nutree không công bố cam kết hoàn tiền riêng cho cửa hàng đó, và mục này không nói giao dịch không được hoàn tiền.',
+          'Nếu cần tìm giao dịch, dùng Facebook Messenger hoặc gửi nutreeaidev@gmail.com kèm email tài khoản Nutree và biên nhận Google Play.',
         ],
       },
       {

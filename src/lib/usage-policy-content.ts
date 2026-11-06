@@ -31,7 +31,7 @@ export const usagePolicyContent: Record<Locale, LegalPageContent> = {
         title: 'Scope',
         body: [
           `This Usage Policy explains how customers activate and use Nutree after paying on the Nutree website (${LEGAL_COMPANY.websiteDisplay}). Provider: ${LEGAL_COMPANY.legalNameEn}. Support: ${LEGAL_COMPANY.email}.`,
-          'It covers the web checkout path where payment is confirmed on the website and access is delivered to the Nutree mobile app through a deeplink. In-app Apple App Store purchases follow the [Payment Policy](/payment) separately.',
+          'This page describes the published website checkout that shows a one-time VietQR transfer and a deeplink by email. Apple in-app purchase, Google Play in-app purchase, and Paddle web checkout are described in the [Payment Policy](/payment). This page does not say those three channels use this VietQR deeplink.',
         ],
       },
       {
@@ -126,7 +126,7 @@ export const usagePolicyContent: Record<Locale, LegalPageContent> = {
         title: 'Phạm vi áp dụng',
         body: [
           `Chính sách này mô tả cách khách hàng kích hoạt và sử dụng Nutree sau khi thanh toán trên website (${LEGAL_COMPANY.websiteDisplay}). Đơn vị cung cấp: ${LEGAL_COMPANY.legalName}. Hỗ trợ: ${LEGAL_COMPANY.email}.`,
-          'Áp dụng cho luồng thanh toán trên website: xác nhận thanh toán xong, quyền dùng được gửi tới app Nutree qua deeplink. Giao dịch mua trong app qua Apple App Store áp dụng riêng theo [Chính sách thanh toán](/payment).',
+          'Trang này mô tả thanh toán trên website đang công bố: chuyển khoản VietQR một lần và deeplink qua email. Mua trong ứng dụng Apple, mua trong ứng dụng Google Play và thanh toán web Paddle được nêu ở [Chính sách thanh toán](/payment). Trang này không nói ba kênh đó dùng deeplink VietQR này.',
         ],
       },
       {
