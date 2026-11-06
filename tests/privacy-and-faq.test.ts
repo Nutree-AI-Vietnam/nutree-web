@@ -4,9 +4,11 @@ import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { metadata as englishPrivacyMetadata } from '../src/app/en/privacy/page';
 import { metadata as vietnamesePrivacyMetadata } from '../src/app/privacy/page';
+import { LegalPageView } from '../src/components/legal/LegalPageView';
 import { FaqAccordion } from '../src/components/sections/FaqAccordion';
-import { privacyContent } from '../src/lib/legal-content';
-import { PRIVACY_LANGUAGE_ALTERNATES, PRIVACY_PATH, privacyPath } from '../src/lib/privacy-path';
+import { privacyContent, type LegalPageContent } from '../src/lib/legal-content';
+import { PRIVACY_LANGUAGE_ALTERNATES, PRIVACY_PATH, privacyAwareHref, privacyPath } from '../src/lib/privacy-path';
+import { termsContent } from '../src/lib/terms-content';
 import { getRouteLocale } from '../src/lib/route-locale';
 import { translations, type Locale } from '../src/lib/translations';
 
@@ -54,6 +56,47 @@ test('privacy URLs stay paired without a second policy document', () => {
   assert.deepEqual(vietnamesePrivacyMetadata.alternates?.languages, PRIVACY_LANGUAGE_ALTERNATES);
   assert.ok(englishIntro.startsWith('This Policy explains how'));
   assert.ok(vietnameseIntro.startsWith('Chính sách này giải thích'));
+});
+
+function hrefsForLabel(html: string, label: string): string[] {
+  const anchors = decodeHtml(html).match(/<a\b[^>]*>[\s\S]*?<\/a>/g) ?? [];
+  return anchors
+    .filter((anchor) => anchor.replace(/<[^>]+>/g, '') === label)
+    .map((anchor) => anchor.match(/href="([^"]+)"/)?.[1] ?? '');
+}
+
+test('terms privacy sibling uses the locale privacy URL', () => {
+  assert.equal(privacyAwareHref('/privacy', 'en'), '/en/privacy');
+  assert.equal(privacyAwareHref('/privacy', 'vi'), '/privacy');
+  assert.equal(privacyAwareHref('/terms', 'en'), '/terms');
+  assert.equal(privacyAwareHref('/terms', 'vi'), '/terms');
+
+  for (const locale of ['en', 'vi'] as const) {
+    const page: LegalPageContent = termsContent[locale];
+    const html = renderToStaticMarkup(
+      createElement(LegalPageView, {
+        page,
+        locale,
+        siblingHref: '/privacy',
+        siblingKey: 'privacy',
+      })
+    );
+    const hrefs = hrefsForLabel(html, page.links.privacy);
+    assert.ok(hrefs.length >= 2);
+    assert.deepEqual(hrefs, Array(hrefs.length).fill(privacyPath(locale)));
+  }
+
+  const englishTerms = renderToStaticMarkup(
+    createElement(LegalPageView, {
+      page: termsContent.en,
+      locale: 'en',
+      siblingHref: '/terms',
+      siblingKey: 'terms',
+    })
+  );
+  const termsHrefs = hrefsForLabel(englishTerms, termsContent.en.links.terms);
+  assert.ok(termsHrefs.length >= 1);
+  assert.deepEqual(termsHrefs, Array(termsHrefs.length).fill('/terms'));
 });
 
 test('route locale locks only URL-backed pages', () => {

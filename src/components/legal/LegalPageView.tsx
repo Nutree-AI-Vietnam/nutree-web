@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { LegalPageContent, LegalSection } from '@/lib/legal-content';
 import { LEGAL_LINKS } from '@/lib/legal-company';
-import { privacyPath } from '@/lib/privacy-path';
+import { privacyAwareHref } from '@/lib/privacy-path';
 import type { Locale } from '@/lib/translations';
 
 interface LegalPageViewProps {
@@ -54,7 +54,7 @@ export function LegalPageView({ page, locale, siblingHref, siblingKey }: LegalPa
           <ul className="grid gap-2 text-sm sm:grid-cols-2">
             {LEGAL_LINKS.map((item) => (
               <li key={item.href}>
-                <Link href={item.href === '/privacy' ? privacyPath(locale) : item.href} className="text-primary-forest hover:text-primary-teal">
+                <Link href={privacyAwareHref(item.href, locale)} className="text-primary-forest hover:text-primary-teal">
                   {item.label[locale]}
                 </Link>
               </li>
@@ -65,7 +65,7 @@ export function LegalPageView({ page, locale, siblingHref, siblingKey }: LegalPa
         <footer className="mt-16 border-t border-border/50 pt-8 text-center text-sm text-muted">
           <p>&copy; {new Date().getFullYear()} {page.copyright}</p>
           <p className="mt-2">
-            <Link href={siblingHref} className="text-primary-forest hover:text-primary-teal">
+            <Link href={privacyAwareHref(siblingHref, locale)} className="text-primary-forest hover:text-primary-teal">
               {page.links[siblingKey]}
             </Link>
             <span className="mx-2">|</span>
