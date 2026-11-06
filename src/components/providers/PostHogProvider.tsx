@@ -8,6 +8,7 @@ import {
   subscribeCookieConsent,
 } from '@/lib/cookie-consent-store';
 import { stopPostHog } from '@/lib/optional-analytics';
+import { optionalAnalyticsCalls } from '@/lib/optional-analytics-gate';
 
 interface User {
   id: string;
@@ -43,14 +44,17 @@ export function PostHogProvider({
 
     const load = () => {
       void import('posthog-js').then(({ default: posthog }) => {
-        if (cancelled || readConsentCookie(document.cookie) !== 'accepted') {
-          if (posthog.__loaded) {
-            posthog.stopSessionRecording?.();
-            posthog.opt_out_capturing();
-          }
+        const calls = optionalAnalyticsCalls(
+          readConsentCookie(document.cookie),
+          { posthogLoaded: Boolean(posthog.__loaded), googleLoaded: false },
+          user?.id ? { id: user.id } : undefined
+        );
+        if (cancelled || !calls.some((call) => call.method === 'init' || call.method === 'optIn')) {
+          if (calls.some((call) => call.method === 'stopSessionRecording')) posthog.stopSessionRecording?.();
+          if (calls.some((call) => call.method === 'optOut')) posthog.opt_out_capturing();
           return;
         }
-        if (!posthog.__loaded) {
+        if (calls.some((call) => call.method === 'init')) {
           posthog.init(key, {
             api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST ?? 'https://app.posthog.com',
             capture_pageview: true,
@@ -58,11 +62,10 @@ export function PostHogProvider({
               recordCrossOriginIframes: true,
             },
           });
-        } else {
-          posthog.opt_in_capturing();
-          posthog.startSessionRecording();
         }
-        if (user?.id && readConsentCookie(document.cookie) === 'accepted') {
+        if (calls.some((call) => call.method === 'optIn')) posthog.opt_in_capturing();
+        if (calls.some((call) => call.method === 'startSessionRecording')) posthog.startSessionRecording();
+        if (calls.some((call) => call.method === 'identify') && user?.id) {
           posthog.identify(user.id, {
             email: user.email,
             name: user.name,

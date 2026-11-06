@@ -255,7 +255,7 @@ export const translations: Record<Locale, TranslationStrings> = {
       },
     },
     socialProof: {
-      mealsTracked: 'Meals Tracked',
+      mealsTracked: 'Log meals in the app',
       languages: 'Languages Supported',
     },
     howItWorks: {
@@ -780,7 +780,7 @@ export const translations: Record<Locale, TranslationStrings> = {
       },
     },
     socialProof: {
-      mealsTracked: 'Bữa ăn đã track',
+      mealsTracked: 'Ghi lại bữa ăn trong app',
       languages: 'Ngôn ngữ hỗ trợ',
     },
     howItWorks: {

@@ -45,7 +45,6 @@ export function CookieConsent() {
           <button
             type="button"
             className="min-h-12 rounded-full border-2 border-primary-forest px-4 text-sm font-semibold text-primary-forest"
-            onPointerDown={() => chooseCookieConsent('denied')}
             onClick={() => chooseCookieConsent('denied')}
           >
             {t.cookies.reject}

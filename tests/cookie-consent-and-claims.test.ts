@@ -10,6 +10,9 @@ import {
   tikTokDispatch,
   tiktokEventsAllowed,
 } from '../src/lib/cookie-consent';
+import { createElement } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+import { SocialProof } from '../src/components/sections/SocialProof';
 import { deleteAccountContent } from '../src/lib/delete-account-content';
 import { translations } from '../src/lib/translations';
 
@@ -83,11 +86,18 @@ test('unsupported ranking and accuracy claims are gone, and weight notes stay un
   assert.equal(blob.includes('#1'), false);
   assert.equal(blob.includes('95%'), false);
   assert.equal(blob.includes('3000+'), false);
+  assert.equal(blob.includes('10K'), false);
+  assert.equal(blob.includes('K+'), false);
+  const html = renderToStaticMarkup(createElement(SocialProof));
+  assert.equal(html.includes('10K'), false);
+  assert.equal(html.includes('K+'), false);
+  assert.ok(html.includes('Ghi lại bữa ăn trong app'));
   for (const locale of ['en', 'vi'] as const) {
     const note = translations[locale].testimonials.disclaimer;
     assert.match(note, /estimate|ước tính/i);
     assert.match(note, /not medical advice|không phải tư vấn y khoa/);
     assert.match(note, /does not verify|không chứng minh/);
+    assert.equal(/\d/.test(translations[locale].socialProof.mealsTracked), false);
     const answers = translations[locale].faq.sections.flatMap((section) => section.items.map((item) => item.answer));
     assert.equal(answers.some((answer) => answer.includes('permanently removed')), false);
     assert.equal(answers.some((answer) => answer.includes('xóa vĩnh viễn')), false);

@@ -74,8 +74,13 @@ export function chooseCookieConsent(next: CookieConsentChoice) {
   emit();
   if (next === 'accepted') armTikTokPixel();
   else {
+    const sdkLoaded = typeof window.ttq !== 'undefined';
     withdrawTikTokPixel();
     stopOptionalAnalytics();
+    // A loaded TikTok SDK can keep sending after revoke. Reload only after the denied
+    // choice is stored, so the next document does not install the SDK. This does not
+    // cancel a request that already left the browser.
+    if (sdkLoaded) window.location.reload();
   }
 }
 
