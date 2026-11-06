@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { cn } from '@/lib/cn';
+import { homePath } from '@/lib/home-language';
+import { useLocale } from '@/lib/locale-context';
 
 interface LogoProps {
   size?: 'sm' | 'md' | 'lg';
@@ -21,6 +23,7 @@ const iconSizes = {
 };
 
 export function Logo({ size = 'md', className, linkHome = true }: LogoProps) {
+  const { locale } = useLocale();
   const iconSize = iconSizes[size];
 
   const logoContent = (
@@ -55,7 +58,7 @@ export function Logo({ size = 'md', className, linkHome = true }: LogoProps) {
 
   if (linkHome) {
     return (
-      <Link href="/" className="inline-block">
+      <Link href={homePath(locale)} className="inline-block">
         {logoContent}
       </Link>
     );

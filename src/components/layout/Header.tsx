@@ -7,7 +7,7 @@ import { AppleIcon } from '@/components/ui/AppleIcon';
 import { AndroidIcon } from '@/components/ui/AndroidIcon';
 import { MobileMenu } from './MobileMenu';
 import { cn } from '@/lib/cn';
-import { NAV_LINKS, SITE_CONFIG } from '@/lib/constants';
+import { appStoreUrl, NAV_LINKS, SITE_CONFIG } from '@/lib/constants';
 import { useLocale } from '@/lib/locale-context';
 import { getNavHref, getNavLabel } from '@/lib/translations';
 
@@ -75,7 +75,7 @@ export function Header() {
 
               {/* Visible store names stay inside the accessible name (WCAG 2.5.3). */}
               <a
-                href={SITE_CONFIG.stores.appStore}
+                href={appStoreUrl(locale)}
                 aria-label={t.common.appStoreDownloadLabel}
                 className={pillClass}
               >

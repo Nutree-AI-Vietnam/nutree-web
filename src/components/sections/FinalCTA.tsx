@@ -4,12 +4,12 @@ import { PhoneMockup } from '@/components/ui/PhoneMockup';
 import { StoreBadges } from '@/components/ui/StoreBadges';
 import { TiltOnPointer } from '@/components/ui/TiltOnPointer';
 import { useInView } from '@/hooks/useInView';
-import { SITE_CONFIG } from '@/lib/constants';
+import { quizEntryUrl } from '@/lib/constants';
 import { useLocale } from '@/lib/locale-context';
 import { CTA_SCREENSHOT } from '@/lib/screenshot-assets';
 
 export function FinalCTA() {
-  const { t } = useLocale();
+  const { locale, t } = useLocale();
   const { ref, isInView } = useInView({ threshold: 0.2 });
 
   return (
@@ -47,7 +47,7 @@ export function FinalCTA() {
 
               {/* Same funnel as the hero: the quiz leads, the stores follow as the direct route. */}
               <a
-                href={SITE_CONFIG.quizUrl}
+                href={quizEntryUrl(locale)}
                 className="group inline-flex h-14 w-full items-center justify-center gap-2.5 rounded-full bg-white px-8 text-base font-semibold text-primary-forest shadow-[0_18px_40px_-16px_rgba(0,0,0,0.5)] transition duration-300 hover:bg-energy-lime focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-primary-forest motion-reduce:transition-none sm:w-auto"
               >
                 {t.finalCta.primaryCta}

@@ -2,25 +2,27 @@
 
 import { createContext, useContext, useState, useCallback, useEffect, ReactNode } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
+import { localePreferenceCookie, LOCALE_PREFERENCE_COOKIE, readLocaleCookie } from './locale-preference';
 import { getRouteLocale } from './route-locale';
 import { Locale, translations } from './translations';
 
-const LOCALE_KEY = 'nutree-locale';
-
 interface LocaleContextValue {
   locale: Locale;
+  /** False until the saved cookie or localStorage choice has been applied on the client. */
+  preferenceReady: boolean;
   setLocale: (l: Locale) => void;
   t: typeof translations.en;
 }
 
 const LocaleContext = createContext<LocaleContextValue>({
   locale: 'vi',
+  preferenceReady: false,
   setLocale: () => {},
   t: translations.vi,
 });
 
 /**
- * Pages with a language in the URL (/blog, /en/blog, /en/privacy) follow that URL.
+ * `/`, `/en`, blog, and privacy URLs follow the path.
  * Every other page, including /privacy, uses the stored choice.
  */
 
@@ -37,25 +39,36 @@ function getAlternatePath(target: Locale): string {
   return link ? new URL(link.href).pathname : BLOG_HOME[target];
 }
 
-/** Get locale: localStorage (user choice) > Vietnamese default */
+function persistLocaleChoice(locale: Locale) {
+  localStorage.setItem(LOCALE_PREFERENCE_COOKIE, locale);
+  document.cookie = localePreferenceCookie(locale, window.location.protocol === 'https:');
+}
+
+/** Cookie wins, then an earlier explicit localStorage choice. Do not invent a vi cookie. */
 function getInitialLocale(): Locale {
   if (typeof window === 'undefined') return 'vi';
-  const stored = localStorage.getItem(LOCALE_KEY);
-  if (stored === 'vi' || stored === 'en') return stored;
-  localStorage.setItem(LOCALE_KEY, 'vi');
+  const fromCookie = readLocaleCookie(document.cookie);
+  if (fromCookie) return fromCookie;
+  const stored = localStorage.getItem(LOCALE_PREFERENCE_COOKIE);
+  if (stored === 'en') {
+    document.cookie = localePreferenceCookie('en', window.location.protocol === 'https:');
+    return 'en';
+  }
+  if (stored === 'vi') return 'vi';
   return 'vi';
 }
 
 export function LocaleProvider({ children }: { children: ReactNode }) {
   const [storedLocale, setStoredLocale] = useState<Locale>('vi');
+  const [preferenceReady, setPreferenceReady] = useState(false);
   const router = useRouter();
   const routeLocale = getRouteLocale(usePathname());
   const locale = routeLocale ?? storedLocale;
 
-  // Hydrate locale after mount (localStorage > Vietnamese default)
+  // One update applies the saved choice and marks it ready, so children never see the vi default in between.
   useEffect(() => {
-    const initial = getInitialLocale();
-    if (initial !== 'vi') setStoredLocale(initial);
+    setStoredLocale(getInitialLocale());
+    setPreferenceReady(true);
   }, []);
 
   useEffect(() => {
@@ -65,7 +78,7 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
   const setLocale = useCallback(
     (l: Locale) => {
       setStoredLocale(l);
-      localStorage.setItem(LOCALE_KEY, l);
+      persistLocaleChoice(l);
       if (routeLocale && routeLocale !== l) router.push(getAlternatePath(l));
     },
     [routeLocale, router]
@@ -74,7 +87,7 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
   const t = translations[locale];
 
   return (
-    <LocaleContext.Provider value={{ locale, setLocale, t }}>
+    <LocaleContext.Provider value={{ locale, preferenceReady, setLocale, t }}>
       {children}
     </LocaleContext.Provider>
   );
