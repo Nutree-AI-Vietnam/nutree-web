@@ -93,7 +93,7 @@ export function Footer() {
                 {t.footer.faq}
               </Link>
               <Link
-                href="/delete-account"
+                href={locale === 'en' ? '/en/delete-account' : '/delete-account'}
                 className="min-h-9 inline-flex items-center transition-colors hover:text-primary-forest"
               >
                 {t.footer.deleteAccount}

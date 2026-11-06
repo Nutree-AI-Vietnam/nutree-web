@@ -1,14 +1,7 @@
 import Link from 'next/link';
-import { createPageMetadata } from '@/lib/seo';
 import { deleteAccountContent } from '@/lib/delete-account-content';
 
-export const metadata = createPageMetadata({
-  title: `${deleteAccountContent.title} | Nutree`,
-  description: deleteAccountContent.description,
-  path: '/delete-account',
-});
-
-export default function DeleteAccountPage() {
+export function DeleteAccountArticle() {
   const copy = deleteAccountContent;
 
   return (

@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { cn } from '@/lib/cn';
-import { SITE_CONFIG } from '@/lib/constants';
+import { appStoreUrl, SITE_CONFIG } from '@/lib/constants';
 import { useLocale } from '@/lib/locale-context';
 
 // Official badge artwork at a shared height; widths follow each file's aspect ratio.
@@ -26,7 +26,7 @@ export function StoreBadges({ className, size = 'md', onClick }: StoreBadgesProp
 
   return (
     <div className={cn('flex flex-wrap items-center gap-3', className)}>
-      <a href={SITE_CONFIG.stores.appStore} onClick={onClick} className={badgeLinkClass}>
+      <a href={appStoreUrl(locale)} onClick={onClick} className={badgeLinkClass}>
         <Image
           src={`/badges/app-store-${locale}.svg`}
           alt={t.common.appStoreDownloadLabel}

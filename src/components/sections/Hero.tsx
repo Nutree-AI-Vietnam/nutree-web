@@ -4,7 +4,7 @@ import { HeroBackdrop } from '@/components/sections/HeroBackdrop';
 import { HeroScanShowcase } from '@/components/sections/HeroScanShowcase';
 import { StoreBadges } from '@/components/ui/StoreBadges';
 import { cn } from '@/lib/cn';
-import { SITE_CONFIG } from '@/lib/constants';
+import { quizEntryUrl } from '@/lib/constants';
 import { useLocale } from '@/lib/locale-context';
 
 // Heroicons outline paths: check-badge, language.
@@ -80,7 +80,7 @@ export function HeroV2() {
                 route, so the two never compete for the same click. */}
             <div className="hero-fade-up" style={{ animationDelay: '540ms' }}>
               <a
-                href={SITE_CONFIG.quizUrl}
+                href={quizEntryUrl(locale)}
                 className="cta-primary group inline-flex h-14 w-full items-center justify-center gap-2.5 rounded-full bg-primary-forest px-8 text-base font-semibold text-white shadow-[0_18px_40px_-16px_rgba(26,71,57,0.7)] transition duration-300 hover:bg-primary-emerald hover:shadow-glow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-teal focus-visible:ring-offset-2 motion-reduce:transition-none sm:w-auto"
               >
                 <svg

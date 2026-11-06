@@ -19,6 +19,8 @@ declare global {
   interface Window {
     TiktokAnalyticsObject?: string;
     ttq?: TikTokStub;
+    dataLayer?: unknown[];
+    gtag?: (...args: unknown[]) => void;
   }
 }
 

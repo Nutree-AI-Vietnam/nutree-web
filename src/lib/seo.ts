@@ -6,6 +6,12 @@ export const SITE_TITLE = 'Nutree | Trợ lý dinh dưỡng AI, đếm calo & tr
 export const SITE_DESCRIPTION =
   'Không phải app đếm calo bình thường. Nutree tự điều chỉnh mục tiêu hằng ngày, gợi ý bữa ăn và track macro cho bạn bằng AI. Tải miễn phí trên iOS và Android.';
 
+/** English counterpart of SITE_TITLE. No ranking or accuracy claim. */
+export const SITE_TITLE_EN = 'Nutree | AI nutrition assistant, calorie counter & macro tracker';
+
+/** Existing English product description from site config. */
+export const SITE_DESCRIPTION_EN = SITE_CONFIG.description;
+
 export const DEFAULT_OG_IMAGE = {
   url: '/og-image.png',
   width: 1200,

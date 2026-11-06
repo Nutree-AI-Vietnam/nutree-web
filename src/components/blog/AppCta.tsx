@@ -1,6 +1,6 @@
 import { StoreBadges } from '@/components/ui/StoreBadges';
 import { BLOG_LOCALES, type BlogLocale } from '@/lib/blog-locales';
-import { SITE_CONFIG } from '@/lib/constants';
+import { quizEntryUrl } from '@/lib/constants';
 
 /** Mid-article app promotion, written in MDX as <AppCta /> on its own line. */
 export function AppCta({ locale = 'vi' }: { locale?: BlogLocale }) {
@@ -16,7 +16,7 @@ export function AppCta({ locale = 'vi' }: { locale?: BlogLocale }) {
       </p>
       <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center">
         <a
-          href={SITE_CONFIG.quizUrl}
+          href={quizEntryUrl(locale)}
           className="inline-flex h-12 items-center justify-center rounded-full bg-white px-6 font-semibold text-primary-forest no-underline transition-colors hover:bg-energy-lime focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-primary-forest"
         >
           {text.appCtaButton}

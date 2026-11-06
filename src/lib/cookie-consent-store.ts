@@ -8,6 +8,7 @@ import {
   resolveStoredConsent,
 } from './cookie-consent';
 import { armTikTokPixel, withdrawTikTokPixel } from './tiktok-pixel';
+import { stopOptionalAnalytics } from './optional-analytics';
 
 interface CookieConsentSnapshot {
   choice: CookieConsentChoice | null;
@@ -63,6 +64,7 @@ export function hydrateCookieConsent() {
   hydrated = true;
   emit();
   if (stored === 'accepted') armTikTokPixel();
+  else if (stored === 'denied') stopOptionalAnalytics();
 }
 
 export function chooseCookieConsent(next: CookieConsentChoice) {
@@ -71,7 +73,10 @@ export function chooseCookieConsent(next: CookieConsentChoice) {
   bannerOpen = false;
   emit();
   if (next === 'accepted') armTikTokPixel();
-  else withdrawTikTokPixel();
+  else {
+    withdrawTikTokPixel();
+    stopOptionalAnalytics();
+  }
 }
 
 export function openCookieConsent() {

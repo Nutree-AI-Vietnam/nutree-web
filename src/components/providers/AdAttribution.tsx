@@ -1,7 +1,15 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useSyncExternalStore } from 'react';
 import { SITE_CONFIG } from '@/lib/constants';
+import { readConsentCookie } from '@/lib/cookie-consent';
+import {
+  getCookieConsentServerSnapshot,
+  getCookieConsentSnapshot,
+  subscribeCookieConsent,
+} from '@/lib/cookie-consent-store';
+import { armGoogleAds } from '@/lib/optional-analytics';
+import { applyQuizAttribution } from '@/lib/quiz-attribution';
 
 declare global {
   interface Window {
@@ -66,26 +74,9 @@ function captureLandingAttribution() {
   }
 }
 
-/** Google's tag, inserted once the page is idle like the other analytics, and linked to the quiz domain. */
-function loadGoogleAds(adsId: string) {
-  window.dataLayer = window.dataLayer ?? [];
-  window.gtag = function gtag() {
-    // gtag.js reads the arguments object itself, so it must be pushed as is.
-    // eslint-disable-next-line prefer-rest-params
-    window.dataLayer?.push(arguments);
-  };
-  window.gtag('js', new Date());
-  window.gtag('set', 'linker', { domains: [QUIZ_HOST] });
-  window.gtag('config', adsId);
-
-  const script = document.createElement('script');
-  script.async = true;
-  script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(adsId)}`;
-  document.head.appendChild(script);
-}
-
-/** Reports a click through to the quiz, with the page it came from, to the analytics that are on. */
+/** Reports a click through to the quiz only after optional measurement was allowed. */
 function reportQuizClick(attribution: Attribution) {
+  if (readConsentCookie(document.cookie) !== 'accepted') return;
   if (process.env.NEXT_PUBLIC_POSTHOG_KEY) {
     void import('posthog-js').then(({ default: posthog }) => {
       if (posthog.__loaded) {
@@ -102,30 +93,34 @@ function reportQuizClick(attribution: Attribution) {
 }
 
 export function AdAttribution() {
+  const { choice } = useSyncExternalStore(
+    subscribeCookieConsent,
+    getCookieConsentSnapshot,
+    getCookieConsentServerSnapshot
+  );
+
   useEffect(() => {
     captureLandingAttribution();
 
     let idleHandle: number | undefined;
-    const timer = GOOGLE_ADS_ID
-      ? window.setTimeout(() => {
-          const load = () => loadGoogleAds(GOOGLE_ADS_ID);
-          if ('requestIdleCallback' in window) idleHandle = window.requestIdleCallback(load, { timeout: 3000 });
-          else load();
-        }, TAG_DELAY_MS)
-      : undefined;
+    const timer =
+      GOOGLE_ADS_ID && choice === 'accepted'
+        ? window.setTimeout(() => {
+            if (readConsentCookie(document.cookie) !== 'accepted' || !GOOGLE_ADS_ID) return;
+            const load = () => armGoogleAds(GOOGLE_ADS_ID);
+            if ('requestIdleCallback' in window) idleHandle = window.requestIdleCallback(load, { timeout: 3000 });
+            else load();
+          }, TAG_DELAY_MS)
+        : undefined;
 
     // Runs before the browser follows the link, so the tagged URL is the one it opens.
     const handleClick = (event: MouseEvent) => {
       const anchor = (event.target as Element | null)?.closest('a');
       if (!anchor?.href) return;
-      const url = new URL(anchor.href);
-      if (url.host !== QUIZ_HOST) return;
+      if (new URL(anchor.href).host !== QUIZ_HOST) return;
 
       const attribution = readAttribution();
-      for (const [name, value] of Object.entries(attribution)) {
-        if (!url.searchParams.has(name)) url.searchParams.set(name, value);
-      }
-      anchor.href = url.toString();
+      anchor.href = applyQuizAttribution(anchor.href, attribution);
       if (event.type === 'click') reportQuizClick(attribution);
     };
 
@@ -137,7 +132,7 @@ export function AdAttribution() {
       document.removeEventListener('click', handleClick, true);
       document.removeEventListener('auxclick', handleClick, true);
     };
-  }, []);
+  }, [choice]);
 
   return null;
 }

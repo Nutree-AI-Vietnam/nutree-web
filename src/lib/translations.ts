@@ -132,6 +132,7 @@ interface TranslationStrings {
   cookies: {
     title: string;
     body: string;
+    privacy: string;
     reject: string;
     accept: string;
   };
@@ -428,8 +429,9 @@ export const translations: Record<Locale, TranslationStrings> = {
       deleteAccount: 'Delete account',
     },
     cookies: {
-      title: 'Optional TikTok measurement',
-      body: 'Nutree can load a TikTok measurement cookie to see which ads were followed. It stays off unless you allow it. Reject and Allow are each one step. You can change this later from the footer.',
+      title: 'Optional measurement',
+      body: 'Optional TikTok measurement stays off until you allow it. Product analytics and Google ad measurement, when this site is configured to use them, stay off too. Reject and Allow are each one step. You can change this later from the footer.',
+      privacy: 'Privacy Policy',
       reject: 'Reject',
       accept: 'Allow',
     },
@@ -951,8 +953,9 @@ export const translations: Record<Locale, TranslationStrings> = {
       deleteAccount: 'Xóa tài khoản',
     },
     cookies: {
-      title: 'Đo lường TikTok tùy chọn',
-      body: 'Nutree có thể tải cookie đo lường của TikTok để biết quảng cáo nào được mở. Cookie này tắt cho đến khi bạn cho phép. Từ chối và Cho phép đều là một bước. Bạn có thể đổi lại ở chân trang.',
+      title: 'Đo lường tùy chọn',
+      body: 'Đo lường TikTok tắt cho đến khi bạn cho phép. Phân tích sản phẩm và đo lường quảng cáo Google, nếu website được cấu hình dùng, cũng tắt. Từ chối và Cho phép đều là một bước. Bạn có thể đổi lại ở chân trang.',
+      privacy: 'Chính sách bảo mật',
       reject: 'Từ chối',
       accept: 'Cho phép',
     },

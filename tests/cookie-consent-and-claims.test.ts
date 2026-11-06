@@ -61,17 +61,21 @@ test('optional TikTok consent defaults to deny and ignores an old accept', () =>
 });
 
 test('the first HTML does not install or queue the TikTok pixel', () => {
-  const layout = fs.readFileSync(new URL('../src/app/layout.tsx', import.meta.url), 'utf8');
-  assert.equal(layout.includes('analytics.tiktok.com'), false);
-  assert.equal(layout.includes('ttq.load'), false);
-  assert.equal(layout.includes('ttq.page'), false);
-  assert.equal(layout.includes('beforeInteractive'), false);
+  for (const relativePath of ['../src/app/(en)/layout.tsx', '../src/app/(vi)/layout.tsx']) {
+    const layout = fs.readFileSync(new URL(relativePath, import.meta.url), 'utf8');
+    assert.equal(layout.includes('TIKTOK_PIXEL_SCRIPT'), false);
+    assert.equal(layout.includes('beforeInteractive'), false);
+  }
+  assert.equal(fs.existsSync(new URL('../src/app/layout.tsx', import.meta.url)), false);
+  const root = fs.readFileSync(new URL('../src/components/layout/RootDocument.tsx', import.meta.url), 'utf8');
+  assert.ok(root.includes('CookieConsent'));
   const loader = fs.readFileSync(new URL('../src/lib/tiktok-pixel.ts', import.meta.url), 'utf8');
   const holdAt = loader.indexOf('holdConsent');
   const loadAt = loader.indexOf('ttq.load');
   const pageAt = loader.lastIndexOf('page?.()');
   assert.ok(holdAt > 0 && loadAt > holdAt);
   assert.ok(pageAt > loadAt);
+  assert.equal(loader.includes('TIKTOK_PIXEL_SCRIPT'), false);
 });
 
 test('unsupported ranking and accuracy claims are gone, and weight notes stay unverified', () => {
@@ -103,20 +107,57 @@ test('account deletion guidance does not pretend to erase the account', () => {
   assert.equal(deleteAccountContent.messengerUrl, 'https://m.me/1019820571221637');
 });
 
-test('raw HTML leaves TikTok unloaded and publishes deletion guidance', http, async () => {
-  const home = await fetch(`${base}/`);
-  const homeHtml = stripScripts(await home.text());
-  assert.equal(home.status, 200);
-  assert.equal(homeHtml.includes('analytics.tiktok.com'), false);
-  assert.equal(homeHtml.includes('ttq.load'), false);
-  assert.equal(homeHtml.includes('ttq.page'), false);
-  assert.equal(homeHtml.includes('#1 Health'), false);
-  assert.equal(homeHtml.includes('95%'), false);
+function resourceHosts(html: string): string[] {
+  const hosts: string[] = [];
+  for (const marker of ['src="', 'href="']) {
+    let cursor = 0;
+    while (cursor < html.length) {
+      const start = html.indexOf(marker, cursor);
+      if (start < 0) break;
+      const valueStart = start + marker.length;
+      const valueEnd = html.indexOf('"', valueStart);
+      if (valueEnd < 0) break;
+      try {
+        hosts.push(new URL(html.slice(valueStart, valueEnd), 'https://nutreeai.com').hostname);
+      } catch {
+        // Ignore values that are not URLs.
+      }
+      cursor = valueEnd + 1;
+    }
+  }
+  return hosts;
+}
 
-  const deletion = await fetch(`${base}/delete-account`);
-  const deletionHtml = stripScripts(await deletion.text());
-  assert.equal(deletion.status, 200);
-  assert.ok(deletionHtml.includes(deleteAccountContent.limitation));
-  assert.ok(deletionHtml.includes('Trong ứng dụng Nutree'));
-  assert.ok(deletionHtml.includes('does not cancel a subscription'));
+function hostAbsent(hosts: string[], hostname: string) {
+  return hosts.every((host) => host !== hostname);
+}
+
+test('raw HTML leaves TikTok unloaded and publishes deletion guidance', http, async () => {
+  for (const path of ['/', '/en']) {
+    const page = await fetch(`${base}${path}`);
+    const html = stripScripts(await page.text());
+    const hosts = resourceHosts(html);
+    assert.equal(page.status, 200);
+    assert.equal(hostAbsent(hosts, 'analytics.tiktok.com'), true);
+    assert.equal(hostAbsent(hosts, 'www.googletagmanager.com'), true);
+    assert.equal(html.includes('#1 Health'), false);
+    assert.equal(html.includes('#1 Sức khỏe'), false);
+    assert.equal(html.includes('95%'), false);
+  }
+
+  for (const path of ['/delete-account', '/en/delete-account']) {
+    const deletion = await fetch(`${base}${path}`);
+    const deletionHtml = stripScripts(await deletion.text());
+    assert.equal(deletion.status, 200);
+    assert.ok(deletionHtml.includes(deleteAccountContent.limitation));
+    assert.ok(deletionHtml.includes('Trong ứng dụng Nutree'));
+    assert.ok(deletionHtml.includes('does not cancel a subscription'));
+  }
+
+  const denied = await fetch(`${base}/api/tiktok-events`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ event: 'ViewContent', eventId: 'test', url: 'https://nutreeai.com/' }),
+  });
+  assert.equal(denied.status, 403);
 });
