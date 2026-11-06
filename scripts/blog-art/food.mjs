@@ -1105,3 +1105,67 @@ export function tapiocaPearl([x, y], { r = 16, light = 1 } = {}) {
     `<ellipse cx="${n(x - r * 0.38)}" cy="${n(y - r * 0.42)}" rx="${n(r * 0.32)}" ry="${n(r * 0.18)}" transform="rotate(-35 ${n(x - r * 0.38)} ${n(y - r * 0.42)})" fill="#FFFFFF" fill-opacity="${n(0.75 * light)}"/>`
   );
 }
+
+// ---------- iced coffee ----------
+/**
+ * SVG for a CUP filled with iced coffee: an opaque drink shaded like a cylinder, ice cubes floating at
+ * the top and poking out of the surface, and optionally a layer of sweetened condensed milk settled at
+ * the bottom (unstirred). `colors` is [dark edge, mid, lit centre] across the glass and `surface` is
+ * [light, mid, dark] for the top. The cup narrows from 139 at the rim (y 97) to 112 at y 494.
+ */
+export function icedCoffee({ id, colors: [edge, mid, lit], surface: [s0, s1, s2], level = 122, milkLayer = 0, cubeOpacity = 0.4 }) {
+  const y = level;
+  const rx = 139 - (27 * (y - 97)) / 397;
+  const ry = 0.28 * rx;
+  const body = `M${n(200 - rx)},${y} A${n(rx)},${n(ry)} 0 0 1 ${n(200 + rx)},${y} L312,494 A112,31 0 0 1 88,494 Z`;
+  const across = linear([200 - rx, 0], [200 + rx, 0], [
+    [0, edge],
+    [0.1, mid],
+    [0.3, lit],
+    [0.45, mix(lit, '#FFFFFF', 0.12)],
+    [0.65, lit],
+    [0.88, mid],
+    [1, edge],
+  ]);
+  const down = linear([0, y], [0, 525], [
+    [0, '#FFFFFF', 0],
+    [0.7, '#2A1408', 0.15],
+    [1, '#1A0A04', 0.35],
+  ]);
+  const top = radial({ center: [200 - rx * 0.3, y - ry * 0.3], radii: [rx * 1.3, ry * 1.3] }, [
+    [0, s0],
+    [0.6, s1],
+    [1, s2],
+  ]);
+  const parts = [`<path d="${body}" fill="${across}"/>`, `<path d="${body}" fill="${down}"/>`];
+  parts.push(`<clipPath id="${id}"><path d="${body}"/></clipPath>`);
+  const inside = [];
+  if (milkLayer > 0) {
+    // Condensed milk is heavier than coffee, so it lies at the bottom in a creamy band with a soft edge.
+    const top2 = 494 - milkLayer;
+    const milk = linear([88, 0], [312, 0], [
+      [0, '#CBB894'],
+      [0.25, '#F6EEDC'],
+      [0.45, '#FFFBF0'],
+      [0.75, '#EFE4CC'],
+      [1, '#C2AE88'],
+    ]);
+    inside.push(`<rect x="60" y="${top2}" width="280" height="${milkLayer + 60}" fill="${milk}"/>`);
+    inside.push(`<rect x="60" y="${top2 - 14}" width="280" height="22" fill="${mix(mid, '#F6EEDC', 0.5)}" fill-opacity="0.7"/>`);
+  }
+  const cube = (x, cy, s, angle, opacity) =>
+    `<g transform="rotate(${angle} ${x} ${cy})">` +
+    `<rect x="${n(x - s / 2)}" y="${n(cy - s / 2)}" width="${s}" height="${s}" rx="${n(s * 0.16)}" fill="#FFF4E6" fill-opacity="${opacity}" stroke="#FFFFFF" stroke-opacity="${n(opacity + 0.25)}" stroke-width="2.5"/>` +
+    `<rect x="${n(x - s * 0.34)}" y="${n(cy - s * 0.36)}" width="${n(s * 0.36)}" height="${n(s * 0.14)}" rx="${n(s * 0.06)}" fill="#FFFFFF" fill-opacity="${n(Math.min(1, opacity + 0.3))}"/>` +
+    `</g>`;
+  inside.push(cube(150, y + 52, 68, -12, cubeOpacity), cube(238, y + 46, 72, 14, cubeOpacity), cube(194, y + 116, 64, 28, cubeOpacity * 0.7));
+  parts.push(`<g clip-path="url(#${id})">${inside.join('')}</g>`);
+  parts.push(
+    `<ellipse cx="200" cy="${y}" rx="${n(rx)}" ry="${n(ry)}" fill="${top}"/>`,
+    `<path d="M${n(200 - rx + 1)},${y} A${n(rx - 1)},${n(ry - 0.5)} 0 0 1 ${n(200 + rx - 1)},${y}" fill="none" stroke="${mix(s0, '#FFFFFF', 0.5)}" stroke-width="4"/>`,
+    `<path d="M${n(200 - rx + 3)},${y + 2} A${n(rx - 3)},${n(ry - 1.5)} 0 0 0 ${n(200 + rx - 3)},${y + 2}" fill="none" stroke="${edge}" stroke-opacity="0.6" stroke-width="3"/>`,
+    `<path d="M128,${y - 4} L160,${y - 14} L184,${y - 2} L152,${y + 8} Z" fill="#FFF8EE" fill-opacity="0.9" stroke="#FFFFFF" stroke-width="2"/>`,
+    `<path d="M214,${y - 10} L250,${y - 16} L266,${y - 2} L230,${y + 4} Z" fill="#FFF8EE" fill-opacity="0.9" stroke="#FFFFFF" stroke-width="2"/>`
+  );
+  return parts.join('\n');
+}

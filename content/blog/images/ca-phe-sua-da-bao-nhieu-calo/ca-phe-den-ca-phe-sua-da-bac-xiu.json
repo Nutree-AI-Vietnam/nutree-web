@@ -1,0 +1,7 @@
+{
+  "objects": [
+    { "src": "../_objects/glass-ca-phe-den-da.svg", "x": 0.2, "bottom": 0.88, "height": 0.66 },
+    { "src": "../_objects/glass-ca-phe-sua-da.svg", "x": 0.5, "bottom": 0.88, "height": 0.66 },
+    { "src": "../_objects/glass-bac-xiu.svg", "x": 0.8, "bottom": 0.88, "height": 0.66 }
+  ]
+}
