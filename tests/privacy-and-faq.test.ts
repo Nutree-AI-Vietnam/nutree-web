@@ -132,10 +132,7 @@ test('FAQ answers are in the initial markup and the control stays a disclosure',
 
   const vietnamese = renderFaq('vi');
   assert.ok(vietnamese.includes('Làm sao để xóa tài khoản?'));
-  assert.ok(
-    vietnamese.includes(
-      'Vào Cài đặt → Quản lý tài khoản → Xóa tài khoản. Toàn bộ dữ liệu của bạn sẽ bị xóa vĩnh viễn.'
-    )
-  );
+  assert.ok(vietnamese.includes('nutreeai.com/delete-account'));
+  assert.equal(vietnamese.includes('xóa vĩnh viễn'), false);
   assert.match(vietnamese, /aria-hidden="true"/);
 });

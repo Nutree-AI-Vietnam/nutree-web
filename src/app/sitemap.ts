@@ -18,6 +18,7 @@ const ROUTES: Array<Pick<SitemapEntry, 'changeFrequency' | 'priority'> & { path:
   { path: '', changeFrequency: 'weekly', priority: 1 },
   { path: '/why', changeFrequency: 'monthly', priority: 0.8 },
   { path: '/faq', changeFrequency: 'monthly', priority: 0.8 },
+  { path: '/delete-account', changeFrequency: 'yearly', priority: 0.4 },
   { path: '/mua-goi', changeFrequency: 'monthly', priority: 0.8 },
   { path: '/research', changeFrequency: 'monthly', priority: 0.7 },
   { path: '/contact', changeFrequency: 'yearly', priority: 0.5 },
