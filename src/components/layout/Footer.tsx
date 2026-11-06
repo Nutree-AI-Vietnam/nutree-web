@@ -6,6 +6,7 @@ import { Logo } from '@/components/ui/Logo';
 import { StoreBadges } from '@/components/ui/StoreBadges';
 import { LEGAL_COMPANY, LEGAL_LINKS } from '@/lib/legal-company';
 import { useLocale } from '@/lib/locale-context';
+import { privacyPath } from '@/lib/privacy-path';
 import { getNavHref } from '@/lib/translations';
 
 export function Footer() {
@@ -18,7 +19,7 @@ export function Footer() {
   const address = legalLocale === 'vi' ? LEGAL_COMPANY.address : LEGAL_COMPANY.addressEn;
 
   return (
-    <footer className="border-t border-border/40 bg-gradient-to-b from-background to-primary-forest/[0.03]">
+    <footer lang={locale} className="border-t border-border/40 bg-gradient-to-b from-background to-primary-forest/[0.03]">
       <div className="container mx-auto px-4 py-12 md:py-16">
         <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr_0.95fr] lg:gap-12">
           <div className="space-y-4">
@@ -124,7 +125,7 @@ export function Footer() {
             </p>
           </div>
           <div className="flex flex-wrap gap-x-5 gap-y-2 text-xs md:justify-end">
-            <Link href="/privacy" className="hover:text-foreground">
+            <Link href={privacyPath(locale)} className="hover:text-foreground">
               {t.footer.privacyPolicy}
             </Link>
             <Link href="/terms" className="hover:text-foreground">

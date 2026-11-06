@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
+    "test": "tsx --tsconfig tsconfig.tests.json --test tests/*.test.ts",
     "blog:image": "node scripts/blog-image.mjs",
     "blog:objects": "node scripts/blog-art/objects.mjs"
   },
@@ -35,6 +36,7 @@
     "eslint-config-next": "^15.5.26",
     "postcss": "8.5.28",
     "tailwindcss": "^3.4.0",
+    "tsx": "^4.23.15",
     "typescript": "^5.3.0"
   },
   "overrides": {

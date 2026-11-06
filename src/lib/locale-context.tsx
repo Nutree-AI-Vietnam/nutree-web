@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState, useCallback, useEffect, ReactNode } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
+import { getRouteLocale } from './route-locale';
 import { Locale, translations } from './translations';
 
 const LOCALE_KEY = 'nutree-locale';
@@ -19,22 +20,17 @@ const LocaleContext = createContext<LocaleContextValue>({
 });
 
 /**
- * Blog pages have a language in their URL (/blog is Vietnamese, /en/blog English), so the header
- * and footer follow the article instead of the stored choice. Every other page uses the stored one.
+ * Pages with a language in the URL (/blog, /en/blog, /en/privacy) follow that URL.
+ * Every other page, including /privacy, uses the stored choice.
  */
-export function getRouteLocale(pathname: string | null): Locale | undefined {
-  if (!pathname) return undefined;
-  if (pathname === '/en/blog' || pathname.startsWith('/en/blog/')) return 'en';
-  if (pathname === '/blog' || pathname.startsWith('/blog/')) return 'vi';
-  return undefined;
-}
 
 /** The blog home in each language, for pages that have no translation. */
 const BLOG_HOME: Record<Locale, string> = { vi: '/blog', en: '/en/blog' };
 
 /**
- * Where the language switch leads from a blog page: the translation that the page announces with
- * <link rel="alternate" hreflang>, or the other blog's home when the article has none.
+ * Where the language switch leads from a URL-locked page: the hreflang alternate, or the other
+ * blog home when that page has no alternate. /en/privacy publishes a vi alternate, so VI leaves
+ * the English policy for /privacy.
  */
 function getAlternatePath(target: Locale): string {
   const link = document.querySelector<HTMLLinkElement>(`link[rel="alternate"][hreflang="${target}"]`);
