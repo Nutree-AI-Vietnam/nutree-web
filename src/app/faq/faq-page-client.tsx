@@ -2,13 +2,14 @@
 
 import Link from 'next/link';
 import { useLocale } from '@/lib/locale-context';
+import { privacyPath } from '@/lib/privacy-path';
 import { FaqAccordion } from '@/components/sections/FaqAccordion';
 
 export function FaqPageClient() {
-  const { t } = useLocale();
+  const { locale, t } = useLocale();
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-white via-white to-primary-teal/5">
+    <main lang={locale} className="min-h-screen bg-gradient-to-br from-white via-white to-primary-teal/5">
       <div className="container mx-auto px-4 py-20">
         <Link
           href="/"
@@ -60,7 +61,7 @@ export function FaqPageClient() {
         <footer className="mt-16 border-t border-border/50 pt-8 text-center text-sm text-muted">
           <p>&copy; {new Date().getFullYear()} {t.footer.copyright}</p>
           <p className="mt-2">
-            <Link href="/privacy" className="text-primary-forest hover:text-primary-teal">
+            <Link href={privacyPath(locale)} className="text-primary-forest hover:text-primary-teal">
               {t.footer.privacyPolicy}
             </Link>
             <span className="mx-2">|</span>

@@ -10,6 +10,14 @@ const nextConfig = {
   outputFileTracingExcludes: {
     '*': ['content/blog/images/**'],
   },
+  async headers() {
+    return [
+      {
+        source: '/en/privacy',
+        headers: [{ key: 'Content-Language', value: 'en' }],
+      },
+    ];
+  },
   async redirects() {
     return [
       // Legacy Vietnamese slugs → English legal paths
