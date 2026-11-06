@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { tiktokEventsAllowed } from '@/lib/cookie-consent';
 
 const TIKTOK_EVENTS_API_URL =
   'https://business-api.tiktok.com/open_api/v1.3/event/track/';
@@ -21,6 +22,10 @@ type TikTokEventRequest = {
 };
 
 export async function POST(request: NextRequest) {
+  if (!tiktokEventsAllowed(request.headers.get('cookie'))) {
+    return NextResponse.json({ error: 'Consent required' }, { status: 403 });
+  }
+
   const accessToken = process.env.TIKTOK_EVENTS_ACCESS_TOKEN;
   const pixelId = process.env.TIKTOK_PIXEL_ID;
 

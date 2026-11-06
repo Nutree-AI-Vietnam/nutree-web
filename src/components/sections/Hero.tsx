@@ -7,13 +7,8 @@ import { cn } from '@/lib/cn';
 import { quizEntryUrl } from '@/lib/constants';
 import { useLocale } from '@/lib/locale-context';
 
-// Heroicons outline paths: trophy, check-badge, language.
+// Heroicons outline paths: check-badge, language.
 const TRUST_ITEMS = [
-  {
-    key: 'rating',
-    color: 'text-amber-500',
-    path: 'M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c0-.621-.504-1.125-1.125-1.125h-6.75c-.621 0-1.125.504-1.125 1.125v3.375m9-13.5V6a3 3 0 01-3 3h-3a3 3 0 01-3-3v-.75m9 0h2.25A2.25 2.25 0 0121 7.5v.75a3.75 3.75 0 01-3.75 3.75H16.5m-9-6.75H5.25A2.25 2.25 0 003 7.5v.75A3.75 3.75 0 006.75 12H7.5',
-  },
   {
     key: 'personalizedPlan',
     color: 'text-primary-teal',

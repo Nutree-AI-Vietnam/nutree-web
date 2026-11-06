@@ -1,13 +1,149 @@
-const TIKTOK_PIXEL_ID = 'D9DG1BJC77UD5IE51T1G';
+import { TIKTOK_PIXEL_ID } from './cookie-consent';
 
-// TikTok's stock snippet, except that its SDK is inserted after the page is idle, like PostHog.
-// The stub exists immediately, so calls made before the SDK arrives queue until then.
-export const TIKTOK_PIXEL_SCRIPT = `
-!function (w, d, t) {
-  var whenIdle=function(f){var go=function(){setTimeout(function(){"requestIdleCallback" in w?w.requestIdleCallback(f,{timeout:3000}):f()},1500)};d.readyState==="complete"?go():w.addEventListener("load",go,{once:true})};
-  w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script"),n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;whenIdle(function(){var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(n,s)})};
+type TikTokCommand = unknown[];
 
-  ttq.load('${TIKTOK_PIXEL_ID}');
-  ttq.page();
-}(window, document, 'ttq');
-`;
+interface TikTokStub extends Array<TikTokCommand> {
+  methods?: string[];
+  setAndDefer?: (target: TikTokStub, method: string) => void;
+  load?: (pixelId: string) => void;
+  page?: () => void;
+  track?: (event: string, properties?: unknown, options?: unknown) => void;
+  holdConsent?: () => void;
+  grantConsent?: () => void;
+  revokeConsent?: () => void;
+  disableCookie?: () => void;
+  _i?: Record<string, unknown[]>;
+}
+
+declare global {
+  interface Window {
+    TiktokAnalyticsObject?: string;
+    ttq?: TikTokStub;
+    dataLayer?: unknown[];
+    gtag?: (...args: unknown[]) => void;
+  }
+}
+
+const METHODS = [
+  'page',
+  'track',
+  'identify',
+  'instances',
+  'debug',
+  'on',
+  'off',
+  'once',
+  'ready',
+  'alias',
+  'group',
+  'enableCookie',
+  'disableCookie',
+  'holdConsent',
+  'revokeConsent',
+  'grantConsent',
+];
+
+let scriptInserted = false;
+let sdkReady = false;
+const waiters = new Set<() => void>();
+
+function currentChoice(): 'accepted' | 'denied' | null {
+  const raw = document.cookie
+    .split(';')
+    .map((part) => part.trim())
+    .find((part) => part.startsWith('nutree-cookie-consent='))
+    ?.slice('nutree-cookie-consent='.length);
+  if (raw === '1.accepted') return 'accepted';
+  if (raw === '1.denied') return 'denied';
+  return null;
+}
+
+function stub(): TikTokStub {
+  if (window.ttq) return window.ttq;
+  const ttq = [] as TikTokStub;
+  window.TiktokAnalyticsObject = 'ttq';
+  window.ttq = ttq;
+  ttq.methods = METHODS;
+  ttq.setAndDefer = (target, method) => {
+    const queue = target;
+    queue[method as 'page'] = ((...args: unknown[]) => {
+      queue.push([method, ...args]);
+    }) as TikTokStub['page'];
+  };
+  for (const method of METHODS) ttq.setAndDefer?.(ttq, method);
+  ttq.load = (pixelId: string) => {
+    ttq._i = ttq._i || {};
+    ttq._i[pixelId] = [];
+    const registry = ttq as TikTokStub & { _t?: Record<string, number>; _o?: Record<string, unknown> };
+    registry._t = registry._t || {};
+    registry._t[pixelId] = Date.now();
+    registry._o = registry._o || {};
+    registry._o[pixelId] = {};
+    const script = document.createElement('script');
+    script.async = true;
+    script.id = 'nutree-tiktok-pixel';
+    script.src = `https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=${pixelId}&lib=ttq`;
+    script.onload = () => onSdkLoaded();
+    const first = document.getElementsByTagName('script')[0];
+    first?.parentNode?.insertBefore(script, first);
+  };
+  return ttq;
+}
+
+function dropWaiters() {
+  waiters.clear();
+}
+
+function grantAndNotify() {
+  if (currentChoice() !== 'accepted' || !sdkReady) {
+    dropWaiters();
+    return;
+  }
+  window.ttq?.grantConsent?.();
+  window.ttq?.page?.();
+  const queued = [...waiters];
+  dropWaiters();
+  for (const notify of queued) notify();
+}
+
+function onSdkLoaded() {
+  sdkReady = true;
+  if (currentChoice() !== 'accepted') {
+    window.ttq?.revokeConsent?.();
+    window.ttq?.disableCookie?.();
+    dropWaiters();
+    return;
+  }
+  grantAndNotify();
+}
+
+/** Insert the pixel only while consent is currently accepted. Does not call page or track before load. */
+export function armTikTokPixel() {
+  if (currentChoice() !== 'accepted') return;
+  if (sdkReady) {
+    grantAndNotify();
+    return;
+  }
+  if (scriptInserted) return;
+  scriptInserted = true;
+  const ttq = stub();
+  ttq.holdConsent?.();
+  ttq.load?.(TIKTOK_PIXEL_ID);
+}
+
+/** Stop future sends. Waiters recorded before the SDK loaded are discarded, not flushed. */
+export function withdrawTikTokPixel() {
+  dropWaiters();
+  window.ttq?.revokeConsent?.();
+  window.ttq?.disableCookie?.();
+}
+
+export function whenTikTokReady(notify: () => void) {
+  if (currentChoice() !== 'accepted') return;
+  if (sdkReady) {
+    notify();
+    return;
+  }
+  waiters.add(notify);
+  armTikTokPixel();
+}

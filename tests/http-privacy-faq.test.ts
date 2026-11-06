@@ -90,7 +90,8 @@ test('GET /faq includes every current answer in the document', http, async () =>
   assert.equal(visible.match(/<details\b/g)?.length, items.length);
   assert.equal(visible.match(/<summary\b/g)?.length, items.length);
   assert.ok(visible.includes('Làm sao để xóa tài khoản?'));
-  assert.ok(visible.includes('Vào Cài đặt → Quản lý tài khoản → Xóa tài khoản. Toàn bộ dữ liệu của bạn sẽ bị xóa vĩnh viễn.'));
+  assert.ok(visible.includes('nutreeai.com/delete-account'));
+  assert.equal(visible.includes('xóa vĩnh viễn'), false);
 });
 
 test('GET /sitemap.xml lists both privacy URLs', http, async () => {

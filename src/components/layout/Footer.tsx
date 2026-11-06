@@ -6,6 +6,7 @@ import { Logo } from '@/components/ui/Logo';
 import { StoreBadges } from '@/components/ui/StoreBadges';
 import { LEGAL_COMPANY, LEGAL_LINKS } from '@/lib/legal-company';
 import { useLocale } from '@/lib/locale-context';
+import { openCookieConsent } from '@/lib/cookie-consent-store';
 import { privacyPath } from '@/lib/privacy-path';
 import { getNavHref } from '@/lib/translations';
 
@@ -91,6 +92,19 @@ export function Footer() {
               >
                 {t.footer.faq}
               </Link>
+              <Link
+                href={locale === 'en' ? '/en/delete-account' : '/delete-account'}
+                className="min-h-9 inline-flex items-center transition-colors hover:text-primary-forest"
+              >
+                {t.footer.deleteAccount}
+              </Link>
+              <button
+                type="button"
+                className="min-h-12 text-left text-sm font-semibold text-primary-forest underline-offset-4 hover:underline"
+                onClick={() => openCookieConsent()}
+              >
+                {t.footer.cookieChoices}
+              </button>
               <Link
                 href="/why"
                 className="min-h-9 inline-flex items-center transition-colors hover:text-primary-forest"

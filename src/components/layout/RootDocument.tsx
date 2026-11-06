@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import localFont from 'next/font/local';
 import { AppChrome } from '@/components/layout/AppChrome';
 import { AdAttribution } from '@/components/providers/AdAttribution';
+import { CookieConsent } from '@/components/providers/CookieConsent';
 import { PostHogProvider } from '@/components/providers/PostHogProvider';
 import { TikTokEvents } from '@/components/providers/TikTokEvents';
 import { LocaleProvider } from '@/lib/locale-context';
@@ -30,6 +31,7 @@ export function RootDocument({ lang, children }: { lang: Locale; children: React
         <AdAttribution />
         <PostHogProvider>
           <LocaleProvider>
+            <CookieConsent />
             <AppChrome>{children}</AppChrome>
           </LocaleProvider>
         </PostHogProvider>

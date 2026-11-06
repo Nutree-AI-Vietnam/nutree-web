@@ -55,12 +55,10 @@ interface TranslationStrings {
     primaryCtaHint: string;
     /** Introduces the store badges as the quieter, direct-install route. */
     orDownload: string;
-    trustBadges: { rating: string; personalizedPlan: string; languages: string };
+    trustBadges: { personalizedPlan: string; languages: string };
   };
   socialProof: {
     mealsTracked: string;
-    rating: string;
-    accuracy: string;
     languages: string;
   };
   howItWorks: {
@@ -89,6 +87,7 @@ interface TranslationStrings {
   };
   testimonials: {
     title: string;
+    disclaimer: string;
     items: Array<{
       id: string;
       quote: string;
@@ -127,6 +126,15 @@ interface TranslationStrings {
     address: string;
     email: string;
     bctBadgeAlt: string;
+    cookieChoices: string;
+    deleteAccount: string;
+  };
+  cookies: {
+    title: string;
+    body: string;
+    privacy: string;
+    reject: string;
+    accept: string;
   };
   contact: {
     eyebrow: string;
@@ -242,15 +250,12 @@ export const translations: Record<Locale, TranslationStrings> = {
       primaryCtaHint: 'Answer a few questions and get a plan built around your body and goal.',
       orDownload: 'or get the app',
       trustBadges: {
-        rating: '#1 Health & Fitness',
         personalizedPlan: 'Personalized Premium plans',
         languages: '7 Languages',
       },
     },
     socialProof: {
-      mealsTracked: 'Meals Tracked',
-      rating: 'Health & Fitness App',
-      accuracy: 'AI Accuracy',
+      mealsTracked: 'Log meals in the app',
       languages: 'Languages Supported',
     },
     howItWorks: {
@@ -349,6 +354,8 @@ export const translations: Record<Locale, TranslationStrings> = {
     },
     testimonials: {
       title: 'Why choose {Nutree}?',
+      disclaimer:
+        'Results vary from person to person. Weight changes in these notes are individual reports. Nutree’s calorie and macro figures are AI estimates, not medical advice. This note does not verify the results above.',
       items: [
         {
           id: '1',
@@ -418,6 +425,15 @@ export const translations: Record<Locale, TranslationStrings> = {
       email: 'Email',
       bctBadgeAlt:
         'Notified to the Vietnam Ministry of Industry and Trade — view our listing on online.gov.vn',
+      cookieChoices: 'Cookie choices',
+      deleteAccount: 'Delete account',
+    },
+    cookies: {
+      title: 'Optional measurement',
+      body: 'Optional TikTok measurement stays off until you allow it. Product analytics and Google ad measurement, when this site is configured to use them, stay off too. Reject and Allow are each one step. You can change this later from the footer.',
+      privacy: 'Privacy Policy',
+      reject: 'Reject',
+      accept: 'Allow',
     },
     contact: {
       eyebrow: 'Talk to a real person',
@@ -564,11 +580,13 @@ export const translations: Record<Locale, TranslationStrings> = {
             },
             {
               question: 'Do you store my meal photos?',
-              answer: 'Yes, meal photos are saved to our cloud for your meal history and re-analysis. They are deleted when you delete your account.',
+              answer:
+                'Meal photos are stored for your meal history and re-analysis. What this website does and does not do when an account is deleted is explained at nutreeai.com/delete-account.',
             },
             {
               question: 'How do I delete my account?',
-              answer: 'Go to Settings → Account Management → Delete Account. All your data is permanently removed.',
+              answer:
+                'In the Nutree app, open Settings → Account Management → Delete Account. Deleting the account does not cancel an App Store, Google Play, or other store subscription. This website does not delete the account for you and does not give an erasure date. Steps: nutreeai.com/delete-account.',
             },
           ],
         },
@@ -613,7 +631,6 @@ export const translations: Record<Locale, TranslationStrings> = {
         stats: [
           { stat: '35,000', label: 'decisions per day' },
           { stat: '70%', label: 'of recomp attempts stall in the first 3 months' },
-          { stat: '#1', label: 'reason: too much mental effort' },
         ],
       },
       friction: {
@@ -758,15 +775,12 @@ export const translations: Record<Locale, TranslationStrings> = {
       primaryCtaHint: 'Trả lời vài câu hỏi để nhận kế hoạch dinh dưỡng theo cơ thể và mục tiêu của bạn.',
       orDownload: 'hoặc tải app',
       trustBadges: {
-        rating: '#1 Sức khỏe & Thể hình',
         personalizedPlan: 'Gói Premium cá nhân hóa',
         languages: '7 ngôn ngữ',
       },
     },
     socialProof: {
-      mealsTracked: 'Bữa ăn đã track',
-      rating: 'App Sức khỏe & Thể hình',
-      accuracy: 'Độ chính xác AI',
+      mealsTracked: 'Ghi lại bữa ăn trong app',
       languages: 'Ngôn ngữ hỗ trợ',
     },
     howItWorks: {
@@ -865,6 +879,8 @@ export const translations: Record<Locale, TranslationStrings> = {
     },
     testimonials: {
       title: 'Sao mọi người chọn {Nutree}?',
+      disclaimer:
+        'Kết quả khác nhau tùy từng người. Mức thay đổi cân nặng trong các lời kể là của từng người. Con số calo và macro của Nutree là ước tính từ AI, không phải tư vấn y khoa. Ghi chú này không chứng minh các kết quả phía trên.',
       items: [
         {
           id: '1',
@@ -933,6 +949,15 @@ export const translations: Record<Locale, TranslationStrings> = {
       address: 'Địa chỉ',
       email: 'Email',
       bctBadgeAlt: 'Đã thông báo Bộ Công Thương — xem hồ sơ trên online.gov.vn',
+      cookieChoices: 'Lựa chọn cookie',
+      deleteAccount: 'Xóa tài khoản',
+    },
+    cookies: {
+      title: 'Đo lường tùy chọn',
+      body: 'Đo lường TikTok tắt cho đến khi bạn cho phép. Phân tích sản phẩm và đo lường quảng cáo Google, nếu website được cấu hình dùng, cũng tắt. Từ chối và Cho phép đều là một bước. Bạn có thể đổi lại ở chân trang.',
+      privacy: 'Chính sách bảo mật',
+      reject: 'Từ chối',
+      accept: 'Cho phép',
     },
     contact: {
       eyebrow: 'Trò chuyện trực tiếp với Nutree',
@@ -1079,11 +1104,13 @@ export const translations: Record<Locale, TranslationStrings> = {
             },
             {
               question: 'Nutree có lưu ảnh bữa ăn của tôi không?',
-              answer: 'Có, ảnh bữa ăn được lưu trên đám mây để phục vụ lịch sử và phân tích lại. Ảnh sẽ bị xóa khi bạn xóa tài khoản.',
+              answer:
+                'Ảnh bữa ăn được lưu cho lịch sử và phân tích lại. Trang nutreeai.com/delete-account nói rõ website này làm gì và không làm gì khi xóa tài khoản.',
             },
             {
               question: 'Làm sao để xóa tài khoản?',
-              answer: 'Vào Cài đặt → Quản lý tài khoản → Xóa tài khoản. Toàn bộ dữ liệu của bạn sẽ bị xóa vĩnh viễn.',
+              answer:
+                'Trong app Nutree, mở Cài đặt → Quản lý tài khoản → Xóa tài khoản. Xóa tài khoản không hủy gói đã mua trên App Store, Google Play hoặc cửa hàng khác. Website này không tự xóa tài khoản và không nêu ngày xóa dữ liệu. Các bước: nutreeai.com/delete-account.',
             },
           ],
         },
@@ -1128,7 +1155,6 @@ export const translations: Record<Locale, TranslationStrings> = {
         stats: [
           { stat: '35.000', label: 'quyết định mỗi ngày' },
           { stat: '70%', label: 'nỗ lực recomp chững lại trong 3 tháng đầu' },
-          { stat: '#1', label: 'lý do: tốn quá nhiều công sức' },
         ],
       },
       friction: {
