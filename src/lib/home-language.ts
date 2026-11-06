@@ -13,6 +13,11 @@ import { readLocaleCookie } from './locale-preference';
 
 export const HOME_PATH = { vi: '/', en: '/en' } as const;
 
+/** Home link for the active language. English must not navigate to `/`, which would record Vietnamese. */
+export function homePath(locale: 'vi' | 'en'): string {
+  return locale === 'en' ? HOME_PATH.en : HOME_PATH.vi;
+}
+
 /** Homepage pair. x-default is the English URL, as an international fallback hint, not a redirect. */
 export const HOME_LANGUAGE_ALTERNATES: Record<string, string> = {
   vi: HOME_PATH.vi,

@@ -8,12 +8,15 @@ import { Locale, translations } from './translations';
 
 interface LocaleContextValue {
   locale: Locale;
+  /** False until the saved cookie or localStorage choice has been applied on the client. */
+  preferenceReady: boolean;
   setLocale: (l: Locale) => void;
   t: typeof translations.en;
 }
 
 const LocaleContext = createContext<LocaleContextValue>({
   locale: 'vi',
+  preferenceReady: false,
   setLocale: () => {},
   t: translations.vi,
 });
@@ -38,7 +41,7 @@ function getAlternatePath(target: Locale): string {
 
 function persistLocaleChoice(locale: Locale) {
   localStorage.setItem(LOCALE_PREFERENCE_COOKIE, locale);
-  document.cookie = localePreferenceCookie(locale);
+  document.cookie = localePreferenceCookie(locale, window.location.protocol === 'https:');
 }
 
 /** Cookie wins, then an earlier explicit localStorage choice. Do not invent a vi cookie. */
@@ -48,7 +51,7 @@ function getInitialLocale(): Locale {
   if (fromCookie) return fromCookie;
   const stored = localStorage.getItem(LOCALE_PREFERENCE_COOKIE);
   if (stored === 'en') {
-    document.cookie = localePreferenceCookie('en');
+    document.cookie = localePreferenceCookie('en', window.location.protocol === 'https:');
     return 'en';
   }
   if (stored === 'vi') return 'vi';
@@ -57,22 +60,16 @@ function getInitialLocale(): Locale {
 
 export function LocaleProvider({ children }: { children: ReactNode }) {
   const [storedLocale, setStoredLocale] = useState<Locale>('vi');
+  const [preferenceReady, setPreferenceReady] = useState(false);
   const router = useRouter();
   const routeLocale = getRouteLocale(usePathname());
   const locale = routeLocale ?? storedLocale;
 
-  // Hydrate locale after mount (localStorage > Vietnamese default)
+  // One update applies the saved choice and marks it ready, so children never see the vi default in between.
   useEffect(() => {
-    const initial = getInitialLocale();
-    if (initial !== 'vi') setStoredLocale(initial);
+    setStoredLocale(getInitialLocale());
+    setPreferenceReady(true);
   }, []);
-
-  useEffect(() => {
-    if (!routeLocale) return;
-    setStoredLocale(routeLocale);
-    document.cookie = localePreferenceCookie(routeLocale);
-    localStorage.setItem(LOCALE_PREFERENCE_COOKIE, routeLocale);
-  }, [routeLocale]);
 
   useEffect(() => {
     document.documentElement.lang = locale;
@@ -90,7 +87,7 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
   const t = translations[locale];
 
   return (
-    <LocaleContext.Provider value={{ locale, setLocale, t }}>
+    <LocaleContext.Provider value={{ locale, preferenceReady, setLocale, t }}>
       {children}
     </LocaleContext.Provider>
   );

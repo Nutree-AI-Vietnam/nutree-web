@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { LegalPageContent, LegalSection } from '@/lib/legal-content';
 import { LEGAL_LINKS } from '@/lib/legal-company';
+import { homePath } from '@/lib/home-language';
 import { privacyAwareHref } from '@/lib/privacy-path';
 import type { Locale } from '@/lib/translations';
 
@@ -17,7 +18,7 @@ export function LegalPageView({ page, locale, siblingHref, siblingKey }: LegalPa
   return (
     <main lang={locale} className="min-h-screen bg-gradient-to-br from-white via-white to-primary-teal/5">
       <div className="container mx-auto max-w-3xl px-4 py-20">
-        <Link href="/" className="mb-8 inline-flex text-sm font-medium text-primary-forest hover:text-primary-teal">
+        <Link href={homePath(locale)} className="mb-8 inline-flex text-sm font-medium text-primary-forest hover:text-primary-teal">
           {page.backHome}
         </Link>
 
@@ -69,7 +70,7 @@ export function LegalPageView({ page, locale, siblingHref, siblingKey }: LegalPa
               {page.links[siblingKey]}
             </Link>
             <span className="mx-2">|</span>
-            <Link href="/" className="text-primary-forest hover:text-primary-teal">{page.home}</Link>
+            <Link href={homePath(locale)} className="text-primary-forest hover:text-primary-teal">{page.home}</Link>
           </p>
         </footer>
       </div>

@@ -4,21 +4,16 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { BankTransferCheckout } from '@/components/sections/BankTransferCheckout';
 import { PricingCard } from '@/components/sections/PricingCard';
-import { SITE_CONFIG } from '@/lib/constants';
+import { appStoreUrl, quizEntryUrl, SITE_CONFIG } from '@/lib/constants';
 import { useLocale } from '@/lib/locale-context';
-import { readLocaleCookie } from '@/lib/locale-preference';
 import { payPageContent } from '@/lib/pay-page-content';
 import { translations, type Locale } from '@/lib/translations';
 
-function purchaseLocale(serverLocale: Locale): Locale {
-  if (typeof document === 'undefined') return serverLocale;
-  return readLocaleCookie(document.cookie) ?? serverLocale;
-}
-
 export function MuaGoiPageClient({ serverLocale }: { serverLocale: Locale }) {
-  const { locale } = useLocale();
-  const [live, setLive] = useState(false);
-  const displayLocale = live ? locale : purchaseLocale(serverLocale);
+  const { locale, preferenceReady } = useLocale();
+  // Stay on the server cookie until the provider has applied that same cookie. Switching earlier
+  // reads the provider's initial vi and can paint VietQR, then open ?plan checkout, before the cookie wins.
+  const displayLocale = preferenceReady ? locale : serverLocale;
   const copy = payPageContent[displayLocale];
   const showVietQr = displayLocale !== 'en';
   const [isCheckout, setIsCheckout] = useState(false);
@@ -26,10 +21,6 @@ export function MuaGoiPageClient({ serverLocale }: { serverLocale: Locale }) {
   // Old /pay?plan=yearly links redirect here and still open checkout. The monthly plan is no longer
   // sold, so ?plan=monthly shows the plan instead. Read after mount instead of useSearchParams, which
   // would drop the whole page out of the static HTML.
-  useEffect(() => {
-    setLive(true);
-  }, []);
-
   useEffect(() => {
     if (!showVietQr) {
       setIsCheckout(false);
@@ -77,8 +68,14 @@ export function MuaGoiPageClient({ serverLocale }: { serverLocale: Locale }) {
             </>
           ) : (
             <div className="mx-auto mt-12 flex max-w-xl flex-col items-center gap-4 text-center">
+              <a
+                className="inline-flex min-h-12 items-center justify-center rounded-full bg-primary-forest px-6 text-base font-semibold text-white"
+                href={quizEntryUrl('en')}
+              >
+                {translations.en.hero.primaryCta}
+              </a>
               <p className="text-base text-muted">{translations[displayLocale].hero.orDownload}</p>
-              <a className="font-semibold text-primary-forest underline-offset-4 hover:underline" href={SITE_CONFIG.stores.appStore}>
+              <a className="font-semibold text-primary-forest underline-offset-4 hover:underline" href={appStoreUrl('en')}>
                 {translations[displayLocale].common.appStoreDownloadLabel}
               </a>
               <a className="font-semibold text-primary-forest underline-offset-4 hover:underline" href={SITE_CONFIG.stores.googlePlay}>

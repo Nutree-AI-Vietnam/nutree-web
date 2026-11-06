@@ -23,6 +23,8 @@ export function readLocaleCookie(cookieHeader: string | null | undefined): Local
   return null;
 }
 
-export function localePreferenceCookie(locale: Locale): string {
-  return `${LOCALE_PREFERENCE_COOKIE}=${locale}; Path=/; Max-Age=${ONE_YEAR_SECONDS}; SameSite=Lax`;
+/** Secure only on HTTPS. Local HTTP tests must still be able to store the cookie. */
+export function localePreferenceCookie(locale: Locale, secure = false): string {
+  const secureAttr = secure ? '; Secure' : '';
+  return `${LOCALE_PREFERENCE_COOKIE}=${locale}; Path=/; Max-Age=${ONE_YEAR_SECONDS}; SameSite=Lax${secureAttr}`;
 }

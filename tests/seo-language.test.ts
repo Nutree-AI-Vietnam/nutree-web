@@ -1,5 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
+import { quizEntryUrl } from '../src/lib/constants';
+import { applyQuizAttribution } from '../src/lib/quiz-attribution';
 import { SITE_DESCRIPTION_EN, SITE_TITLE, SITE_TITLE_EN } from '../src/lib/seo';
 
 const base = process.env.BASE_URL?.replace(/\/$/, '');
@@ -58,6 +60,10 @@ test('raw HTML language for /, /en, /privacy, and /en/privacy', http, async () =
   assert.ok(english.html.includes('property="og:title" content="Nutree | AI nutrition assistant, calorie counter &amp; macro tracker"'));
   assert.ok(english.html.includes('property="og:description"'));
   assert.match(english.visible, /Build my plan/);
+  assert.match(english.html, /href="https:\/\/quiz\.nutreeai\.com\/survey\/en"/);
+  assert.match(english.html, /href="\/en"/);
+  assert.equal(home.html.includes('https://quiz.nutreeai.com/survey/en'), false);
+  assert.match(home.html, /href="https:\/\/quiz\.nutreeai\.com"/);
   assert.equal(english.visible.includes('Tạo kế hoạch cho tôi'), false);
   assert.equal(hasAlternate(english.html, 'vi', '/'), true);
   assert.equal(hasAlternate(english.html, 'x-default', '/en'), true);
@@ -134,8 +140,18 @@ test('root negotiation, crawlers, cookies, and purchase HTML', http, async () =>
   assert.equal(englishPurchase.visible.includes('mbbank-vietqr.png'), false);
   assert.equal(englishPurchase.visible.includes('Thanh toán qua VietQR'), false);
   assert.equal(englishPurchase.visible.includes('Pay with VietQR'), false);
+  assert.match(englishPurchase.html, /href="https:\/\/quiz\.nutreeai\.com\/survey\/en"/);
+  assert.match(englishPurchase.html, /href="https:\/\/apps\.apple\.com\/app\/id6751159552"/);
+  assert.match(englishPurchase.html, /<title>Purchase \| Nutree<\/title>/);
+  assert.equal(englishPurchase.html.includes('thanh toán bằng mã QR'), false);
   assert.match(englishPurchase.visible, /Download Nutree on the App Store/);
+  assert.equal(purchase.html.includes('https://quiz.nutreeai.com/survey/en'), false);
   assert.match(englishPurchase.visible, /Get Nutree on Google Play/);
+
+  const unknown = await load('/not-a-real-page-xyz');
+  assert.equal(unknown.response.status, 404);
+  const unknownEnglish = await load('/en/not-a-real-page-xyz');
+  assert.equal(unknownEnglish.response.status, 404);
 
   const sitemap = await load('/sitemap.xml');
   assert.match(sitemap.html, /https:\/\/nutreeai\.com\/en</);
@@ -147,4 +163,19 @@ test('titles used above are the shipped constants', () => {
   assert.equal(SITE_TITLE.includes('Trợ lý dinh dưỡng AI'), true);
   assert.equal(SITE_DESCRIPTION_EN.startsWith('Not another calorie counter'), true);
   assert.equal(SITE_TITLE_EN.includes('95%'), false);
+  assert.equal(quizEntryUrl('vi'), 'https://quiz.nutreeai.com');
+  assert.equal(quizEntryUrl('en'), 'https://quiz.nutreeai.com/survey/en');
+  const tagged = new URL(applyQuizAttribution(quizEntryUrl('en'), {
+    utm_source: 'tiktok',
+    utm_campaign: 'en-home',
+    gclid: 'abc',
+  }));
+  assert.equal(tagged.origin + tagged.pathname, 'https://quiz.nutreeai.com/survey/en');
+  assert.equal(tagged.searchParams.get('utm_source'), 'tiktok');
+  assert.equal(tagged.searchParams.get('utm_campaign'), 'en-home');
+  assert.equal(tagged.searchParams.get('gclid'), 'abc');
+  const kept = applyQuizAttribution('https://quiz.nutreeai.com/survey/en?utm_source=existing', {
+    utm_source: 'replaced',
+  });
+  assert.equal(kept, 'https://quiz.nutreeai.com/survey/en?utm_source=existing');
 });

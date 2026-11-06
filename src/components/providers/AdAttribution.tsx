@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import { SITE_CONFIG } from '@/lib/constants';
+import { applyQuizAttribution } from '@/lib/quiz-attribution';
 
 declare global {
   interface Window {
@@ -118,14 +119,10 @@ export function AdAttribution() {
     const handleClick = (event: MouseEvent) => {
       const anchor = (event.target as Element | null)?.closest('a');
       if (!anchor?.href) return;
-      const url = new URL(anchor.href);
-      if (url.host !== QUIZ_HOST) return;
+      if (new URL(anchor.href).host !== QUIZ_HOST) return;
 
       const attribution = readAttribution();
-      for (const [name, value] of Object.entries(attribution)) {
-        if (!url.searchParams.has(name)) url.searchParams.set(name, value);
-      }
-      anchor.href = url.toString();
+      anchor.href = applyQuizAttribution(anchor.href, attribution);
       if (event.type === 'click') reportQuizClick(attribution);
     };
 

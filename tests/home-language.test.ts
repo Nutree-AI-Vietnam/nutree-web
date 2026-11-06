@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { preferredHomeLanguage, rootLanguageDecision } from '../src/lib/home-language';
-import { readLocaleCookie } from '../src/lib/locale-preference';
+import { homePath, preferredHomeLanguage, rootLanguageDecision } from '../src/lib/home-language';
+import { localePreferenceCookie, readLocaleCookie } from '../src/lib/locale-preference';
 
 test('Accept-Language weights and malformed values are deterministic', () => {
   assert.equal(preferredHomeLanguage(null), 'unknown');
@@ -17,6 +17,14 @@ test('Accept-Language weights and malformed values are deterministic', () => {
   assert.equal(preferredHomeLanguage('*;q=0.1, en;q=0.5'), 'en');
   assert.equal(preferredHomeLanguage('*'), 'unknown');
   assert.equal(preferredHomeLanguage('en;q=abc, vi'), 'vi');
+});
+
+test('home links and the locale cookie stay explicit', () => {
+  assert.equal(homePath('en'), '/en');
+  assert.equal(homePath('vi'), '/');
+  assert.match(localePreferenceCookie('en', true), /; Secure$/);
+  assert.equal(localePreferenceCookie('en', false).includes('Secure'), false);
+  assert.match(localePreferenceCookie('vi', true), /SameSite=Lax; Secure$/);
 });
 
 test('cookie wins over Accept-Language, crawlers and invalid cookies do not', () => {
