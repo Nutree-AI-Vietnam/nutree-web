@@ -39,7 +39,21 @@ test('payment draft names four channels and does not promise a Paddle refund win
   assert.equal(blob.includes('14 ngày'), false);
   assert.equal(blob.includes('no refunds'), false);
   assert.equal(blob.includes('không hoàn tiền'), false);
-  assert.ok(blob.includes('https://www.paddle.com/legal/buyer-terms'));
+  const urlsInBlob = (blob.match(/https?:\/\/[^\s"']+/g) ?? []).flatMap((rawUrl) => {
+    try {
+      return [new URL(rawUrl)];
+    } catch {
+      return [];
+    }
+  });
+  assert.ok(
+    urlsInBlob.some(
+      (url) =>
+        url.protocol === 'https:' &&
+        url.hostname === 'www.paddle.com' &&
+        url.pathname === '/legal/buyer-terms',
+    ),
+  );
   assert.ok(blob.includes('nutreeaidev@gmail.com'));
   assert.ok(blob.includes('https://m.me/1019820571221637'));
   assert.match(blob, /VietQR is a one-time payment and does not renew automatically/);
