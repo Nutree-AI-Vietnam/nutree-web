@@ -555,19 +555,19 @@ export const translations: Record<Locale, TranslationStrings> = {
             },
             {
               question: 'How do I cancel my subscription?',
-              answer: 'iOS: Settings → Apple ID → Subscriptions → Nutree → Cancel. Deleting the app does not cancel billing. Android: Google Play → Profile → Payments & subscriptions → Subscriptions → Nutree → Cancel.',
+              answer: 'iOS: Settings → Apple ID → Subscriptions → Nutree → Cancel. Deleting the app does not cancel billing. Android: Google Play → Profile → Payments & subscriptions → Subscriptions → Nutree → Cancel. Paddle web checkout: use the “Manage subscription” link in the Paddle transaction email or visit paddle.net. VietQR is a one-time transfer and has no renewal to cancel.',
             },
             {
               question: 'When will I be charged for Premium?',
-              answer: 'Only after you confirm a Premium purchase through the Apple App Store. The exact price, billing period, and any offer are shown in the app and on the Apple confirmation sheet before you subscribe.',
+              answer: 'Only after you confirm the purchase on the channel you are using. Apple, Google Play, Paddle, and the VietQR checkout each show the amount before you confirm. This page does not publish that price. VietQR is a one-time transfer and does not renew automatically.',
             },
             {
               question: 'How do I request a refund?',
-              answer: 'Cancel auto-renewal in Apple Settings → Subscriptions → Nutree. For refunds, Apple decides at reportaproblem.apple.com. You can also email support@nutreeai.com with your receipt. Full steps: nutreeai.com/cancellation.',
+              answer: 'Apple reviews App Store refund requests at reportaproblem.apple.com. Google Play reviews Google Play refund requests in Google Play. For Paddle web checkout, Nutree does not publish its own refund promise. Paddle is the merchant of record, and the buyer terms are at https://www.paddle.com/legal/buyer-terms. That reference does not waive a consumer right the law does not allow to be waived. VietQR does not renew automatically, and this answer does not add a Nutree refund promise for it. Help: https://m.me/1019820571221637 or nutreeaidev@gmail.com. Published steps: nutreeai.com/cancellation.',
             },
             {
               question: 'How do I restore my purchase on a new device?',
-              answer: 'Sign in with the same Google or Apple account. Your subscription restores automatically.',
+              answer: 'An Apple or Google Play subscription can be restored in the Nutree app by signing in with the same store account. This answer does not say that a Paddle web checkout or a VietQR transfer restores automatically. If access is missing, contact https://m.me/1019820571221637 or nutreeaidev@gmail.com.',
             },
           ],
         },
@@ -1079,19 +1079,19 @@ export const translations: Record<Locale, TranslationStrings> = {
             },
             {
               question: 'Làm sao để hủy gói đăng ký?',
-              answer: 'iOS: Cài đặt → Apple ID → Đăng ký → Nutree → Hủy. Xóa app không hủy thanh toán. Android: Google Play → Ảnh hồ sơ → Thanh toán và gói thuê bao → Gói thuê bao → Nutree → Hủy.',
+              answer: 'iOS: Cài đặt → Apple ID → Đăng ký → Nutree → Hủy. Xóa app không hủy thanh toán. Android: Google Play → Ảnh hồ sơ → Thanh toán và gói thuê bao → Gói thuê bao → Nutree → Hủy. Thanh toán web Paddle: dùng liên kết “Manage subscription” trong email giao dịch Paddle hoặc vào paddle.net. VietQR là chuyển khoản một lần và không có lần gia hạn để hủy.',
             },
             {
               question: 'Khi nào tôi bị tính phí Premium?',
-              answer: 'Chỉ sau khi bạn xác nhận mua Premium qua Apple App Store. Mức giá, chu kỳ và ưu đãi (nếu có) được hiển thị trong app và trên màn hình xác nhận của Apple trước khi đăng ký.',
+              answer: 'Chỉ sau khi bạn xác nhận giao dịch trên kênh đang dùng. Apple, Google Play, Paddle và màn hình VietQR đều hiển thị số tiền trước khi bạn xác nhận. Trang này không niêm yết mức giá đó. VietQR là chuyển khoản một lần và không tự động gia hạn.',
             },
             {
               question: 'Làm sao yêu cầu hoàn tiền?',
-              answer: 'Hủy gia hạn trong Cài đặt Apple → Đăng ký → Nutree. Hoàn tiền do Apple xem xét tại reportaproblem.apple.com. Có thể gửi biên nhận tới support@nutreeai.com. Hướng dẫn đầy đủ: nutreeai.com/cancellation.',
+              answer: 'Apple xem xét yêu cầu hoàn tiền App Store tại reportaproblem.apple.com. Google Play xem xét yêu cầu hoàn tiền trong Google Play. Với thanh toán web Paddle, Nutree không công bố cam kết hoàn tiền riêng. Paddle là đơn vị bán hàng, và điều khoản người mua nằm ở https://www.paddle.com/legal/buyer-terms. Việc dẫn điều khoản đó không từ bỏ quyền người tiêu dùng mà pháp luật không cho phép từ bỏ. VietQR không tự động gia hạn, và câu trả lời này không thêm cam kết hoàn tiền riêng của Nutree cho VietQR. Hỗ trợ: https://m.me/1019820571221637 hoặc nutreeaidev@gmail.com. Các bước đã công bố: nutreeai.com/cancellation.',
             },
             {
               question: 'Làm sao khôi phục gói đăng ký trên thiết bị mới?',
-              answer: 'Đăng nhập bằng cùng tài khoản Google hoặc Apple. Gói đăng ký sẽ tự động khôi phục.',
+              answer: 'Gói Apple hoặc Google Play có thể được khôi phục trong app Nutree khi bạn đăng nhập cùng tài khoản cửa hàng đã mua. Câu trả lời này không nói rằng thanh toán web Paddle hoặc chuyển khoản VietQR tự khôi phục. Nếu thiếu quyền dùng, liên hệ https://m.me/1019820571221637 hoặc nutreeaidev@gmail.com.',
             },
           ],
         },

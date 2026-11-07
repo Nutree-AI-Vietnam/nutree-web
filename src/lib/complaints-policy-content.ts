@@ -49,7 +49,7 @@ export const complaintsPolicyContent: Record<Locale, LegalPageContent> = {
         body: [
           'Name/account and registered email.',
           'What happened, when, and which feature or plan.',
-          'Apple receipt if payment-related (you may mask unnecessary details).',
+          'The receipt from the channel that charged you — Apple, Google Play, Paddle, or the VietQR transfer — if the complaint is about a payment. You may mask unnecessary details.',
           'Screenshots, app version, device, and steps already tried.',
           'Desired outcome. Never send passwords, OTPs, or full card numbers.',
         ],
@@ -78,7 +78,7 @@ export const complaintsPolicyContent: Record<Locale, LegalPageContent> = {
       {
         title: 'Outcomes and escalation',
         body: [
-          'Outcomes may include guidance, bug fixes, entitlement restore, Apple coordination, or written replies. App Store refunds are decided by Apple.',
+          'Outcomes may include guidance, bug fixes, entitlement help, or a written reply. Apple reviews App Store refund requests. Google Play reviews Google Play refund requests. Nutree does not publish its own refund promise for Paddle; see the Paddle Buyer Terms. This page does not add a Nutree refund promise for VietQR.',
           'You may request reconsideration with new evidence. You may also contact consumer authorities or courts under Vietnamese law. Non-waivable consumer rights are not limited by this policy.',
         ],
       },
@@ -117,7 +117,7 @@ export const complaintsPolicyContent: Record<Locale, LegalPageContent> = {
         body: [
           'Họ tên/tài khoản và email đăng ký.',
           'Mô tả sự việc, thời điểm, tính năng hoặc gói liên quan.',
-          'Biên nhận Apple nếu liên quan thanh toán (có thể che thông tin không cần thiết).',
+          'Biên nhận của kênh đã tính tiền — Apple, Google Play, Paddle hoặc chuyển khoản VietQR — nếu khiếu nại về thanh toán. Có thể che thông tin không cần thiết.',
           'Ảnh chụp màn hình, phiên bản ứng dụng, thiết bị và các bước đã thử.',
           'Phương án mong muốn. Không gửi mật khẩu, OTP hoặc toàn bộ số thẻ.',
         ],
@@ -146,7 +146,7 @@ export const complaintsPolicyContent: Record<Locale, LegalPageContent> = {
       {
         title: 'Kết quả và khiếu nại tiếp',
         body: [
-          'Phương án có thể gồm hướng dẫn, sửa lỗi, khôi phục quyền, phối hợp Apple hoặc trả lời bằng văn bản. Hoàn tiền App Store do Apple xem xét.',
+          'Phương án có thể gồm hướng dẫn, sửa lỗi, hỗ trợ quyền dùng hoặc trả lời bằng văn bản. Apple xem xét yêu cầu hoàn tiền App Store. Google Play xem xét yêu cầu hoàn tiền Google Play. Nutree không công bố cam kết hoàn tiền riêng cho Paddle; xem Điều khoản người mua của Paddle. Trang này không thêm cam kết hoàn tiền riêng của Nutree cho VietQR.',
           'Có thể yêu cầu xem xét lại với chứng cứ mới. Người dùng có quyền liên hệ cơ quan bảo vệ người tiêu dùng hoặc Tòa án theo pháp luật Việt Nam. Chính sách này không hạn chế quyền bắt buộc của người tiêu dùng.',
         ],
       },
