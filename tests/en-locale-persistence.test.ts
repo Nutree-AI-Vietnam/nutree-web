@@ -3,7 +3,7 @@ import { test } from 'node:test';
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { LegalPageView } from '../src/components/legal/LegalPageView';
-import { explicitEnglishEntrySetsPreference, rootLanguageDecision } from '../src/lib/home-language';
+import { ENGLISH_ENTRY_PRIVATE_CACHE, explicitEnglishEntrySetsPreference, rootLanguageDecision } from '../src/lib/home-language';
 import { localizedPublicHref } from '../src/lib/privacy-path';
 import { getNavHref } from '../src/lib/translations';
 import { usagePolicyContent } from '../src/lib/usage-policy-content';
@@ -37,6 +37,25 @@ test('explicit English documents set the preference and crawlers do not', () => 
   assert.equal(explicitEnglishEntrySetsPreference('/en', 'Mozilla/5.0'), true);
   assert.equal(explicitEnglishEntrySetsPreference('/terms', 'Mozilla/5.0'), false);
   assert.equal(explicitEnglishEntrySetsPreference('/en/privacy', 'Googlebot'), false);
+  assert.equal(
+    explicitEnglishEntrySetsPreference('/en/terms', 'Mozilla/5.0', { get: (name) => (name === 'next-router-prefetch' ? '1' : null) }),
+    false,
+  );
+  assert.equal(
+    explicitEnglishEntrySetsPreference('/en/terms', 'Mozilla/5.0', { get: (name) => (name === 'purpose' ? 'prefetch' : null) }),
+    false,
+  );
+  assert.equal(
+    explicitEnglishEntrySetsPreference('/en/terms', 'Mozilla/5.0', { get: (name) => (name === 'sec-fetch-dest' ? 'empty' : null) }),
+    false,
+  );
+  assert.equal(
+    explicitEnglishEntrySetsPreference('/en/terms', 'Mozilla/5.0', {
+      get: (name) => (name === 'sec-fetch-dest' ? 'empty' : name === 'sec-fetch-user' ? '?1' : null),
+    }),
+    true,
+  );
+  assert.equal(localizedPublicHref('https://nutreeai.com/payment?utm_source=tiktok#fee', 'en'), 'https://nutreeai.com/en/payment?utm_source=tiktok#fee');
   assert.deepEqual(
     rootLanguageDecision({ cookieHeader: 'nutree-locale=en', acceptLanguage: 'vi-VN', userAgent: 'Mozilla/5.0' }),
     { action: 'redirect', reason: 'cookie-en' },
@@ -45,6 +64,8 @@ test('explicit English documents set the preference and crawlers do not', () => 
     rootLanguageDecision({ cookieHeader: 'nutree-locale=vi', acceptLanguage: 'en-US', userAgent: 'Mozilla/5.0' }),
     { action: 'stay', reason: 'cookie-vi' },
   );
+  assert.equal(ENGLISH_ENTRY_PRIVATE_CACHE['cache-control'], 'private, no-store');
+  assert.equal(ENGLISH_ENTRY_PRIVATE_CACHE.vary, 'Cookie');
 });
 
 test('English policy body links localize and Vietnamese body links do not', () => {

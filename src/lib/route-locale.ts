@@ -27,3 +27,8 @@ export function getRouteLocale(pathname: string | null): Locale | undefined {
   if (pathname === '/blog' || pathname.startsWith('/blog/')) return 'vi';
   return undefined;
 }
+
+/** Unlocked pages follow the saved language, so their HTML must not be shared across cookies. */
+export function pageLanguageDependsOnCookie(pathname: string): boolean {
+  return getRouteLocale(pathname) === undefined;
+}

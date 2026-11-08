@@ -6,5 +6,5 @@ export const metadata = englishRootMetadata;
 export const viewport = rootViewport;
 
 export default function EnglishLayout({ children }: { children: React.ReactNode }) {
-  return <RootDocument lang="en">{children}</RootDocument>;
+  return <RootDocument lang="en" initialLocale="en">{children}</RootDocument>;
 }

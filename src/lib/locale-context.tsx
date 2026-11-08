@@ -58,9 +58,9 @@ function getInitialLocale(): Locale {
   return 'vi';
 }
 
-export function LocaleProvider({ children }: { children: ReactNode }) {
-  const [storedLocale, setStoredLocale] = useState<Locale>('vi');
-  const [preferenceReady, setPreferenceReady] = useState(false);
+export function LocaleProvider({ children, initialLocale }: { children: ReactNode; initialLocale?: Locale }) {
+  const [storedLocale, setStoredLocale] = useState<Locale>(initialLocale ?? 'vi');
+  const [preferenceReady, setPreferenceReady] = useState(initialLocale != null);
   const router = useRouter();
   const routeLocale = getRouteLocale(usePathname());
   const locale = routeLocale ?? storedLocale;
@@ -75,10 +75,14 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
     document.documentElement.lang = locale;
   }, [locale]);
 
-  // Explicit /en is the language choice. Do not write the cookie again after a VI switch on this page.
+  // Keep cookie and localStorage together after a real English entry.
+  // A Vietnamese choice writes vi first; this does not run again until the route changes.
   useEffect(() => {
-    if (routeLocale !== 'en') return;
-    if (readLocaleCookie(document.cookie) === 'en') return;
+    const cookie = readLocaleCookie(document.cookie);
+    if (cookie === 'vi') return;
+    if (routeLocale !== 'en' && cookie !== 'en') return;
+    const stored = localStorage.getItem(LOCALE_PREFERENCE_COOKIE);
+    if (cookie === 'en' && stored === 'en') return;
     persistLocaleChoice('en');
     setStoredLocale('en');
   }, [routeLocale]);

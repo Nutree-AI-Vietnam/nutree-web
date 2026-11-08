@@ -20,7 +20,15 @@ const beVietnamPro = localFont({
   display: 'swap',
 });
 
-export function RootDocument({ lang, children }: { lang: Locale; children: ReactNode }) {
+export function RootDocument({
+  lang,
+  initialLocale,
+  children,
+}: {
+  lang: Locale;
+  initialLocale?: Locale;
+  children: ReactNode;
+}) {
   return (
     <html
       lang={lang}
@@ -30,7 +38,7 @@ export function RootDocument({ lang, children }: { lang: Locale; children: React
         <TikTokEvents />
         <AdAttribution />
         <PostHogProvider>
-          <LocaleProvider>
+          <LocaleProvider initialLocale={initialLocale ?? lang}>
             <CookieConsent />
             <AppChrome>{children}</AppChrome>
           </LocaleProvider>

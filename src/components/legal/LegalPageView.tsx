@@ -164,11 +164,19 @@ function RichLegalText({ text, locale }: { text: string; locale: Locale }) {
         const md = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
         if (md) {
           const [, label, href] = md;
-          const isInternal = href.startsWith('/');
-          const localized = isInternal ? localizedPublicHref(href, locale) : href;
-          if (isInternal) {
+          const localized = localizedPublicHref(href, locale);
+          let internal: string | null = null;
+          if (href.startsWith('/') || href.startsWith('https://nutreeai.com') || href.startsWith('http://nutreeai.com')) {
+            try {
+              const url = new URL(localized, 'https://nutreeai.com');
+              if (url.hostname === 'nutreeai.com') internal = `${url.pathname}${url.search}${url.hash}`;
+            } catch {
+              internal = null;
+            }
+          }
+          if (internal) {
             return (
-              <Link key={`${i}-${localized}`} href={localized} className={linkClass}>
+              <Link key={`${i}-${internal}`} href={internal} className={linkClass}>
                 {label}
               </Link>
             );

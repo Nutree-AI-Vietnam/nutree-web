@@ -1,12 +1,29 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { explicitEnglishEntrySetsPreference, HOME_PATH, rootLanguageDecision } from '@/lib/home-language';
+import {
+  ENGLISH_ENTRY_PRIVATE_CACHE,
+  explicitEnglishEntrySetsPreference,
+  HOME_PATH,
+  rootLanguageDecision,
+} from '@/lib/home-language';
 import { localePreferenceCookie, readLocaleCookie } from '@/lib/locale-preference';
+import { pageLanguageDependsOnCookie } from '@/lib/route-locale';
 
 const ADMIN_HOST = 'admin.nutreeai.com';
 const ADMIN_HOME_PATH = '/admin/meal-catalog';
+const PATHNAME_HEADER = 'x-nutree-pathname';
 
 function hostnameFromRequest(request: NextRequest) {
   return request.headers.get('host')?.split(':')[0].toLowerCase();
+}
+
+function nextWithPath(request: NextRequest) {
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set(PATHNAME_HEADER, request.nextUrl.pathname);
+  const response = NextResponse.next({ request: { headers: requestHeaders } });
+  if (pageLanguageDependsOnCookie(request.nextUrl.pathname)) {
+    response.headers.append('Vary', 'Cookie');
+  }
+  return response;
 }
 
 export function middleware(request: NextRequest) {
@@ -17,21 +34,24 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  if (explicitEnglishEntrySetsPreference(pathname, request.headers.get('user-agent'))) {
-    if (readLocaleCookie(request.headers.get('cookie')) === 'en') return NextResponse.next();
-    const response = NextResponse.next();
-    response.headers.append('Set-Cookie', localePreferenceCookie('en', request.nextUrl.protocol === 'https:'));
-    return response;
+  if (explicitEnglishEntrySetsPreference(pathname, request.headers.get('user-agent'), request.headers)) {
+    if (readLocaleCookie(request.headers.get('cookie')) !== 'en') {
+      const response = nextWithPath(request);
+      response.headers.append('Set-Cookie', localePreferenceCookie('en', request.nextUrl.protocol === 'https:'));
+      response.headers.set('Cache-Control', ENGLISH_ENTRY_PRIVATE_CACHE['cache-control']);
+      response.headers.set('Vary', ENGLISH_ENTRY_PRIVATE_CACHE.vary);
+      return response;
+    }
   }
 
-  if (pathname !== HOME_PATH.vi) return NextResponse.next();
+  if (pathname !== HOME_PATH.vi) return nextWithPath(request);
 
   const decision = rootLanguageDecision({
     cookieHeader: request.headers.get('cookie'),
     acceptLanguage: request.headers.get('accept-language'),
     userAgent: request.headers.get('user-agent'),
   });
-  if (decision.action === 'stay') return NextResponse.next();
+  if (decision.action === 'stay') return nextWithPath(request);
 
   const destination = request.nextUrl.clone();
   destination.pathname = HOME_PATH.en;
@@ -42,5 +62,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/', '/en', '/en/:path*'],
+  matcher: ['/((?!_next/static|_next/image|favicon.ico|.*\\..*).*)'],
 };
