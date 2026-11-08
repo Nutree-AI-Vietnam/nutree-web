@@ -34,9 +34,11 @@ One later client flow, only on the delete-account pages, and only after the gate
 
 1. The person completes an interactive sign-in with a provider already enabled on the consumer Firebase project. The website does not create a second Firebase project.
 2. The ID token’s `aud` is that project id and `iss` is `https://securetoken.google.com/<project id>`. The backend already checks this when the flag is on.
-3. The browser keeps the ID token in memory for that tab. It sends `Authorization: Bearer` only to the existing intake routes. It does not put the token in `localStorage`, `sessionStorage`, a URL, or a cookie.
-4. Create, status, and withdraw each require a recent `auth_time`. Default in the backend draft is 300 seconds, plus 60 seconds of clock skew. A refresh token does not move `auth_time`. Each of those three calls needs a fresh interactive sign-in. A long-lived website session is not enough.
-5. The filing reference and the receipt id are stored only with the verified UID that owns them. They survive a refresh and a later sign-in of that same UID. A different UID must not see them or send them.
+3. The deletion flow uses its own named Firebase app instance. It does not use the staff admin app, the staff REST email-password login, or a shared default app whose persistence staff code could change.
+4. Before any sign-in call, that instance sets Firebase Auth persistence to memory only (`inMemoryPersistence`). Holding an ID token in a JavaScript variable is not that control. The SDK’s default is durable persistence, which keeps a session and can refresh it after reload. Memory persistence has to be set first, or the SDK may already have written a session.
+5. The sign-in method is popup (`signInWithPopup`), because a redirect unloads the page and memory persistence cannot finish `getRedirectResult` after that unload. If the popup is blocked or the device cannot open it, the flow stops. It does not switch to redirect, and it does not set session or local persistence as a fallback. A redirect mode would be a separate CTO decision. It is not a local fallback.
+6. The ID token is sent as `Authorization: Bearer` only to the intake routes. It is not written to `localStorage`, `sessionStorage`, a URL, or a cookie. A page refresh clears the Firebase user. Create, status, and withdraw then need a new interactive sign-in. A token refresh does not move `auth_time`. Default in the backend draft is 300 seconds, plus 60 seconds of clock skew.
+7. The filing reference and the receipt id are not tokens. They are stored separately, scoped by the verified UID, and they may survive a refresh. They must not contain an ID token, a refresh token, or an email. After a refresh they stay hidden until the same UID signs in again. A different UID must not see them or send them.
 
 Staff admin login stays on the meal-catalog pages. It does not gain a deletion button. The deletion flow does not gain an email-password form.
 
@@ -64,8 +66,9 @@ The server already keys the row by the verified UID. The client must not work ar
 - A rejected create value (`idempotency_key_invalid`) is not sent again. If a different valid reference is still unresolved, keep it. Do not replace it. If no valid reference and no receipt remain, do not mint a key.
 - The withdrawal header is checked per attempt and is not stored. It is not the create reference. A missing or rejected withdrawal check does not tell the person to file a new request.
 - Account switch: if the new ID token’s UID differs, drop the previous reference and receipt from the page. Do not send them. Reauth of the same UID may reuse them after a fresh interactive sign-in.
+- UID change in flight: if a create, status, or withdraw response arrives after the signed-in UID has changed, discard that response. Do not write its receipt or reference onto the new UID. Do not show it.
 
-Storage shape, if this is later built: `sessionStorage` may hold `{ uid, reference, receiptId }` and nothing else. The ID token stays in memory. Do not put the receipt or the reference in a query string. Do not send either to analytics.
+Storage shape, if this is later built: a non-auth store may hold `{ uid, reference, receiptId }` and nothing else. That store is not Firebase Auth persistence. The ID token and the refresh token stay inside the memory-only Firebase instance. Do not put the receipt or the reference in a query string. Do not send either to analytics.
 
 ## Failures stay on the operation that failed
 
@@ -99,11 +102,11 @@ Build no screen in this pull request. A later implementation uses the approved p
 
 | Risk | Constraint |
 | --- | --- |
-| XSS steals a bearer token | ID token is memory-only. A refresh clears it, which matches the short `auth_time` window. |
-| XSS reads the receipt id | The receipt is unguessable (`DR-` plus 128 random bits in the backend draft). Do not put it in the URL or analytics. This does not make XSS acceptable. The page still must not render untrusted HTML. |
-| CSRF on a cookie session | Do not authenticate the intake calls with a cookie the browser sends automatically. Use an `Authorization` header from memory. |
-| Open redirect after provider login | Return URL allowlist is only `/delete-account` and `/en/delete-account` on `https://nutreeai.com`. Reject absolute URLs and other paths. |
-| Provider callback | The OAuth redirect URI, if one is required, is an exact URL on `nutreeai.com` for those two paths. No wildcard. Adding it to the existing Firebase project is a console change and waits for CTO approval. This design does not perform it. |
+| XSS steals a bearer token | Memory persistence stops the SDK from keeping a session across refresh. It does not stop XSS from reading an ID token that is live in the page. The page still must not render untrusted HTML. |
+| XSS reads the receipt id | The receipt is unguessable (`DR-` plus 128 random bits in the backend draft). Do not put it in the URL or analytics. That does not make the receipt safe from XSS. |
+| CSRF on intake calls | A bearer header is not sent ambiently by the browser, so another site cannot attach it to an intake call. That does not cover OAuth login CSRF. Login CSRF is the SDK’s state and nonce on the provider round trip. |
+| Open redirect inside the app | After sign-in, the only allowed application paths are `/delete-account` and `/en/delete-account` on `https://nutreeai.com`. Reject every other path, every absolute URL, and every `//` path. These paths are not the provider callback. |
+| Provider callback and auth handler | The real OAuth callback and the Firebase auth-handler URL are whatever the consumer SDK and the enabled providers already use. That configuration is unknown until someone proves it. This design does not claim the delete-account paths are those URLs, and it does not change the Firebase console or a provider console. |
 | Email enumeration | The page does not look up an account by email. Sign-in errors stay generic. 404 stays “Nutree cannot show that.” |
 | Token in logs | Do not log the ID token, refresh token, email, or raw Firebase UID in the browser console or analytics. |
 | Cross-account replay | Client drops reference and receipt when the UID changes. Server returns the same 404 for a foreign receipt. |
@@ -134,11 +137,27 @@ Synthetic staging, only after the flag is explicitly allowed on a non-production
 
 No customer account is used in that matrix. No production test of a real deletion.
 
+## Acceptance tests for a later implementation
+
+These are checks of the client boundary. They are not a reason to build it in this pull request. None of them may pass by writing a Firebase session to local or session persistence.
+
+| Case | Expected |
+| --- | --- |
+| Memory persistence is set before sign-in | The consumer Firebase instance is not the staff app. After `setPersistence(inMemoryPersistence)`, a reload leaves no current user and no durable Firebase auth record for that instance. |
+| Refresh | The ID token is gone. Create, status, and withdraw do not run until the same UID signs in again. The saved valid reference and receipt stay stored under that UID and are not shown before that sign-in. They do not contain a token. |
+| Sign-out | The Firebase user is cleared. The other UID’s reference and receipt are not shown. |
+| Account switch | UID B does not read or send UID A’s reference or receipt. |
+| UID changes while a response is in flight | The late response is discarded. UID B’s reference and receipt are not overwritten or displayed. |
+| Lost create, then refresh, then the same UID signs in again | The original valid key is the one sent. If the stored row is withdrawn or closed, the page shows that returned state. It does not file a new received request. |
+| Popup cancelled, or popup blocked | No session is written. Persistence stays memory-only. The flow does not switch to redirect or to session or local persistence. |
+| OAuth state or nonce fails, the return is malicious, or the domain is not an authorized provider domain | The SDK rejects the sign-in. The application does not follow a caller-supplied URL. The allowed paths after a successful sign-in are only `/delete-account` and `/en/delete-account`. |
+| Two creates, or a withdraw lost while status is loading | One valid create key is in flight. A lost withdraw checks status and withdraws again only if the row is still open. Neither path tells the person to file a new request. |
+
 ## Operator
 
 Contact: `nutreeaidev@gmail.com`, already named. Do not ask for the contact again.
 
-Unknown: which technical principal performs `received → under_review → closed`, and how that principal is set up. The backend function does not authenticate the actor. There is no public operator route. This design does not add one.
+Unknown, and a release gate: which technical principal performs `received → under_review → closed`, and what audit mechanism records that act. The backend function does not authenticate the actor. There is no public operator route. This design does not add one. The contact is already `nutreeaidev@gmail.com`. Do not ask for that name again. The unverified principal and audit are not solved by naming the contact.
 
 Manual workflow: a person reads the request outside the website and changes state with the operator function. Closing a request does not erase data. If nobody is available, the row stays `received` or `under_review`. The page states no day count. The website does not send mail when a request is filed or when it sits.
 
@@ -156,27 +175,27 @@ Unknown until a named check:
 
 - Consumer Firebase project id, and whether it equals the backend app’s project id.
 - Providers actually enabled for the Nutree app.
-- Whether `nutreeai.com` is already an authorized redirect domain.
-- The operator principal and how it is audited.
+- The consumer SDK’s OAuth callback and Firebase auth-handler configuration, including authorized domains. That is not the same fact as the application return paths `/delete-account` and `/en/delete-account`.
+- The operator principal and the audit mechanism. The contact is already designated.
 - Whether Niels has approved backend 936. Reviews were empty when last read. This design does not re-check that as a merge of 936.
 
 ## Tasks before any implementation
 
-1. Backend records the initialized Firebase project id and the app’s enabled providers, without pasting private keys into git or chat.
-2. Compare that project id to the app. Mismatch stops the work.
-3. CTO accepts this boundary, including no new provider, no custom-token minter, no active-only gate, and no automatic Auth-user deletion.
-4. CTO decides the operator principal. The contact name is already set.
+1. Backend records the initialized Firebase project id, the app’s enabled providers, and the existing OAuth callback or auth-handler configuration, without pasting private keys into git or chat. A missing record stays unknown. It is not filled in by guessing.
+2. Compare that project id to the app. Mismatch stops the work. Do not treat `/delete-account` or `/en/delete-account` as the provider callback.
+3. CTO accepts this boundary, including memory-only persistence set before sign-in, popup with no persistence fallback, no new provider, no custom-token minter, no active-only gate, and no automatic Auth-user deletion.
+4. The operator principal and its audit mechanism are verified. The contact name is already set.
 5. Only then may a separate nutree-web change add the client sign-in and the calls, still behind the flag defaulting off, with the approved sentences unchanged.
 
 ## Rollout gates
 
 1. This design is approved or replaced by the CTO. Approval of the copy packet was not approval of this design.
 2. Backend 936 is reviewed on its own. Flag stays off. Migration stays unrun until that process says otherwise.
-3. Project id and provider list are proved. No invented provider.
-4. Redirect URI, if needed, is an exact `nutreeai.com` delete-account URL approved before anyone edits the Firebase console.
+3. Project id, provider list, and the existing OAuth callback or auth-handler configuration are proved. No invented provider. No console change is part of this design.
+4. Application return paths are only `/delete-account` and `/en/delete-account`, checked as same-origin paths. They are not registered here as provider callbacks.
 5. Public sentences remain the approved packet.
-6. A later implementation PR is reviewed by itself. It does not enable the flag and does not run a customer test.
-7. Enabling the flag is another decision, after the synthetic matrix and after the operator principal exists.
+6. A later implementation PR is reviewed by itself. It does not enable the flag and does not run a customer test. Its acceptance tests include memory persistence, in-flight UID change, same-key replay after refresh, and the OAuth failure cases above.
+7. Enabling the flag is another decision, after the synthetic matrix and after the operator principal and audit mechanism are verified.
 
 ## Out of scope
 
