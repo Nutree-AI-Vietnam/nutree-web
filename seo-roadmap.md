@@ -212,7 +212,7 @@ on to the next row the following day.
 
 | # | Lang | Page | Type | Status |
 | --- | --- | --- | --- | --- |
-| 1 | EN | `banh-mi-calories`: translation of `banh-mi-thit-bao-nhieu-calo` | Approved after PR #34 | Next |
+| 1 | EN | `banh-mi-calories`: translation of `banh-mi-thit-bao-nhieu-calo` | Approved after PR #34 | Done 2026-11-08 |
 | 2 | VI | Next "[món] bao nhiêu calo" dish the routine picks (rule 1 check first) | Approved | Next |
 | 3 | EN | `com-tam-calories`: translation of `com-tam-bao-nhieu-calo` | Approved after PR #34 | Next |
 | 4 | VI | "Thực phẩm giàu chất xơ ít calo" (research notes below) | New category: draft PR | Next |
