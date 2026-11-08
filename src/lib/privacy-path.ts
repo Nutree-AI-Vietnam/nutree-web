@@ -85,6 +85,24 @@ export function localizedPublicHref(href: string, locale: Locale): string {
   return href.startsWith('http://') || href.startsWith('https://') ? url.toString() : `${url.pathname}${url.search}${url.hash}`;
 }
 
+/**
+ * Path on nutreeai.com, or null when the URL is not that host.
+ * Hostname is compared after parsing, so a lookalike prefix is not this site.
+ */
+export function sameSiteAppPath(href: string): string | null {
+  let url: URL;
+  try {
+    url = new URL(href, 'https://nutreeai.com');
+  } catch {
+    return null;
+  }
+  if (url.protocol !== 'http:' && url.protocol !== 'https:') return null;
+  if (url.hostname !== 'nutreeai.com') return null;
+  const relative = href.startsWith('/') && !href.startsWith('//');
+  if (!relative && url.hostname !== 'nutreeai.com') return null;
+  return `${url.pathname}${url.search}${url.hash}`;
+}
+
 export function privacyAwareHref(href: string, locale: Locale): string {
   return localizedPublicHref(href, locale);
 }

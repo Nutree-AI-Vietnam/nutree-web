@@ -3,7 +3,7 @@ import Link from 'next/link';
 import type { LegalPageContent, LegalSection } from '@/lib/legal-content';
 import { LEGAL_LINKS } from '@/lib/legal-company';
 import { homePath } from '@/lib/home-language';
-import { localizedPublicHref, privacyAwareHref } from '@/lib/privacy-path';
+import { localizedPublicHref, privacyAwareHref, sameSiteAppPath } from '@/lib/privacy-path';
 import type { Locale } from '@/lib/translations';
 
 interface LegalPageViewProps {
@@ -164,16 +164,8 @@ function RichLegalText({ text, locale }: { text: string; locale: Locale }) {
         const md = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
         if (md) {
           const [, label, href] = md;
-          const localized = localizedPublicHref(href, locale);
-          let internal: string | null = null;
-          if (href.startsWith('/') || href.startsWith('https://nutreeai.com') || href.startsWith('http://nutreeai.com')) {
-            try {
-              const url = new URL(localized, 'https://nutreeai.com');
-              if (url.hostname === 'nutreeai.com') internal = `${url.pathname}${url.search}${url.hash}`;
-            } catch {
-              internal = null;
-            }
-          }
+          const sourcePath = sameSiteAppPath(href);
+          const internal = sourcePath ? sameSiteAppPath(localizedPublicHref(href, locale)) : null;
           if (internal) {
             return (
               <Link key={`${i}-${internal}`} href={internal} className={linkClass}>

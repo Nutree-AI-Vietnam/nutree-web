@@ -1,15 +1,21 @@
+import type { Metadata } from 'next';
+import { savedLocale } from '@/lib/saved-locale';
 import { createPageMetadata } from '@/lib/seo';
+import { translations } from '@/lib/translations';
 import { WhyNutreeContent } from './content';
 
-export const metadata = createPageMetadata({
-  title: 'Vì sao Nutree giúp bạn thoát skinny fat',
-  description:
-    'Bạn không thiếu kỷ luật. Bạn cần một hệ thống cho body recomposition. Nutree giảm tải việc ăn uống để mỡ giảm và cơ tăng cùng lúc.',
-  path: '/why',
-  ogType: 'article',
-  ogDescription:
-    'Thoát skinny fat bằng hệ thống được xây cho recomp, không chỉ là một app đếm calo.',
-});
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await savedLocale();
+  const copy = translations[locale].whyNutree;
+  return createPageMetadata({
+    title: copy.heroTitle,
+    description: copy.heroSubtitle,
+    path: '/why',
+    ogType: 'article',
+    ogDescription: copy.heroSubtitle,
+    ogLocale: locale === 'en' ? 'en_US' : 'vi_VN',
+  });
+}
 
 export default function WhyPage() {
   return <WhyNutreeContent />;
