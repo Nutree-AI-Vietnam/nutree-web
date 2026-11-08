@@ -10,9 +10,30 @@ export function privacyPath(locale: Locale): string {
   return locale === 'en' ? PRIVACY_PATH.en : PRIVACY_PATH.vi;
 }
 
-/** Privacy targets follow the language URL. Every other legal path stays as written. */
+/** Privacy targets, and the other paired public pages, follow the language URL. */
+const PAIRED_PUBLIC_PATHS = [
+  '/privacy',
+  '/terms',
+  '/usage',
+  '/pricing',
+  '/payment',
+  '/cancellation',
+  '/complaints',
+  '/faq',
+] as const;
+
+export function languageAlternatesFor(viPath: (typeof PAIRED_PUBLIC_PATHS)[number]): Record<string, string> {
+  return {
+    vi: viPath,
+    en: `/en${viPath}`,
+    'x-default': viPath,
+  };
+}
+
 export function privacyAwareHref(href: string, locale: Locale): string {
-  return href === PRIVACY_PATH.vi ? privacyPath(locale) : href;
+  if (locale !== 'en') return href;
+  if ((PAIRED_PUBLIC_PATHS as readonly string[]).includes(href)) return `/en${href}`;
+  return href;
 }
 
 /**

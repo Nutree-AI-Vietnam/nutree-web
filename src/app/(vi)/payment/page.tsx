@@ -1,5 +1,6 @@
 import { LegalPageClient } from '@/components/legal/LegalPageClient';
 import { paymentPolicyContent } from '@/lib/payment-policy-content';
+import { languageAlternatesFor } from '@/lib/privacy-path';
 import { createPageMetadata } from '@/lib/seo';
 
 export const metadata = createPageMetadata({
@@ -7,6 +8,7 @@ export const metadata = createPageMetadata({
   description:
     'Quy trình thanh toán gói Nutree qua Apple App Store: phương thức thanh toán, kích hoạt, khôi phục, tự động gia hạn và xử lý giao dịch lỗi.',
   path: '/payment',
+  languages: languageAlternatesFor('/payment'),
 });
 
 export default function PaymentPolicyPage() {

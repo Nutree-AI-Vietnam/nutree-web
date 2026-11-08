@@ -1,5 +1,6 @@
 import { LegalPageClient } from '@/components/legal/LegalPageClient';
 import { termsContent } from '@/lib/terms-content';
+import { languageAlternatesFor } from '@/lib/privacy-path';
 import { createPageMetadata } from '@/lib/seo';
 
 export const metadata = createPageMetadata({
@@ -7,6 +8,7 @@ export const metadata = createPageMetadata({
   description: 'Điều khoản sử dụng Nutree - các điều kiện khi sử dụng ứng dụng và dịch vụ.',
   path: '/terms',
   ogDescription: 'Các điều kiện khi sử dụng ứng dụng và dịch vụ Nutree.',
+  languages: languageAlternatesFor('/terms'),
 });
 
 export default function TermsOfService() {
