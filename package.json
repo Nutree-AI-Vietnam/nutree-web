@@ -10,6 +10,7 @@
     "type-check": "tsc --noEmit",
     "test": "tsx --tsconfig tsconfig.tests.json --test tests/*.test.ts",
     "blog:image": "node scripts/blog-image.mjs",
+    "blog:ai-image": "node scripts/blog-ai-image.mjs",
     "blog:objects": "node scripts/blog-art/objects.mjs"
   },
   "dependencies": {
