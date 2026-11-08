@@ -98,7 +98,9 @@ The "Nutree - SEM" routine runs every day at 20:05 UTC (03:05 in Vietnam). It re
 
 10. **Two languages:** the Vietnamese blog is `/blog`, the English one `/en/blog` (see "English posts"
     in `content/blog/README.md`). Each English page is a new page for rules 1–20: its own keyword, its
-    own live-results check and the one-page-a-day pace. Translated pairs get `hreflang` automatically.
+    own live-results check and the one-page-a-day pace. The English blog is international (global
+    foods and nutrition), not Vietnamese-dish translations; `translationOf` / `hreflang` only when
+    the same international topic exists in both languages.
 
 ## Open questions
 

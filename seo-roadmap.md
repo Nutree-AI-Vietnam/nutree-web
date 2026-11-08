@@ -105,21 +105,24 @@ following vinamilk.com.vn/blogs.
   - English pages carry `og:locale en_US`, `inLanguage en`, English breadcrumbs and an English header
     and footer. The EN/VI switch on a blog page opens the translation, or the other blog's home when
     there is none.
-  - First English post: `/en/blog/pho-calories`, a translation of the category template
-    `pho-bo-bao-nhieu-calo`. The live results for "pho calories" are articles (LIVESTRONG, FatSecret
-    and similar), so an article matches the intent. With no authority, this keyword is a long shot
-    (rule 12); its first job is to serve English readers.
+  - Legacy English dish posts (kept live, no more like these): `/en/blog/pho-calories`,
+    `/en/blog/banh-mi-calories` (published 2026-11-08 before the international pivot).
+- **Strategy change (2026-11-08):** the English blog is international, not a mirror of món Việt.
+  New EN pages cover global foods, nutrition basics, weight loss, meal plans and AI calorie tracking.
+  Vietnamese dish calories stay on `/blog` only.
 - **Not possible yet:** the root `<html lang>` stays `vi` in the server HTML on English pages, since
   the whole site shares one root layout. The content wrapper carries `lang="en"`, and the browser
   switches the root to `en` after load. Google says it detects a page's language from its content
   and ignores `lang`, so this does not affect ranking. Changing it means splitting the app into two
   root layouts, a larger change.
 - **Next:**
-  1. Translate the Vietnamese posts that suit English searchers through the daily routine, one
-     page a day at most (rule 16), in the order of the "Daily content queue" below: bánh mì, cơm
-     tấm, bún bò Huế and bún chả first. Check each English keyword on the live results first.
+  1. Draft the first international English page in an approved topic area (nutrition-basics,
+     weight-loss-muscle-gain, meal-plans or ai-calorie-tracking) as a pull request (rule 19). Once
+     the team approves that template, later EN pages in that category may publish to main.
   2. Give each English post links from other English posts (rule 3) as the English blog grows.
   3. Add Search Console filters for `/en/` to track the English blog separately.
+  4. Do not queue English translations of bánh mì, cơm tấm, bún bò Huế, bún chả or any other
+     Vietnamese dish.
 
 ## Lessons from vinamilk.com.vn/blogs (studied 2026-10-25)
 
@@ -129,7 +132,7 @@ text: copying would be someone else's work, and Google filters duplicate pages.
 | They do | We do |
 | --- | --- |
 | Separate trees per language (`/blogs`, `/en/blogs`), localized category and article slugs, `hreflang` only between real translations | Same since 2026-10-25 |
-| English edition is smaller: only some articles are translated | Same: translate selectively |
+| English edition is smaller: only some articles are translated | EN is its own international blog, not a dish-by-dish translation of VI |
 | Titles are a question plus a promise: "Sữa A2 là gì? Lợi ích…", "Bé bị tiêu chảy nên ăn gì và hạn chế ăn gì…", "TOP 10+ …" | Already our pattern; add the "[situation] nên ăn gì" form (see below) |
 | Numbered outline: `1.`, `2.`, `3.` H2s and `3.1`, `3.2` H3s in list articles | Use numbered H3s in list posts, e.g. "món ăn sáng giàu protein" |
 | In-body links with descriptive anchors to related posts and to product pages | We link related posts; also link the quiz from the body where the topic fits |
@@ -190,11 +193,15 @@ quiz, where people actually buy.
   - At the 90-day reviews, check whether daily publishing got pages indexed. If most of them
     weren't indexed, slow down.
 - **Categories with an approved first page** (the routine may publish more pages in these):
-  - Vietnamese dish calories. Template: `content/blog/pho-bo-bao-nhieu-calo.mdx`.
-  - English translations of Vietnamese dish calories, once pull request #34 is merged. Template:
-    `content/blog/en/pho-calories.mdx`.
-- **New categories waiting for a first page** (the routine drafts these as a pull request and
-  never publishes them):
+  - Vietnamese dish calories (VI only). Template: `content/blog/pho-bo-bao-nhieu-calo.mdx`.
+- **English international categories waiting for a first page** (draft PR only until approved):
+  - `nutrition-basics` (e.g. how many calories should I eat, what is TDEE)
+  - `weight-loss-muscle-gain` (e.g. calorie deficit for weight loss)
+  - `meal-plans` (e.g. high protein breakfast ideas)
+  - `ai-calorie-tracking` (e.g. AI calorie tracker from photos)
+  - Do not open new posts under `vietnamese-food-calories` in English.
+- **New Vietnamese categories waiting for a first page** (the routine drafts these as a pull
+  request and never publishes them):
   - "[competitor] alternative"
   - "[A] vs [B]"
   - "[app] for [audience]"
@@ -212,22 +219,23 @@ on to the next row the following day.
 
 | # | Lang | Page | Type | Status |
 | --- | --- | --- | --- | --- |
-| 1 | EN | `banh-mi-calories`: translation of `banh-mi-thit-bao-nhieu-calo` | Approved after PR #34 | Done 2026-11-08 |
+| 1 | EN | `banh-mi-calories` (legacy dish translation; last EN dish post) | Legacy | Done 2026-11-08 |
 | 2 | VI | Next "[món] bao nhiêu calo" dish the routine picks (rule 1 check first) | Approved | Next |
-| 3 | EN | `com-tam-calories`: translation of `com-tam-bao-nhieu-calo` | Approved after PR #34 | Next |
+| 3 | EN | First international EN page in `nutrition-basics` (pick keyword after live results + GSC; e.g. how many calories should I eat / what is TDEE) | New EN category: draft PR | Next |
 | 4 | VI | "Thực phẩm giàu chất xơ ít calo" (research notes below) | New category: draft PR | Next |
-| 5 | EN | `bun-bo-hue-calories`: translation of `bun-bo-hue-bao-nhieu-calo` | Approved after PR #34 | Next |
+| 5 | EN | First international EN page in `weight-loss-muscle-gain` (or next EN category if row 3 already approved) | New EN category: draft PR | Next |
 | 6 | VI | Next "[món] bao nhiêu calo" dish | Approved | Next |
-| 7 | EN | `bun-cha-calories`: translation of `bun-cha-bao-nhieu-calo` | Approved after PR #34 | Next |
+| 7 | EN | First international EN page in `meal-plans` or `ai-calorie-tracking` | New EN category: draft PR | Next |
 | 8 | VI | Next "[món] bao nhiêu calo" dish | Approved | Next |
 
-- **English rows wait for pull request #34.** Until `content/blog/en/` exists on `main`, skip
-  English rows and do the next Vietnamese one. Each English row needs its own live-results check
-  for the English keyword first (rule 11): keep the article format only if the results are articles.
-- **When the queue runs out**, the routine picks a Vietnamese dish as before and adds the next
-  8 rows here in the same pattern (English translations of published dish posts, alternating with
-  new Vietnamese dishes), plus at most one row from the Vinamilk topic ideas in "Lessons from
-  vinamilk.com.vn/blogs" above.
+- **Cancelled (2026-11-08):** further English translations of cơm tấm / bún bò Huế / bún chả or any
+  other Vietnamese dish. `banh-mi-calories` stays as the last EN dish post; do not add more.
+- **English rows** are international topics only. Until a category has an approved EN first page,
+  every EN row is a draft pull request (rule 19), never a push to main. Check the English keyword
+  on live results first (rule 11).
+- **When the queue runs out**, add more VI dish rows and at most one international EN draft-PR
+  row for a category that still lacks an approved first page, plus at most one row from the
+  Vinamilk topic ideas in "Lessons from vinamilk.com.vn/blogs" above.
 
 **Research notes for row 4 (checked 2026-10-25; reuse, don't redo):**
 - Keyword: "thực phẩm giàu chất xơ ít calo". The head term "thực phẩm giàu chất xơ" is out of reach

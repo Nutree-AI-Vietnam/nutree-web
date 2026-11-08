@@ -77,7 +77,8 @@ export const BLOG_CATEGORIES: Record<BlogLocale, readonly BlogCategory[]> = {
       id: 'thuc-don',
       slug: 'meal-plans',
       label: 'Meal plans & healthy eating',
-      description: 'Sample meal plans, high-protein breakfasts, meal prep and healthy swaps with Vietnamese food.',
+      description:
+        'Sample meal plans, high-protein breakfasts, meal prep and healthy everyday swaps.',
     },
     {
       id: 'ung-dung-ai',

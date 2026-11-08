@@ -352,38 +352,43 @@ search engines index and rank each language separately:
 | Feed | `/blog/feed.xml` | `/en/blog/feed.xml` |
 | Reserved slugs | `trang`, `chu-de`, `feed` | `page`, `topic`, `feed` |
 
-- **Slug:** the English search phrase, e.g. `pho-calories`. Don't reuse the Vietnamese slug.
-- **Write for English searchers.** Pick the phrase English speakers type (check the live Google results
-  first, as for any page) and put it at the start of the title. English number format: `2,000 kcal`,
-  `0.8 g/kg`. Keep dish names in Vietnamese with diacritics after the English name the first time,
-  e.g. "beef pho (phở bò)".
+- **Audience:** international English searchers. Write about global foods, nutrition basics, weight
+  loss, meal plans and calorie-tracking apps — not Vietnamese dishes, Vietnamese brands or
+  Vietnam-only habits. The Vietnamese blog covers món Việt; the English blog does not.
+- **Slug:** the English search phrase, e.g. `chicken-breast-calories`. Don't reuse a Vietnamese slug
+  and don't invent English slugs for Vietnamese dishes.
+- **Write for English searchers.** Pick the phrase English speakers type worldwide (check the live
+  Google results first, as for any page) and put it at the start of the title. English number format:
+  `2,000 kcal`, `0.8 g/kg`. Prefer everyday international foods and topics (chicken breast, avocado,
+  oatmeal, calorie deficit, TDEE, AI calorie tracking).
+- **Do not publish new posts in `vietnamese-food-calories`.** That category stays for the existing
+  `/en/blog/pho-calories` and `/en/blog/banh-mi-calories` pages only. New English posts use the
+  international categories below.
 - **Categories** use the English slugs:
 
-  | `category` | Shown as | Same topic as |
-  | --- | --- | --- |
-  | `vietnamese-food-calories` | Vietnamese food calories | `calo-mon-viet` |
-  | `weight-loss-muscle-gain` | Weight loss & muscle gain | `giam-can-tang-co` |
-  | `nutrition-basics` | Nutrition & calorie counting | `dinh-duong` |
-  | `meal-plans` | Meal plans & healthy eating | `thuc-don` |
-  | `ai-calorie-tracking` | Apps & AI | `ung-dung-ai` |
+  | `category` | Shown as | Same topic as | New EN posts |
+  | --- | --- | --- | --- |
+  | `vietnamese-food-calories` | Vietnamese food calories | `calo-mon-viet` | No — legacy only |
+  | `weight-loss-muscle-gain` | Weight loss & muscle gain | `giam-can-tang-co` | Yes |
+  | `nutrition-basics` | Nutrition & calorie counting | `dinh-duong` | Yes |
+  | `meal-plans` | Meal plans & healthy eating | `thuc-don` | Yes |
+  | `ai-calorie-tracking` | Apps & AI | `ung-dung-ai` | Yes |
 
-- **Translations:** a post that translates a post in the other language names its original with
-  `translationOf: <original slug>`. The build then links the pair both ways: `hreflang` tags, a
-  "read in the other language" link under the title, `workTranslation`/`translationOfWork` structured
-  data and sitemap alternates. Never edit the original to do this. Each article has at most one
-  translation, and the original must be published.
-- **Pictures:** a translation may reuse its original's pictures (`/blog/<original slug>/...`) with
-  English alt text and captions. A post that is not a translation keeps its pictures in
-  `public/en/blog/<slug>/`.
-- **Links:** link English posts as `/en/blog/<slug>`. A link to a Vietnamese post is allowed but says so,
-  e.g. "(in Vietnamese)". The build checks links in both languages.
-- **Sources:** the same health content rules apply. When a source is only in Vietnamese, say "(in
-  Vietnamese)" after the link, and name sections `## Frequently asked questions` and `## References`.
+- **Not translations of Vietnamese dish posts.** English pages are written for English keywords.
+  `translationOf` is allowed only when the same international topic truly exists in both languages
+  (e.g. a TDEE explainer). Never use it to ship English versions of món Việt calorie pages.
+- **Pictures:** keep English-only posts' pictures in `public/en/blog/<slug>/`. A true translation of
+  an international topic may reuse its original's pictures with English alt text and captions.
+- **Links:** link English posts as `/en/blog/<slug>`. Prefer linking within the English blog. A link
+  to a Vietnamese post is allowed only when useful, and must say "(in Vietnamese)".
+- **Sources:** the same health content rules apply. Prefer English-language sources. When a source is
+  only in Vietnamese, say "(in Vietnamese)" after the link. Name sections `## Frequently asked
+  questions` and `## References`.
 - **Components:** `<Callout>` and `<AppCta />` work the same; their labels switch to English
   automatically, as do the byline, dates, disclaimer and table of contents.
 
-`content/blog/en/pho-calories.mdx` is the complete English example (a translation of
-`pho-bo-bao-nhieu-calo.mdx`).
+`content/blog/en/pho-calories.mdx` and `banh-mi-calories.mdx` are legacy Vietnamese-dish pages.
+New English posts follow the international rules above, not those dish templates.
 
 ## Preview and publish
 

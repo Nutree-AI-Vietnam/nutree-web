@@ -44,9 +44,13 @@ Anything still open is marked _Missing_ or "not yet defined".
   đếm calo", reaches the top 10 yet.
 - **Target language:** Vietnamese first. Since 2026-10-25 (the team's request) there is also an English
   blog at `/en/blog`, separate from the Vietnamese one so each language ranks on its own.
-- **Content production:** the daily "Nutree - SEM" routine writes one Vietnamese SEO article per
-  day and publishes it to `main`. Its topic mix is 40% Vietnamese food calories, 30% weight loss
-  and nutrition, 20% meal plans and healthy eating, and 10% AI calorie tracking and apps.
+- **English blog focus (from 2026-11-08):** international English searchers — global foods, nutrition
+  basics, weight loss, meal plans and calorie-tracking apps. Do not add new English posts about
+  Vietnamese dishes; those stay on the Vietnamese blog. Existing `/en/blog/pho-calories` and
+  `/en/blog/banh-mi-calories` are legacy.
+- **Content production:** the weekly "Nutree - SEM" routine writes at most one SEO article per run
+  and publishes approved-category pages to `main`. Vietnamese mix stays food-calories heavy;
+  English mix is international topics only (no món Việt).
 
 ## 4. Main competitors
 
