@@ -13,9 +13,12 @@ export function getNavLabel(
   return '';
 }
 
-/** Nav link target in the given language: the blog has its own English URL, the rest is shared. */
+/** Nav link target in the given language. English home anchors stay on /en. */
 export function getNavHref(href: string, locale: Locale): string {
-  return href === '/blog' && locale === 'en' ? '/en/blog' : href;
+  if (locale !== 'en') return href;
+  if (href === '/blog') return '/en/blog';
+  if (href.startsWith('/#')) return `/en${href.slice(1)}`;
+  return href;
 }
 
 export interface FaqItem {

@@ -75,6 +75,14 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
     document.documentElement.lang = locale;
   }, [locale]);
 
+  // Explicit /en is the language choice. Do not write the cookie again after a VI switch on this page.
+  useEffect(() => {
+    if (routeLocale !== 'en') return;
+    if (readLocaleCookie(document.cookie) === 'en') return;
+    persistLocaleChoice('en');
+    setStoredLocale('en');
+  }, [routeLocale]);
+
   const setLocale = useCallback(
     (l: Locale) => {
       setStoredLocale(l);

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { HOME_PATH, rootLanguageDecision } from '@/lib/home-language';
+import { explicitEnglishEntrySetsPreference, HOME_PATH, rootLanguageDecision } from '@/lib/home-language';
+import { localePreferenceCookie, readLocaleCookie } from '@/lib/locale-preference';
 
 const ADMIN_HOST = 'admin.nutreeai.com';
 const ADMIN_HOME_PATH = '/admin/meal-catalog';
@@ -9,11 +10,21 @@ function hostnameFromRequest(request: NextRequest) {
 }
 
 export function middleware(request: NextRequest) {
+  const pathname = request.nextUrl.pathname;
+
   if (hostnameFromRequest(request) === ADMIN_HOST) {
-    return NextResponse.rewrite(new URL(ADMIN_HOME_PATH, request.url));
+    if (pathname === HOME_PATH.vi) return NextResponse.rewrite(new URL(ADMIN_HOME_PATH, request.url));
+    return NextResponse.next();
   }
 
-  if (request.nextUrl.pathname !== HOME_PATH.vi) return NextResponse.next();
+  if (explicitEnglishEntrySetsPreference(pathname, request.headers.get('user-agent'))) {
+    if (readLocaleCookie(request.headers.get('cookie')) === 'en') return NextResponse.next();
+    const response = NextResponse.next();
+    response.headers.append('Set-Cookie', localePreferenceCookie('en', request.nextUrl.protocol === 'https:'));
+    return response;
+  }
+
+  if (pathname !== HOME_PATH.vi) return NextResponse.next();
 
   const decision = rootLanguageDecision({
     cookieHeader: request.headers.get('cookie'),
@@ -31,5 +42,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: '/',
+  matcher: ['/', '/en', '/en/:path*'],
 };

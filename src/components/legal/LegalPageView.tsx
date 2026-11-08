@@ -3,7 +3,7 @@ import Link from 'next/link';
 import type { LegalPageContent, LegalSection } from '@/lib/legal-content';
 import { LEGAL_LINKS } from '@/lib/legal-company';
 import { homePath } from '@/lib/home-language';
-import { privacyAwareHref } from '@/lib/privacy-path';
+import { localizedPublicHref, privacyAwareHref } from '@/lib/privacy-path';
 import type { Locale } from '@/lib/translations';
 
 interface LegalPageViewProps {
@@ -41,6 +41,7 @@ export function LegalPageView({ page, locale, siblingHref, siblingKey }: LegalPa
               index={index + 1}
               section={section}
               headers={page.tableHeaders}
+              locale={locale}
             />
           ))}
         </div>
@@ -93,7 +94,7 @@ function TableOfContents({ page }: { page: LegalPageContent }) {
   );
 }
 
-function LegalSectionView({ index, section, headers }: { index: number; section: LegalSection; headers?: [string, string, string] }) {
+function LegalSectionView({ index, section, headers, locale }: { index: number; section: LegalSection; headers?: [string, string, string]; locale: Locale }) {
   return (
     <section id={`section-${index}`} className="scroll-mt-8">
       <h2 className="mb-4 flex items-center gap-3 font-display text-xl font-semibold text-foreground">
@@ -103,7 +104,7 @@ function LegalSectionView({ index, section, headers }: { index: number; section:
       <div className="space-y-4 pl-11">
         {section.body?.map((paragraph) => (
           <p key={paragraph}>
-            <RichLegalText text={paragraph} />
+            <RichLegalText text={paragraph} locale={locale} />
           </p>
         ))}
         {section.images?.map((image) => (
@@ -150,7 +151,7 @@ function LegalSectionView({ index, section, headers }: { index: number; section:
 }
 
 /** Renders markdown-style [label](href) plus bare emails and https URLs as links. */
-function RichLegalText({ text }: { text: string }) {
+function RichLegalText({ text, locale }: { text: string; locale: Locale }) {
   const linkClass = 'text-primary-forest underline-offset-2 hover:text-primary-teal hover:underline';
   // Split on [label](href), emails, and https URLs while keeping delimiters
   const tokenPattern =
@@ -164,9 +165,10 @@ function RichLegalText({ text }: { text: string }) {
         if (md) {
           const [, label, href] = md;
           const isInternal = href.startsWith('/');
+          const localized = isInternal ? localizedPublicHref(href, locale) : href;
           if (isInternal) {
             return (
-              <Link key={`${i}-${href}`} href={href} className={linkClass}>
+              <Link key={`${i}-${localized}`} href={localized} className={linkClass}>
                 {label}
               </Link>
             );

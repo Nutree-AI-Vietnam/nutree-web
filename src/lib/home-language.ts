@@ -95,6 +95,12 @@ export function preferredHomeLanguage(header: string | null | undefined): 'vi' |
   return 'unknown';
 }
 
+/** An explicit /en document is a language choice. Crawlers do not get a preference cookie. */
+export function explicitEnglishEntrySetsPreference(pathname: string, userAgent: string | null | undefined): boolean {
+  if (isKnownCrawler(userAgent)) return false;
+  return pathname === HOME_PATH.en || pathname.startsWith(`${HOME_PATH.en}/`);
+}
+
 export function rootLanguageDecision(input: {
   cookieHeader: string | null;
   acceptLanguage: string | null;
