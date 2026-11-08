@@ -115,6 +115,49 @@ test('English policy body links localize and Vietnamese body links do not', () =
   assert.equal(vietnamese.includes('href="/en/payment"'), false);
 });
 
+function parsedHttpLinks(html: string): URL[] {
+  const urls: URL[] = [];
+  let from = 0;
+  const marker = 'href="';
+  while (from < html.length) {
+    const start = html.indexOf(marker, from);
+    if (start < 0) break;
+    const end = html.indexOf('"', start + marker.length);
+    if (end < 0) break;
+    const value = html.slice(start + marker.length, end);
+    from = end + 1;
+    try {
+      const url = new URL(value);
+      if (url.protocol === 'http:' || url.protocol === 'https:') urls.push(url);
+    } catch {
+      // Relative and malformed hrefs are not absolute links.
+    }
+  }
+  return urls;
+}
+
+function alternatePath(html: string, hreflang: string): string | null {
+  let from = 0;
+  while (from < html.length) {
+    const start = html.indexOf('<link', from);
+    if (start < 0) return null;
+    const end = html.indexOf('>', start);
+    if (end < 0) return null;
+    const tag = html.slice(start, end);
+    from = end + 1;
+    if (!tag.includes(`hreflang="${hreflang}"`) && !tag.includes(`hrefLang="${hreflang}"`)) continue;
+    const hrefAt = tag.indexOf('href="');
+    if (hrefAt < 0) continue;
+    const hrefEnd = tag.indexOf('"', hrefAt + 6);
+    try {
+      return new URL(tag.slice(hrefAt + 6, hrefEnd)).pathname;
+    } catch {
+      return null;
+    }
+  }
+  return null;
+}
+
 const base = process.env.BASE_URL?.replace(/\/$/, '');
 const http = { skip: base ? false : 'set BASE_URL to check rendered HTML' } as const;
 
@@ -149,10 +192,13 @@ test('shared page titles follow the saved language and keep their canonical path
   assert.match(englishHome.title ?? '', /AI nutrition assistant/);
   assert.equal(englishHome.canonical, 'https://nutreeai.com/en');
   const englishHtml = await (await fetch(`${base}/en`, { headers: { 'Accept-Language': 'vi-VN' } })).text();
-  assert.match(englishHtml, /hreflang="en"[^>]*href="https:\/\/nutreeai.com\/en"|hrefLang="en"[^>]*href="https:\/\/nutreeai.com\/en"/);
-  assert.match(englishHtml, /hreflang="x-default"[^>]*href="https:\/\/nutreeai.com\/en"|hrefLang="x-default"[^>]*href="https:\/\/nutreeai.com\/en"/);
+  assert.equal(alternatePath(englishHtml, 'en'), '/en');
+  assert.equal(alternatePath(englishHtml, 'x-default'), '/en');
   const researchHtml = await (await fetch(`${base}/research`, { headers: { Cookie: 'nutree-locale=en' } })).text();
-  assert.equal(researchHtml.includes('https://nutreeai.com/en/research'), false);
+  assert.equal(
+    parsedHttpLinks(researchHtml).some((url) => url.hostname === 'nutreeai.com' && url.pathname === '/en/research'),
+    false,
+  );
   const vietnameseHome = await titleFor('/', 'nutree-locale=vi');
   assert.equal(vietnameseHome.lang, 'vi');
   assert.match(vietnameseHome.title ?? '', /Trợ lý dinh dưỡng AI/);
