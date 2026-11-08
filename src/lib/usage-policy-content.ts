@@ -19,7 +19,7 @@ export const usagePolicyContent: Record<Locale, LegalPageContent> = {
   en: {
     title: 'Usage Policy',
     description:
-      'How Nutree web payment unlocks the mobile app: choose a plan, pay, receive a deeplink by email, and start using Nutree.',
+      'What this page says about the Nutree website checkout. It does not promise an activation email, a deeplink, or that the app unlocks.',
     toc: 'Table of Contents',
     backHome: 'Back to Home',
     home: 'Home',
@@ -30,21 +30,22 @@ export const usagePolicyContent: Record<Locale, LegalPageContent> = {
       {
         title: 'Scope',
         body: [
-          `This Usage Policy explains how customers activate and use Nutree after paying on the Nutree website (${LEGAL_COMPANY.websiteDisplay}). Provider: ${LEGAL_COMPANY.legalNameEn}. Support: ${LEGAL_COMPANY.email}.`,
-          'This page describes the published website checkout that shows a one-time VietQR transfer and a deeplink by email. Apple in-app purchase, Google Play in-app purchase, and Paddle web checkout are described in the [Payment Policy](/payment). This page does not say those three channels use this VietQR deeplink.',
+          `This Usage Policy is about the Nutree website (${LEGAL_COMPANY.websiteDisplay}). Provider: ${LEGAL_COMPANY.legalNameEn}. Published company email: ${LEGAL_COMPANY.email}.`,
+          'The Vietnamese purchase page can show a one-time yearly VietQR transfer. The English purchase page does not show that VietQR checkout. Apple in-app purchase, Google Play in-app purchase, and Paddle web checkout are described in the [Payment Policy](/payment). This page does not say those three channels use a website deeplink.',
+          'This page does not promise that a website payment sends an activation email, a deeplink, or unlocks the app.',
         ],
       },
       {
         title: 'Step 1 — Choose a plan on the website',
         body: [
-          'Open the Nutree website and choose a plan.',
-          'Select Monthly or Yearly. Prices and features are shown before you continue to checkout.',
+          'On the Vietnamese purchase page, VietQR is offered for one plan: a one-time yearly transfer. This page does not say that checkout offers a monthly plan.',
+          'The amount shown on the screen you are using is the amount for that screen. This page does not publish a second price.',
         ],
         images: [
           {
             src: '/images/vi/dashboard.webp',
             alt: 'Nutree app preview after plan activation',
-            caption: 'Nutree mobile experience unlocked after successful activation.',
+            caption: 'Illustration of the Nutree app. This image is not a promise that a website payment unlocks the app.',
           },
         ],
       },
@@ -53,7 +54,7 @@ export const usagePolicyContent: Record<Locale, LegalPageContent> = {
         body: [
           'Follow the on-screen checkout instructions (for example bank transfer with VietQR and the exact amount shown).',
           'Transfer the exact amount and keep your payment receipt / transaction reference.',
-          `If the checkout asks you to send a receipt, email it to ${LEGAL_COMPANY.email} with the transfer content or order reference so Nutree can match the payment.`,
+          'If the checkout asks you to send a receipt, send it through [Facebook Messenger](https://m.me/1019820571221637) or to nutreeaidev@gmail.com with the transfer content or order reference. This page does not promise a match or a deadline.',
         ],
         images: [
           {
@@ -64,43 +65,42 @@ export const usagePolicyContent: Record<Locale, LegalPageContent> = {
         ],
       },
       {
-        title: 'Step 3 — Receive the deeplink by email',
+        title: 'Step 3 — Email and links',
         body: [
-          'After Nutree confirms your payment, we send an activation email to the email address used for the purchase / lead.',
-          'That email contains a deeplink (universal / app link) to open Nutree and unlock the paid plan. Check Inbox and Spam/Promotions if you do not see it within a reasonable time after confirmation.',
-          `If the email does not arrive, contact ${LEGAL_COMPANY.email} with your payment proof and the email address you used.`,
+          'This page does not promise an activation email or a deeplink after a website payment.',
+          'If you receive a message about a purchase, check who sent it before you open a link. Nutree does not ask for a banking password in email or chat.',
+          'If you need help, contact [Facebook Messenger](https://m.me/1019820571221637) or nutreeaidev@gmail.com with your payment proof and the email address you used. This page does not promise a reply time.',
         ],
       },
       {
-        title: 'Step 4 — Open the deeplink and use Nutree',
+        title: 'Step 4 — Using the app',
         body: [
-          'On your iPhone, tap the deeplink in the activation email.',
-          'If Nutree is already installed, the app opens and continues activation (sign-in / email confirmation may be required so the purchase matches your account).',
-          'If Nutree is not installed yet, install Nutree from the App Store, then reopen the same activation email and tap the deeplink again.',
-          'After successful activation you can use paid features such as AI meal scans, adaptive daily targets, and meal guidance on Home.',
+          'This page does not give device-specific activation steps and does not promise that opening a link unlocks paid features.',
+          'Apple in-app purchase, Google Play in-app purchase, and Paddle web checkout follow the [Payment Policy](/payment). They do not use the Vietnamese VietQR screen.',
+          'Install Nutree from the store for your device if you do not already have it. This page does not promise that installing the app unlocks a website payment.',
         ],
         images: [
           {
             src: '/images/vi/meal-scanning.webp',
             alt: 'Nutree meal scanning after activation',
-            caption: 'After activation, use Nutree features such as AI meal scanning in the app.',
+            caption: 'Illustration of meal scanning in the Nutree app. This image is not a promise that a website payment unlocks that feature.',
           },
         ],
       },
       {
         title: 'Account matching and security',
         body: [
-          'Use the same email for purchase, activation email, and app sign-in when asked. Mismatched emails can delay entitlement.',
-          'Do not share your deeplink. Links may expire or become single-use for security.',
+          'When a screen asks you to sign in, use the email that screen asks for. This page does not promise that matching an email unlocks a purchase.',
+          'If you receive a link about a purchase, do not share it. This page does not say how long a link lasts.',
           'Nutree does not ask for your banking password in email or chat.',
         ],
       },
       {
         title: 'Troubleshooting',
         body: [
-          'No email: wait a few minutes, check Spam, confirm the email spelling, then contact support with payment proof.',
-          'Link opens the browser instead of the app: install or update Nutree, then reopen the same email link on your phone.',
-          'Paid but features locked: finish the in-app email / sign-in steps from the deeplink, then restart the app. If still locked, email support with your receipt.',
+          'No email: this page does not promise an email. If you need help, contact [Facebook Messenger](https://m.me/1019820571221637) or nutreeaidev@gmail.com with payment proof.',
+          'A link opens the browser: this page does not promise that a link opens the app.',
+          'Paid but features locked: this page does not promise that a website payment unlocks features. Apple and Google Play restore is described in the [Payment Policy](/payment). Other help: the same Messenger link or nutreeaidev@gmail.com.',
         ],
       },
       {
@@ -114,7 +114,7 @@ export const usagePolicyContent: Record<Locale, LegalPageContent> = {
   vi: {
     title: 'Chính sách sử dụng',
     description:
-      'Hướng dẫn kích hoạt và dùng Nutree sau khi thanh toán trên website: chọn gói, thanh toán, nhận deeplink qua email và mở app.',
+      'Trang này nói gì về thanh toán trên website Nutree. Trang không cam kết email kích hoạt, deeplink hoặc việc mở khóa ứng dụng.',
     toc: 'Mục lục',
     backHome: 'Về trang chủ',
     home: 'Trang chủ',
@@ -125,21 +125,22 @@ export const usagePolicyContent: Record<Locale, LegalPageContent> = {
       {
         title: 'Phạm vi áp dụng',
         body: [
-          `Chính sách này mô tả cách khách hàng kích hoạt và sử dụng Nutree sau khi thanh toán trên website (${LEGAL_COMPANY.websiteDisplay}). Đơn vị cung cấp: ${LEGAL_COMPANY.legalName}. Hỗ trợ: ${LEGAL_COMPANY.email}.`,
-          'Trang này mô tả thanh toán trên website đang công bố: chuyển khoản VietQR một lần và deeplink qua email. Mua trong ứng dụng Apple, mua trong ứng dụng Google Play và thanh toán web Paddle được nêu ở [Chính sách thanh toán](/payment). Trang này không nói ba kênh đó dùng deeplink VietQR này.',
+          `Chính sách sử dụng này nói về website Nutree (${LEGAL_COMPANY.websiteDisplay}). Đơn vị cung cấp: ${LEGAL_COMPANY.legalName}. Email công ty đã công bố: ${LEGAL_COMPANY.email}.`,
+          'Trang mua tiếng Việt có thể hiện chuyển khoản VietQR một lần cho gói năm. Trang mua tiếng Anh không hiện checkout VietQR đó. Mua trong ứng dụng Apple, mua trong ứng dụng Google Play và thanh toán web Paddle được nêu ở [Chính sách thanh toán](/payment). Trang này không nói ba kênh đó dùng deeplink trên website.',
+          'Trang này không cam kết thanh toán trên website sẽ gửi email kích hoạt, gửi deeplink hoặc mở khóa ứng dụng.',
         ],
       },
       {
         title: 'Bước 1 — Chọn gói trên website',
         body: [
-          'Truy cập website Nutree và chọn gói.',
-          'Chọn gói Tháng hoặc gói Năm. Giá và quyền lợi được hiển thị trước khi tiếp tục thanh toán.',
+          'Trên trang mua tiếng Việt, VietQR được cung cấp cho một gói: chuyển khoản một lần theo năm. Trang này không nói checkout đó có gói tháng.',
+          'Số tiền trên màn hình bạn đang dùng là số tiền của màn hình đó. Trang này không niêm yết một mức giá thứ hai.',
         ],
         images: [
           {
             src: '/images/vi/dashboard.webp',
             alt: 'Giao diện Nutree sau khi kích hoạt gói',
-            caption: 'Trải nghiệm app Nutree sau khi kích hoạt thành công.',
+            caption: 'Hình minh họa ứng dụng Nutree. Hình này không phải cam kết thanh toán trên website sẽ mở khóa ứng dụng.',
           },
         ],
       },
@@ -148,7 +149,7 @@ export const usagePolicyContent: Record<Locale, LegalPageContent> = {
         body: [
           'Làm theo hướng dẫn checkout trên màn hình (ví dụ chuyển khoản VietQR đúng số tiền hiển thị).',
           'Chuyển đúng số tiền và lưu biên lai / mã giao dịch.',
-          `Nếu checkout yêu cầu gửi biên lai, hãy gửi về ${LEGAL_COMPANY.email} kèm nội dung chuyển khoản hoặc mã đơn để Nutree đối soát.`,
+          'Nếu checkout yêu cầu gửi biên lai, hãy gửi qua [Facebook Messenger](https://m.me/1019820571221637) hoặc tới nutreeaidev@gmail.com, kèm nội dung chuyển khoản hoặc mã đơn. Trang này không cam kết đối soát hoặc hạn trả lời.',
         ],
         images: [
           {
@@ -159,43 +160,42 @@ export const usagePolicyContent: Record<Locale, LegalPageContent> = {
         ],
       },
       {
-        title: 'Bước 3 — Nhận deeplink qua email',
+        title: 'Bước 3 — Email và liên kết',
         body: [
-          'Sau khi Nutree xác nhận thanh toán thành công, hệ thống gửi email kích hoạt tới địa chỉ email dùng khi mua / để lại trên website.',
-          'Email này chứa deeplink (universal / app link) để mở Nutree và kích hoạt gói đã thanh toán. Nếu chưa thấy email, hãy kiểm tra Hộp thư đến và Thư rác/Quảng cáo.',
-          `Nếu không nhận được email, liên hệ ${LEGAL_COMPANY.email} kèm bằng chứng thanh toán và địa chỉ email đã dùng.`,
+          'Trang này không cam kết có email kích hoạt hoặc deeplink sau thanh toán trên website.',
+          'Nếu bạn nhận tin nhắn về một giao dịch, hãy kiểm tra người gửi trước khi mở liên kết. Nutree không hỏi mật khẩu ngân hàng qua email hoặc chat.',
+          'Nếu cần hỗ trợ, nhắn [Facebook Messenger](https://m.me/1019820571221637) hoặc gửi tới nutreeaidev@gmail.com, kèm bằng chứng thanh toán và địa chỉ email đã dùng. Trang này không cam kết thời gian trả lời.',
         ],
       },
       {
-        title: 'Bước 4 — Mở deeplink và dùng Nutree',
+        title: 'Bước 4 — Dùng ứng dụng',
         body: [
-          'Trên iPhone, chạm vào deeplink trong email kích hoạt.',
-          'Nếu đã cài Nutree, app sẽ mở và tiếp tục bước kích hoạt (có thể cần đăng nhập / xác nhận email để khớp giao dịch với tài khoản).',
-          'Nếu chưa cài Nutree, hãy tải Nutree trên App Store, rồi mở lại cùng email kích hoạt và chạm deeplink lần nữa.',
-          'Sau khi kích hoạt thành công, bạn dùng được các tính năng trả phí như quét món AI, mục tiêu thích ứng và gợi ý bữa ăn trên Home.',
+          'Trang này không đưa các bước kích hoạt theo từng thiết bị và không cam kết mở một liên kết sẽ mở khóa tính năng trả phí.',
+          'Mua trong ứng dụng Apple, mua trong ứng dụng Google Play và thanh toán web Paddle theo [Chính sách thanh toán](/payment). Ba kênh đó không dùng màn hình VietQR tiếng Việt.',
+          'Hãy cài Nutree từ cửa hàng của thiết bị nếu bạn chưa có ứng dụng. Trang này không cam kết việc cài ứng dụng sẽ mở khóa một thanh toán trên website.',
         ],
         images: [
           {
             src: '/images/vi/meal-scanning.webp',
             alt: 'Quét món bằng AI trên Nutree sau kích hoạt',
-            caption: 'Sau kích hoạt, dùng các tính năng như quét món bằng AI trong app.',
+            caption: 'Hình minh họa quét món trong ứng dụng Nutree. Hình này không phải cam kết thanh toán trên website sẽ mở khóa tính năng đó.',
           },
         ],
       },
       {
         title: 'Khớp tài khoản và bảo mật',
         body: [
-          'Nên dùng cùng một email cho thanh toán, email kích hoạt và đăng nhập app khi được yêu cầu. Email không khớp có thể làm chậm việc nhận quyền.',
-          'Không chia sẻ deeplink. Liên kết có thể hết hạn hoặc chỉ dùng một lần vì lý do bảo mật.',
+          'Khi một màn hình yêu cầu đăng nhập, hãy dùng email mà màn hình đó yêu cầu. Trang này không cam kết việc trùng email sẽ mở khóa giao dịch.',
+          'Nếu bạn nhận một liên kết về giao dịch, đừng chia sẻ liên kết đó. Trang này không nói liên kết tồn tại bao lâu.',
           'Nutree không yêu cầu mật khẩu ngân hàng qua email hoặc chat.',
         ],
       },
       {
         title: 'Xử lý sự cố',
         body: [
-          'Không nhận email: đợi vài phút, kiểm tra Thư rác, xác nhận đúng địa chỉ email, rồi liên hệ hỗ trợ kèm biên lai.',
-          'Link mở trình duyệt thay vì app: cài hoặc cập nhật Nutree, rồi mở lại cùng liên kết trong email trên điện thoại.',
-          'Đã thanh toán nhưng chưa mở khóa tính năng: hoàn tất bước email / đăng nhập trong app từ deeplink, rồi mở lại app. Nếu vẫn lỗi, gửi biên lai tới email hỗ trợ.',
+          'Không nhận email: trang này không cam kết có email. Nếu cần hỗ trợ, nhắn [Facebook Messenger](https://m.me/1019820571221637) hoặc gửi tới nutreeaidev@gmail.com kèm bằng chứng thanh toán.',
+          'Liên kết mở trình duyệt: trang này không cam kết một liên kết sẽ mở ứng dụng.',
+          'Đã thanh toán nhưng chưa mở khóa tính năng: trang này không cam kết thanh toán trên website sẽ mở khóa tính năng. Cách khôi phục Apple và Google Play nằm ở [Chính sách thanh toán](/payment). Hỗ trợ khác: cùng liên kết Messenger hoặc nutreeaidev@gmail.com.',
         ],
       },
       {

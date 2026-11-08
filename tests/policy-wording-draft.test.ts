@@ -39,7 +39,7 @@ test('payment draft names four channels and does not promise a Paddle refund win
   assert.equal(blob.includes('14 ngày'), false);
   assert.equal(blob.includes('no refunds'), false);
   assert.equal(blob.includes('không hoàn tiền'), false);
-  const urlsInBlob = (blob.match(/https?:\/\/[^\s"']+/g) ?? []).flatMap((rawUrl) => {
+  const urlsInBlob = (blob.match(/https?:\/\/[^\s"')]+/g) ?? []).flatMap((rawUrl) => {
     try {
       return [new URL(rawUrl)];
     } catch {
@@ -97,8 +97,13 @@ test('later pricing, payment, usage, and complaint sections name the same four c
   }
   const usageEn = sectionText(usagePolicyContent.en, 'Scope');
   const usageVi = sectionText(usagePolicyContent.vi, 'Phạm vi áp dụng');
-  assert.match(usageEn, /does not say those three channels use this VietQR deeplink/);
-  assert.match(usageVi, /không nói ba kênh đó dùng deeplink VietQR này/);
+  assert.match(usageEn, /does not say those three channels use a website deeplink/);
+  assert.match(usageEn, /one-time yearly VietQR/);
+  assert.match(usageEn, /does not promise that a website payment sends an activation email/);
+  assert.equal(usageEn.includes('Select Monthly or Yearly'), false);
+  assert.match(usageVi, /không nói ba kênh đó dùng deeplink trên website/);
+  assert.match(usageVi, /không cam kết thanh toán trên website sẽ gửi email kích hoạt/);
+  assert.equal(usageVi.includes('Chọn gói Tháng hoặc gói Năm'), false);
 });
 
 test('store refunds, restore, and the privacy processor row stay channel-specific', () => {

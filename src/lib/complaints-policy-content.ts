@@ -37,11 +37,12 @@ export const complaintsPolicyContent: Record<Locale, LegalPageContent> = {
       {
         title: 'Intake channels',
         body: [
-          `Email: ${LEGAL_COMPANY.email}`,
+          `Published company email: ${LEGAL_COMPANY.email}.`,
+          'Payment and access help uses the same contacts as the Payment Policy: [Facebook Messenger](https://m.me/1019820571221637) or nutreeaidev@gmail.com.',
           'In-app support/feedback when available.',
           `Written mail: ${LEGAL_COMPANY.legalNameEn}, ${LEGAL_COMPANY.addressEn}.`,
           `Website: ${LEGAL_COMPANY.websiteDisplay}.`,
-          'Recommended subject: “[Nutree - Support/Complaint]” using your registered account email.',
+          'This page does not rank these contacts or publish a reply deadline.',
         ],
       },
       {
@@ -57,22 +58,14 @@ export const complaintsPolicyContent: Record<Locale, LegalPageContent> = {
       {
         title: 'Process and target timelines',
         body: [
-          'Timelines start when we have enough information and exclude waits on you, Apple, banks, partners, or authorities.',
+          'This page does not publish a 3, 7, or 15 business-day commitment. No replacement deadline is stated here.',
         ],
         table: [
-          ['1', 'Intake & classification', 'Within 3 business days'],
-          ['2', 'Verification', 'Depends on the case'],
-          [
-            '3',
-            'Proposed resolution',
-            'Usually within 7 business days after complete information',
-          ],
-          [
-            '4',
-            'Complex cases',
-            'Not more than 15 business days except special cases',
-          ],
-          ['5', 'Outcome / reconsideration', 'Per the outcome notice'],
+          ['1', 'Intake & classification', 'No deadline is published on this page'],
+          ['2', 'Verification', 'No deadline is published on this page'],
+          ['3', 'Proposed resolution', 'No deadline is published on this page'],
+          ['4', 'Complex cases', 'No deadline is published on this page'],
+          ['5', 'Outcome / reconsideration', 'No deadline is published on this page'],
         ],
       },
       {
@@ -105,11 +98,12 @@ export const complaintsPolicyContent: Record<Locale, LegalPageContent> = {
       {
         title: 'Kênh tiếp nhận',
         body: [
-          `Email: ${LEGAL_COMPANY.email}`,
+          `Email công ty đã công bố: ${LEGAL_COMPANY.email}.`,
+          'Hỗ trợ thanh toán và quyền dùng dùng cùng liên hệ với Chính sách thanh toán: [Facebook Messenger](https://m.me/1019820571221637) hoặc nutreeaidev@gmail.com.',
           'Trong ứng dụng: mục Hỗ trợ/Phản hồi khi có.',
           `Văn bản: ${LEGAL_COMPANY.legalName}, ${LEGAL_COMPANY.address}.`,
           `Website: ${LEGAL_COMPANY.websiteDisplay}.`,
-          'Khuyến nghị tiêu đề “[Nutree - Hỗ trợ/Khiếu nại]” và dùng email đăng ký tài khoản.',
+          'Trang này không xếp hạng các liên hệ này và không công bố hạn trả lời.',
         ],
       },
       {
@@ -125,22 +119,14 @@ export const complaintsPolicyContent: Record<Locale, LegalPageContent> = {
       {
         title: 'Quy trình và thời gian mục tiêu',
         body: [
-          'Thời gian tính từ khi nhận đủ thông tin; không gồm thời gian chờ phản hồi của người dùng, Apple, ngân hàng, đối tác hoặc cơ quan nhà nước.',
+          'Trang này không công bố cam kết 3, 7 hoặc 15 ngày làm việc. Không có hạn thay thế trên trang này.',
         ],
         table: [
-          ['1', 'Tiếp nhận & phân loại', 'Tối đa 03 ngày làm việc'],
-          ['2', 'Xác minh', 'Theo tính chất vụ việc'],
-          [
-            '3',
-            'Đề xuất xử lý',
-            'Thông thường trong 07 ngày làm việc sau khi đủ thông tin',
-          ],
-          [
-            '4',
-            'Vụ việc phức tạp',
-            'Không quá 15 ngày làm việc, trừ trường hợp đặc biệt',
-          ],
-          ['5', 'Kết quả / xem xét lại', 'Theo thông báo kết quả'],
+          ['1', 'Tiếp nhận & phân loại', 'Trang này không công bố hạn'],
+          ['2', 'Xác minh', 'Trang này không công bố hạn'],
+          ['3', 'Đề xuất xử lý', 'Trang này không công bố hạn'],
+          ['4', 'Vụ việc phức tạp', 'Trang này không công bố hạn'],
+          ['5', 'Kết quả / xem xét lại', 'Trang này không công bố hạn'],
         ],
       },
       {

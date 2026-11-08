@@ -47,14 +47,14 @@ export const paymentPolicyContent: Record<Locale, LegalPageContent> = {
         body: [
           'Choose the channel you are using. Apple, Google Play, Paddle, and the VietQR screen each show the amount before you confirm. This page does not publish that amount.',
           'Apple may ask for Face ID, Touch ID, or a password. The amount confirmed on that channel is the amount for that transaction.',
-          'Access unlocks after a successful verified transaction.',
+          'This page does not promise when paid access appears. The channel you paid with shows whether that transaction completed.',
         ],
       },
       {
         title: 'Activation and restore',
         body: [
-          'Paid access usually unlocks after verification. Use Restore when changing devices or if sync is delayed.',
-          'If access does not appear, check the network and the status in the channel you paid with, then contact Facebook Messenger or nutreeaidev@gmail.com with your receipt.',
+          'In the Nutree app, an Apple or Google Play purchase can be restored by signing in with the same store account. This page does not say the website has a Restore action, and it does not say a Paddle web checkout or a VietQR transfer restores automatically.',
+          'If access is missing, check the network and the status in the channel you paid with, then contact [Facebook Messenger](https://m.me/1019820571221637) or nutreeaidev@gmail.com with your receipt. This page does not promise that access will appear.',
         ],
       },
       {
@@ -110,14 +110,14 @@ export const paymentPolicyContent: Record<Locale, LegalPageContent> = {
         body: [
           'Chọn kênh bạn đang dùng. Apple, Google Play, Paddle và màn hình VietQR đều hiển thị số tiền trước khi bạn xác nhận. Trang này không niêm yết số tiền đó.',
           'Apple có thể yêu cầu Face ID, Touch ID hoặc mật khẩu. Số tiền bạn xác nhận trên kênh đó là số tiền của giao dịch đó.',
-          'Quyền sử dụng được kích hoạt sau khi giao dịch thành công và được xác minh.',
+          'Trang này không cam kết thời điểm quyền trả phí xuất hiện. Kênh bạn đã trả tiền cho biết giao dịch đó đã hoàn tất hay chưa.',
         ],
       },
       {
         title: 'Kích hoạt và khôi phục',
         body: [
-          'Quyền trả phí thường được kích hoạt ngay sau khi xác minh. Dùng chức năng Khôi phục khi đổi thiết bị hoặc quyền chưa đồng bộ.',
-          'Nếu vẫn không nhận quyền: kiểm tra kết nối và trạng thái trên kênh đã trả tiền, rồi nhắn Facebook Messenger hoặc gửi biên nhận tới nutreeaidev@gmail.com.',
+          'Trong app Nutree, giao dịch Apple hoặc Google Play có thể được khôi phục khi bạn đăng nhập cùng tài khoản cửa hàng đã mua. Trang này không nói website có chức năng Khôi phục, và không nói thanh toán web Paddle hoặc chuyển khoản VietQR tự khôi phục.',
+          'Nếu thiếu quyền dùng, kiểm tra kết nối và trạng thái trên kênh đã trả tiền, rồi nhắn [Facebook Messenger](https://m.me/1019820571221637) hoặc gửi biên nhận tới nutreeaidev@gmail.com. Trang này không cam kết quyền dùng sẽ xuất hiện.',
         ],
       },
       {
