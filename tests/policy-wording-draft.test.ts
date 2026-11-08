@@ -39,9 +39,11 @@ test('payment draft names four channels and does not promise a Paddle refund win
   assert.equal(blob.includes('14 ngày'), false);
   assert.equal(blob.includes('no refunds'), false);
   assert.equal(blob.includes('không hoàn tiền'), false);
-  const urlsInBlob = (blob.match(/https?:\/\/[^\s"')]+/g) ?? []).flatMap((rawUrl) => {
+  const urlsInBlob = (blob.match(/https?:\/\/[^\s"']+/g) ?? []).flatMap((rawUrl) => {
+    // Markdown links are written ](url). The match keeps the closing ")" and the sentence ".".
+    const candidate = rawUrl.endsWith(').') ? rawUrl.slice(0, -2) : rawUrl.endsWith(')') ? rawUrl.slice(0, -1) : rawUrl;
     try {
-      return [new URL(rawUrl)];
+      return [new URL(candidate)];
     } catch {
       return [];
     }

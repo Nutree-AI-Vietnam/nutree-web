@@ -68,8 +68,9 @@ function hrefsForLabel(html: string, label: string): string[] {
 test('terms privacy sibling uses the locale privacy URL', () => {
   assert.equal(privacyAwareHref('/privacy', 'en'), '/en/privacy');
   assert.equal(privacyAwareHref('/privacy', 'vi'), '/privacy');
-  assert.equal(privacyAwareHref('/terms', 'en'), '/terms');
+  assert.equal(privacyAwareHref('/terms', 'en'), '/en/terms');
   assert.equal(privacyAwareHref('/terms', 'vi'), '/terms');
+  assert.equal(privacyAwareHref('/faq', 'en'), '/en/faq');
 
   for (const locale of ['en', 'vi'] as const) {
     const page: LegalPageContent = termsContent[locale];
@@ -96,7 +97,7 @@ test('terms privacy sibling uses the locale privacy URL', () => {
   );
   const termsHrefs = hrefsForLabel(englishTerms, termsContent.en.links.terms);
   assert.ok(termsHrefs.length >= 1);
-  assert.deepEqual(termsHrefs, Array(termsHrefs.length).fill('/terms'));
+  assert.deepEqual(termsHrefs, Array(termsHrefs.length).fill('/en/terms'));
 });
 
 test('route locale locks only URL-backed pages', () => {
@@ -108,7 +109,9 @@ test('route locale locks only URL-backed pages', () => {
   assert.equal(getRouteLocale('/blog/some-post'), 'vi');
   assert.equal(getRouteLocale('/privacy'), undefined);
   assert.equal(getRouteLocale('/en/privacy-policy'), undefined);
-  assert.equal(getRouteLocale('/en/terms'), undefined);
+  assert.equal(getRouteLocale('/en/terms'), 'en');
+  assert.equal(getRouteLocale('/en/faq'), 'en');
+  assert.equal(getRouteLocale('/terms'), undefined);
   assert.equal(getRouteLocale('/'), 'vi');
   assert.equal(getRouteLocale('/en'), 'en');
   assert.equal(getRouteLocale(null), undefined);

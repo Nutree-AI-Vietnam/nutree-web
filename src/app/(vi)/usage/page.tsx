@@ -1,5 +1,6 @@
 import { LegalPageClient } from '@/components/legal/LegalPageClient';
 import { usagePolicyContent } from '@/lib/usage-policy-content';
+import { languageAlternatesFor } from '@/lib/privacy-path';
 import { createPageMetadata } from '@/lib/seo';
 
 export const metadata = createPageMetadata({
@@ -7,6 +8,7 @@ export const metadata = createPageMetadata({
   description:
     'Trang này mô tả thanh toán trên website Nutree. Trang không nói website gửi email kích hoạt hoặc deeplink.',
   path: '/usage',
+  languages: languageAlternatesFor('/usage'),
 });
 
 export default function UsagePolicyPage() {

@@ -2,17 +2,21 @@
 
 import Link from 'next/link';
 import { useLocale } from '@/lib/locale-context';
-import { privacyPath } from '@/lib/privacy-path';
+import { homePath } from '@/lib/home-language';
+import { privacyAwareHref, privacyPath } from '@/lib/privacy-path';
+import { translations, type Locale } from '@/lib/translations';
 import { FaqAccordion } from '@/components/sections/FaqAccordion';
 
-export function FaqPageClient() {
-  const { locale, t } = useLocale();
+export function FaqPageClient({ locale: forcedLocale }: { locale?: Locale } = {}) {
+  const { locale: contextLocale, t: contextT } = useLocale();
+  const locale = forcedLocale ?? contextLocale;
+  const t = forcedLocale ? translations[forcedLocale] : contextT;
 
   return (
     <main lang={locale} className="min-h-screen bg-gradient-to-br from-white via-white to-primary-teal/5">
       <div className="container mx-auto px-4 py-20">
         <Link
-          href="/"
+          href={homePath(locale)}
           aria-label={t.common.backHome}
           className="mb-8 inline-flex items-center gap-2 text-sm font-medium text-primary-forest transition-colors hover:text-primary-teal"
         >
@@ -65,11 +69,11 @@ export function FaqPageClient() {
               {t.footer.privacyPolicy}
             </Link>
             <span className="mx-2">|</span>
-            <Link href="/terms" className="text-primary-forest hover:text-primary-teal">
+            <Link href={privacyAwareHref('/terms', locale)} className="text-primary-forest hover:text-primary-teal">
               {t.footer.termsOfService}
             </Link>
             <span className="mx-2">|</span>
-            <Link href="/" className="text-primary-forest hover:text-primary-teal">
+            <Link href={homePath(locale)} className="text-primary-forest hover:text-primary-teal">
               {t.common.home}
             </Link>
           </p>
