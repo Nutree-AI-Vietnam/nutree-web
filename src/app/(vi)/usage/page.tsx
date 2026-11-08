@@ -1,5 +1,6 @@
 import { LegalPageClient } from '@/components/legal/LegalPageClient';
 import { usagePolicyContent } from '@/lib/usage-policy-content';
+import { languageAlternatesFor } from '@/lib/privacy-path';
 import { createPageMetadata } from '@/lib/seo';
 
 export const metadata = createPageMetadata({
@@ -7,6 +8,7 @@ export const metadata = createPageMetadata({
   description:
     'Hướng dẫn kích hoạt và dùng Nutree sau khi thanh toán trên website: chọn gói, thanh toán, nhận deeplink qua email và mở app.',
   path: '/usage',
+  languages: languageAlternatesFor('/usage'),
 });
 
 export default function UsagePolicyPage() {

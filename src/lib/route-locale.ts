@@ -11,6 +11,17 @@ export function getRouteLocale(pathname: string | null): Locale | undefined {
   if (!pathname) return undefined;
   if (pathname === HOME_PATH.en) return 'en';
   if (pathname === PRIVACY_PATH.en || pathname.startsWith(`${PRIVACY_PATH.en}/`)) return 'en';
+  if (
+    pathname === '/en/terms' ||
+    pathname === '/en/payment' ||
+    pathname === '/en/cancellation' ||
+    pathname === '/en/pricing' ||
+    pathname === '/en/usage' ||
+    pathname === '/en/complaints' ||
+    pathname === '/en/faq'
+  ) {
+    return 'en';
+  }
   if (pathname === '/en/blog' || pathname.startsWith('/en/blog/')) return 'en';
   if (pathname === HOME_PATH.vi) return 'vi';
   if (pathname === '/blog' || pathname.startsWith('/blog/')) return 'vi';

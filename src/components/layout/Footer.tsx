@@ -7,7 +7,7 @@ import { StoreBadges } from '@/components/ui/StoreBadges';
 import { LEGAL_COMPANY, LEGAL_LINKS } from '@/lib/legal-company';
 import { useLocale } from '@/lib/locale-context';
 import { openCookieConsent } from '@/lib/cookie-consent-store';
-import { privacyPath } from '@/lib/privacy-path';
+import { privacyAwareHref, privacyPath } from '@/lib/privacy-path';
 import { getNavHref } from '@/lib/translations';
 
 export function Footer() {
@@ -68,7 +68,7 @@ export function Footer() {
               {LEGAL_LINKS.map((item) => (
                 <Link
                   key={item.href}
-                  href={item.href}
+                  href={privacyAwareHref(item.href, legalLocale)}
                   className="min-h-9 inline-flex items-center transition-colors hover:text-primary-forest"
                 >
                   {item.label[legalLocale]}
@@ -87,7 +87,7 @@ export function Footer() {
                 {t.footer.research}
               </Link>
               <Link
-                href="/faq"
+                href={privacyAwareHref('/faq', locale)}
                 className="min-h-9 inline-flex items-center transition-colors hover:text-primary-forest"
               >
                 {t.footer.faq}
@@ -142,13 +142,13 @@ export function Footer() {
             <Link href={privacyPath(locale)} className="hover:text-foreground">
               {t.footer.privacyPolicy}
             </Link>
-            <Link href="/terms" className="hover:text-foreground">
+            <Link href={privacyAwareHref('/terms', locale)} className="hover:text-foreground">
               {t.footer.termsOfService}
             </Link>
-            <Link href="/usage" className="hover:text-foreground">
+            <Link href={privacyAwareHref('/usage', locale)} className="hover:text-foreground">
               {legalLocale === 'vi' ? 'Chính sách sử dụng' : 'Usage'}
             </Link>
-            <Link href="/cancellation" className="hover:text-foreground">
+            <Link href={privacyAwareHref('/cancellation', locale)} className="hover:text-foreground">
               {legalLocale === 'vi' ? 'Hủy & hoàn tiền' : 'Cancellation'}
             </Link>
           </div>
