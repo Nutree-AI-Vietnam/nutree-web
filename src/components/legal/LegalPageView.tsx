@@ -17,7 +17,7 @@ interface LegalPageViewProps {
 export function LegalPageView({ page, locale, siblingHref, siblingKey }: LegalPageViewProps) {
   return (
     <main lang={locale} className="min-h-screen bg-gradient-to-br from-white via-white to-primary-teal/5">
-      <div className="container mx-auto max-w-3xl px-4 py-20">
+      <div className="container mx-auto max-w-3xl px-4 pb-20 pt-28 md:pt-32">
         <Link href={homePath(locale)} className="mb-8 inline-flex text-sm font-medium text-primary-forest hover:text-primary-teal">
           {page.backHome}
         </Link>

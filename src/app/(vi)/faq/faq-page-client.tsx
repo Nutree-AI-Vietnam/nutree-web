@@ -14,7 +14,7 @@ export function FaqPageClient({ locale: forcedLocale }: { locale?: Locale } = {}
 
   return (
     <main lang={locale} className="min-h-screen bg-gradient-to-br from-white via-white to-primary-teal/5">
-      <div className="container mx-auto px-4 py-20">
+      <div className="container mx-auto px-4 pb-20 pt-28 md:pt-32">
         <Link
           href={homePath(locale)}
           aria-label={t.common.backHome}

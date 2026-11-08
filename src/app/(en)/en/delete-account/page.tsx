@@ -1,13 +1,15 @@
 import { DeleteAccountArticle } from '@/components/account/DeleteAccountArticle';
-import { deleteAccountContent } from '@/lib/delete-account-content';
+import { DELETE_ACCOUNT_LANGUAGES, DELETE_ACCOUNT_PATH, deleteAccountContent } from '@/lib/delete-account-content';
 import { createPageMetadata } from '@/lib/seo';
 
 export const metadata = createPageMetadata({
-  title: `${deleteAccountContent.title} | Nutree`,
-  description: deleteAccountContent.description,
-  path: '/en/delete-account',
+  title: `${deleteAccountContent.en.title} | Nutree`,
+  description: deleteAccountContent.en.description,
+  path: DELETE_ACCOUNT_PATH.en,
+  ogLocale: 'en_US',
+  languages: DELETE_ACCOUNT_LANGUAGES,
 });
 
 export default function EnglishDeleteAccountPage() {
-  return <DeleteAccountArticle />;
+  return <DeleteAccountArticle locale="en" />;
 }

@@ -39,7 +39,8 @@ const dates = {
 export const privacyContent: Record<Locale, LegalPageContent> = {
   en: {
     title: 'Privacy Policy',
-    description: 'How Nutree collects, uses, shares, retains, and protects personal data.',
+    description:
+      'How Nutree collects, uses, shares, retains, and protects personal data such as meal logs, photos, and account details.',
     toc: 'Table of Contents',
     backHome: 'Back to Home',
     home: 'Home',

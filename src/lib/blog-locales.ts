@@ -128,7 +128,7 @@ export const BLOG_LOCALES: Record<BlogLocale, BlogLocaleConfig> = {
     pageSegment: 'page',
     feedPath: '/en/blog/feed.xml',
     name: 'Nutree Nutrition Blog',
-    indexTitle: 'Nutree Nutrition Blog: Vietnamese food calories, weight loss & meal plans',
+    indexTitle: 'Nutree blog: Vietnamese food calories and meal plans',
     description:
       'Practical nutrition you can use: calories in Vietnamese dishes, weight loss and muscle gain, macros, TDEE and healthy meal plans, with sources.',
     htmlLang: 'en',

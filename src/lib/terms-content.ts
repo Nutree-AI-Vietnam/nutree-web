@@ -9,7 +9,8 @@ const dates = {
 export const termsContent: Record<Locale, LegalPageContent> = {
   en: {
     title: 'Terms of Service',
-    description: 'Terms and conditions for using Nutree.',
+    description:
+      'Terms for using the Nutree app and website, including accounts, subscriptions, and what users agree not to do.',
     toc: 'Table of Contents',
     backHome: 'Back to Home',
     home: 'Home',

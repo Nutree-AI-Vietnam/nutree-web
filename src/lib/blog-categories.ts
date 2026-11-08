@@ -28,27 +28,28 @@ export const BLOG_CATEGORIES: Record<BlogLocale, readonly BlogCategory[]> = {
       slug: 'giam-can-tang-co',
       label: 'Giảm cân & tăng cơ',
       description:
-        'Thâm hụt calo, giảm mỡ, tăng cơ và giữ cân bền vững, giải thích bằng số liệu thay vì mẹo truyền miệng.',
+        'Thâm hụt calo, giảm mỡ, tăng cơ và giữ cân bền vững, giải thích bằng số liệu thay vì mẹo truyền miệng cho người mới.',
     },
     {
       id: 'dinh-duong',
       slug: 'dinh-duong',
       label: 'Dinh dưỡng & đếm calo',
       description:
-        'Kiến thức nền về calo, macro, TDEE và cách theo dõi bữa ăn hằng ngày cho người mới bắt đầu.',
+        'Kiến thức nền về calo, macro, TDEE và cách theo dõi bữa ăn hằng ngày cho người mới bắt đầu giảm cân.',
     },
     {
       id: 'thuc-don',
       slug: 'thuc-don',
       label: 'Thực đơn & ăn lành mạnh',
-      description: 'Thực đơn mẫu, bữa sáng giàu protein, meal prep và mẹo ăn lành mạnh với món Việt.',
+      description:
+        'Thực đơn mẫu, bữa sáng giàu protein, meal prep và mẹo ăn lành mạnh với món Việt cho cả tuần.',
     },
     {
       id: 'ung-dung-ai',
       slug: 'ung-dung-ai',
       label: 'App & công nghệ AI',
       description:
-        'Ứng dụng đếm calo, chụp ảnh món ăn bằng AI và cách công nghệ giúp theo dõi dinh dưỡng dễ hơn.',
+        'Ứng dụng đếm calo, chụp ảnh món ăn bằng AI và cách công nghệ giúp theo dõi dinh dưỡng dễ hơn mỗi ngày.',
     },
   ],
   en: [

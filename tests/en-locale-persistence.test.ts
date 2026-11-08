@@ -250,7 +250,10 @@ test('unprefixed FAQ titles follow the cookie and /en/faq stays English', http, 
   assert.equal(faqEn.status, 200);
   assert.equal(faqEn.url, '/faq');
   assert.equal(faqEn.title, 'Frequently Asked Questions | Nutree');
-  assert.equal(faqEn.description, 'Find answers to common questions about Nutree.');
+  assert.equal(
+    faqEn.description,
+    'Find answers to common questions about Nutree: meal logging, subscriptions, account deletion, languages, and how to reach support.',
+  );
   assert.equal(faqEn.canonical, 'https://nutreeai.com/faq');
   assert.equal(faqEn.hreflangVi, '/faq');
   assert.equal(faqEn.hreflangEn, '/en/faq');
@@ -262,7 +265,7 @@ test('unprefixed FAQ titles follow the cookie and /en/faq stays English', http, 
   assert.equal(faqVi.title, 'Câu hỏi thường gặp | Nutree');
   assert.equal(
     faqVi.description,
-    'Giải đáp câu hỏi về Nutree — track dinh dưỡng bằng AI, gợi ý bữa ăn, gói đăng ký và hơn thế nữa.',
+    'Giải đáp câu hỏi về Nutree: ghi bữa ăn bằng AI, gợi ý món, gói đăng ký, xóa tài khoản và cách liên hệ hỗ trợ khi cần.',
   );
   assert.equal(faqVi.canonical, 'https://nutreeai.com/faq');
   assert.equal(faqVi.hreflangEn, '/en/faq');
@@ -271,7 +274,10 @@ test('unprefixed FAQ titles follow the cookie and /en/faq stays English', http, 
   const locked = await load('/en/faq', 'nutree-locale=vi');
   assert.equal(locked.url, '/en/faq');
   assert.equal(locked.title, 'Frequently Asked Questions | Nutree');
-  assert.equal(locked.description, 'Find answers to common questions about Nutree.');
+  assert.equal(
+    locked.description,
+    'Find answers to common questions about Nutree: meal logging, subscriptions, account deletion, languages, and how to reach support.',
+  );
   assert.equal(locked.canonical, 'https://nutreeai.com/en/faq');
   assert.equal(locked.hreflangVi, '/faq');
   assert.equal(locked.hreflangEn, '/en/faq');

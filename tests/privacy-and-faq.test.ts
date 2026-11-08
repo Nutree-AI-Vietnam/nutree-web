@@ -9,7 +9,7 @@ import { FaqAccordion } from '../src/components/sections/FaqAccordion';
 import { privacyContent, type LegalPageContent } from '../src/lib/legal-content';
 import { PRIVACY_LANGUAGE_ALTERNATES, PRIVACY_PATH, privacyAwareHref, privacyPath } from '../src/lib/privacy-path';
 import { termsContent } from '../src/lib/terms-content';
-import { getRouteLocale } from '../src/lib/route-locale';
+import { getRouteLocale, languageSwitchHref } from '../src/lib/route-locale';
 import { translations, type Locale } from '../src/lib/translations';
 
 const englishIntro = privacyContent.en.sections[0]?.body?.[0] ?? '';
@@ -50,7 +50,7 @@ test('privacy URLs stay paired without a second policy document', () => {
   assert.equal(vietnamesePrivacyMetadata.title, 'Chính sách bảo mật | Nutree');
   assert.equal(
     vietnamesePrivacyMetadata.description,
-    'Chính sách bảo mật của Nutree - cách chúng tôi thu thập, sử dụng và bảo vệ dữ liệu.'
+    'Chính sách bảo mật của Nutree: dữ liệu nào được thu thập, dùng để làm gì, chia sẻ với ai, lưu bao lâu và cách yêu cầu xóa.'
   );
   assert.equal(vietnamesePrivacyMetadata.alternates?.canonical, PRIVACY_PATH.vi);
   assert.deepEqual(vietnamesePrivacyMetadata.alternates?.languages, PRIVACY_LANGUAGE_ALTERNATES);
@@ -112,6 +112,14 @@ test('route locale locks only URL-backed pages', () => {
   assert.equal(getRouteLocale('/en/terms'), 'en');
   assert.equal(getRouteLocale('/en/faq'), 'en');
   assert.equal(getRouteLocale('/terms'), undefined);
+  assert.equal(getRouteLocale('/delete-account'), 'vi');
+  assert.equal(getRouteLocale('/en/delete-account'), 'en');
+  assert.equal(languageSwitchHref('/en', 'vi'), '/');
+  assert.equal(languageSwitchHref('/', 'en'), '/en');
+  assert.equal(languageSwitchHref('/delete-account', 'en'), '/en/delete-account');
+  assert.equal(languageSwitchHref('/en/delete-account', 'vi'), '/delete-account');
+  assert.equal(languageSwitchHref('/why', 'en'), '/why');
+  assert.equal(languageSwitchHref('/blog/pho-bo-bao-nhieu-calo', 'en'), '/en/blog');
   assert.equal(getRouteLocale('/'), 'vi');
   assert.equal(getRouteLocale('/en'), 'en');
   assert.equal(getRouteLocale(null), undefined);

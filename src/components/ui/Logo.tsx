@@ -11,8 +11,8 @@ interface LogoProps {
 }
 
 const sizeClasses = {
-  sm: 'text-xl',
-  md: 'text-2xl',
+  sm: 'text-[1.35rem]',
+  md: 'text-[1.7rem]',
   lg: 'text-4xl',
 };
 
@@ -28,26 +28,22 @@ export function Logo({ size = 'md', className, linkHome = true }: LogoProps) {
 
   const logoContent = (
     <span
-      className={cn(
-        'inline-flex items-center gap-2',
-        className
-      )}
-      aria-label="Nutree"
+      className={cn('inline-flex items-center gap-2.5', className)}
     >
       {/* 96px covers the largest icon at 2x. The header copy loads eagerly but without a preload,
           so this small icon never competes with the fonts and hero text for early bandwidth. */}
       <Image
         src="/logo-gradient-96.webp"
-        alt="Nutree Icon"
+        alt=""
         width={iconSize}
         height={iconSize}
         unoptimized
-        className="object-contain rounded-lg"
+        className="rounded-[10px] object-contain shadow-sm ring-1 ring-primary-forest/15"
         loading={size === 'sm' ? 'eager' : 'lazy'}
       />
       <span
         className={cn(
-          'font-display font-semibold bg-gradient-to-r from-primary-forest via-primary-emerald to-primary-teal bg-clip-text text-transparent',
+          'font-display font-extrabold leading-none tracking-[-0.04em] text-primary-forest',
           sizeClasses[size]
         )}
       >

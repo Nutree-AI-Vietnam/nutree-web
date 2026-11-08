@@ -37,10 +37,8 @@ export function Header() {
       <header
         lang={locale}
         className={cn(
-          'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-          isScrolled
-            ? 'bg-background/80 backdrop-blur-lg border-b border-border/50 shadow-sm'
-            : 'bg-transparent'
+          'fixed top-0 left-0 right-0 z-50 border-b border-primary-forest/10 bg-[#f4faf7]/95 backdrop-blur-xl transition-shadow duration-300',
+          isScrolled && 'shadow-sm'
         )}
       >
         <div className="container mx-auto px-4">
@@ -64,9 +62,10 @@ export function Header() {
             {/* Desktop: Language Toggle + Store links */}
             <div className="hidden items-center gap-3 md:flex">
               <button
+                type="button"
                 onClick={() => setLocale(locale === 'en' ? 'vi' : 'en')}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium border border-primary-forest/20 hover:border-primary-forest/40 transition-colors"
-                aria-label="Toggle language"
+                className="flex items-center gap-1.5 rounded-full border border-primary-forest/20 px-3 py-1.5 text-sm font-medium transition-colors hover:border-primary-forest/40"
+                aria-label={locale === 'en' ? 'Tiếng Việt' : 'English'}
               >
                 <span className={locale === 'en' ? 'text-foreground' : 'text-muted'}>EN</span>
                 <span className="text-muted">/</span>

@@ -61,8 +61,11 @@ interface TranslationStrings {
     trustBadges: { personalizedPlan: string; languages: string };
   };
   socialProof: {
-    mealsTracked: string;
-    languages: string;
+    appStore: string;
+    playStore: string;
+    essential: string;
+    ratingLabel: string;
+    ratingDetail: string;
   };
   howItWorks: {
     eyebrow: string;
@@ -258,8 +261,11 @@ export const translations: Record<Locale, TranslationStrings> = {
       },
     },
     socialProof: {
-      mealsTracked: 'Log meals in the app',
-      languages: 'Languages Supported',
+      appStore: 'App Store',
+      playStore: 'Google Play',
+      essential: 'Essential Health & Fitness Apps',
+      ratingLabel: 'Average rating',
+      ratingDetail: '5000+ ratings',
     },
     howItWorks: {
       eyebrow: 'Three steps a day',
@@ -463,7 +469,8 @@ export const translations: Record<Locale, TranslationStrings> = {
     },
     faq: {
       pageTitle: 'Frequently Asked Questions',
-      pageDescription: 'Find answers to common questions about Nutree.',
+      pageDescription:
+        'Find answers to common questions about Nutree: meal logging, subscriptions, account deletion, languages, and how to reach support.',
       sections: [
         {
           title: 'Getting Started',
@@ -614,7 +621,7 @@ export const translations: Record<Locale, TranslationStrings> = {
     },
     whyNutree: {
       badge: 'Escape Skinny Fat',
-      heroTitle: 'Why Nutree Is the Best Solution for People Who Want to Escape Skinny Fat',
+      heroTitle: 'Why Nutree fits busy people who want to leave skinny fat',
       heroSubtitle:
         "You don't lack discipline. You lack a system built for body recomposition — where fat goes down AND muscle goes up at the same time.",
       problem: {
@@ -783,8 +790,11 @@ export const translations: Record<Locale, TranslationStrings> = {
       },
     },
     socialProof: {
-      mealsTracked: 'Ghi lại bữa ăn trong app',
-      languages: 'Ngôn ngữ hỗ trợ',
+      appStore: 'App Store',
+      playStore: 'CH Play',
+      essential: 'Essential Health & Fitness Apps',
+      ratingLabel: 'Điểm trung bình',
+      ratingDetail: '5000+ đánh giá',
     },
     howItWorks: {
       eyebrow: 'Ba bước mỗi ngày',
@@ -1138,7 +1148,7 @@ export const translations: Record<Locale, TranslationStrings> = {
     },
     whyNutree: {
       badge: 'Thoát Skinny Fat',
-      heroTitle: 'Vì sao Nutree là giải pháp tốt nhất cho người bận rộn muốn thoát khỏi skinny fat',
+      heroTitle: 'Vì sao Nutree hợp người bận rộn muốn thoát skinny fat',
       heroSubtitle:
         'Bạn không thiếu kỷ luật. Bạn thiếu một hệ thống được xây dựa trên giải pháp body recomposition, nơi mỡ giảm VÀ cơ tăng cùng lúc, mà không vắt kiệt năng lượng tinh thần còn lại của bạn.',
       problem: {

@@ -1,148 +1,113 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import { SpotlightGroup } from '@/components/ui/SpotlightGroup';
+import type { ReactNode } from 'react';
 import { useInView } from '@/hooks/useInView';
+import { appStoreUrl, SITE_CONFIG } from '@/lib/constants';
 import { useLocale } from '@/lib/locale-context';
 
-interface CountStat {
-  kind: 'count';
-  value: number;
-  suffix: string;
-  key: 'languages';
-  countUp: true;
-  icon: React.ReactNode;
-}
+/** Public store signal used on the landing awards row: 4.7 average, 5000+ total ratings. */
+const APP_STORE_RATING = '4.7';
 
-interface TextStat {
-  kind: 'text';
-  key: 'mealsTracked';
-  icon: React.ReactNode;
-}
-
-type StatConfig = CountStat | TextStat;
-
-const STAT_CONFIG: StatConfig[] = [
-  {
-    kind: 'text',
-    key: 'mealsTracked',
-    icon: (
-      <svg aria-hidden="true" className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.75} stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" />
-        <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z" />
-      </svg>
-    ),
-  },
-  {
-    kind: 'count',
-    value: 7,
-    suffix: '',
-    key: 'languages',
-    countUp: true,
-    icon: (
-      <svg aria-hidden="true" className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.75} stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 016-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 01-3.827-5.802" />
-      </svg>
-    ),
-  },
-];
-
-const COUNT_MS = 1600;
-const STAGGER_MS = 120;
-
-/**
- * Counts up to `value` once `start` is true. The server renders the final number and the client
- * drops to 0 only after mounting, while the band is still hidden by its reveal, so nothing flashes.
- * Without JS, or with reduced motion, the final number simply stays.
- */
-function useCountUp(value: number, start: boolean, delayMs: number, enabled: boolean) {
-  const [count, setCount] = useState(value);
-  const armed = useRef(false);
-
-  useEffect(() => {
-    if (!enabled || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    armed.current = true;
-    setCount(0);
-  }, [enabled]);
-
-  useEffect(() => {
-    if (!start || !armed.current) return;
-    let frame = 0;
-    let startTime = 0;
-    const tick = (now: number) => {
-      if (!startTime) startTime = now;
-      const progress = Math.min(Math.max(now - startTime - delayMs, 0) / COUNT_MS, 1);
-      // Ease-out-expo: races up, then settles onto the final digit.
-      setCount(progress < 1 ? Math.round((1 - Math.pow(2, -10 * progress)) * value) : value);
-      if (progress < 1) frame = requestAnimationFrame(tick);
-    };
-    frame = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(frame);
-  }, [start, value, delayMs]);
-
-  return count;
-}
-
-function StatCell({ stat, index, start, label }: { stat: StatConfig; index: number; start: boolean; label: string }) {
-  const count = useCountUp(stat.kind === 'count' ? stat.value : 0, start, index * STAGGER_MS, stat.kind === 'count');
-
+function Laurel({ side }: { side: 'left' | 'right' }) {
   return (
-    <div className="spotlight-card group flex flex-col items-center bg-white px-3 py-7 text-center md:px-6 md:py-9">
-      <dt className={stat.kind === 'text' ? 'sr-only' : 'order-2 mt-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-muted md:text-xs'}>
-        {label}
-      </dt>
-      <dd className="order-1 flex flex-col items-center">
-        <span
-          aria-hidden="true"
-          className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-primary-teal/10 text-primary-emerald ring-1 ring-primary-teal/20 transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110 motion-reduce:transition-none"
-        >
-          {stat.icon}
-        </span>
-        {stat.kind === 'count' ? (
-          <span className="font-display text-4xl font-extrabold tracking-tight tabular-nums md:text-5xl lg:text-6xl">
-            <span className="sr-only">{stat.value}{stat.suffix}</span>
-            <span aria-hidden="true" className="gradient-text">
-              {count}
-              {stat.suffix}
-            </span>
-          </span>
-        ) : (
-          <p className="max-w-[12rem] font-display text-xl font-bold leading-snug text-primary-forest md:text-2xl">
-            {label}
-          </p>
-        )}
-      </dd>
-    </div>
+    <img
+      alt=""
+      aria-hidden="true"
+      src={side === 'left' ? '/awards/laurel-left.svg' : '/awards/laurel-right.svg'}
+      className="h-16 w-auto flex-none sm:h-20"
+    />
+  );
+}
+
+function Stars() {
+  return (
+    <span aria-hidden="true" className="mt-0.5 flex gap-0.5 text-[#f5a623]">
+      {Array.from({ length: 5 }, (_, index) => (
+        <svg key={index} viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="currentColor">
+          <path d="M6 1.2 7.3 4.4l3.4.3-2.6 2.2.8 3.3L6 8.6 3.1 10.2l.8-3.3L1.3 4.7l3.4-.3L6 1.2Z" />
+        </svg>
+      ))}
+    </span>
+  );
+}
+
+function Award({
+  href,
+  children,
+  className,
+  contentClassName,
+}: {
+  href?: string;
+  children: ReactNode;
+  className?: string;
+  contentClassName?: string;
+}) {
+  const body = (
+    <>
+      <Laurel side="left" />
+      <span
+        className={`flex flex-none flex-col items-center text-center ${contentClassName ?? 'w-[8.75rem] sm:w-[9.5rem]'}`}
+      >
+        {children}
+      </span>
+      <Laurel side="right" />
+    </>
+  );
+  const classNames = `flex items-end justify-center gap-1.5 ${className ?? ''}`;
+  if (!href) return <div className={classNames}>{body}</div>;
+  return (
+    <a href={href} className={classNames}>
+      {body}
+    </a>
   );
 }
 
 export function SocialProof() {
   const { ref, isInView } = useInView({ threshold: 0.3 });
-  const { t } = useLocale();
+  const { locale, t } = useLocale();
 
   return (
-    <section ref={ref} data-inview={isInView} className="relative z-10 py-10 md:py-14">
+    <section ref={ref} data-inview={isInView} className="relative z-10 py-2 md:py-4">
       <div className="container mx-auto px-4">
-        <div className="reveal relative mx-auto max-w-5xl">
-          {/* Soft teal pool under the band; a gradient, not a blur, so it costs nothing to paint. */}
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute -inset-x-8 -inset-y-10 bg-[radial-gradient(closest-side,rgba(41,182,161,0.16),transparent)]"
-          />
-          {/* The 1px gaps over the border colour draw the hairlines between cells. */}
-          <SpotlightGroup className="relative overflow-hidden rounded-3xl border border-border/70 bg-border/70 shadow-glass-lg">
-            <dl className="grid grid-cols-2 gap-px">
-              {STAT_CONFIG.map((stat, index) => (
-                <StatCell
-                  key={stat.key}
-                  stat={stat}
-                  index={index}
-                  start={isInView}
-                  label={t.socialProof[stat.key]}
-                />
-              ))}
-            </dl>
-          </SpotlightGroup>
+        <div className="reveal mx-auto flex max-w-[980px] flex-wrap items-end justify-center gap-x-5 gap-y-8 md:flex-nowrap md:gap-x-8">
+          <Award href={appStoreUrl(locale)} contentClassName="w-[9.75rem] sm:w-[11rem]">
+            <span className="flex h-8 items-end justify-center">
+              <img alt="" aria-hidden="true" src="/awards/app-store.svg" className="h-7 w-7" />
+            </span>
+            <span className="mt-2 text-balance text-[13px] font-semibold leading-[1.25] tracking-[-0.01em] text-[#121212] md:text-[15px]">
+              {t.socialProof.essential}
+            </span>
+            <span className="mt-1 text-[11px] leading-[1.25] text-[#808080] md:text-[12px]">
+              {t.socialProof.appStore}
+            </span>
+          </Award>
+
+          <Award className="order-first w-full md:order-none md:w-auto">
+            <span className="flex h-8 flex-col items-center justify-end">
+              <span className="font-display text-[21px] font-semibold leading-none tracking-[-0.02em] text-[#121212]">
+                {APP_STORE_RATING}
+              </span>
+              <Stars />
+            </span>
+            <span className="mt-2 text-balance text-[13px] font-semibold leading-[1.25] tracking-[-0.01em] text-[#121212] md:text-[15px]">
+              {t.socialProof.ratingLabel}
+            </span>
+            <span className="mt-1 text-[11px] leading-[1.25] text-[#808080] md:text-[12px]">
+              {t.socialProof.ratingDetail}
+            </span>
+          </Award>
+
+          <Award href={SITE_CONFIG.stores.googlePlay} contentClassName="w-[9.75rem] sm:w-[11rem]">
+            <span className="flex h-8 items-end justify-center">
+              <img alt="" aria-hidden="true" src="/awards/google-play.svg" className="h-7 w-7" />
+            </span>
+            <span className="mt-2 text-balance text-[13px] font-semibold leading-[1.25] tracking-[-0.01em] text-[#121212] md:text-[15px]">
+              {t.socialProof.essential}
+            </span>
+            <span className="mt-1 text-[11px] leading-[1.25] text-[#808080] md:text-[12px]">
+              {t.socialProof.playStore}
+            </span>
+          </Award>
         </div>
       </div>
     </section>

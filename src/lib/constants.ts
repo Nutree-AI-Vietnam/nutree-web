@@ -12,10 +12,8 @@ export const SITE_CONFIG = {
   supportEmail: 'support@nutreeai.com',
   stores: {
     appStore: 'https://apps.apple.com/vn/app/nutree-eat-with-science/id6751159552',
-    // Same app id. Apple's country-less URL 301s to the storefront for the visitor.
-    // Verified 2026-11-06: /app/id6751159552 → /us/app/nutree-eat-with-science/id6751159552
-    // and iTunes lookup seller is NUTREE AI VIETNAM JOINT STOCK COMPANY.
-    appStoreGlobal: 'https://apps.apple.com/app/id6751159552',
+    // Same app. The country-less /app/id URL 301s, so English pages use the US listing directly.
+    appStoreGlobal: 'https://apps.apple.com/us/app/nutree-eat-with-science/id6751159552',
     googlePlay: 'https://play.google.com/store/apps/details?id=com.nutreeai.mobile',
   },
   social: {

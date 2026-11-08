@@ -18,7 +18,8 @@ const dates = {
 export const paymentPolicyContent: Record<Locale, LegalPageContent> = {
   en: {
     title: 'Payment Policy',
-    description: 'How Nutree purchases work on Apple, Google Play, Paddle, and one-time VietQR.',
+    description:
+      'How Nutree purchases work on Apple, Google Play, Paddle, and one-time VietQR, and what this website does not restore.',
     toc: 'Table of Contents',
     backHome: 'Back to Home',
     home: 'Home',

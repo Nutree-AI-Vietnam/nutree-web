@@ -19,7 +19,7 @@ export const cancellationPolicyContent: Record<Locale, LegalPageContent> = {
   en: {
     title: 'Cancellation & Refund Policy',
     description:
-      'How to cancel your Nutree subscription, what happens after you cancel, and how refunds work.',
+      'How to cancel a Nutree subscription, what access remains after you cancel, and how refunds are handled on each store.',
     toc: 'Table of Contents',
     backHome: 'Back to Home',
     home: 'Home',

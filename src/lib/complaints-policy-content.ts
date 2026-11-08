@@ -18,7 +18,8 @@ const dates = {
 export const complaintsPolicyContent: Record<Locale, LegalPageContent> = {
   en: {
     title: 'Complaints and Support',
-    description: 'How Nutree receives and resolves feedback, requests, and complaints.',
+    description:
+      'How Nutree receives and resolves feedback, support requests, and complaints about accounts, payments, and data.',
     toc: 'Table of Contents',
     backHome: 'Back to Home',
     home: 'Home',

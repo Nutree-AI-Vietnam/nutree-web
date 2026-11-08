@@ -3,6 +3,7 @@ import {
   ENGLISH_ENTRY_PRIVATE_CACHE,
   explicitEnglishEntrySetsPreference,
   HOME_PATH,
+  isSpeculativeRequest,
   rootLanguageDecision,
 } from '@/lib/home-language';
 import { localePreferenceCookie, readLocaleCookie } from '@/lib/locale-preference';
@@ -45,6 +46,10 @@ export function middleware(request: NextRequest) {
   }
 
   if (pathname !== HOME_PATH.vi) return nextWithPath(request);
+
+  // A prefetch of `/` while the cookie is English used to answer with a redirect. The client
+  // then reused that redirect after the visitor chose Vietnamese, so the switch appeared broken.
+  if (isSpeculativeRequest(request.headers)) return nextWithPath(request);
 
   const decision = rootLanguageDecision({
     cookieHeader: request.headers.get('cookie'),

@@ -25,12 +25,12 @@ export function HeroV2() {
   const { locale, t } = useLocale();
 
   return (
-    <section className="relative overflow-hidden pt-20 md:pt-24">
+    <section className="relative overflow-hidden pt-28 md:pt-32">
       <HeroBackdrop />
 
       <div className="container relative mx-auto px-4">
         {/* The bottom padding clears the phone's shadow, which the section would otherwise clip. */}
-        <div className="flex flex-col items-center justify-center gap-12 pb-20 pt-12 md:py-16 lg:min-h-[calc(100vh-6rem)] lg:flex-row lg:gap-8">
+        <div className="flex flex-col items-center justify-center gap-12 pb-20 pt-4 md:pb-16 md:pt-6 lg:min-h-[calc(100vh-6rem)] lg:flex-row lg:gap-8">
           <div className="max-w-xl flex-1 text-center lg:max-w-none lg:text-left">
             {/* One h1 for the page: the product category leads, the slogan lines follow. */}
             <h1 className="mb-6">

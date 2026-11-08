@@ -91,13 +91,26 @@ test('unsupported ranking and accuracy claims are gone, and weight notes stay un
   const html = renderToStaticMarkup(createElement(SocialProof));
   assert.equal(html.includes('10K'), false);
   assert.equal(html.includes('K+'), false);
-  assert.ok(html.includes('Ghi lại bữa ăn trong app'));
+  assert.equal(html.includes('4.8'), false);
+  assert.equal(html.includes('226'), false);
+  assert.ok(html.includes('App Store'));
+  assert.ok(html.includes('CH Play'));
+  assert.ok(html.includes('4.7'));
+  assert.equal(html.split('Essential Health &amp; Fitness Apps').length - 1, 2);
+  assert.ok(html.includes('5000+'));
+  assert.equal(html.includes('100k'), false);
+  assert.equal(html.includes('on the App Store'), false);
+  assert.equal(translations.en.socialProof.essential, 'Essential Health & Fitness Apps');
+  assert.equal(translations.en.socialProof.ratingDetail, '5000+ ratings');
+  assert.equal(translations.vi.socialProof.ratingDetail, '5000+ đánh giá');
   for (const locale of ['en', 'vi'] as const) {
     const note = translations[locale].testimonials.disclaimer;
     assert.match(note, /estimate|ước tính/i);
     assert.match(note, /not medical advice|không phải tư vấn y khoa/);
     assert.match(note, /does not verify|không chứng minh/);
-    assert.equal(/\d/.test(translations[locale].socialProof.mealsTracked), false);
+    const proof = JSON.stringify(translations[locale].socialProof);
+    assert.equal(proof.includes('4.8'), false);
+    assert.equal(proof.includes('226'), false);
     const answers = translations[locale].faq.sections.flatMap((section) => section.items.map((item) => item.answer));
     assert.equal(answers.some((answer) => answer.includes('permanently removed')), false);
     assert.equal(answers.some((answer) => answer.includes('xóa vĩnh viễn')), false);
@@ -107,8 +120,8 @@ test('unsupported ranking and accuracy claims are gone, and weight notes stay un
 
 test('account deletion guidance does not pretend to erase the account', () => {
   const blob = JSON.stringify(deleteAccountContent);
-  assert.match(deleteAccountContent.limitation, /does not send a deletion request/);
-  assert.match(deleteAccountContent.limitation, /does not meet a store rule/);
+  assert.match(deleteAccountContent.en.limitation, /does not send a deletion request/);
+  assert.match(deleteAccountContent.en.limitation, /does not meet a store rule/);
   assert.match(blob, /does not cancel a subscription/);
   assert.match(blob, /không hủy gói/);
   assert.equal(blob.includes('/api/delete'), false);
@@ -155,14 +168,14 @@ test('raw HTML leaves TikTok unloaded and publishes deletion guidance', http, as
     assert.equal(html.includes('95%'), false);
   }
 
-  for (const path of ['/delete-account', '/en/delete-account']) {
-    const deletion = await fetch(`${base}${path}`);
-    const deletionHtml = stripScripts(await deletion.text());
-    assert.equal(deletion.status, 200);
-    assert.ok(deletionHtml.includes(deleteAccountContent.limitation));
-    assert.ok(deletionHtml.includes('Trong ứng dụng Nutree'));
-    assert.ok(deletionHtml.includes('does not cancel a subscription'));
-  }
+  const vietnameseDeletion = stripScripts(await (await fetch(`${base}/delete-account`)).text());
+  assert.ok(vietnameseDeletion.includes(deleteAccountContent.vi.limitation));
+  assert.ok(vietnameseDeletion.includes('Trong ứng dụng Nutree'));
+  assert.equal(vietnameseDeletion.includes('does not cancel a subscription'), false);
+  const englishDeletion = stripScripts(await (await fetch(`${base}/en/delete-account`)).text());
+  assert.ok(englishDeletion.includes(deleteAccountContent.en.limitation));
+  assert.ok(englishDeletion.includes('does not cancel a subscription'));
+  assert.equal(englishDeletion.includes('Trong ứng dụng Nutree'), false);
 
   const denied = await fetch(`${base}/api/tiktok-events`, {
     method: 'POST',

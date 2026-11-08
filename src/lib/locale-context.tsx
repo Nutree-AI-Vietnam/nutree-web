@@ -1,9 +1,9 @@
 'use client';
 
 import { createContext, useContext, useState, useCallback, useEffect, ReactNode } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { localePreferenceCookie, LOCALE_PREFERENCE_COOKIE, readLocaleCookie } from './locale-preference';
-import { getRouteLocale } from './route-locale';
+import { getRouteLocale, languageSwitchHref } from './route-locale';
 import { Locale, translations } from './translations';
 
 interface LocaleContextValue {
@@ -26,17 +26,23 @@ const LocaleContext = createContext<LocaleContextValue>({
  * Every other page, including /privacy, uses the stored choice.
  */
 
-/** The blog home in each language, for pages that have no translation. */
-const BLOG_HOME: Record<Locale, string> = { vi: '/blog', en: '/en/blog' };
-
 /**
- * Where the language switch leads from a URL-locked page: the hreflang alternate, or the other
- * blog home when that page has no alternate. /en/privacy publishes a vi alternate, so VI leaves
- * the English policy for /privacy.
+ * Prefer the page's hreflang twin (a translated blog post). Otherwise use the known URL pair.
+ * A full load is required: a client transition can replay a cached redirect from the old cookie
+ * and leave the visitor on the language they just left.
  */
-function getAlternatePath(target: Locale): string {
+function resolveLanguageSwitch(target: Locale): string {
+  const current = window.location.pathname;
   const link = document.querySelector<HTMLLinkElement>(`link[rel="alternate"][hreflang="${target}"]`);
-  return link ? new URL(link.href).pathname : BLOG_HOME[target];
+  if (link) {
+    try {
+      const path = new URL(link.href, window.location.origin).pathname;
+      if (path && path !== current) return path;
+    } catch {
+      // A bad alternate falls through to the path map.
+    }
+  }
+  return languageSwitchHref(current, target);
 }
 
 function persistLocaleChoice(locale: Locale) {
@@ -61,7 +67,6 @@ function getInitialLocale(): Locale {
 export function LocaleProvider({ children, initialLocale }: { children: ReactNode; initialLocale?: Locale }) {
   const [storedLocale, setStoredLocale] = useState<Locale>(initialLocale ?? 'vi');
   const [preferenceReady, setPreferenceReady] = useState(initialLocale != null);
-  const router = useRouter();
   const routeLocale = getRouteLocale(usePathname());
   const locale = routeLocale ?? storedLocale;
 
@@ -89,11 +94,17 @@ export function LocaleProvider({ children, initialLocale }: { children: ReactNod
 
   const setLocale = useCallback(
     (l: Locale) => {
-      setStoredLocale(l);
       persistLocaleChoice(l);
-      if (routeLocale && routeLocale !== l) router.push(getAlternatePath(l));
+      const next = resolveLanguageSwitch(l);
+      const current = window.location.pathname;
+      if (next === current) {
+        setStoredLocale(l);
+        if (!routeLocale) window.location.reload();
+        return;
+      }
+      window.location.assign(`${next}${window.location.search}${window.location.hash}`);
     },
-    [routeLocale, router]
+    [routeLocale]
   );
 
   const t = translations[locale];

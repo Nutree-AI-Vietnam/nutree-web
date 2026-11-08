@@ -9,14 +9,14 @@ import { useLocale } from '@/lib/locale-context';
 const partners = [
   {
     name: 'Anthropic',
-    href: 'https://www.anthropic.com/startups',
+    href: 'https://claude.com/programs/startups',
     logo: '/partners/anthropic.svg',
     width: 56,
     height: 56,
   },
   {
     name: 'Sentry',
-    href: 'https://sentry.io',
+    href: 'https://sentry.io/welcome/',
     logo: '/partners/sentry.svg',
     width: 56,
     height: 56,
@@ -38,7 +38,7 @@ const partners = [
   },
   {
     name: 'Neon',
-    href: 'https://neon.tech',
+    href: 'https://neon.com/',
     logo: '/partners/neon.svg',
     width: 56,
     height: 56,

@@ -17,7 +17,7 @@ const faqLanguages = languageAlternatesFor('/faq');
 export const vietnameseFaqMetadata = createPageMetadata({
   title: 'Câu hỏi thường gặp | Nutree',
   description:
-    'Giải đáp câu hỏi về Nutree — track dinh dưỡng bằng AI, gợi ý bữa ăn, gói đăng ký và hơn thế nữa.',
+    'Giải đáp câu hỏi về Nutree: ghi bữa ăn bằng AI, gợi ý món, gói đăng ký, xóa tài khoản và cách liên hệ hỗ trợ khi cần.',
   path: '/faq',
   languages: faqLanguages,
 });
@@ -37,7 +37,7 @@ export async function faqPageMetadata(): Promise<Metadata> {
 export const vietnamesePrivacyMetadata = createPageMetadata({
   title: 'Chính sách bảo mật | Nutree',
   description:
-    'Chính sách bảo mật của Nutree - cách chúng tôi thu thập, sử dụng và bảo vệ dữ liệu.',
+    'Chính sách bảo mật của Nutree: dữ liệu nào được thu thập, dùng để làm gì, chia sẻ với ai, lưu bao lâu và cách yêu cầu xóa.',
   path: PRIVACY_PATH.vi,
   ogDescription: 'Cách Nutree thu thập, sử dụng và bảo vệ dữ liệu của bạn.',
   languages: PRIVACY_LANGUAGE_ALTERNATES,
@@ -77,7 +77,8 @@ function pairedMetadata(
 const termsLanguages = languageAlternatesFor('/terms');
 const vietnameseTermsMetadata = createPageMetadata({
   title: 'Điều khoản sử dụng | Nutree',
-  description: 'Điều khoản sử dụng Nutree - các điều kiện khi sử dụng ứng dụng và dịch vụ.',
+  description:
+    'Điều khoản khi dùng ứng dụng và website Nutree, gồm tài khoản, gói đăng ký và những việc người dùng không được làm.',
   path: '/terms',
   ogDescription: 'Các điều kiện khi sử dụng ứng dụng và dịch vụ Nutree.',
   languages: termsLanguages,
@@ -100,7 +101,7 @@ const pricingLanguages = languageAlternatesFor('/pricing');
 const vietnamesePricingMetadata = createPageMetadata({
   title: 'Chính sách giá | Nutree',
   description:
-    'Trang chính sách này không ấn định giá. Checkout VietQR tiếng Việt hiển thị số tiền của gói năm trước khi chuyển khoản. Apple, Google Play và Paddle hiển thị số tiền trên kênh của họ.',
+    'Trang này không ấn định giá. Số tiền hiện trên màn hình xác nhận của Apple, Google Play, Paddle hoặc trang chuyển khoản VietQR.',
   path: '/pricing',
   languages: pricingLanguages,
 });
@@ -111,7 +112,7 @@ const usageLanguages = languageAlternatesFor('/usage');
 const vietnameseUsageMetadata = createPageMetadata({
   title: 'Chính sách sử dụng | Nutree',
   description:
-    'Trang này mô tả thanh toán trên website Nutree. Trang không nói website gửi email kích hoạt hoặc deeplink.',
+    'Trang này mô tả thanh toán trên website Nutree và nói rõ website không gửi email kích hoạt hay deeplink vào app.',
   path: '/usage',
   languages: usageLanguages,
 });
@@ -122,7 +123,7 @@ const cancellationLanguages = languageAlternatesFor('/cancellation');
 const vietnameseCancellationMetadata = createPageMetadata({
   title: 'Chính sách hủy & hoàn tiền | Nutree',
   description:
-    'Cách hủy gói đăng ký Nutree, điều gì xảy ra sau khi hủy và hoàn tiền được xử lý như thế nào.',
+    'Cách hủy gói Nutree, bạn còn dùng được gì sau khi hủy, và hoàn tiền được xử lý ra sao trên từng kênh thanh toán.',
   path: '/cancellation',
   languages: cancellationLanguages,
 });
