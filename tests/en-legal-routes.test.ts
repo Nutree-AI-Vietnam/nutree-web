@@ -55,18 +55,78 @@ test('English legal views render the existing English copy on the server', () =>
 const base = process.env.BASE_URL?.replace(/\/$/, '');
 const http = { skip: base ? false : 'set BASE_URL to check rendered HTML' } as const;
 
+function visibleHtml(html: string) {
+  let rest = html;
+  let visible = '';
+  while (rest.length > 0) {
+    const start = rest.indexOf('<script');
+    if (start === -1) {
+      visible += rest;
+      break;
+    }
+    visible += rest.slice(0, start);
+    const end = rest.indexOf('</script>', start);
+    if (end === -1) break;
+    rest = rest.slice(end + '</script>'.length);
+  }
+  return visible
+    .replace(/&#(\d+);/g, (_, code: string) => String.fromCodePoint(Number(code)))
+    .replace(/&#x([0-9a-f]+);/gi, (_, code: string) => String.fromCodePoint(parseInt(code, 16)))
+    .replace(/&quot;/g, '"')
+    .replace(/&apos;/g, "'")
+    .replace(/&gt;/g, '>')
+    .replace(/&lt;/g, '<')
+    .replace(/&amp;/g, '&');
+}
+
+function alternatePath(html: string, lang: string, path: string) {
+  const tags = html.match(/<link\b[^>]*>/gi) ?? [];
+  return tags.some((tag) => {
+    if (!tag.includes('rel="alternate"')) return false;
+    if (!tag.includes(`hreflang="${lang}"`) && !tag.includes(`hrefLang="${lang}"`)) return false;
+    const href = tag.match(/\bhref="([^"]+)"/);
+    if (!href) return false;
+    try {
+      return new URL(href[1]).pathname === path;
+    } catch {
+      return false;
+    }
+  });
+}
+
 test('English policy and FAQ routes serve English HTML and keep Vietnamese routes', http, async () => {
   const paths = ['/terms', '/payment', '/cancellation', '/pricing', '/usage', '/complaints', '/faq'] as const;
+  const sitemap = await (await fetch(`${base}/sitemap.xml`)).text();
   for (const path of paths) {
     const english = await fetch(`${base}/en${path}`, { headers: { 'Accept-Language': 'vi-VN' } });
     const html = await english.text();
     assert.equal(english.status, 200, path);
     assert.match(html, /<html[^>]*lang="en"/);
-    assert.match(html, new RegExp(`rel="canonical"[^>]*href="https://nutreeai.com/en${path}"`));
-    assert.match(html, new RegExp(`hrefLang="en"[^>]*href="https://nutreeai.com/en${path}"|hreflang="en"[^>]*href="https://nutreeai.com/en${path}"`));
-    const vietnamese = await fetch(`${base}${path}`, { headers: { 'Accept-Language': 'en-US', Cookie: 'nutree-locale=vi' } });
-    assert.equal(vietnamese.status, 200, path);
+    const canonical = html.match(/<link[^>]*rel="canonical"[^>]*>/);
+    assert.ok(canonical, path);
+    assert.equal(new URL(canonical[0].match(/\bhref="([^"]+)"/)?.[1] ?? '').pathname, `/en${path}`);
+    assert.equal(alternatePath(html, 'en', `/en${path}`), true, path);
+    assert.equal(alternatePath(html, 'vi', path), true, path);
+    assert.equal(alternatePath(html, 'x-default', path), true, path);
+    const vietnameseResponse = await fetch(`${base}${path}`, { headers: { 'Accept-Language': 'en-US', Cookie: 'nutree-locale=vi' } });
+    const vietnamese = await vietnameseResponse.text();
+    assert.equal(vietnameseResponse.status, 200, path);
+    assert.match(vietnamese, /<html[^>]*lang="vi"/);
+    assert.equal(alternatePath(vietnamese, 'en', `/en${path}`), true, path);
+    assert.equal(alternatePath(vietnamese, 'vi', path), true, path);
+    assert.equal(alternatePath(vietnamese, 'x-default', path), true, path);
+    assert.ok(sitemap.includes(`https://nutreeai.com${path}<`) || sitemap.includes(`https://nutreeai.com${path}</loc>`), path);
+    assert.ok(sitemap.includes(`https://nutreeai.com/en${path}`), path);
   }
+  const englishFaq = visibleHtml(await (await fetch(`${base}/en/faq`, { headers: { 'Accept-Language': 'vi-VN' } })).text());
+  const englishDelete = translations.en.faq.sections.flatMap((section) => section.items).find((item) => item.question === 'How do I delete my account?');
+  assert.ok(englishDelete);
+  assert.ok(englishFaq.includes(englishDelete.question));
+  assert.ok(englishFaq.includes(englishDelete.answer));
+  assert.equal(englishFaq.includes('Làm sao để xóa tài khoản?'), false);
+  const vietnameseFaq = visibleHtml(await (await fetch(`${base}/faq`)).text());
+  assert.ok(vietnameseFaq.includes('Làm sao để xóa tài khoản?'));
+  assert.equal(vietnameseFaq.includes('How do I delete my account?'), false);
   const unknown = await fetch(`${base}/en/not-a-real-policy`);
   assert.equal(unknown.status, 404);
 });
