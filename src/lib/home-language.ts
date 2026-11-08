@@ -95,6 +95,41 @@ export function preferredHomeLanguage(header: string | null | undefined): 'vi' |
   return 'unknown';
 }
 
+/** Prefetch and other speculative fetches are not a language choice. */
+export function isSpeculativeRequest(header: { get(name: string): string | null } | null | undefined): boolean {
+  if (!header) return false;
+  const purpose = `${header.get('purpose') ?? ''} ${header.get('sec-purpose') ?? ''}`.toLowerCase();
+  if (purpose.includes('prefetch')) return true;
+  if (header.get('next-router-prefetch') === '1') return true;
+  if (header.get('next-router-segment-prefetch') === '1') return true;
+  if (header.get('x-middleware-prefetch') === '1') return true;
+  const dest = (header.get('sec-fetch-dest') ?? '').toLowerCase();
+  // Browser prefetch and speculative RSC fetches are not document navigations.
+  // A user-activated request sets sec-fetch-user. Clients that send no sec-fetch metadata stay real visits.
+  if (dest && dest !== 'document' && header.get('sec-fetch-user') !== '?1') return true;
+  return false;
+}
+
+/**
+ * A real visit to an English URL stores the preference.
+ * Crawlers and prefetches do not, so a saved Vietnamese choice survives a speculative /en fetch.
+ */
+export function explicitEnglishEntrySetsPreference(
+  pathname: string,
+  userAgent: string | null | undefined,
+  header?: { get(name: string): string | null } | null,
+): boolean {
+  if (isKnownCrawler(userAgent)) return false;
+  if (isSpeculativeRequest(header)) return false;
+  return pathname === HOME_PATH.en || pathname.startsWith(`${HOME_PATH.en}/`);
+}
+
+/** A response that sets the preference cookie must not enter a shared cache. */
+export const ENGLISH_ENTRY_PRIVATE_CACHE = {
+  'cache-control': 'private, no-store',
+  vary: 'Cookie',
+} as const;
+
 export function rootLanguageDecision(input: {
   cookieHeader: string | null;
   acceptLanguage: string | null;

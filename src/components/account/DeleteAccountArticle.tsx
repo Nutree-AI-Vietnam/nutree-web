@@ -29,11 +29,11 @@ export function DeleteAccountArticle() {
             Facebook Messenger
           </a>
           {' · '}
-          <Link className="font-semibold text-primary-forest underline" href="/cancellation">
+          <Link className="font-semibold text-primary-forest underline" href="/en/cancellation">
             Cancellation
           </Link>
           {' · '}
-          <Link className="font-semibold text-primary-forest underline" href="/faq">
+          <Link className="font-semibold text-primary-forest underline" href="/en/faq">
             FAQ
           </Link>
         </p>

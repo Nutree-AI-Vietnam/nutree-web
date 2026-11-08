@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { homePath } from '@/lib/home-language';
 import { useLocale } from '@/lib/locale-context';
 import { researchContent } from './research-content';
 
@@ -12,7 +13,7 @@ export function ResearchPageClient() {
   return (
     <div className="bg-background pb-16 pt-24 md:pt-32">
       <article className="container mx-auto max-w-4xl px-4">
-        <Link href="/" className="inline-flex min-h-11 items-center text-sm font-medium text-primary-forest underline-offset-4 hover:text-primary-teal hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-teal">
+        <Link href={homePath(locale)} className="inline-flex min-h-11 items-center text-sm font-medium text-primary-forest underline-offset-4 hover:text-primary-teal hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-teal">
           ← {t.common.backHome}
         </Link>
         <header className="border-b border-border pb-10 pt-8">

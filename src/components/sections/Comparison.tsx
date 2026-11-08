@@ -3,6 +3,7 @@
 import { useInView } from '@/hooks/useInView';
 import { cn } from '@/lib/cn';
 import { useLocale } from '@/lib/locale-context';
+import { localizedPublicHref } from '@/lib/privacy-path';
 import { renderTitle } from '@/lib/render-title';
 
 // Heroicons outline: minus-circle for the counter column, check-circle for Nutree.
@@ -31,7 +32,7 @@ function CellIcon({ path, className }: { path: string; className: string }) {
 }
 
 export function Comparison() {
-  const { t } = useLocale();
+  const { locale, t } = useLocale();
   const { ref, isInView } = useInView({ threshold: 0.15 });
   const { columns, rows } = t.comparison;
 
@@ -112,7 +113,7 @@ export function Comparison() {
         <p className="reveal mx-auto mt-10 max-w-xl text-center text-sm text-muted md:mt-14" style={{ '--reveal-delay': '360ms' } as React.CSSProperties}>
           {t.comparison.footnote}{' '}
           <a
-            href="/faq"
+            href={localizedPublicHref('/faq', locale)}
             className="font-semibold text-primary-forest underline decoration-primary-teal/50 underline-offset-4 transition hover:decoration-primary-teal focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-teal focus-visible:ring-offset-2 motion-reduce:transition-none"
           >
             {t.comparison.footnoteLink}
