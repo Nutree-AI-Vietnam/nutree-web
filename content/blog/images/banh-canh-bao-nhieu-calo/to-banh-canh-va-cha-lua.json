@@ -1,0 +1,4 @@
+{ "objects": [
+  { "src": "../_objects/bowl-banh-canh.svg", "x": 0.3, "bottom": 0.9, "height": 0.62 },
+  { "src": "../_objects/plate-cha-lua.svg", "x": 0.75, "bottom": 0.9, "width": 0.38 }
+] }

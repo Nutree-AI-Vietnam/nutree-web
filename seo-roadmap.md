@@ -220,7 +220,7 @@ on to the next row the following day.
 | # | Lang | Page | Type | Status |
 | --- | --- | --- | --- | --- |
 | 1 | EN | `banh-mi-calories` (legacy dish translation; last EN dish post) | Legacy | Done 2026-11-08 |
-| 2 | VI | Next "[món] bao nhiêu calo" dish the routine picks (rule 1 check first) | Approved | Next |
+| 2 | VI | `banh-canh-bao-nhieu-calo` ("bánh canh bao nhiêu calo") | Approved | Done 2026-11-08 |
 | 3 | EN | First international EN page in `nutrition-basics` (pick keyword after live results + GSC; e.g. how many calories should I eat / what is TDEE) | New EN category: draft PR | Next |
 | 4 | VI | "Thực phẩm giàu chất xơ ít calo" (research notes below) | New category: draft PR | Next |
 | 5 | EN | First international EN page in `weight-loss-muscle-gain` (or next EN category if row 3 already approved) | New EN category: draft PR | Next |
