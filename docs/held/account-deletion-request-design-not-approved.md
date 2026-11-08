@@ -1,58 +1,38 @@
-# HELD — account-deletion request design is not approved
+# HELD — account-deletion request design, revision 2, not approved
 
-Status: design note only. Nothing in this file is implemented in nutree-web, and nothing here authorizes a backend change. The attached backend package is a design for review through BI. It is not a CTO-approved architecture and it is not an implementation contract.
+Status: design note only. Revision 2 of the backend design (2026-11-08, 10:29 ICT) supersedes revision 1. This file replaces the earlier note that described revision 1. Nothing here is CTO-approved, scheduled, or implemented. nutree-web adds no form, API route, database schema, migration, or other code.
 
-No new endpoint, table, auth boundary, email-link sign-in, worker, flag, or web form is added by this note. `/delete-account` and `/en/delete-account` stay the existing guidance pages. They do not submit a deletion request, and this note does not change their wording.
+Evidence the design cites: `mealtrack_backend` `main` `a2f71d8bf3c371114d911b61cfc96092c46f5049`, read from git. No live system was queried. Production configuration is unverified.
 
-## What must not be called
+## Phase 1, as the current design describes it
 
-`DELETE /v1/users/firebase/{firebase_uid}` in `mealtrack_backend` `main` `a2f71d8bf3c371114d911b61cfc96092c46f5049` is an immediate, irreversible, partial deletion. Source review of that SHA (no production query) describes it as:
+Phase 1 is intake only. It uses existing Firebase sign-in providers. A signed-in user could create a request, read its status, and withdraw it. The design names three authenticated routes, and not confirm or cancel routes:
 
-- It does not create a deletion-request row, a receipt id, or a 30-day job.
-- It anonymizes some account fields and leaves profile and health data (including allergies, conditions, date of birth, height, and weight), meals, photos, nutrition, many child tables, and vendor data.
-- Firebase Auth deletion is an in-process best-effort task. The response says tokens are not revoked.
-- There is no email OTP. The legacy Resend claim mailer is disabled by default.
-- Production CORS for a future web origin is unknown.
+- `POST /v1/account-deletion-requests`
+- `GET /v1/account-deletion-requests/current`
+- `POST /v1/account-deletion-requests/current/withdraw`
 
-A new web form must not call that route and must not relabel it as a request. The route’s own docstring is not evidence that all user data is erased. This web repository does not change that backend route.
+The request would be stored in two new Neon tables, `deletion_requests` and an append-only `deletion_request_events` table, committed before a `202` response. The on-screen receipt would mean “request received”. It would not mean erased, deleted, scheduled, or completed. Named people would handle the request outside the automatic system, with audited status updates. States in the design are `received`, `under_review`, `withdrawn`, and `closed`. No state transition deletes data, revokes a session, sends email, or calls another service.
 
-That SHA was not compared with a deployed build. Production may differ.
+Phase 1 as written does not include:
 
-## Two phases, both unapproved
+- email-link sign-in, a new sign-in provider, account linking, or Firebase console changes
+- Resend or any other automatic email
+- a confirm route or a cancel route
+- a worker, cron, queue, or any automatic processing
+- a deadline, grace period, or retention period
+- a path for someone who cannot sign in
 
-The backend design couples a durable intake with an automatic destructive worker. This note keeps those as separate phases. Neither phase is approved. Neither phase is promised to users.
+Those items are not built here. Adding the routes or tables still needs a CTO decision. This repository does not add them.
 
-### Phase 1 — intake, durable receipt, human handling
+## The current delete call is not this intake
 
-A later decision could accept a signed-in deletion *request* that stores a durable row and shows a receipt id, and that a person handles. Until that decision exists:
+`DELETE /v1/users/firebase/{firebase_uid}` remains an immediate, partial deletion in the reviewed source. It does not create a request row or a receipt. Phase 1 does not call it, relabel it, or broaden it. A web page must not call it.
 
-- nutree-web will not file a request.
-- The page will not show success unless a durable receipt was actually stored and returned.
-- An upstream failure must not be shown as success.
-- Email alone, including a `mailto:` link, is not that mechanism.
-- No retention period, including 30 days, is stated.
-- No wording says the account or all personal data was erased.
+## Later automation is separate
 
-Human handling in this phase means an operator can see the stored request and act under an approved runbook. It does not mean the existing `DELETE` route runs when the form is submitted.
+Revision 2 does not couple intake to a destructive worker. Destructive automation is written only as future documentation, not as part of phase 1 and not as a design ready to implement. It would need its own later decision. This note does not propose it and does not implement it.
 
-### Phase 2 — automatic destructive worker
+## Still not a user-facing promise
 
-An automatic worker that erases data, deletes objects, calls vendors, revokes sessions, or deletes the Firebase user is a separate phase. It needs its own CTO decision after retention exceptions are decided. It does not block the English routing pull request or the held wording draft. This repository does not add `DELETION_WORKER_ENABLED`, a cron, or a queue.
-
-The backend design’s proposed routes (`POST /v1/account-deletion-requests` and the confirm, cancel, and status routes), the `deletion_requests` and `deletion_request_events` tables, Firebase email-link sign-in, and Resend receipt mail are all inside that unapproved package. They are listed here so the scope is visible. They are not built.
-
-## Ownership and abuse, without a new boundary
-
-Any future intake still has to prove the requester owns the account with the existing Firebase ID-token verification, including revocation checking that the current delete route does not use. A form that accepts only an email and no Firebase session would be a new public auth boundary and needs a CTO decision. This note does not add one.
-
-Source review of `src/api/middleware/rate_limit.py` at the same backend SHA says the default limiter key base64-decodes the JWT `sub` without verification. That is a source-review finding. It is not an independently confirmed production exploit, and this repository does not change backend rate limiting.
-
-## Open until BI and CTO decide
-
-- Whether phase 1 is wanted at all.
-- Receipt text, in English and Vietnamese, approved exactly before it is published.
-- Whether any retention period is operationally true. None is claimed here.
-- Which data a later phase 2 may delete, anonymize, or must keep. Payments, tax records, backups, and vendor copies are undecided.
-- Production CORS, email-link settings, and whether the legacy mailer is enabled. Those are not in the reviewed source defaults as enabled.
-
-This note is not a legal or Play-compliance certification. End-to-end deletion is not verified.
+Receipt and page wording need Nutree’s exact approval before any of it is shown. This note publishes none of that wording. It states no 30-day period and no claim that data was erased.
