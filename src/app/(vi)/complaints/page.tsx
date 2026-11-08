@@ -1,15 +1,10 @@
 import { LegalPageClient } from '@/components/legal/LegalPageClient';
 import { complaintsPolicyContent } from '@/lib/complaints-policy-content';
-import { languageAlternatesFor } from '@/lib/privacy-path';
-import { createPageMetadata } from '@/lib/seo';
+import { complaintsPageMetadata } from '@/lib/shared-locale-metadata';
 
-export const metadata = createPageMetadata({
-  title: 'Tiếp nhận và giải quyết khiếu nại | Nutree',
-  description:
-    'Cách Nutree tiếp nhận và giải quyết phản ánh, yêu cầu hỗ trợ và khiếu nại về tài khoản, thanh toán, dữ liệu và chất lượng dịch vụ.',
-  path: '/complaints',
-  languages: languageAlternatesFor('/complaints'),
-});
+export async function generateMetadata() {
+  return complaintsPageMetadata();
+}
 
 export default function ComplaintsPolicyPage() {
   return (

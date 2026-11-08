@@ -1,15 +1,10 @@
 import { LegalPageClient } from '@/components/legal/LegalPageClient';
+import { termsPageMetadata } from '@/lib/shared-locale-metadata';
 import { termsContent } from '@/lib/terms-content';
-import { languageAlternatesFor } from '@/lib/privacy-path';
-import { createPageMetadata } from '@/lib/seo';
 
-export const metadata = createPageMetadata({
-  title: 'Điều khoản sử dụng | Nutree',
-  description: 'Điều khoản sử dụng Nutree - các điều kiện khi sử dụng ứng dụng và dịch vụ.',
-  path: '/terms',
-  ogDescription: 'Các điều kiện khi sử dụng ứng dụng và dịch vụ Nutree.',
-  languages: languageAlternatesFor('/terms'),
-});
+export async function generateMetadata() {
+  return termsPageMetadata();
+}
 
 export default function TermsOfService() {
   return <LegalPageClient content={termsContent} siblingHref="/privacy" siblingKey="privacy" />;

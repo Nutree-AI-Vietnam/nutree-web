@@ -204,3 +204,104 @@ test('shared page titles follow the saved language and keep their canonical path
   assert.match(vietnameseHome.title ?? '', /Trợ lý dinh dưỡng AI/);
   assert.equal(vietnameseHome.canonical, 'https://nutreeai.com');
 });
+
+function metaContent(html: string, name: string): string | null {
+  let from = 0;
+  while (from < html.length) {
+    const start = html.indexOf('<meta', from);
+    if (start < 0) return null;
+    const end = html.indexOf('>', start);
+    if (end < 0) return null;
+    const tag = html.slice(start, end);
+    from = end + 1;
+    if (!tag.includes(`name="${name}"`)) continue;
+    const contentAt = tag.indexOf('content="');
+    if (contentAt < 0) continue;
+    const contentEnd = tag.indexOf('"', contentAt + 9);
+    return tag
+      .slice(contentAt + 9, contentEnd)
+      .replace(/&#x27;/g, "'")
+      .replace(/&quot;/g, '"')
+      .replace(/&amp;/g, '&');
+  }
+  return null;
+}
+
+test('unprefixed FAQ titles follow the cookie and /en/faq stays English', http, async () => {
+  async function load(path: string, cookie: string) {
+    const response = await fetch(`${base}${path}`, {
+      headers: { 'Accept-Language': 'vi-VN', Cookie: cookie },
+    });
+    const html = await response.text();
+    return {
+      status: response.status,
+      url: new URL(response.url).pathname,
+      title: html.match(/<title>(.*?)<\/title>/)?.[1]?.replace(/&amp;/g, '&') ?? '',
+      description: metaContent(html, 'description'),
+      canonical: html.match(/<link[^>]*rel="canonical"[^>]*href="([^"]+)"/)?.[1] ?? '',
+      cache: response.headers.get('cache-control') ?? '',
+      hreflangVi: alternatePath(html, 'vi'),
+      hreflangEn: alternatePath(html, 'en'),
+      hreflangDefault: alternatePath(html, 'x-default'),
+    };
+  }
+
+  const faqEn = await load('/faq', 'nutree-locale=en');
+  assert.equal(faqEn.status, 200);
+  assert.equal(faqEn.url, '/faq');
+  assert.equal(faqEn.title, 'Frequently Asked Questions | Nutree');
+  assert.equal(faqEn.description, 'Find answers to common questions about Nutree.');
+  assert.equal(faqEn.canonical, 'https://nutreeai.com/faq');
+  assert.equal(faqEn.hreflangVi, '/faq');
+  assert.equal(faqEn.hreflangEn, '/en/faq');
+  assert.equal(faqEn.hreflangDefault, '/faq');
+  assert.match(faqEn.cache, /private|no-store/);
+
+  const faqVi = await load('/faq', 'nutree-locale=vi');
+  assert.equal(faqVi.url, '/faq');
+  assert.equal(faqVi.title, 'Câu hỏi thường gặp | Nutree');
+  assert.equal(
+    faqVi.description,
+    'Giải đáp câu hỏi về Nutree — track dinh dưỡng bằng AI, gợi ý bữa ăn, gói đăng ký và hơn thế nữa.',
+  );
+  assert.equal(faqVi.canonical, 'https://nutreeai.com/faq');
+  assert.equal(faqVi.hreflangEn, '/en/faq');
+  assert.equal(faqVi.hreflangDefault, '/faq');
+
+  const locked = await load('/en/faq', 'nutree-locale=vi');
+  assert.equal(locked.url, '/en/faq');
+  assert.equal(locked.title, 'Frequently Asked Questions | Nutree');
+  assert.equal(locked.description, 'Find answers to common questions about Nutree.');
+  assert.equal(locked.canonical, 'https://nutreeai.com/en/faq');
+  assert.equal(locked.hreflangVi, '/faq');
+  assert.equal(locked.hreflangEn, '/en/faq');
+  assert.equal(locked.hreflangDefault, '/faq');
+
+  const shared = [
+    ['/privacy', 'Privacy Policy | Nutree', 'Chính sách bảo mật | Nutree'],
+    ['/terms', 'Terms of Service | Nutree', 'Điều khoản sử dụng | Nutree'],
+    ['/payment', 'Payment Policy | Nutree', 'Chính sách thanh toán | Nutree'],
+    ['/pricing', 'Pricing Policy | Nutree', 'Chính sách giá | Nutree'],
+    ['/usage', 'Usage Policy | Nutree', 'Chính sách sử dụng | Nutree'],
+    ['/cancellation', 'Cancellation & Refund Policy | Nutree', 'Chính sách hủy & hoàn tiền | Nutree'],
+    ['/complaints', 'Complaints and Support | Nutree', 'Tiếp nhận và giải quyết khiếu nại | Nutree'],
+  ] as const;
+  for (const [path, englishTitle, vietnameseTitle] of shared) {
+    const english = await load(path, 'nutree-locale=en');
+    const vietnamese = await load(path, 'nutree-locale=vi');
+    assert.equal(english.url, path);
+    assert.equal(english.title, englishTitle);
+    assert.equal(english.canonical, `https://nutreeai.com${path}`);
+    assert.equal(english.hreflangVi, path);
+    assert.equal(english.hreflangEn, `/en${path}`);
+    assert.equal(english.hreflangDefault, path);
+    assert.equal(vietnamese.url, path);
+    assert.equal(vietnamese.title, vietnameseTitle);
+    assert.equal(vietnamese.canonical, `https://nutreeai.com${path}`);
+  }
+
+  const privacyLocked = await load('/en/privacy', 'nutree-locale=vi');
+  assert.equal(privacyLocked.title, 'Privacy Policy | Nutree');
+  assert.equal(privacyLocked.canonical, 'https://nutreeai.com/en/privacy');
+  assert.equal(privacyLocked.hreflangDefault, '/privacy');
+});

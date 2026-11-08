@@ -1,14 +1,9 @@
-import { createPageMetadata } from '@/lib/seo';
-import { languageAlternatesFor } from '@/lib/privacy-path';
 import { FaqPageClient } from './faq-page-client';
+import { faqPageMetadata } from '@/lib/shared-locale-metadata';
 
-export const metadata = createPageMetadata({
-  title: 'Câu hỏi thường gặp | Nutree',
-  description:
-    'Giải đáp câu hỏi về Nutree — track dinh dưỡng bằng AI, gợi ý bữa ăn, gói đăng ký và hơn thế nữa.',
-  path: '/faq',
-  languages: languageAlternatesFor('/faq'),
-});
+export async function generateMetadata() {
+  return faqPageMetadata();
+}
 
 export default function FaqPage() {
   return <FaqPageClient />;
