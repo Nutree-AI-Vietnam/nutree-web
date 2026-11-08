@@ -10,8 +10,8 @@ from Paul Vengeons' 20-prompt guide). Last updated 2026-10-25. Every number here
 |------|--------|
 | Context file (prompt 1) | Done: `site-context.md` |
 | Rules file (prompt 2) | Done: `seo-process.md` |
-| Connected data source | **Blocked.** The Ahrefs connector returns "Insufficient plan" on every call. Search Console data arrives as screenshots from the team. |
-| Two-minute test (top 5 pages from the data source match Search Console) | **Can't run** until a data source answers. |
+| Connected data source | **Live.** Search Console MCP (`search-console` → `sc-domain:nutreeai.com`) since 2026-11-08. Ahrefs connector still returns "Insufficient plan". |
+| Two-minute test (top 5 pages from the data source match Search Console) | **Runnable.** Compare `search_analytics` (dimension `page`, last 28 days) with section 6 of `site-context.md` and refresh that section when the top pages shift. |
 
 ## Part 1: pick the battles
 
@@ -268,5 +268,11 @@ on to the next row the following day.
 - **Monday loop (prompt 20):** a weekly run that returns 5 tasks, not a report.
   - **Partly set up:** every Monday, the daily routine ends its run with up to 5 next tasks taken
     from this file.
-  - **Missing:** a data-driven loop that reads Search Console. That waits for a working data
-    source.
+  - **Data-driven (from 2026-11-08):** before picking the week's keyword, call Search Console MCP
+    `search_insights` (`striking_distance`, `low_ctr`) and `search_analytics` (queries with
+    `bao nhiêu calo`). Prefer a **new** dish that already shows impressions but has no post
+    (rule 1). Do **not** retitle or rewrite a published dish post until its 90-day window is over
+    (rule 17) — first dish posts from mid-October 2026 are reviewable from mid-January 2027.
+  - **90-day holding list (do not edit yet):** `bun-cha`, `goi-cuon`, `banh-xeo`,
+    `tra-sua-tran-chau`, `com-tam`, `bun-bo-hue`, `hu-tieu` — high impressions / striking
+    distance in Nov 2026 GSC; leave alone until each post's `date` + 90 days.

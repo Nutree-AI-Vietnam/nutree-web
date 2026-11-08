@@ -74,8 +74,10 @@ The "Nutree - SEM" routine runs every day at 20:05 UTC (03:05 in Vietnam). It re
 
 1. **Existing pages:** the sitemap is `src/app/sitemap.ts` (live at `/sitemap.xml`). To find
    blog posts that already target a keyword, run `grep -h '^title:' content/blog/*.mdx` (Vietnamese)
-   and `grep -h '^title:' content/blog/en/*.mdx` (English). Search
-   Console data comes from the team: the Ahrefs connector has no API access on the current plan.
+   and `grep -h '^title:' content/blog/en/*.mdx` (English). Live Search Console data comes from the
+   `search-console` MCP (`sc-domain:nutreeai.com`): use `search_analytics` and `search_insights`
+   (striking_distance, low_ctr, movers) before picking or editing a keyword. Ahrefs remains
+   unavailable on the current plan.
 2. **Title:** `title` in the post frontmatter is the page's H1 and its search title. Rule 2 is
    stricter than the README, which only asks for the keyword "near the start".
 3. **Incoming links:** these are edits to existing posts. If one of those posts gets clicks,
