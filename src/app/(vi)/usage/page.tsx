@@ -5,7 +5,7 @@ import { createPageMetadata } from '@/lib/seo';
 export const metadata = createPageMetadata({
   title: 'Chính sách sử dụng | Nutree',
   description:
-    'Trang này mô tả thanh toán trên website Nutree. Trang không cam kết email kích hoạt, deeplink hoặc mở khóa ứng dụng.',
+    'Trang này mô tả thanh toán trên website Nutree. Trang không nói website gửi email kích hoạt hoặc deeplink.',
   path: '/usage',
 });
 

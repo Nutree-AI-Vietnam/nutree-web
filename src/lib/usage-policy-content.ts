@@ -19,7 +19,7 @@ export const usagePolicyContent: Record<Locale, LegalPageContent> = {
   en: {
     title: 'Usage Policy',
     description:
-      'What this page says about the Nutree website checkout. It does not promise an activation email, a deeplink, or that the app unlocks.',
+      'What this page says about the Nutree website checkout. It does not say the website sends an activation email or a deeplink.',
     toc: 'Table of Contents',
     backHome: 'Back to Home',
     home: 'Home',
@@ -32,7 +32,7 @@ export const usagePolicyContent: Record<Locale, LegalPageContent> = {
         body: [
           `This Usage Policy is about the Nutree website (${LEGAL_COMPANY.websiteDisplay}). Provider: ${LEGAL_COMPANY.legalNameEn}. Published company email: ${LEGAL_COMPANY.email}.`,
           'The Vietnamese purchase page can show a one-time yearly VietQR transfer. The English purchase page does not show that VietQR checkout. Apple in-app purchase, Google Play in-app purchase, and Paddle web checkout are described in the [Payment Policy](/payment). This page does not say those three channels use a website deeplink.',
-          'This page does not promise that a website payment sends an activation email, a deeplink, or unlocks the app.',
+          'This page does not say the website sends an activation email or a deeplink.',
         ],
       },
       {
@@ -44,8 +44,8 @@ export const usagePolicyContent: Record<Locale, LegalPageContent> = {
         images: [
           {
             src: '/images/vi/dashboard.webp',
-            alt: 'Nutree app preview after plan activation',
-            caption: 'Illustration of the Nutree app. This image is not a promise that a website payment unlocks the app.',
+            alt: 'Nutree app preview',
+            caption: 'Illustration of the Nutree app.',
           },
         ],
       },
@@ -54,7 +54,7 @@ export const usagePolicyContent: Record<Locale, LegalPageContent> = {
         body: [
           'Follow the on-screen checkout instructions (for example bank transfer with VietQR and the exact amount shown).',
           'Transfer the exact amount and keep your payment receipt / transaction reference.',
-          'If the checkout asks you to send a receipt, send it through [Facebook Messenger](https://m.me/1019820571221637) or to nutreeaidev@gmail.com with the transfer content or order reference. This page does not promise a match or a deadline.',
+          'If the checkout asks you to send a receipt, send it through [Facebook Messenger](https://m.me/1019820571221637) or to nutreeaidev@gmail.com with the transfer content or order reference.',
         ],
         images: [
           {
@@ -67,30 +67,30 @@ export const usagePolicyContent: Record<Locale, LegalPageContent> = {
       {
         title: 'Step 3 — Email and links',
         body: [
-          'This page does not promise an activation email or a deeplink after a website payment.',
+          'This page does not say a website payment is followed by an activation email or a deeplink.',
           'If you receive a message about a purchase, check who sent it before you open a link. Nutree does not ask for a banking password in email or chat.',
-          'If you need help, contact [Facebook Messenger](https://m.me/1019820571221637) or nutreeaidev@gmail.com with your payment proof and the email address you used. This page does not promise a reply time.',
+          'If you need help, contact [Facebook Messenger](https://m.me/1019820571221637) or nutreeaidev@gmail.com with your payment proof and the email address you used.',
         ],
       },
       {
         title: 'Step 4 — Using the app',
         body: [
-          'This page does not give device-specific activation steps and does not promise that opening a link unlocks paid features.',
+          'This page does not give device-specific activation steps.',
           'Apple in-app purchase, Google Play in-app purchase, and Paddle web checkout follow the [Payment Policy](/payment). They do not use the Vietnamese VietQR screen.',
-          'Install Nutree from the store for your device if you do not already have it. This page does not promise that installing the app unlocks a website payment.',
+          'Install Nutree from the store for your device if you do not already have it.',
         ],
         images: [
           {
             src: '/images/vi/meal-scanning.webp',
-            alt: 'Nutree meal scanning after activation',
-            caption: 'Illustration of meal scanning in the Nutree app. This image is not a promise that a website payment unlocks that feature.',
+            alt: 'Nutree meal scanning',
+            caption: 'Illustration of meal scanning in the Nutree app.',
           },
         ],
       },
       {
         title: 'Account matching and security',
         body: [
-          'When a screen asks you to sign in, use the email that screen asks for. This page does not promise that matching an email unlocks a purchase.',
+          'When a screen asks you to sign in, use the email that screen asks for.',
           'If you receive a link about a purchase, do not share it. This page does not say how long a link lasts.',
           'Nutree does not ask for your banking password in email or chat.',
         ],
@@ -98,9 +98,8 @@ export const usagePolicyContent: Record<Locale, LegalPageContent> = {
       {
         title: 'Troubleshooting',
         body: [
-          'No email: this page does not promise an email. If you need help, contact [Facebook Messenger](https://m.me/1019820571221637) or nutreeaidev@gmail.com with payment proof.',
-          'A link opens the browser: this page does not promise that a link opens the app.',
-          'Paid but features locked: this page does not promise that a website payment unlocks features. Apple and Google Play restore is described in the [Payment Policy](/payment). Other help: the same Messenger link or nutreeaidev@gmail.com.',
+          'No email from the website: this page does not say the website sends one. If you need help, contact [Facebook Messenger](https://m.me/1019820571221637) or nutreeaidev@gmail.com with payment proof.',
+          'If paid access is missing, contact the same Messenger link or nutreeaidev@gmail.com with your receipt.',
         ],
       },
       {
@@ -114,7 +113,7 @@ export const usagePolicyContent: Record<Locale, LegalPageContent> = {
   vi: {
     title: 'Chính sách sử dụng',
     description:
-      'Trang này nói gì về thanh toán trên website Nutree. Trang không cam kết email kích hoạt, deeplink hoặc việc mở khóa ứng dụng.',
+      'Trang này nói gì về thanh toán trên website Nutree. Trang không nói website gửi email kích hoạt hoặc deeplink.',
     toc: 'Mục lục',
     backHome: 'Về trang chủ',
     home: 'Trang chủ',
@@ -127,7 +126,7 @@ export const usagePolicyContent: Record<Locale, LegalPageContent> = {
         body: [
           `Chính sách sử dụng này nói về website Nutree (${LEGAL_COMPANY.websiteDisplay}). Đơn vị cung cấp: ${LEGAL_COMPANY.legalName}. Email công ty đã công bố: ${LEGAL_COMPANY.email}.`,
           'Trang mua tiếng Việt có thể hiện chuyển khoản VietQR một lần cho gói năm. Trang mua tiếng Anh không hiện checkout VietQR đó. Mua trong ứng dụng Apple, mua trong ứng dụng Google Play và thanh toán web Paddle được nêu ở [Chính sách thanh toán](/payment). Trang này không nói ba kênh đó dùng deeplink trên website.',
-          'Trang này không cam kết thanh toán trên website sẽ gửi email kích hoạt, gửi deeplink hoặc mở khóa ứng dụng.',
+          'Trang này không nói website gửi email kích hoạt hoặc deeplink.',
         ],
       },
       {
@@ -139,8 +138,8 @@ export const usagePolicyContent: Record<Locale, LegalPageContent> = {
         images: [
           {
             src: '/images/vi/dashboard.webp',
-            alt: 'Giao diện Nutree sau khi kích hoạt gói',
-            caption: 'Hình minh họa ứng dụng Nutree. Hình này không phải cam kết thanh toán trên website sẽ mở khóa ứng dụng.',
+            alt: 'Hình xem trước ứng dụng Nutree',
+            caption: 'Hình minh họa ứng dụng Nutree.',
           },
         ],
       },
@@ -149,7 +148,7 @@ export const usagePolicyContent: Record<Locale, LegalPageContent> = {
         body: [
           'Làm theo hướng dẫn checkout trên màn hình (ví dụ chuyển khoản VietQR đúng số tiền hiển thị).',
           'Chuyển đúng số tiền và lưu biên lai / mã giao dịch.',
-          'Nếu checkout yêu cầu gửi biên lai, hãy gửi qua [Facebook Messenger](https://m.me/1019820571221637) hoặc tới nutreeaidev@gmail.com, kèm nội dung chuyển khoản hoặc mã đơn. Trang này không cam kết đối soát hoặc hạn trả lời.',
+          'Nếu checkout yêu cầu gửi biên lai, hãy gửi qua [Facebook Messenger](https://m.me/1019820571221637) hoặc tới nutreeaidev@gmail.com, kèm nội dung chuyển khoản hoặc mã đơn.',
         ],
         images: [
           {
@@ -162,30 +161,30 @@ export const usagePolicyContent: Record<Locale, LegalPageContent> = {
       {
         title: 'Bước 3 — Email và liên kết',
         body: [
-          'Trang này không cam kết có email kích hoạt hoặc deeplink sau thanh toán trên website.',
+          'Trang này không nói thanh toán trên website được theo sau bởi email kích hoạt hoặc deeplink.',
           'Nếu bạn nhận tin nhắn về một giao dịch, hãy kiểm tra người gửi trước khi mở liên kết. Nutree không hỏi mật khẩu ngân hàng qua email hoặc chat.',
-          'Nếu cần hỗ trợ, nhắn [Facebook Messenger](https://m.me/1019820571221637) hoặc gửi tới nutreeaidev@gmail.com, kèm bằng chứng thanh toán và địa chỉ email đã dùng. Trang này không cam kết thời gian trả lời.',
+          'Nếu cần hỗ trợ, nhắn [Facebook Messenger](https://m.me/1019820571221637) hoặc gửi tới nutreeaidev@gmail.com, kèm bằng chứng thanh toán và địa chỉ email đã dùng.',
         ],
       },
       {
         title: 'Bước 4 — Dùng ứng dụng',
         body: [
-          'Trang này không đưa các bước kích hoạt theo từng thiết bị và không cam kết mở một liên kết sẽ mở khóa tính năng trả phí.',
+          'Trang này không đưa các bước kích hoạt theo từng thiết bị.',
           'Mua trong ứng dụng Apple, mua trong ứng dụng Google Play và thanh toán web Paddle theo [Chính sách thanh toán](/payment). Ba kênh đó không dùng màn hình VietQR tiếng Việt.',
-          'Hãy cài Nutree từ cửa hàng của thiết bị nếu bạn chưa có ứng dụng. Trang này không cam kết việc cài ứng dụng sẽ mở khóa một thanh toán trên website.',
+          'Hãy cài Nutree từ cửa hàng của thiết bị nếu bạn chưa có ứng dụng.',
         ],
         images: [
           {
             src: '/images/vi/meal-scanning.webp',
-            alt: 'Quét món bằng AI trên Nutree sau kích hoạt',
-            caption: 'Hình minh họa quét món trong ứng dụng Nutree. Hình này không phải cam kết thanh toán trên website sẽ mở khóa tính năng đó.',
+            alt: 'Quét món trên Nutree',
+            caption: 'Hình minh họa quét món trong ứng dụng Nutree.',
           },
         ],
       },
       {
         title: 'Khớp tài khoản và bảo mật',
         body: [
-          'Khi một màn hình yêu cầu đăng nhập, hãy dùng email mà màn hình đó yêu cầu. Trang này không cam kết việc trùng email sẽ mở khóa giao dịch.',
+          'Khi một màn hình yêu cầu đăng nhập, hãy dùng email mà màn hình đó yêu cầu.',
           'Nếu bạn nhận một liên kết về giao dịch, đừng chia sẻ liên kết đó. Trang này không nói liên kết tồn tại bao lâu.',
           'Nutree không yêu cầu mật khẩu ngân hàng qua email hoặc chat.',
         ],
@@ -193,9 +192,8 @@ export const usagePolicyContent: Record<Locale, LegalPageContent> = {
       {
         title: 'Xử lý sự cố',
         body: [
-          'Không nhận email: trang này không cam kết có email. Nếu cần hỗ trợ, nhắn [Facebook Messenger](https://m.me/1019820571221637) hoặc gửi tới nutreeaidev@gmail.com kèm bằng chứng thanh toán.',
-          'Liên kết mở trình duyệt: trang này không cam kết một liên kết sẽ mở ứng dụng.',
-          'Đã thanh toán nhưng chưa mở khóa tính năng: trang này không cam kết thanh toán trên website sẽ mở khóa tính năng. Cách khôi phục Apple và Google Play nằm ở [Chính sách thanh toán](/payment). Hỗ trợ khác: cùng liên kết Messenger hoặc nutreeaidev@gmail.com.',
+          'Không có email từ website: trang này không nói website gửi email đó. Nếu cần hỗ trợ, nhắn [Facebook Messenger](https://m.me/1019820571221637) hoặc gửi tới nutreeaidev@gmail.com kèm bằng chứng thanh toán.',
+          'Nếu thiếu quyền dùng đã thanh toán, hãy liên hệ cùng liên kết Messenger hoặc nutreeaidev@gmail.com và gửi biên nhận.',
         ],
       },
       {

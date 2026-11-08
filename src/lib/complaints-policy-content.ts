@@ -24,7 +24,7 @@ export const complaintsPolicyContent: Record<Locale, LegalPageContent> = {
     home: 'Home',
     copyright: 'Nutree. All rights reserved.',
     links: { privacy: 'Privacy Policy', terms: 'Terms of Service' },
-    tableHeaders: ['Step', 'Stage', 'Target time'],
+    tableHeaders: ['Step', 'Stage', 'Time stated on this page'],
     ...dates.en,
     sections: [
       {
@@ -56,7 +56,7 @@ export const complaintsPolicyContent: Record<Locale, LegalPageContent> = {
         ],
       },
       {
-        title: 'Process and target timelines',
+        title: 'Process',
         body: [
           'This page does not publish a 3, 7, or 15 business-day commitment. No replacement deadline is stated here.',
         ],
@@ -85,7 +85,7 @@ export const complaintsPolicyContent: Record<Locale, LegalPageContent> = {
     home: 'Trang chủ',
     copyright: 'Nutree. Bảo lưu mọi quyền.',
     links: { privacy: 'Chính sách bảo mật', terms: 'Điều khoản sử dụng' },
-    tableHeaders: ['Bước', 'Giai đoạn', 'Thời gian mục tiêu'],
+    tableHeaders: ['Bước', 'Giai đoạn', 'Thời gian nêu trên trang này'],
     ...dates.vi,
     sections: [
       {
@@ -117,7 +117,7 @@ export const complaintsPolicyContent: Record<Locale, LegalPageContent> = {
         ],
       },
       {
-        title: 'Quy trình và thời gian mục tiêu',
+        title: 'Quy trình',
         body: [
           'Trang này không công bố cam kết 3, 7 hoặc 15 ngày làm việc. Không có hạn thay thế trên trang này.',
         ],
