@@ -99,8 +99,16 @@ test('later pricing, payment, usage, and complaint sections name the same four c
   }
   const usageEn = sectionText(usagePolicyContent.en, 'Scope');
   const usageVi = sectionText(usagePolicyContent.vi, 'Phạm vi áp dụng');
-  assert.match(usageEn, /does not say those three channels use this VietQR deeplink/);
-  assert.match(usageVi, /không nói ba kênh đó dùng deeplink VietQR này/);
+  assert.match(usageEn, /does not say those three channels use a website deeplink/);
+  assert.match(usageEn, /one-time yearly VietQR/);
+  assert.match(usageEn, /does not say the website sends an activation email/);
+  assert.equal(usageEn.includes('does not promise'), false);
+  assert.equal(usageEn.includes('sign in with the same store account'), false);
+  assert.equal(usageEn.includes('Select Monthly or Yearly'), false);
+  assert.match(usageVi, /không nói ba kênh đó dùng deeplink trên website/);
+  assert.match(usageVi, /không nói website gửi email kích hoạt/);
+  assert.equal(usageVi.includes('không cam kết'), false);
+  assert.equal(usageVi.includes('Chọn gói Tháng hoặc gói Năm'), false);
 });
 
 test('store refunds, restore, and the privacy processor row stay channel-specific', () => {

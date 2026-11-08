@@ -6,7 +6,7 @@ import { createPageMetadata } from '@/lib/seo';
 export const metadata = createPageMetadata({
   title: 'Chính sách thanh toán | Nutree',
   description:
-    'Quy trình thanh toán gói Nutree qua Apple App Store: phương thức thanh toán, kích hoạt, khôi phục, tự động gia hạn và xử lý giao dịch lỗi.',
+    'Quy trình thanh toán Nutree qua Apple, Google Play, Paddle và VietQR một lần. Trang này không cam kết khôi phục trên website.',
   path: '/payment',
   languages: languageAlternatesFor('/payment'),
 });
