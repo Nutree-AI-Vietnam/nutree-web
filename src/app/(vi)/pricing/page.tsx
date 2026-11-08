@@ -6,7 +6,7 @@ import { createPageMetadata } from '@/lib/seo';
 export const metadata = createPageMetadata({
   title: 'Chính sách giá | Nutree',
   description:
-    'Cách Nutree công bố và xác nhận giá gói đăng ký. Mức giá cụ thể được cung cấp trong ứng dụng trước khi bạn thanh toán.',
+    'Trang chính sách này không ấn định giá. Checkout VietQR tiếng Việt hiển thị số tiền của gói năm trước khi chuyển khoản. Apple, Google Play và Paddle hiển thị số tiền trên kênh của họ.',
   path: '/pricing',
   languages: languageAlternatesFor('/pricing'),
 });

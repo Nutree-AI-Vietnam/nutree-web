@@ -53,8 +53,8 @@ export const paymentPolicyContent: Record<Locale, LegalPageContent> = {
       {
         title: 'Activation and restore',
         body: [
-          'Paid access usually unlocks after verification. Use Restore when changing devices or if sync is delayed.',
-          'If access does not appear, check the network and the status in the channel you paid with, then contact Facebook Messenger or nutreeaidev@gmail.com with your receipt.',
+          'A completed purchase is the entitlement for that transaction. This page does not describe a Restore action on the website, and it does not say a Paddle web checkout or a VietQR transfer restores automatically.',
+          'If access is missing, check the network and the status in the channel you paid with, then contact [Facebook Messenger](https://m.me/1019820571221637) or nutreeaidev@gmail.com with your receipt.',
         ],
       },
       {
@@ -116,8 +116,8 @@ export const paymentPolicyContent: Record<Locale, LegalPageContent> = {
       {
         title: 'Kích hoạt và khôi phục',
         body: [
-          'Quyền trả phí thường được kích hoạt ngay sau khi xác minh. Dùng chức năng Khôi phục khi đổi thiết bị hoặc quyền chưa đồng bộ.',
-          'Nếu vẫn không nhận quyền: kiểm tra kết nối và trạng thái trên kênh đã trả tiền, rồi nhắn Facebook Messenger hoặc gửi biên nhận tới nutreeaidev@gmail.com.',
+          'Giao dịch đã hoàn tất là quyền dùng của giao dịch đó. Trang này không mô tả chức năng Khôi phục trên website, và không nói thanh toán web Paddle hoặc chuyển khoản VietQR tự khôi phục.',
+          'Nếu thiếu quyền dùng, kiểm tra kết nối và trạng thái trên kênh đã trả tiền, rồi nhắn [Facebook Messenger](https://m.me/1019820571221637) hoặc gửi biên nhận tới nutreeaidev@gmail.com.',
         ],
       },
       {

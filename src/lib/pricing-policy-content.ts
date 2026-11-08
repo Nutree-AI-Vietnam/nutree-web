@@ -43,15 +43,14 @@ export const pricingPolicyContent: Record<Locale, LegalPageContent> = {
       {
         title: 'Where prices are provided',
         body: [
-          'This website does not publish a fixed subscription price. Each channel shows the amount before you confirm.',
-          'Apple shows it on the Apple confirmation sheet. Google Play shows it in Google Play. Paddle shows it in the Paddle checkout. VietQR shows the one-time transfer amount. The amount you confirm on that channel is the amount for that purchase.',
+          'This policy page does not set the price. The Vietnamese VietQR checkout on this website displays the yearly amount on that screen before you transfer. Apple shows its amount on the Apple confirmation sheet. Google Play shows its amount in Google Play. Paddle shows its amount in the Paddle checkout. The amount you confirm on the screen you are using is the amount for that purchase.',
         ],
       },
       {
         title: 'Plan types',
         body: [
-          'Nutree offers auto-renewing subscription plans (for example monthly and yearly). The plan name, period, and price for your offer appear in the app before checkout.',
-          'Apple, Google Play, and Paddle plans can renew until you cancel that channel. VietQR is a one-time payment and does not renew automatically. How to cancel a renewing plan: [Cancellation & Refunds](/cancellation).',
+          'Apple, Google Play, and Paddle may offer auto-renewing plans. The plan name, period, and price appear on that channel before you confirm. This page does not list those prices.',
+          'The website VietQR checkout offers one plan: a one-time yearly transfer. It does not offer a monthly VietQR plan. VietQR does not renew automatically. How to cancel a renewing plan: [Cancellation & Refunds](/cancellation).',
         ],
       },
       {
@@ -131,15 +130,14 @@ export const pricingPolicyContent: Record<Locale, LegalPageContent> = {
       {
         title: 'Nơi cung cấp mức giá',
         body: [
-          'Website này không niêm yết một mức giá cố định. Mỗi kênh hiển thị số tiền trước khi bạn xác nhận.',
-          'Apple hiển thị trên màn hình xác nhận của Apple. Google Play hiển thị trong Google Play. Paddle hiển thị trong bước thanh toán của Paddle. VietQR hiển thị số tiền chuyển một lần. Số tiền bạn xác nhận trên kênh đó là số tiền của giao dịch đó.',
+          'Trang chính sách này không ấn định giá. Checkout VietQR tiếng Việt trên website hiển thị số tiền của gói năm trên màn hình đó trước khi bạn chuyển khoản. Apple hiển thị số tiền trên màn hình xác nhận của Apple. Google Play hiển thị số tiền trong Google Play. Paddle hiển thị số tiền trong bước thanh toán của Paddle. Số tiền bạn xác nhận trên màn hình đang dùng là số tiền của giao dịch đó.',
         ],
       },
       {
         title: 'Các loại gói',
         body: [
-          'Nutree cung cấp các gói đăng ký tự động gia hạn (ví dụ gói tháng và gói năm). Tên gói, chu kỳ và mức giá của ưu đãi dành cho bạn được hiển thị trong app trước khi thanh toán.',
-          'Gói Apple, Google Play và Paddle có thể gia hạn cho đến khi bạn hủy đúng kênh. VietQR là thanh toán một lần và không tự động gia hạn. Hướng dẫn hủy gói có gia hạn: [Hủy & hoàn tiền](/cancellation).',
+          'Apple, Google Play và Paddle có thể cung cấp gói tự động gia hạn. Tên gói, chu kỳ và mức giá xuất hiện trên kênh đó trước khi bạn xác nhận. Trang này không liệt kê các mức giá đó.',
+          'Checkout VietQR trên website có một gói: chuyển khoản một lần theo năm. Checkout đó không có gói tháng. VietQR không tự động gia hạn. Hướng dẫn hủy gói có gia hạn: [Hủy & hoàn tiền](/cancellation).',
         ],
       },
       {
