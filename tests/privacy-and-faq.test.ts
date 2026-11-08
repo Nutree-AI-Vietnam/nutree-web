@@ -3,7 +3,7 @@ import { test } from 'node:test';
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { metadata as englishPrivacyMetadata } from '../src/app/(en)/en/privacy/page';
-import { metadata as vietnamesePrivacyMetadata } from '../src/app/(vi)/privacy/page';
+import { vietnamesePrivacyMetadata } from '../src/lib/shared-locale-metadata';
 import { LegalPageView } from '../src/components/legal/LegalPageView';
 import { FaqAccordion } from '../src/components/sections/FaqAccordion';
 import { privacyContent, type LegalPageContent } from '../src/lib/legal-content';

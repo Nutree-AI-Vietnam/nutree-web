@@ -1,15 +1,10 @@
 import { LegalPageClient } from '@/components/legal/LegalPageClient';
 import { paymentPolicyContent } from '@/lib/payment-policy-content';
-import { languageAlternatesFor } from '@/lib/privacy-path';
-import { createPageMetadata } from '@/lib/seo';
+import { paymentPageMetadata } from '@/lib/shared-locale-metadata';
 
-export const metadata = createPageMetadata({
-  title: 'Chính sách thanh toán | Nutree',
-  description:
-    'Quy trình thanh toán Nutree qua Apple, Google Play, Paddle và VietQR một lần. Trang này không cam kết khôi phục trên website.',
-  path: '/payment',
-  languages: languageAlternatesFor('/payment'),
-});
+export async function generateMetadata() {
+  return paymentPageMetadata();
+}
 
 export default function PaymentPolicyPage() {
   return (

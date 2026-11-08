@@ -1,15 +1,10 @@
 import { LegalPageClient } from '@/components/legal/LegalPageClient';
 import { cancellationPolicyContent } from '@/lib/cancellation-policy-content';
-import { languageAlternatesFor } from '@/lib/privacy-path';
-import { createPageMetadata } from '@/lib/seo';
+import { cancellationPageMetadata } from '@/lib/shared-locale-metadata';
 
-export const metadata = createPageMetadata({
-  title: 'Chính sách hủy & hoàn tiền | Nutree',
-  description:
-    'Cách hủy gói đăng ký Nutree, điều gì xảy ra sau khi hủy và hoàn tiền được xử lý như thế nào.',
-  path: '/cancellation',
-  languages: languageAlternatesFor('/cancellation'),
-});
+export async function generateMetadata() {
+  return cancellationPageMetadata();
+}
 
 export default function CancellationPolicyPage() {
   return (
