@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { homePath, preferredHomeLanguage, rootLanguageDecision } from '../src/lib/home-language';
+import { homePath, preferredHomeLanguage, rootLanguageDecision, visitorCountry } from '../src/lib/home-language';
 import { localePreferenceCookie, readLocaleCookie } from '../src/lib/locale-preference';
 
 test('Accept-Language weights and malformed values are deterministic', () => {
@@ -54,5 +54,55 @@ test('cookie wins over Accept-Language, crawlers and invalid cookies do not', ()
   assert.deepEqual(
     rootLanguageDecision({ cookieHeader: null, acceptLanguage: null, userAgent: 'Mozilla/5.0' }),
     { action: 'stay', reason: 'fallback-vi' }
+  );
+});
+
+test('Vietnam keeps the Vietnamese homepage unless the visitor already chose English', () => {
+  const headers = (values: Record<string, string>) => ({
+    get: (name: string) => values[name.toLowerCase()] ?? null,
+  });
+
+  assert.equal(visitorCountry(headers({ 'cf-ipcountry': 'vn' })), 'VN');
+  assert.equal(visitorCountry(headers({ 'cf-ipcountry': 'XX', 'x-vercel-ip-country': 'VN' })), 'VN');
+  assert.equal(visitorCountry(headers({ 'cf-ipcountry': 'HK', 'x-vercel-ip-country': 'VN' })), 'HK');
+  assert.equal(visitorCountry(headers({ 'x-vercel-ip-country': 'us' })), 'US');
+  assert.equal(visitorCountry(headers({ 'cf-ipcountry': 'T1' })), null);
+  assert.equal(visitorCountry(null), null);
+
+  assert.deepEqual(
+    rootLanguageDecision({
+      cookieHeader: null,
+      acceptLanguage: 'en-US,en;q=0.9,vi-VN;q=0.8',
+      userAgent: 'Mozilla/5.0',
+      country: 'VN',
+    }),
+    { action: 'stay', reason: 'country-vn' }
+  );
+  assert.deepEqual(
+    rootLanguageDecision({
+      cookieHeader: 'nutree-locale=en',
+      acceptLanguage: 'en-US',
+      userAgent: 'Mozilla/5.0',
+      country: 'vn',
+    }),
+    { action: 'redirect', reason: 'cookie-en' }
+  );
+  assert.deepEqual(
+    rootLanguageDecision({
+      cookieHeader: null,
+      acceptLanguage: 'en-US',
+      userAgent: 'Mozilla/5.0',
+      country: 'US',
+    }),
+    { action: 'redirect', reason: 'accept-language' }
+  );
+  assert.deepEqual(
+    rootLanguageDecision({
+      cookieHeader: null,
+      acceptLanguage: 'vi-VN',
+      userAgent: 'Mozilla/5.0',
+      country: 'US',
+    }),
+    { action: 'stay', reason: 'accept-language-vi' }
   );
 });

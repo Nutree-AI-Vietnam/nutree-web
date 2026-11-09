@@ -4,9 +4,11 @@ import { readLocaleCookie } from './locale-preference';
  * Homepage language negotiation.
  *
  * Accept-Language is the browser's language preference, not the visitor's country.
- * A person in Vietnam can send en-US, and a person abroad can send vi-VN.
- * Missing or unusable headers do not redirect: `/` stays the Vietnamese homepage.
- * Any parsed preference whose strongest tag is not Vietnamese uses the English homepage.
+ * A person in Vietnam often sends en-US. With no saved choice, country VN keeps `/`
+ * on the Vietnamese homepage. An explicit nutree-locale cookie still wins, so the
+ * language switch keeps working inside Vietnam.
+ * Outside Vietnam, any parsed preference whose strongest tag is not Vietnamese uses
+ * the English homepage. Missing or unusable headers do not redirect.
  * Known crawlers skip this redirect so `/` and `/en` stay stable URLs. The HTML of each
  * URL is the same for people and crawlers.
  */
@@ -95,6 +97,23 @@ export function preferredHomeLanguage(header: string | null | undefined): 'vi' |
   return 'unknown';
 }
 
+/** ISO country from the edge. `XX` is Cloudflare's unknown code. */
+function usableCountry(value: string | null | undefined): string | null {
+  const code = value?.trim().toUpperCase() ?? '';
+  if (!/^[A-Z]{2}$/.test(code) || code === 'XX') return null;
+  return code;
+}
+
+/**
+ * Visitor country. Cloudflare is in front of Vercel, so `cf-ipcountry` is the visitor
+ * and `x-vercel-ip-country` is often the Cloudflare edge. Use Vercel only when Cloudflare
+ * did not send a country.
+ */
+export function visitorCountry(headers: { get(name: string): string | null } | null | undefined): string | null {
+  if (!headers) return null;
+  return usableCountry(headers.get('cf-ipcountry')) ?? usableCountry(headers.get('x-vercel-ip-country'));
+}
+
 /** Prefetch and other speculative fetches are not a language choice. */
 export function isSpeculativeRequest(header: { get(name: string): string | null } | null | undefined): boolean {
   if (!header) return false;
@@ -134,12 +153,15 @@ export function rootLanguageDecision(input: {
   cookieHeader: string | null;
   acceptLanguage: string | null;
   userAgent: string | null;
+  country?: string | null;
 }): { action: 'stay' | 'redirect'; reason: string } {
   if (isKnownCrawler(input.userAgent)) return { action: 'stay', reason: 'crawler' };
 
   const saved = readLocaleCookie(input.cookieHeader);
   if (saved === 'vi') return { action: 'stay', reason: 'cookie-vi' };
   if (saved === 'en') return { action: 'redirect', reason: 'cookie-en' };
+
+  if (usableCountry(input.country) === 'VN') return { action: 'stay', reason: 'country-vn' };
 
   const preferred = preferredHomeLanguage(input.acceptLanguage);
   if (preferred === 'en') return { action: 'redirect', reason: 'accept-language' };

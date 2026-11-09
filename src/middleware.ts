@@ -5,6 +5,7 @@ import {
   HOME_PATH,
   isSpeculativeRequest,
   rootLanguageDecision,
+  visitorCountry,
 } from '@/lib/home-language';
 import { localePreferenceCookie, readLocaleCookie } from '@/lib/locale-preference';
 import { pageLanguageDependsOnCookie } from '@/lib/route-locale';
@@ -55,6 +56,7 @@ export function middleware(request: NextRequest) {
     cookieHeader: request.headers.get('cookie'),
     acceptLanguage: request.headers.get('accept-language'),
     userAgent: request.headers.get('user-agent'),
+    country: visitorCountry(request.headers),
   });
   if (decision.action === 'stay') return nextWithPath(request);
 
@@ -62,7 +64,7 @@ export function middleware(request: NextRequest) {
   destination.pathname = HOME_PATH.en;
   const response = NextResponse.redirect(destination, 302);
   response.headers.set('Cache-Control', 'private, no-store');
-  response.headers.set('Vary', 'Cookie, Accept-Language');
+  response.headers.set('Vary', 'Cookie, Accept-Language, CF-IPCountry');
   return response;
 }
 
