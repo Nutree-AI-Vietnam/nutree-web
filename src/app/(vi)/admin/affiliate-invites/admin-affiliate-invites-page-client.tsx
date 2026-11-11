@@ -8,11 +8,8 @@ import { AffiliateInviteLink } from '@/components/admin/AffiliateInviteLink';
 import { AffiliateInviteTable } from '@/components/admin/AffiliateInviteTable';
 import { MealCatalogPagination } from '@/components/admin/MealCatalogPagination';
 import { adminErrorMessage, useAdminSession } from '@/hooks/useAdminSession';
-import {
-  createAffiliateInvite,
-  fetchAffiliateInvites,
-  revokeAffiliateInvite,
-} from '@/lib/affiliate-invite-admin-api';
+import { type ActionMessage, useAffiliateInviteActions } from '@/hooks/useAffiliateInviteActions';
+import { createAffiliateInvite, fetchAffiliateInvites } from '@/lib/affiliate-invite-admin-api';
 import type {
   AffiliateInvite,
   AffiliateInviteCreateRequest,
@@ -27,11 +24,10 @@ export function AdminAffiliateInvitesPageClient() {
   const [data, setData] = useState<AffiliateInviteListResponse>(emptyData);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [message, setMessage] = useState<{ tone: 'info' | 'error'; text: string } | null>(null);
+  const [message, setMessage] = useState<ActionMessage | null>(null);
   const [isCreating, setIsCreating] = useState(false);
   // The new link lives in memory only, until Done, sign-out or a target switch.
   const [created, setCreated] = useState<{ label: string; link: string } | null>(null);
-  const [busyIds, setBusyIds] = useState<ReadonlySet<string>>(new Set());
   const latestRequest = useRef(0);
 
   const resetPageData = useCallback(() => {
@@ -90,34 +86,23 @@ export function AdminAffiliateInvitesPageClient() {
     [environment, getValidToken, reload]
   );
 
-  const handleRevoke = useCallback(
-    async (invite: AffiliateInvite) => {
-      if (!window.confirm(revokePrompt(invite))) return;
-      latestRequest.current += 1;
-      setBusyIds((current) => new Set(current).add(invite.id));
-      setMessage(null);
-      try {
-        const token = await getValidToken();
-        const response = await revokeAffiliateInvite(invite.id, token, environment);
-        setData((current) => ({
-          ...current,
-          items: current.items.map((row) => (row.id === invite.id ? response.invite : row)),
-        }));
-        const ended = response.ended_code ? ` Code ${response.ended_code} is now an ordinary referral code.` : '';
-        setMessage({ tone: 'info', text: `Revoked the invite for ${invite.label}.${ended}` });
-      } catch (requestError) {
-        setMessage({ tone: 'error', text: adminErrorMessage(requestError) });
-        reload();
-      } finally {
-        setBusyIds((current) => {
-          const next = new Set(current);
-          next.delete(invite.id);
-          return next;
-        });
-      }
-    },
-    [environment, getValidToken, reload]
-  );
+  const updateRow = useCallback((invite: AffiliateInvite) => {
+    setData((current) => ({
+      ...current,
+      items: current.items.map((row) => (row.id === invite.id ? invite : row)),
+    }));
+  }, []);
+  const cancelInFlightLoad = useCallback(() => {
+    latestRequest.current += 1;
+  }, []);
+  const actions = useAffiliateInviteActions({
+    environment,
+    getValidToken,
+    onUpdated: updateRow,
+    onMessage: setMessage,
+    onBeforeAction: cancelInFlightLoad,
+    reload,
+  });
 
   const totalPages = Math.max(1, Math.ceil(data.total / PAGE_SIZE));
   const visibleStart = data.total === 0 ? 0 : data.offset + 1;
@@ -157,16 +142,15 @@ export function AdminAffiliateInvitesPageClient() {
       {!isLoading && data.items.length === 0 && !error ? (
         <p className="border border-border bg-white p-6 text-sm text-muted">No invites yet.</p>
       ) : (
-        <AffiliateInviteTable items={data.items} busyIds={busyIds} onRevoke={(invite) => void handleRevoke(invite)} />
+        <AffiliateInviteTable
+          items={data.items}
+          busy={actions.busy}
+          onRevoke={actions.revoke}
+          onRetryPremium={actions.retryPremium}
+        />
       )}
     </AdminPageShell>
   );
-}
-
-function revokePrompt(invite: AffiliateInvite): string {
-  return invite.claimed_by_user_id
-    ? `Revoke the invite for "${invite.label}"? Their code stops earning ${invite.commission_percent}% for new friends; friends who already used it keep it. This is final.`
-    : `Revoke the invite for "${invite.label}"? The link stops working. This is final.`;
 }
 
 const emptyData: AffiliateInviteListResponse = {

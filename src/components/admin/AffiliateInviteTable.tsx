@@ -1,4 +1,4 @@
-import type { AffiliateInvite, AffiliateInviteStatus } from '@/types/affiliate-invite-admin';
+import type { AffiliateInvite, AffiliateInviteAction, AffiliateInviteStatus } from '@/types/affiliate-invite-admin';
 
 const STATUS_LABELS: Record<AffiliateInviteStatus, string> = {
   open: 'Open',
@@ -9,14 +9,17 @@ const STATUS_LABELS: Record<AffiliateInviteStatus, string> = {
 
 const DATE_FORMAT = new Intl.DateTimeFormat('en-GB', { dateStyle: 'medium', timeStyle: 'short' });
 
+const BUTTON = 'whitespace-nowrap border border-border bg-white px-3 py-1.5 text-xs font-bold disabled:text-muted';
+
 interface Props {
   items: AffiliateInvite[];
-  busyIds: ReadonlySet<string>;
+  busy: ReadonlyMap<string, AffiliateInviteAction>;
   onRevoke: (invite: AffiliateInvite) => void;
+  onRetryPremium: (invite: AffiliateInvite) => void;
 }
 
 /** Every invite with its state; tokens never reach this table. */
-export function AffiliateInviteTable({ items, busyIds, onRevoke }: Props) {
+export function AffiliateInviteTable({ items, busy, onRevoke, onRetryPremium }: Props) {
   return (
     <section className="overflow-x-auto border-y border-border bg-white">
       <table className="w-full min-w-[960px] border-collapse text-left text-sm">
@@ -29,6 +32,7 @@ export function AffiliateInviteTable({ items, busyIds, onRevoke }: Props) {
             <th className="px-4 py-3 font-bold">Expires</th>
             <th className="px-4 py-3 font-bold">Claimed by</th>
             <th className="px-4 py-3 font-bold">Claimed</th>
+            <th className="px-4 py-3 font-bold">Premium</th>
             <th className="px-4 py-3 font-bold">
               <span className="sr-only">Action</span>
             </th>
@@ -58,15 +62,36 @@ export function AffiliateInviteTable({ items, busyIds, onRevoke }: Props) {
                 )}
               </td>
               <td className="px-4 py-3 text-muted">{invite.claimed_at ? formatDate(invite.claimed_at) : ''}</td>
+              <td className="px-4 py-3">
+                {invite.premium_granted_at ? (
+                  <span className="text-muted">Granted {formatDate(invite.premium_granted_at)}</span>
+                ) : (
+                  invite.claimed_by_user_id && (
+                    <>
+                      <span className="block text-muted">Not granted</span>
+                      {invite.status === 'claimed' && (
+                        <button
+                          className={`${BUTTON} mt-1 text-primary-forest hover:border-primary-teal`}
+                          disabled={busy.has(invite.id)}
+                          onClick={() => onRetryPremium(invite)}
+                          type="button"
+                        >
+                          {busy.get(invite.id) === 'premium' ? 'Granting...' : 'Retry Premium'}
+                        </button>
+                      )}
+                    </>
+                  )
+                )}
+              </td>
               <td className="px-4 py-3 text-right">
                 {invite.status !== 'revoked' && (
                   <button
-                    className="border border-border bg-white px-3 py-1.5 text-xs font-bold text-red-800 hover:border-red-300 disabled:text-muted"
-                    disabled={busyIds.has(invite.id)}
+                    className={`${BUTTON} text-red-800 hover:border-red-300`}
+                    disabled={busy.has(invite.id)}
                     onClick={() => onRevoke(invite)}
                     type="button"
                   >
-                    {busyIds.has(invite.id) ? 'Revoking...' : 'Revoke'}
+                    {busy.get(invite.id) === 'revoke' ? 'Revoking...' : 'Revoke'}
                   </button>
                 )}
               </td>

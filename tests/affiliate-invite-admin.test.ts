@@ -47,6 +47,7 @@ function invite(fields: Partial<AffiliateInvite> = {}): AffiliateInvite {
     claimed_by_user_id: null,
     claimed_by_email: null,
     claimed_at: null,
+    premium_granted_at: null,
     status: 'open',
     ...fields,
   };
@@ -59,6 +60,7 @@ test('the invite client calls the admin proxy with the signed-in token and targe
     await api.fetchAffiliateInvites({ limit: 50, offset: 100 }, 'id-token', 'prod');
     await api.createAffiliateInvite({ label: 'Lan', commission_percent: 30, expires_days: 14 }, 'id-token', 'prod');
     await api.revokeAffiliateInvite('invite/1', 'id-token', 'prod');
+    await api.retryAffiliatePremium('invite-2', 'id-token', 'prod');
   });
 
   assert.deepEqual(
@@ -67,6 +69,7 @@ test('the invite client calls the admin proxy with the signed-in token and targe
       'GET /api/mealtrack-admin/affiliate-invites?limit=50&offset=100',
       'POST /api/mealtrack-admin/affiliate-invites',
       'POST /api/mealtrack-admin/affiliate-invites/invite%2F1/revoke',
+      'POST /api/mealtrack-admin/affiliate-invites/invite-2/grant-premium',
     ]
   );
   for (const call of calls) {
@@ -77,7 +80,7 @@ test('the invite client calls the admin proxy with the signed-in token and targe
   assert.equal(calls[2].body, undefined);
 });
 
-test('the table shows each state and offers revoke only until revoked', () => {
+test('the table shows each state, Premium, and the actions each row allows', () => {
   const html = renderToStaticMarkup(
     createElement(AffiliateInviteTable, {
       items: [
@@ -91,9 +94,18 @@ test('the table shows each state and offers revoke only until revoked', () => {
           claimed_at: '2026-11-11T10:00:00Z',
         }),
         invite({ id: 'invite-3', label: 'Hoa', status: 'revoked', revoked_at: '2026-11-11T11:00:00Z' }),
+        invite({
+          id: 'invite-4',
+          label: 'Tuan',
+          status: 'claimed',
+          claimed_by_user_id: 'user-4',
+          claimed_by_email: 'tuan@example.com',
+          premium_granted_at: '2026-11-11T12:00:00Z',
+        }),
       ],
-      busyIds: new Set(['invite-2']),
+      busy: new Map([['invite-2', 'premium' as const]]),
       onRevoke: () => undefined,
+      onRetryPremium: () => undefined,
     })
   );
 
@@ -102,8 +114,14 @@ test('the table shows each state and offers revoke only until revoked', () => {
   assert.match(html, /minh@example\.com/);
   assert.match(html, /Revoked/);
   assert.match(html, /Never/);
-  assert.equal((html.match(/>Revoke</g) ?? []).length, 1);
-  assert.equal((html.match(/>Revoking\.\.\.</g) ?? []).length, 1);
+  // Open, claimed and granted rows can be revoked; the revoked one cannot.
+  assert.equal((html.match(/>Revoke</g) ?? []).length, 3);
+  assert.equal((html.match(/>Revoking\.\.\.</g) ?? []).length, 0);
+  // Only the claimed row without Premium offers a retry, and it is in progress.
+  assert.equal((html.match(/>Not granted</g) ?? []).length, 1);
+  assert.equal((html.match(/>Granting\.\.\.</g) ?? []).length, 1);
+  assert.equal((html.match(/>Retry Premium</g) ?? []).length, 0);
+  assert.match(html, /Granted 11 Nov 2026/);
 });
 
 test('the new link is shown once with a copy button', () => {

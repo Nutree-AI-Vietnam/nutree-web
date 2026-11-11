@@ -11,6 +11,8 @@ export interface AffiliateInvite {
   claimed_by_user_id: string | null;
   claimed_by_email: string | null;
   claimed_at: string | null;
+  /** When the claimer's free lifetime Premium went through in RevenueCat. */
+  premium_granted_at: string | null;
   status: AffiliateInviteStatus;
 }
 
@@ -42,3 +44,10 @@ export interface AffiliateInviteRevokedResponse {
   /** The claimer's code that went back to an ordinary referral code. */
   ended_code: string | null;
 }
+
+export interface AffiliateInvitePremiumResponse {
+  invite: AffiliateInvite;
+}
+
+/** What a row is busy doing, so only that button shows progress. */
+export type AffiliateInviteAction = 'revoke' | 'premium';

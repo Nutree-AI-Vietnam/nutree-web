@@ -4,6 +4,7 @@ import type {
   AffiliateInviteCreatedResponse,
   AffiliateInviteCreateRequest,
   AffiliateInviteListResponse,
+  AffiliateInvitePremiumResponse,
   AffiliateInviteRevokedResponse,
 } from '@/types/affiliate-invite-admin';
 
@@ -31,6 +32,17 @@ export function revokeAffiliateInvite(
   environment: MealTrackAdminEnvironment
 ): Promise<AffiliateInviteRevokedResponse> {
   return requestAdminJson(`/affiliate-invites/${encodeURIComponent(inviteId)}/revoke`, token, environment, {
+    method: 'POST',
+  });
+}
+
+/** Grants the claimer's free lifetime Premium again, as the claim would. */
+export function retryAffiliatePremium(
+  inviteId: string,
+  token: string,
+  environment: MealTrackAdminEnvironment
+): Promise<AffiliateInvitePremiumResponse> {
+  return requestAdminJson(`/affiliate-invites/${encodeURIComponent(inviteId)}/grant-premium`, token, environment, {
     method: 'POST',
   });
 }
