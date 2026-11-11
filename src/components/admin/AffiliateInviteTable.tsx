@@ -15,11 +15,12 @@ interface Props {
   items: AffiliateInvite[];
   busy: ReadonlyMap<string, AffiliateInviteAction>;
   onRevoke: (invite: AffiliateInvite) => void;
+  onRevokeAgain: (invite: AffiliateInvite) => void;
   onRetryPremium: (invite: AffiliateInvite) => void;
 }
 
 /** Every invite with its state; tokens never reach this table. */
-export function AffiliateInviteTable({ items, busy, onRevoke, onRetryPremium }: Props) {
+export function AffiliateInviteTable({ items, busy, onRevoke, onRevokeAgain, onRetryPremium }: Props) {
   return (
     <section className="overflow-x-auto border-y border-border bg-white">
       <table className="w-full min-w-[960px] border-collapse text-left text-sm">
@@ -63,24 +64,13 @@ export function AffiliateInviteTable({ items, busy, onRevoke, onRetryPremium }: 
               </td>
               <td className="px-4 py-3 text-muted">{invite.claimed_at ? formatDate(invite.claimed_at) : ''}</td>
               <td className="px-4 py-3">
-                {invite.premium_granted_at ? (
-                  <span className="text-muted">Granted {formatDate(invite.premium_granted_at)}</span>
-                ) : (
-                  invite.claimed_by_user_id && (
-                    <>
-                      <span className="block text-muted">Not granted</span>
-                      {invite.status === 'claimed' && (
-                        <button
-                          className={`${BUTTON} mt-1 text-primary-forest hover:border-primary-teal`}
-                          disabled={busy.has(invite.id)}
-                          onClick={() => onRetryPremium(invite)}
-                          type="button"
-                        >
-                          {busy.get(invite.id) === 'premium' ? 'Granting...' : 'Retry Premium'}
-                        </button>
-                      )}
-                    </>
-                  )
+                {invite.claimed_by_user_id && (
+                  <PremiumState
+                    invite={invite}
+                    action={busy.get(invite.id)}
+                    onRevokeAgain={onRevokeAgain}
+                    onRetryPremium={onRetryPremium}
+                  />
                 )}
               </td>
               <td className="px-4 py-3 text-right">
@@ -100,6 +90,48 @@ export function AffiliateInviteTable({ items, busy, onRevoke, onRetryPremium }: 
         </tbody>
       </table>
     </section>
+  );
+}
+
+interface PremiumStateProps {
+  invite: AffiliateInvite;
+  action: AffiliateInviteAction | undefined;
+  onRevokeAgain: (invite: AffiliateInvite) => void;
+  onRetryPremium: (invite: AffiliateInvite) => void;
+}
+
+/** The claimer's free Premium: granted or not, and taken back after a revoke. */
+function PremiumState({ invite, action, onRevokeAgain, onRetryPremium }: PremiumStateProps) {
+  const revoked = invite.status === 'revoked';
+  return (
+    <div className="grid justify-items-start gap-1 text-muted">
+      <span>{invite.premium_granted_at ? `Granted ${formatDate(invite.premium_granted_at)}` : 'Not granted'}</span>
+      {!revoked && !invite.premium_granted_at && (
+        <button
+          className={`${BUTTON} text-primary-forest hover:border-primary-teal`}
+          disabled={action !== undefined}
+          onClick={() => onRetryPremium(invite)}
+          type="button"
+        >
+          {action === 'premium' ? 'Granting...' : 'Retry Premium'}
+        </button>
+      )}
+      {revoked && (
+        <span className={invite.premium_revoked_at ? undefined : 'text-red-800'}>
+          {invite.premium_revoked_at ? `Removed ${formatDate(invite.premium_revoked_at)}` : 'Not removed'}
+        </span>
+      )}
+      {revoked && !invite.premium_revoked_at && (
+        <button
+          className={`${BUTTON} text-red-800 hover:border-red-300`}
+          disabled={action !== undefined}
+          onClick={() => onRevokeAgain(invite)}
+          type="button"
+        >
+          {action === 'revoke' ? 'Revoking...' : 'Revoke again'}
+        </button>
+      )}
+    </div>
   );
 }
 

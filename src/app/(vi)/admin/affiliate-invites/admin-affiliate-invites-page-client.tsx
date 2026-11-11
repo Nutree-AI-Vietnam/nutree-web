@@ -17,6 +17,11 @@ import type {
 } from '@/types/affiliate-invite-admin';
 
 const PAGE_SIZE = 50;
+const BANNER_TITLES: Record<ActionMessage['tone'], string> = {
+  info: 'Done',
+  warning: 'Partly done',
+  error: 'Action failed',
+};
 
 export function AdminAffiliateInvitesPageClient() {
   const [page, setPage] = useState(0);
@@ -126,7 +131,7 @@ export function AdminAffiliateInvitesPageClient() {
       {created && <AffiliateInviteLink label={created.label} link={created.link} onDone={() => setCreated(null)} />}
       {error && <AdminBanner tone="error" title="Could not load invites" message={error} />}
       {message && (
-        <AdminBanner tone={message.tone} title={message.tone === 'error' ? 'Action failed' : 'Done'} message={message.text} />
+        <AdminBanner tone={message.tone} title={BANNER_TITLES[message.tone]} message={message.text} />
       )}
 
       <MealCatalogPagination
@@ -146,6 +151,7 @@ export function AdminAffiliateInvitesPageClient() {
           items={data.items}
           busy={actions.busy}
           onRevoke={actions.revoke}
+          onRevokeAgain={actions.revokeAgain}
           onRetryPremium={actions.retryPremium}
         />
       )}

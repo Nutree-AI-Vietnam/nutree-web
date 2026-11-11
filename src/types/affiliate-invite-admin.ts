@@ -13,6 +13,8 @@ export interface AffiliateInvite {
   claimed_at: string | null;
   /** When the claimer's free lifetime Premium went through in RevenueCat. */
   premium_granted_at: string | null;
+  /** When a revoke took that Premium back; null while removal has not gone through. */
+  premium_revoked_at: string | null;
   status: AffiliateInviteStatus;
 }
 
@@ -39,10 +41,14 @@ export interface AffiliateInviteCreatedResponse {
   app_link: string;
 }
 
+/** `failed`: RevenueCat did not take the Premium back; revoking again retries. */
+export type AffiliatePremiumRemoval = 'not_needed' | 'removed' | 'failed';
+
 export interface AffiliateInviteRevokedResponse {
   invite: AffiliateInvite;
-  /** The claimer's code that went back to an ordinary referral code. */
-  ended_code: string | null;
+  /** The claimer's code that no longer works for new friends; null when unclaimed. */
+  disabled_code: string | null;
+  premium: AffiliatePremiumRemoval;
 }
 
 export interface AffiliateInvitePremiumResponse {

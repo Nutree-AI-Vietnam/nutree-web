@@ -48,6 +48,7 @@ function invite(fields: Partial<AffiliateInvite> = {}): AffiliateInvite {
     claimed_by_email: null,
     claimed_at: null,
     premium_granted_at: null,
+    premium_revoked_at: null,
     status: 'open',
     ...fields,
   };
@@ -80,7 +81,7 @@ test('the invite client calls the admin proxy with the signed-in token and targe
   assert.equal(calls[2].body, undefined);
 });
 
-test('the table shows each state, Premium, and the actions each row allows', () => {
+test('the table shows each state, Premium grant and removal, and each row\'s actions', () => {
   const html = renderToStaticMarkup(
     createElement(AffiliateInviteTable, {
       items: [
@@ -102,9 +103,29 @@ test('the table shows each state, Premium, and the actions each row allows', () 
           claimed_by_email: 'tuan@example.com',
           premium_granted_at: '2026-11-11T12:00:00Z',
         }),
+        invite({
+          id: 'invite-5',
+          label: 'Mai',
+          status: 'revoked',
+          revoked_at: '2026-11-11T13:00:00Z',
+          claimed_by_user_id: 'user-5',
+          claimed_by_email: 'mai@example.com',
+          premium_granted_at: '2026-11-10T09:00:00Z',
+          premium_revoked_at: '2026-11-11T13:00:00Z',
+        }),
+        invite({
+          id: 'invite-6',
+          label: 'Binh',
+          status: 'revoked',
+          revoked_at: '2026-11-11T14:00:00Z',
+          claimed_by_user_id: 'user-6',
+          claimed_by_email: 'binh@example.com',
+          premium_granted_at: '2026-11-10T09:00:00Z',
+        }),
       ],
       busy: new Map([['invite-2', 'premium' as const]]),
       onRevoke: () => undefined,
+      onRevokeAgain: () => undefined,
       onRetryPremium: () => undefined,
     })
   );
@@ -114,14 +135,18 @@ test('the table shows each state, Premium, and the actions each row allows', () 
   assert.match(html, /minh@example\.com/);
   assert.match(html, /Revoked/);
   assert.match(html, /Never/);
-  // Open, claimed and granted rows can be revoked; the revoked one cannot.
+  // Open, claimed and granted rows can be revoked; revoked ones cannot.
   assert.equal((html.match(/>Revoke</g) ?? []).length, 3);
   assert.equal((html.match(/>Revoking\.\.\.</g) ?? []).length, 0);
-  // Only the claimed row without Premium offers a retry, and it is in progress.
+  // Only the live claimed row without Premium offers a retry, and it is in progress.
   assert.equal((html.match(/>Not granted</g) ?? []).length, 1);
   assert.equal((html.match(/>Granting\.\.\.</g) ?? []).length, 1);
   assert.equal((html.match(/>Retry Premium</g) ?? []).length, 0);
   assert.match(html, /Granted 11 Nov 2026/);
+  // After a revoke: removal shown, and only a failed removal offers Revoke again.
+  assert.match(html, /Removed 11 Nov 2026/);
+  assert.equal((html.match(/>Not removed</g) ?? []).length, 1);
+  assert.equal((html.match(/>Revoke again</g) ?? []).length, 1);
 });
 
 test('the new link is shown once with a copy button', () => {
