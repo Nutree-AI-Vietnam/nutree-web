@@ -8,6 +8,7 @@ import type { AdminSession } from '@/hooks/useAdminSession';
 const PAGES = [
   { href: '/admin/meal-catalog', label: 'Meal catalog' },
   { href: '/admin/supplements', label: 'Supplements' },
+  { href: '/admin/affiliate-invites', label: 'Affiliate invites' },
 ] as const;
 
 interface Props {
