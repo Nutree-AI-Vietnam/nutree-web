@@ -43,7 +43,7 @@ export function ReleaseWorkspace({ packs, packIds, title, description, icon, uni
         <AdminBanner tone={packs.message.tone} title={packs.message.tone === 'error' ? 'That did not work' : 'Done'} message={packs.message.text} />
       )}
 
-      {packIds.length > 1 && (
+      {packIds.length > 0 && (
         <div className="grid gap-3 sm:grid-cols-3">
           <Summary
             label={isProd ? 'Live for users' : 'Live in testing'}

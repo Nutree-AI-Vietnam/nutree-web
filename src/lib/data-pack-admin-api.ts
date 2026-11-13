@@ -3,8 +3,8 @@ import type { MealTrackAdminEnvironment } from '@/types/meal-catalog';
 import type {
   DataPackEntry,
   DataPackListResponse,
-  PackRecipe,
-  PackRecipeListResponse,
+  PackItem,
+  PackItemListResponse,
 } from '@/types/data-pack-admin';
 
 const pack = (packId: string) => `/data-packs/${encodeURIComponent(packId)}`;
@@ -67,43 +67,44 @@ export function adoptLegacyDataPack(
   return requestAdminJson(`${pack(packId)}/adopt-legacy`, token, environment, { method: 'POST' });
 }
 
-export function fetchPackRecipes(
+export function fetchPackItems<T extends PackItem>(
   packId: string,
   params: { q: string; offset: number; limit: number },
   token: string,
   environment: MealTrackAdminEnvironment
-): Promise<PackRecipeListResponse> {
+): Promise<PackItemListResponse<T>> {
   const search = new URLSearchParams({
     q: params.q,
     offset: String(params.offset),
     limit: String(params.limit),
   });
-  return requestAdminJson(`${pack(packId)}/recipes?${search.toString()}`, token, environment);
+  return requestAdminJson(`${pack(packId)}/items?${search.toString()}`, token, environment);
 }
 
-export function savePackRecipe(
+/** Adds or replaces one row and publishes the pack as its next version. */
+export function savePackItem(
   packId: string,
-  recipe: PackRecipe,
+  item: PackItem,
   baseVersion: number,
   token: string,
   environment: MealTrackAdminEnvironment
 ): Promise<DataPackEntry> {
-  return requestAdminJson(`${pack(packId)}/recipes/${encodeURIComponent(recipe.id)}`, token, environment, {
+  return requestAdminJson(`${pack(packId)}/items/${encodeURIComponent(item.id)}`, token, environment, {
     method: 'PUT',
-    body: { base_version: baseVersion, item: recipe },
+    body: { base_version: baseVersion, item },
   });
 }
 
-export function deletePackRecipe(
+export function deletePackItem(
   packId: string,
-  recipeId: string,
+  itemId: string,
   baseVersion: number,
   token: string,
   environment: MealTrackAdminEnvironment
 ): Promise<DataPackEntry> {
   const search = new URLSearchParams({ base_version: String(baseVersion) });
   return requestAdminJson(
-    `${pack(packId)}/recipes/${encodeURIComponent(recipeId)}?${search.toString()}`,
+    `${pack(packId)}/items/${encodeURIComponent(itemId)}?${search.toString()}`,
     token,
     environment,
     { method: 'DELETE' }

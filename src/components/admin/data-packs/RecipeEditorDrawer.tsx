@@ -18,8 +18,7 @@ interface Ingredient {
 interface Props {
   recipe: PackRecipe | null;
   isNew: boolean;
-  packLabel: string;
-  nextVersion: number;
+  description: string;
   isProd: boolean;
   isBusy: boolean;
   onClose: () => void;
@@ -33,7 +32,7 @@ export function RecipeEditorDrawer(props: Props) {
   return props.recipe ? <Editor key={props.recipe.id} {...props} recipe={props.recipe} /> : null;
 }
 
-function Editor({ recipe, isNew, packLabel, nextVersion, isProd, isBusy, onClose, onSave, onDelete }: Props & { recipe: PackRecipe }) {
+function Editor({ recipe, isNew, description, isProd, isBusy, onClose, onSave, onDelete }: Props & { recipe: PackRecipe }) {
   const [draft, setDraft] = useState<PackRecipe>(recipe);
   const [mode, setMode] = useState<'form' | 'json'>('form');
   const [json, setJson] = useState('');
@@ -81,7 +80,7 @@ function Editor({ recipe, isNew, packLabel, nextVersion, isProd, isBusy, onClose
       open
       width="max-w-2xl"
       title={isNew ? 'New recipe' : recipe.name || recipe.id}
-      description={`${packLabel} library · saving creates version ${nextVersion} ${isProd ? 'for users' : 'in testing'}`}
+      description={description}
       onClose={onClose}
       footer={
         <div className="flex flex-wrap items-center justify-between gap-2">

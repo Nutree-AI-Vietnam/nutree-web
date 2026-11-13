@@ -25,7 +25,7 @@ const NAV: { group: string; pages: { href: AdminPageHref; label: string; icon: I
     group: 'Supplements',
     pages: [
       { href: '/admin/supplements', label: 'Review queue', icon: 'check' },
-      { href: '/admin/supplement-catalog', label: 'Catalog releases', icon: 'pill' },
+      { href: '/admin/supplement-catalog', label: 'Supplement catalog', icon: 'pill' },
     ],
   },
   {
@@ -34,7 +34,7 @@ const NAV: { group: string; pages: { href: AdminPageHref; label: string; icon: I
   },
 ];
 
-type AdminPageHref =
+export type AdminPageHref =
   | '/admin/recipes'
   | '/admin/meal-catalog'
   | '/admin/foods'
