@@ -81,7 +81,7 @@ function Editor({ recipe, isNew, packLabel, nextVersion, isProd, isBusy, onClose
       open
       width="max-w-2xl"
       title={isNew ? 'New recipe' : recipe.name || recipe.id}
-      description={`${packLabel} · saving publishes v${nextVersion} to ${isProd ? 'PROD' : 'SIT'}`}
+      description={`${packLabel} library · saving creates version ${nextVersion} ${isProd ? 'for users' : 'in testing'}`}
       onClose={onClose}
       footer={
         <div className="flex flex-wrap items-center justify-between gap-2">
@@ -121,10 +121,10 @@ function Editor({ recipe, isNew, packLabel, nextVersion, isProd, isBusy, onClose
           onChange={switchMode}
           items={[
             { value: 'form', label: 'Form' },
-            { value: 'json', label: 'JSON' },
+            { value: 'json', label: 'Advanced (JSON)' },
           ]}
         />
-        <span className="truncate font-mono text-[11px] text-slate-400">{draft.id}</span>
+        <span />
       </div>
 
       {error && <p role="alert" className="mb-4 rounded-lg bg-rose-50 px-3 py-2 text-sm text-rose-800 ring-1 ring-inset ring-rose-200">{error}</p>}

@@ -18,10 +18,12 @@ interface Props {
   onPage: (page: number) => void;
   onOpen: (recipe: PackRecipe) => void;
   onAdd: () => void;
+  /** Go to where the language can be set up. */
+  onSetUp: () => void;
 }
 
 /** Search one recipe pack and open a recipe to edit. */
-export function RecipeBrowser({ packIds, packId, isPublished, data, isLoading, page, pageSize, onPackChange, onSearch, onPage, onOpen, onAdd }: Props) {
+export function RecipeBrowser({ packIds, packId, isPublished, data, isLoading, page, pageSize, onPackChange, onSearch, onPage, onOpen, onAdd, onSetUp }: Props) {
   const [query, setQuery] = useState('');
   const total = data?.total ?? 0;
   const pages = Math.max(1, Math.ceil(total / pageSize));
@@ -52,20 +54,23 @@ export function RecipeBrowser({ packIds, packId, isPublished, data, isLoading, p
           <input
             aria-label="Search recipes"
             className={`${inputClass} pl-9`}
-            placeholder="Search by name or id, then press Enter"
+            placeholder="Search recipes by name, then press Enter"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
           />
         </form>
-        {data && <Badge>v{data.version}</Badge>}
+        {data && <Badge>Version {data.version}</Badge>}
         <Button variant="primary" icon="plus" onClick={onAdd} disabled={!isPublished}>
-          New recipe
+          Add recipe
         </Button>
       </div>
 
       {!isPublished ? (
-        <EmptyState icon="package" title={`${packLabel(packId)} is not published on this channel`}>
-          Adopt or upload it in the Packs tab first.
+        <EmptyState icon="package" title={`No ${packLabel(packId)} library here yet`}>
+          <p>People with this language see the English (US) recipes for now.</p>
+          <Button size="sm" className="mt-3" onClick={onSetUp}>
+            Set up this language
+          </Button>
         </EmptyState>
       ) : isLoading && !data ? (
         <EmptyState icon="refresh" title="Loading recipes…" />

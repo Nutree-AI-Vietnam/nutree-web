@@ -1,7 +1,7 @@
 'use client';
 
 import { Badge, Button, Drawer } from '@/components/admin/ui/AdminUi';
-import { formatDate, formatSize, packLabel, shortHash } from '@/components/admin/data-packs/pack-meta';
+import { formatDate, formatSize, friendlyNote, packLabel } from '@/components/admin/data-packs/pack-meta';
 import type { DataPack, DataPackEntry } from '@/types/data-pack-admin';
 
 interface Props {
@@ -17,8 +17,8 @@ export function HistoryDrawer({ pack, isBusy, onClose, onRollback }: Props) {
   return (
     <Drawer
       open={pack !== null}
-      title={pack ? `${packLabel(pack.pack_id)} history` : ''}
-      description="Rolling back publishes the old file again under a new version, so every app picks it up."
+      title={pack ? `Versions · ${packLabel(pack.pack_id)}` : ''}
+      description="Restoring an older version publishes its content again as a new version, so every phone picks it up."
       onClose={onClose}
     >
       <ol className="relative space-y-1 border-l border-slate-200 pl-5">
@@ -36,17 +36,17 @@ export function HistoryDrawer({ pack, isBusy, onClose, onRollback }: Props) {
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
                   <div className="flex items-center gap-2">
-                    <p className="text-sm font-semibold text-slate-900">v{entry.version}</p>
-                    {isCurrent && <Badge tone="green">Current</Badge>}
+                    <p className="text-sm font-semibold text-slate-900">Version {entry.version}</p>
+                    {isCurrent && <Badge tone="green">In use</Badge>}
                   </div>
-                  <p className="mt-0.5 text-sm text-slate-600">{entry.note || 'No note'}</p>
+                  <p className="mt-0.5 text-sm text-slate-600">{friendlyNote(entry.note)}</p>
                   <p className="mt-1 text-[11px] text-slate-400">
-                    {formatDate(entry.published_at)} · {formatSize(entry.size)} · <span className="font-mono">{shortHash(entry)}</span>
+                    {formatDate(entry.published_at)} · {formatSize(entry.size)}
                   </p>
                 </div>
                 {!isCurrent && pack && (
                   <Button size="sm" icon="history" disabled={isBusy} onClick={() => onRollback(pack, entry)}>
-                    Roll back
+                    Restore
                   </Button>
                 )}
               </div>
@@ -57,3 +57,4 @@ export function HistoryDrawer({ pack, isBusy, onClose, onRollback }: Props) {
     </Drawer>
   );
 }
+

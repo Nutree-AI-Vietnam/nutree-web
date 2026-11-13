@@ -11,11 +11,21 @@ import type { AdminSession } from '@/hooks/useAdminSession';
 
 const NAV: { group: string; pages: { href: AdminPageHref; label: string; icon: IconName }[] }[] = [
   {
-    group: 'Content',
+    group: 'Recipes',
     pages: [
-      { href: '/admin/meal-catalog', label: 'Meal catalog', icon: 'catalog' },
-      { href: '/admin/supplements', label: 'Supplements', icon: 'pill' },
-      { href: '/admin/data-packs', label: 'Data packs', icon: 'package' },
+      { href: '/admin/recipes', label: 'Recipe library', icon: 'catalog' },
+      { href: '/admin/meal-catalog', label: 'Meal catalog', icon: 'package' },
+    ],
+  },
+  {
+    group: 'Foods',
+    pages: [{ href: '/admin/foods', label: 'Food database', icon: 'globe' }],
+  },
+  {
+    group: 'Supplements',
+    pages: [
+      { href: '/admin/supplements', label: 'Review queue', icon: 'check' },
+      { href: '/admin/supplement-catalog', label: 'Catalog releases', icon: 'pill' },
     ],
   },
   {
@@ -24,7 +34,13 @@ const NAV: { group: string; pages: { href: AdminPageHref; label: string; icon: I
   },
 ];
 
-type AdminPageHref = '/admin/meal-catalog' | '/admin/supplements' | '/admin/affiliate-invites' | '/admin/data-packs';
+type AdminPageHref =
+  | '/admin/recipes'
+  | '/admin/meal-catalog'
+  | '/admin/foods'
+  | '/admin/supplements'
+  | '/admin/supplement-catalog'
+  | '/admin/affiliate-invites';
 
 interface Props {
   admin: AdminSession;

@@ -11,8 +11,8 @@ const LABELS: Record<string, string> = {
   recipes_es: 'Spanish',
   recipes_ko: 'Korean',
   recipes_vi: 'Vietnamese',
-  food_vi: 'Vietnamese foods',
-  food_en: 'English foods',
+  food_vi: 'Vietnamese',
+  food_en: 'English',
   supplements: 'Supplement catalog',
 };
 
@@ -26,23 +26,16 @@ export function packLabel(packId: string): string {
   return LABELS[packId] ?? packId;
 }
 
-export const KIND_INFO: Record<PackKind, { title: string; description: string; accept: string }> = {
-  recipes: {
-    title: 'Recipe packs',
-    description: 'Discover and swap recipes, one pack per language. Gzip JSON with an items list.',
-    accept: '.gz',
-  },
-  food: {
-    title: 'Food packs',
-    description: 'Offline food search, one pack per language. Gzip SQLite.',
-    accept: '.gz',
-  },
-  supplements: {
-    title: 'Supplements',
-    description: 'Search, barcode lookup and the popular list. Gzip SQLite with pack_meta.updated_at.',
-    accept: '.gz',
-  },
+export const KIND_INFO: Record<PackKind, { accept: string; fileHint: string }> = {
+  recipes: { accept: '.gz', fileHint: 'A .json.gz recipe file exported from the content tool.' },
+  food: { accept: '.gz', fileHint: 'A .sqlite.gz food database file.' },
+  supplements: { accept: '.gz', fileHint: 'A .sqlite.gz supplement catalog file.' },
 };
+
+/** Every pack of one kind the app reads, in display order. */
+export function packIdsOf(kind: PackKind, known: readonly string[]): string[] {
+  return known.filter((packId) => packKind(packId) === kind);
+}
 
 export type PackStatus = 'live' | 'sit-ahead' | 'sit-only' | 'missing';
 
@@ -79,4 +72,17 @@ export function formatSize(bytes: number): string {
 
 export function shortHash(entry: DataPackEntry): string {
   return entry.sha256.slice(0, 8);
+}
+
+/** Server notes in plain words for the version list. */
+export function friendlyNote(note: string): string {
+  if (!note) return 'No description';
+  if (note === 'adopted from legacy file') return 'Started tracking the content phones already had';
+  const promoted = note.match(/^promoted from sit v(\d+)$/);
+  if (promoted) return `Released to users (tested as version ${promoted[1]})`;
+  const rollback = note.match(/^rollback to v(\d+)$/);
+  if (rollback) return `Restored version ${rollback[1]}`;
+  if (note.startsWith('edit ')) return 'Edited a recipe';
+  if (note.startsWith('delete ')) return 'Removed a recipe';
+  return note;
 }

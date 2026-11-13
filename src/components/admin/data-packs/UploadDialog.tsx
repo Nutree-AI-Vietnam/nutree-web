@@ -29,7 +29,7 @@ export function UploadDialog({ packId, nextVersion, isProd, isBusy, onClose, onU
   return (
     <Modal
       open={packId !== null}
-      title={packId ? `Upload ${packLabel(packId)}` : ''}
+      title={packId ? `Upload a new version · ${packLabel(packId)}` : ''}
       onClose={close}
       footer={
         <>
@@ -43,7 +43,7 @@ export function UploadDialog({ packId, nextVersion, isProd, isBusy, onClose, onU
             isBusy={isBusy}
             onClick={() => packId && file && onUpload(packId, file, note)}
           >
-            Publish v{nextVersion} to {isProd ? 'PROD' : 'SIT'}
+            {isProd ? `Publish version ${nextVersion} to users` : `Publish version ${nextVersion} to testing`}
           </Button>
         </>
       }
@@ -75,7 +75,7 @@ export function UploadDialog({ packId, nextVersion, isProd, isBusy, onClose, onU
             ) : (
               <>
                 <p className="mt-2 text-sm font-medium text-slate-900">Drop the file here or click to choose</p>
-                <p className="mt-0.5 text-xs text-slate-500">{KIND_INFO[packKind(packId)].description}</p>
+                <p className="mt-0.5 text-xs text-slate-500">{KIND_INFO[packKind(packId)].fileHint}</p>
               </>
             )}
             <input
@@ -86,13 +86,13 @@ export function UploadDialog({ packId, nextVersion, isProd, isBusy, onClose, onU
               onChange={(event) => setFile(event.target.files?.[0] ?? null)}
             />
           </label>
-          <Field label="Note" hint="Shown in the version history.">
+          <Field label="What changed?" hint="Shown in the version list so the team knows what this version is.">
             <input className={inputClass} placeholder="e.g. 40 new Vietnamese dishes" value={note} onChange={(event) => setNote(event.target.value)} />
           </Field>
           <p className={cn('rounded-lg px-3 py-2 text-xs', isProd ? 'bg-rose-50 text-rose-800' : 'bg-sky-50 text-sky-800')}>
             {isProd
-              ? 'Store builds download this the next time they check (within a few hours).'
-              : 'Only dev and staging builds see this. Promote it from the PROD target once checked.'}
+              ? 'Every user gets this within a few hours. Prefer testing first, then releasing from here.'
+              : 'Only test phones get this. When it looks right, switch to PROD and release it to users.'}
           </p>
         </div>
       )}

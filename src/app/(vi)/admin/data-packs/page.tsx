@@ -1,14 +1,6 @@
-import type { Metadata } from 'next';
-import { AdminDataPacksPageClient } from './admin-data-packs-page-client';
+import { redirect } from 'next/navigation';
 
-export const metadata: Metadata = {
-  title: 'Admin Data Packs | Nutree',
-  robots: {
-    index: false,
-    follow: false,
-  },
-};
-
+/** Old address of the content release page; content is now split by kind. */
 export default function AdminDataPacksPage() {
-  return <AdminDataPacksPageClient />;
+  redirect('/admin/recipes');
 }
