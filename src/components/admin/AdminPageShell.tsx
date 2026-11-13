@@ -9,6 +9,7 @@ const PAGES = [
   { href: '/admin/meal-catalog', label: 'Meal catalog' },
   { href: '/admin/supplements', label: 'Supplements' },
   { href: '/admin/affiliate-invites', label: 'Affiliate invites' },
+  { href: '/admin/data-packs', label: 'Data packs' },
 ] as const;
 
 interface Props {

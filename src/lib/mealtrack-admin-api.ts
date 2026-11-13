@@ -118,7 +118,7 @@ export async function requestAdminJson<T>(
   path: string,
   token: string,
   environment: MealTrackAdminEnvironment,
-  init: { method?: 'GET' | 'POST' | 'DELETE'; body?: unknown; form?: FormData } = {}
+  init: { method?: 'GET' | 'POST' | 'PUT' | 'DELETE'; body?: unknown; form?: FormData } = {}
 ): Promise<T> {
   if (!USE_PROXY && !API_BASE_URL) {
     throw new MealTrackAdminApiError('Preview mode: the MealTrack admin API is not configured.');
