@@ -9,11 +9,17 @@ export interface DataPackEntry {
 
 export interface DataPack {
   pack_id: string;
-  current: DataPackEntry;
+  /** Null on prod when only SIT has the pack so far. */
+  current: DataPackEntry | null;
   history: DataPackEntry[];
+  /** On prod: SIT's current version, to promote. */
+  sit: DataPackEntry | null;
 }
 
+export type DataPackChannel = 'sit' | 'prod';
+
 export interface DataPackListResponse {
+  channel: DataPackChannel;
   updated_at: string;
   packs: DataPack[];
 }
@@ -44,6 +50,7 @@ export const KNOWN_DATA_PACKS = [
   'recipes_de',
   'recipes_es',
   'recipes_ko',
+  'recipes_vi',
   'food_vi',
   'food_en',
   'supplements',

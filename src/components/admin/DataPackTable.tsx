@@ -1,12 +1,13 @@
 'use client';
 
 import { useState } from 'react';
-import type { DataPack } from '@/types/data-pack-admin';
+import type { DataPack, DataPackChannel } from '@/types/data-pack-admin';
 
 const DATE_FORMAT = new Intl.DateTimeFormat('en-GB', { dateStyle: 'medium', timeStyle: 'short' });
 const BUTTON = 'whitespace-nowrap border border-border bg-white px-3 py-1.5 text-xs font-bold disabled:text-muted';
 
 interface Props {
+  channel: DataPackChannel;
   packs: DataPack[];
   /** Known pack ids the manifest does not list yet. */
   unlisted: string[];
@@ -14,10 +15,12 @@ interface Props {
   onUpload: (pack: DataPack | string, file: File, note: string) => void;
   onRollback: (pack: DataPack, version: number) => void;
   onAdopt: (packId: string) => void;
+  onPromote: (pack: DataPack) => void;
 }
 
 /** Every published pack, its current version, and older versions to roll back to. */
-export function DataPackTable({ packs, unlisted, busy, onUpload, onRollback, onAdopt }: Props) {
+export function DataPackTable({ channel, packs, unlisted, busy, onUpload, onRollback, onAdopt, onPromote }: Props) {
+  const isProd = channel === 'prod';
   return (
     <section className="overflow-x-auto border-y border-border bg-white">
       <table className="w-full min-w-[900px] border-collapse text-left text-sm">
@@ -28,35 +31,64 @@ export function DataPackTable({ packs, unlisted, busy, onUpload, onRollback, onA
             <th className="px-4 py-3 font-bold">Size</th>
             <th className="px-4 py-3 font-bold">Published</th>
             <th className="px-4 py-3 font-bold">Note</th>
+            {isProd && <th className="px-4 py-3 font-bold">On SIT</th>}
             <th className="px-4 py-3 font-bold">Roll back</th>
             <th className="px-4 py-3 font-bold">Upload new file</th>
           </tr>
         </thead>
         <tbody>
-          {packs.map((pack) => (
-            <tr key={pack.pack_id} className="border-b border-border align-top">
-              <td className="px-4 py-3 font-mono text-xs">{pack.pack_id}</td>
-              <td className="px-4 py-3 font-bold">v{pack.current.version}</td>
-              <td className="px-4 py-3">{formatSize(pack.current.size)}</td>
-              <td className="px-4 py-3">{formatDate(pack.current.published_at)}</td>
-              <td className="px-4 py-3 text-muted">{pack.current.note || '—'}</td>
-              <td className="px-4 py-3">
-                <RollbackControl pack={pack} disabled={busy !== null} onRollback={onRollback} />
-              </td>
-              <td className="px-4 py-3">
-                <UploadControl
-                  packId={pack.pack_id}
-                  disabled={busy !== null}
-                  isBusy={busy === pack.pack_id}
-                  onUpload={(file, note) => onUpload(pack, file, note)}
-                />
-              </td>
-            </tr>
-          ))}
+          {packs.map((pack) => {
+            const current = pack.current;
+            const sitAhead = isProd && pack.sit !== null && pack.sit.sha256 !== current?.sha256;
+            return (
+              <tr key={pack.pack_id} className="border-b border-border align-top">
+                <td className="px-4 py-3 font-mono text-xs">{pack.pack_id}</td>
+                <td className="px-4 py-3 font-bold">{current ? `v${current.version}` : '—'}</td>
+                <td className="px-4 py-3">{current ? formatSize(current.size) : '—'}</td>
+                <td className="px-4 py-3">{current ? formatDate(current.published_at) : 'Not on prod yet'}</td>
+                <td className="px-4 py-3 text-muted">{current?.note || '—'}</td>
+                {isProd && (
+                  <td className="px-4 py-3">
+                    {pack.sit ? (
+                      <div className="flex flex-col items-start gap-2">
+                        <span className="text-xs">
+                          v{pack.sit.version} · {formatDate(pack.sit.published_at)}
+                          {!sitAhead && <span className="text-muted"> (same file)</span>}
+                        </span>
+                        {sitAhead && (
+                          <button
+                            type="button"
+                            className={BUTTON}
+                            disabled={busy !== null}
+                            onClick={() => onPromote(pack)}
+                          >
+                            {busy === pack.pack_id ? 'Promoting…' : 'Promote to prod'}
+                          </button>
+                        )}
+                      </div>
+                    ) : (
+                      <span className="text-xs text-muted">—</span>
+                    )}
+                  </td>
+                )}
+                <td className="px-4 py-3">
+                  <RollbackControl pack={pack} disabled={busy !== null} onRollback={onRollback} />
+                </td>
+                <td className="px-4 py-3">
+                  <UploadControl
+                    packId={pack.pack_id}
+                    disabled={busy !== null}
+                    isBusy={busy === pack.pack_id}
+                    onUpload={(file, note) => onUpload(pack, file, note)}
+                  />
+                </td>
+              </tr>
+            );
+          })}
           {unlisted.map((packId) => (
             <tr key={packId} className="border-b border-border align-top text-muted">
               <td className="px-4 py-3 font-mono text-xs">{packId}</td>
-              <td className="px-4 py-3" colSpan={4}>
+              <td className="px-4 py-3" colSpan={isProd ? 5 : 4}>
                 Not in the manifest yet. Adopt the file apps already download, or upload a new one.
               </td>
               <td className="px-4 py-3">

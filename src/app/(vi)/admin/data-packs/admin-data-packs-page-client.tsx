@@ -9,6 +9,7 @@ import { MealCatalogPagination } from '@/components/admin/MealCatalogPagination'
 import { adminErrorMessage, useAdminSession } from '@/hooks/useAdminSession';
 import {
   adoptLegacyDataPack,
+  promoteDataPack,
   deletePackRecipe,
   fetchDataPacks,
   fetchPackRecipes,
@@ -25,12 +26,13 @@ import {
 } from '@/types/data-pack-admin';
 
 const PAGE_SIZE = 50;
+const emptyPacks: DataPackListResponse = { channel: 'sit', updated_at: '', packs: [] };
 const BUTTON = 'whitespace-nowrap border border-border bg-white px-3 py-1.5 text-xs font-bold disabled:text-muted';
 
 type Message = { tone: 'info' | 'error'; text: string };
 
 export function AdminDataPacksPageClient() {
-  const [packs, setPacks] = useState<DataPackListResponse>({ updated_at: '', packs: [] });
+  const [packs, setPacks] = useState<DataPackListResponse>(emptyPacks);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<Message | null>(null);
@@ -46,7 +48,7 @@ export function AdminDataPacksPageClient() {
   const latestRecipes = useRef(0);
 
   const reset = useCallback(() => {
-    setPacks({ updated_at: '', packs: [] });
+    setPacks(emptyPacks);
     setRecipes(null);
     setEditing(null);
     setMessage(null);
@@ -100,10 +102,14 @@ export function AdminDataPacksPageClient() {
     })();
   }, [environment, getValidToken, isPreviewMode, session, recipePack, submittedQuery, page, reloadKey]);
 
-  const listed = useMemo(() => new Set(packs.packs.map((pack) => pack.pack_id)), [packs]);
-  const unlisted = KNOWN_DATA_PACKS.filter((packId) => !listed.has(packId));
+  const listed = useMemo(
+    () => new Set(packs.packs.filter((pack) => pack.current).map((pack) => pack.pack_id)),
+    [packs]
+  );
+  const isProd = packs.channel === 'prod';
+  const unlisted = KNOWN_DATA_PACKS.filter((packId) => !packs.packs.some((pack) => pack.pack_id === packId));
   const recipePacks = KNOWN_DATA_PACKS.filter((packId) => packId.startsWith('recipes_'));
-  const versionOf = (packId: string) => packs.packs.find((pack) => pack.pack_id === packId)?.current.version ?? 0;
+  const versionOf = (packId: string) => packs.packs.find((pack) => pack.pack_id === packId)?.current?.version ?? 0;
 
   const run = useCallback(
     async (key: string, action: (token: string) => Promise<unknown>, done: string) => {
@@ -126,11 +132,23 @@ export function AdminDataPacksPageClient() {
 
   const handleUpload = (pack: DataPack | string, file: File, note: string) => {
     const packId = typeof pack === 'string' ? pack : pack.pack_id;
-    const base = typeof pack === 'string' ? 0 : pack.current.version;
+    const base = typeof pack === 'string' ? 0 : (pack.current?.version ?? 0);
     void run(
       packId,
       (token) => uploadDataPack(packId, file, note, base, token, environment),
-      `${packId} published. Apps download it the next time they check (within a few hours).`
+      isProd
+        ? `${packId} published to prod. Store builds download it the next time they check.`
+        : `${packId} published to SIT. Check it in a staging build, then promote it from the PROD target.`
+    );
+  };
+
+  const handlePromote = (pack: DataPack) => {
+    if (!pack.sit) return;
+    if (!window.confirm(`Publish SIT's ${pack.pack_id} v${pack.sit.version} to every user on prod?`)) return;
+    void run(
+      pack.pack_id,
+      (token) => promoteDataPack(pack.pack_id, pack.current?.version ?? 0, token, environment),
+      `${pack.pack_id} promoted. Store builds download it the next time they check.`
     );
   };
 
@@ -138,7 +156,7 @@ export function AdminDataPacksPageClient() {
     if (!window.confirm(`Publish ${pack.pack_id} v${version} again as the current version?`)) return;
     void run(
       pack.pack_id,
-      (token) => rollbackDataPack(pack.pack_id, version, pack.current.version, token, environment),
+      (token) => rollbackDataPack(pack.pack_id, version, pack.current?.version ?? 0, token, environment),
       `${pack.pack_id} rolled back to the file of v${version}.`
     );
   };
@@ -183,6 +201,17 @@ export function AdminDataPacksPageClient() {
           message="Set NEXT_PUBLIC_MEALTRACK_API_URL, or enable the admin proxy, to manage packs."
         />
       )}
+      {!isLoading && !error && session && (
+        <AdminBanner
+          tone={isProd ? 'warning' : 'info'}
+          title={isProd ? 'PROD channel: changes reach every user' : 'SIT channel: dev and staging builds only'}
+          message={
+            isProd
+              ? 'Prefer editing on the SIT target, checking it in a staging build, then promoting here.'
+              : 'Edits here are safe to try. Switch the target to PROD to promote a tested pack to users.'
+          }
+        />
+      )}
       {error && <AdminBanner tone="error" title="Could not load packs" message={error} />}
       {message && (
         <AdminBanner
@@ -196,12 +225,14 @@ export function AdminDataPacksPageClient() {
         <p className="border border-border bg-white p-6 text-sm text-muted">Loading packs…</p>
       ) : (
         <DataPackTable
+          channel={packs.channel}
           packs={packs.packs}
           unlisted={unlisted}
           busy={busy}
           onUpload={handleUpload}
           onRollback={handleRollback}
           onAdopt={handleAdopt}
+          onPromote={handlePromote}
         />
       )}
 

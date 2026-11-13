@@ -45,6 +45,19 @@ export function rollbackDataPack(
   });
 }
 
+/** Prod only: publishes the exact file SIT has as prod's next version. */
+export function promoteDataPack(
+  packId: string,
+  baseVersion: number,
+  token: string,
+  environment: MealTrackAdminEnvironment
+): Promise<DataPackEntry> {
+  return requestAdminJson(`${pack(packId)}/promote`, token, environment, {
+    method: 'POST',
+    body: { base_version: baseVersion },
+  });
+}
+
 /** One time: lists the pack's pre-manifest file as version 1. */
 export function adoptLegacyDataPack(
   packId: string,
