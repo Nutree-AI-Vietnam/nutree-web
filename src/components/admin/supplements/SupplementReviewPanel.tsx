@@ -2,16 +2,17 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { AdminBanner } from '@/components/admin/AdminBanner';
-import { AdminPageShell } from '@/components/admin/AdminPageShell';
+import { Button } from '@/components/admin/ui/AdminUi';
 import { MealCatalogPagination } from '@/components/admin/MealCatalogPagination';
 import { SupplementReviewCard } from '@/components/admin/SupplementReviewCard';
-import { adminErrorMessage, useAdminSession } from '@/hooks/useAdminSession';
+import { adminErrorMessage, type AdminSession } from '@/hooks/useAdminSession';
 import { MealTrackAdminApiError } from '@/lib/mealtrack-admin-api';
 import { shrinkPhotoForUpload } from '@/lib/shrink-photo-for-upload';
 import {
   fetchSupplementReview,
   removeSupplementPhoto,
   reviewSupplement,
+  shareWaitingScans,
   uploadSupplementPhoto,
 } from '@/lib/supplement-admin-api';
 import type {
@@ -26,11 +27,11 @@ import type {
 const PAGE_SIZE = 20;
 type QueueView = SupplementReviewKind | 'all' | 'approved';
 const VIEWS: { value: QueueView; label: string }[] = [
-  { value: 'all', label: 'All waiting' },
+  { value: 'all', label: 'Everything waiting' },
   { value: 'scan', label: 'Label scans' },
   { value: 'catalog', label: 'Held-back catalog rows' },
   // Live products, to correct one; past doses keep their own amounts.
-  { value: 'approved', label: 'Approved' },
+  { value: 'approved', label: 'Already in catalog' },
 ];
 const PHOTO_FILTERS: { value: SupplementPhotoFilter; label: string }[] = [
   { value: 'all', label: 'Any photo' },
@@ -38,7 +39,11 @@ const PHOTO_FILTERS: { value: SupplementPhotoFilter; label: string }[] = [
   { value: 'with', label: 'Has photo' },
 ];
 
-export function AdminSupplementsPageClient() {
+/**
+ * Products not in the catalog yet: rows held back on import, and label scans
+ * that could not join on their own. Good scans join automatically.
+ */
+export function SupplementReviewPanel({ admin, onCatalogChanged }: { admin: AdminSession; onCatalogChanged?: () => void }) {
   const [kind, setKind] = useState<QueueView>('all');
   const [photo, setPhoto] = useState<SupplementPhotoFilter>('all');
   const [query, setQuery] = useState('');
@@ -62,8 +67,33 @@ export function AdminSupplementsPageClient() {
     setActionMessage(null);
   }, []);
   const reload = useCallback(() => setReloadKey((value) => value + 1), []);
-  const admin = useAdminSession({ onReset: resetPageData, onReload: reload });
   const { environment, getValidToken, isPreviewMode, session } = admin;
+  // A new target or sign-in starts the queue over.
+  useEffect(() => {
+    resetPageData();
+  }, [environment, session, resetPageData]);
+  const [isSharing, setIsSharing] = useState(false);
+  const shareNow = useCallback(async () => {
+    setIsSharing(true);
+    setActionMessage(null);
+    try {
+      const result = await shareWaitingScans(await getValidToken(), environment);
+      setActionTone('info');
+      setActionMessage(
+        result.shared + result.merged === 0
+          ? 'No label scans were ready to add.'
+          : `Added ${result.shared} new product${result.shared === 1 ? '' : 's'} to the catalog and merged ${result.merged} into existing ones.` +
+              (result.skipped ? ` ${result.skipped} still need a look below.` : '')
+      );
+      reload();
+      onCatalogChanged?.();
+    } catch (requestError) {
+      setActionTone('error');
+      setActionMessage(adminErrorMessage(requestError));
+    } finally {
+      setIsSharing(false);
+    }
+  }, [environment, getValidToken, onCatalogChanged, reload]);
 
   const loadQueue = useCallback(async () => {
     if (isPreviewMode || !session) {
@@ -201,12 +231,11 @@ export function AdminSupplementsPageClient() {
   const visibleEnd = Math.min(data.offset + data.items.length, data.total);
 
   return (
-    <AdminPageShell
-      admin={admin}
-      current="/admin/supplements"
-      title="Supplements"
-      description="Check held-back catalog rows and people's label scans against their source, then approve, correct or reject them. Approved rows join the shared catalog."
-      toolbar={<>
+    <>
+      <p className="text-sm text-slate-500">
+        Label scans with a brand and readable nutrients join the catalog on their own within a minute. What stays here: products held back on import, and scans that clash with a product still waiting. Approving adds a product to the catalog as a new version.
+      </p>
+      <div className="flex flex-wrap items-center gap-2">
         {VIEWS.map((option) => (
           <button
             key={option.value}
@@ -251,8 +280,10 @@ export function AdminSupplementsPageClient() {
             </button>
           )}
         </form>
-      </>}
-    >
+        <Button size="sm" icon="refresh" onClick={() => void shareNow()} isBusy={isSharing} className="ml-auto">
+          Add ready scans now
+        </Button>
+      </div>
       {isPreviewMode && (
         <AdminBanner
           tone="warning"
@@ -277,12 +308,12 @@ export function AdminSupplementsPageClient() {
       />
 
       {!isLoading && data.items.length === 0 && !error && (
-        <p className="border border-slate-200 bg-white p-6 text-sm text-slate-500 rounded-xl">Nothing is waiting for review.</p>
+        <p className="rounded-xl border border-slate-200 bg-white p-6 text-sm text-slate-500">Nothing is waiting. New label scans are added to the catalog automatically.</p>
       )}
       {data.items.map((item) => (
         <SupplementReviewCard key={`${item.id}:${item.reviewed_at ?? ''}:${item.updated_at ?? ''}`} item={item} isBusy={busyIds.has(item.id)} onReview={(...args) => void handleReview(...args)} onFind={find} onPhoto={(...args) => void handlePhoto(...args)} />
       ))}
-    </AdminPageShell>
+    </>
   );
 }
 

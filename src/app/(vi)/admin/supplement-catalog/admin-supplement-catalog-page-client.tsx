@@ -3,6 +3,7 @@
 import { ContentPage } from '@/components/admin/data-packs/ContentPage';
 import { FieldFormDrawer, type FormSection } from '@/components/admin/data-packs/FieldFormDrawer';
 import { packIdsOf } from '@/components/admin/data-packs/pack-meta';
+import { SupplementReviewPanel } from '@/components/admin/supplements/SupplementReviewPanel';
 import { Badge } from '@/components/admin/ui/AdminUi';
 import { KNOWN_DATA_PACKS, type PackItem, type PackSupplement } from '@/types/data-pack-admin';
 import { SUPPLEMENT_FORMS } from '@/types/supplement-admin';
@@ -48,7 +49,7 @@ export function AdminSupplementCatalogPageClient() {
     <ContentPage<PackSupplement>
       current="/admin/supplement-catalog"
       title="Supplement catalog"
-      description="The supplement catalog phones download for search, barcode lookup and the popular list. Edit a product here, or approve new ones in the review queue."
+      description="The supplement catalog phones download for search, barcode lookup and the popular list. Good label scans from users join it on their own; edit products here and check what is waiting."
       icon="pill"
       packIds={SUPPLEMENT_PACKS}
       noun={{ one: 'product', many: 'products' }}
@@ -93,6 +94,13 @@ export function AdminSupplementCatalogPageClient() {
         }) as PackSupplement
       }
       itemName={(product) => product.name}
+      extraTabs={[
+        {
+          value: 'review',
+          label: 'Waiting',
+          render: ({ admin, reloadReleases }) => <SupplementReviewPanel admin={admin} onCatalogChanged={reloadReleases} />,
+        },
+      ]}
       editor={({ item, ...rest }) => (
         <FieldFormDrawer
           item={item}

@@ -82,3 +82,11 @@ export function removeSupplementPhoto(
     method: 'DELETE',
   });
 }
+
+/** Adds every label scan that is ready to the catalog now (it also runs after scans). */
+export function shareWaitingScans(
+  token: string,
+  environment: MealTrackAdminEnvironment
+): Promise<{ shared: number; merged: number; skipped: number }> {
+  return requestAdminJson('/supplements/share-scans', token, environment, { method: 'POST' });
+}

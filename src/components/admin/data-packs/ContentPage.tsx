@@ -7,7 +7,7 @@ import { ItemBrowser, type ItemColumn } from '@/components/admin/data-packs/Item
 import { ReleaseWorkspace } from '@/components/admin/data-packs/ReleaseWorkspace';
 import { packLabel } from '@/components/admin/data-packs/pack-meta';
 import { Button, Tabs, type IconName } from '@/components/admin/ui/AdminUi';
-import { adminErrorMessage, useAdminSession } from '@/hooks/useAdminSession';
+import { adminErrorMessage, useAdminSession, type AdminSession } from '@/hooks/useAdminSession';
 import { useDataPacks } from '@/hooks/useDataPacks';
 import { deletePackItem, fetchPackItems, savePackItem } from '@/lib/data-pack-admin-api';
 import type { PackItem, PackItemListResponse } from '@/types/data-pack-admin';
@@ -42,17 +42,30 @@ interface Props<T extends PackItem> {
   newItem: () => T;
   itemName: (item: T) => string;
   editor: (props: EditorProps<T>) => ReactNode;
+  /** More tabs after the two shared ones, e.g. the supplement review queue. */
+  extraTabs?: {
+    value: string;
+    label: string;
+    render: (context: { admin: AdminSession; reloadReleases: () => void }) => ReactNode;
+  }[];
 }
 
-type Tab = 'versions' | 'edit';
+type Tab = string;
 
 /**
  * The page every kind of content shares: "Versions & releases" to publish,
  * test and release files, and "Edit" to change single rows.
  */
 export function ContentPage<T extends PackItem>(props: Props<T>) {
-  const { current, title, description, icon, packIds, preferredPackId, noun, packNoun, releases, columns, newItem, itemName, editor } = props;
+  const { current, title, description, icon, packIds, preferredPackId, noun, packNoun, releases, columns, newItem, itemName, editor, extraTabs = [] } = props;
   const [tab, setTab] = useState<Tab>('versions');
+  // ?tab=review and the like open a tab directly (old links redirect here).
+  useEffect(() => {
+    const wanted = new URLSearchParams(window.location.search).get('tab');
+    if (wanted && (wanted === 'edit' || extraTabs.some((extra) => extra.value === wanted))) setTab(wanted);
+    // Only on first load.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const [reloadKey, setReloadKey] = useState(0);
   const reload = useCallback(() => setReloadKey((value) => value + 1), []);
   const admin = useAdminSession({ onReload: reload });
@@ -118,11 +131,13 @@ export function ContentPage<T extends PackItem>(props: Props<T>) {
           items={[
             { value: 'versions', label: 'Versions & releases' },
             { value: 'edit', label: `Edit ${noun.many}` },
+            ...extraTabs.map(({ value, label }) => ({ value, label })),
           ]}
         />
       }
     >
-      {tab === 'versions' ? (
+      {extraTabs.find((extra) => extra.value === tab)?.render({ admin, reloadReleases: packs.reload }) ??
+        (tab === 'versions' ? (
         <ReleaseWorkspace packs={packs} packIds={packIds} icon={icon} title={releases.title} description={releases.description} unit={releases.unit} />
       ) : (
         <>
@@ -156,7 +171,7 @@ export function ContentPage<T extends PackItem>(props: Props<T>) {
             onSetUp={() => setTab('versions')}
           />
         </>
-      )}
+      ))}
 
       {editor({
         item: editing?.item ?? null,
