@@ -116,7 +116,7 @@ export function AdminMealCatalogPageClient() {
             currentItem.id === item.id ? response.item : currentItem
           ),
         }));
-        setActionMessage(`Generated image for ${item.name}.`);
+        setActionMessage(`Đã tạo ảnh cho ${item.name}.`);
       } catch (requestError) {
         setActionMessage(toErrorMessage(requestError));
       } finally {
@@ -146,7 +146,7 @@ export function AdminMealCatalogPageClient() {
         setImportResult(response);
         setLastImportAction(action === 'resolve' ? 'resolve' : request.dry_run ? 'preview' : 'import');
         if (response.applied) {
-          setActionMessage(`Imported ${response.inserted} meal${response.inserted === 1 ? '' : 's'}.`);
+          setActionMessage(`Đã nhập ${response.inserted} món ăn.`);
           setReloadKey((value) => value + 1);
         }
       } catch (requestError) {
@@ -164,7 +164,7 @@ export function AdminMealCatalogPageClient() {
     try {
       const token = await getValidToken();
       const response = await approveMealCatalogFoodReference(foodReferenceId, token, environment);
-      setActionMessage(`Verified ${response.name} for catalog publication.`);
+      setActionMessage(`Đã xác minh ${response.name} để đăng lên danh mục.`);
     } catch (requestError) {
       setImportError(toErrorMessage(requestError));
       throw requestError;
@@ -182,7 +182,7 @@ export function AdminMealCatalogPageClient() {
       for (const foodReferenceId of uniqueIds) {
         await approveMealCatalogFoodReference(foodReferenceId, token, environment);
       }
-      setActionMessage(`Verified ${uniqueIds.length} food reference${uniqueIds.length === 1 ? '' : 's'} for catalog publication.`);
+      setActionMessage(`Đã xác minh ${uniqueIds.length} thực phẩm tham chiếu để đăng lên danh mục.`);
     } catch (requestError) {
       setImportError(toErrorMessage(requestError));
       throw requestError;
@@ -199,23 +199,23 @@ export function AdminMealCatalogPageClient() {
     <AdminPageShell
       admin={admin}
       current="/admin/meal-catalog"
-      title="Meal Catalog"
-      description="Review every catalog meal, spot missing images, and generate images once the backend endpoint is ready."
+      title="Danh mục món ăn"
+      description="Xem toàn bộ món ăn trong danh mục, tìm món thiếu ảnh và tạo ảnh khi backend đã sẵn sàng."
       toolbar={<>
-        <button type="button" onClick={() => setActiveView('catalog')} className={`border px-3 py-2 text-xs font-bold ${activeView === 'catalog' ? 'border-primary-forest bg-primary-forest text-white' : 'border-border text-muted hover:border-primary-teal'}`}>Catalog viewer</button>
-        <button type="button" onClick={() => { setActiveView('import'); setImportError(null); }} className={`border px-3 py-2 text-xs font-bold ${activeView === 'import' ? 'border-primary-forest bg-primary-forest text-white' : 'border-border text-muted hover:border-primary-teal'}`}>Import &amp; resolve</button>
+        <button type="button" onClick={() => setActiveView('catalog')} className={`rounded-lg border px-3 py-2 text-xs font-semibold ${activeView === 'catalog' ? 'border-slate-900 bg-slate-900 text-white' : 'border-slate-200 text-slate-500 hover:border-slate-300'}`}>Xem danh mục</button>
+        <button type="button" onClick={() => { setActiveView('import'); setImportError(null); }} className={`rounded-lg border px-3 py-2 text-xs font-semibold ${activeView === 'import' ? 'border-slate-900 bg-slate-900 text-white' : 'border-slate-200 text-slate-500 hover:border-slate-300'}`}>Nhập &amp; đối chiếu</button>
       </>}
     >
         {isPreviewMode && (
           <AdminBanner
             tone="warning"
-            title="Backend not configured"
-            message="Set NEXT_PUBLIC_MEALTRACK_API_URL to call MealTrack. These rows are contract preview data for UI review only."
+            title="Chưa cấu hình backend"
+            message="Hãy đặt NEXT_PUBLIC_MEALTRACK_API_URL để kết nối MealTrack. Các dòng này chỉ là dữ liệu mẫu để xem giao diện."
           />
         )}
-        {error && <AdminBanner tone="error" title="Catalog request failed" message={error} />}
+        {error && <AdminBanner tone="error" title="Không tải được danh mục" message={error} />}
         {actionMessage && (
-          <AdminBanner tone="info" title="Action status" message={actionMessage} />
+          <AdminBanner tone="info" title="Trạng thái thao tác" message={actionMessage} />
         )}
 
         {activeView === 'import' ? (

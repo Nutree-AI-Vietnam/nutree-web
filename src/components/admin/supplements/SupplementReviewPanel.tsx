@@ -2,16 +2,17 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { AdminBanner } from '@/components/admin/AdminBanner';
-import { AdminPageShell } from '@/components/admin/AdminPageShell';
+import { Button } from '@/components/admin/ui/AdminUi';
 import { MealCatalogPagination } from '@/components/admin/MealCatalogPagination';
 import { SupplementReviewCard } from '@/components/admin/SupplementReviewCard';
-import { adminErrorMessage, useAdminSession } from '@/hooks/useAdminSession';
+import { adminErrorMessage, type AdminSession } from '@/hooks/useAdminSession';
 import { MealTrackAdminApiError } from '@/lib/mealtrack-admin-api';
 import { shrinkPhotoForUpload } from '@/lib/shrink-photo-for-upload';
 import {
   fetchSupplementReview,
   removeSupplementPhoto,
   reviewSupplement,
+  shareWaitingScans,
   uploadSupplementPhoto,
 } from '@/lib/supplement-admin-api';
 import type {
@@ -26,19 +27,23 @@ import type {
 const PAGE_SIZE = 20;
 type QueueView = SupplementReviewKind | 'all' | 'approved';
 const VIEWS: { value: QueueView; label: string }[] = [
-  { value: 'all', label: 'All waiting' },
-  { value: 'scan', label: 'Label scans' },
-  { value: 'catalog', label: 'Held-back catalog rows' },
+  { value: 'all', label: 'Tất cả đang chờ' },
+  { value: 'scan', label: 'Ảnh chụp nhãn' },
+  { value: 'catalog', label: 'Sản phẩm bị giữ lại khi nhập' },
   // Live products, to correct one; past doses keep their own amounts.
-  { value: 'approved', label: 'Approved' },
+  { value: 'approved', label: 'Đã có trong danh mục' },
 ];
 const PHOTO_FILTERS: { value: SupplementPhotoFilter; label: string }[] = [
-  { value: 'all', label: 'Any photo' },
-  { value: 'missing', label: 'Missing photo' },
-  { value: 'with', label: 'Has photo' },
+  { value: 'all', label: 'Mọi ảnh' },
+  { value: 'missing', label: 'Thiếu ảnh' },
+  { value: 'with', label: 'Có ảnh' },
 ];
 
-export function AdminSupplementsPageClient() {
+/**
+ * Products not in the catalog yet: rows held back on import, and label scans
+ * that could not join on their own. Good scans join automatically.
+ */
+export function SupplementReviewPanel({ admin, onCatalogChanged }: { admin: AdminSession; onCatalogChanged?: () => void }) {
   const [kind, setKind] = useState<QueueView>('all');
   const [photo, setPhoto] = useState<SupplementPhotoFilter>('all');
   const [query, setQuery] = useState('');
@@ -62,8 +67,33 @@ export function AdminSupplementsPageClient() {
     setActionMessage(null);
   }, []);
   const reload = useCallback(() => setReloadKey((value) => value + 1), []);
-  const admin = useAdminSession({ onReset: resetPageData, onReload: reload });
   const { environment, getValidToken, isPreviewMode, session } = admin;
+  // A new target or sign-in starts the queue over.
+  useEffect(() => {
+    resetPageData();
+  }, [environment, session, resetPageData]);
+  const [isSharing, setIsSharing] = useState(false);
+  const shareNow = useCallback(async () => {
+    setIsSharing(true);
+    setActionMessage(null);
+    try {
+      const result = await shareWaitingScans(await getValidToken(), environment);
+      setActionTone('info');
+      setActionMessage(
+        result.shared + result.merged === 0
+          ? 'Không có ảnh chụp nhãn nào sẵn sàng để thêm.'
+          : `Đã thêm ${result.shared} sản phẩm mới vào danh mục và gộp ${result.merged} sản phẩm vào sản phẩm có sẵn.` +
+              (result.skipped ? ` Còn ${result.skipped} mục cần xem bên dưới.` : '')
+      );
+      reload();
+      onCatalogChanged?.();
+    } catch (requestError) {
+      setActionTone('error');
+      setActionMessage(adminErrorMessage(requestError));
+    } finally {
+      setIsSharing(false);
+    }
+  }, [environment, getValidToken, onCatalogChanged, reload]);
 
   const loadQueue = useCallback(async () => {
     if (isPreviewMode || !session) {
@@ -156,7 +186,7 @@ export function AdminSupplementsPageClient() {
 
   const handlePhoto = useCallback(
     async (item: SupplementReviewItem, file: File | null) => {
-      if (!file && !window.confirm(`Remove the photo of "${item.name}"? The app shows the plain mark again.`)) return;
+      if (!file && !window.confirm(`Xóa ảnh của "${item.name}"? Ứng dụng sẽ hiện lại biểu tượng mặc định.`)) return;
       setBusy(item.id, true);
       setActionMessage(null);
       try {
@@ -172,7 +202,7 @@ export function AdminSupplementsPageClient() {
         // its unsaved edits) and replaces any fetch read before the change.
         reload();
         setActionTone('info');
-        setActionMessage(file ? `Saved the photo of ${item.name}.` : `Removed the photo of ${item.name}.`);
+        setActionMessage(file ? `Đã lưu ảnh của ${item.name}.` : `Đã xóa ảnh của ${item.name}.`);
       } catch (requestError) {
         setActionTone('error');
         setActionMessage(adminErrorMessage(requestError));
@@ -201,12 +231,11 @@ export function AdminSupplementsPageClient() {
   const visibleEnd = Math.min(data.offset + data.items.length, data.total);
 
   return (
-    <AdminPageShell
-      admin={admin}
-      current="/admin/supplements"
-      title="Supplements"
-      description="Check held-back catalog rows and people's label scans against their source, then approve, correct or reject them. Approved rows join the shared catalog."
-      toolbar={<>
+    <>
+      <p className="text-sm text-slate-500">
+        Ảnh chụp nhãn có thương hiệu và dưỡng chất đọc được sẽ tự vào danh mục trong vòng một phút. Ở lại đây gồm: sản phẩm bị giữ lại khi nhập và ảnh chụp nhãn trùng với một sản phẩm đang chờ. Khi duyệt, sản phẩm được thêm vào danh mục dưới dạng phiên bản mới.
+      </p>
+      <div className="flex flex-wrap items-center gap-2">
         {VIEWS.map((option) => (
           <button
             key={option.value}
@@ -215,19 +244,19 @@ export function AdminSupplementsPageClient() {
               setKind(option.value);
               setPage(0);
             }}
-            className={`border px-3 py-2 text-xs font-bold ${kind === option.value ? 'border-primary-forest bg-primary-forest text-white' : 'border-border text-muted hover:border-primary-teal'}`}
+            className={`rounded-lg border px-3 py-2 text-xs font-semibold ${kind === option.value ? 'border-slate-900 bg-slate-900 text-white' : 'border-slate-200 text-slate-500 hover:border-slate-300'}`}
           >
             {option.label}
           </button>
         ))}
         <select
-          aria-label="Filter by product photo"
+          aria-label="Lọc theo ảnh sản phẩm"
           value={photo}
           onChange={(event) => {
             setPhoto(event.target.value as SupplementPhotoFilter);
             setPage(0);
           }}
-          className="border border-border bg-white px-2 py-2 text-xs font-bold text-muted"
+          className="border border-slate-200 bg-white px-2 py-2 text-xs font-semibold text-slate-500 rounded-lg"
         >
           {PHOTO_FILTERS.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
         </select>
@@ -239,30 +268,32 @@ export function AdminSupplementsPageClient() {
           }}
         >
           <input
-            aria-label="Find by catalog key, name or brand"
-            className="min-w-0 flex-1 border border-border bg-white px-3 py-2 text-xs sm:w-64"
+            aria-label="Tìm theo mã danh mục, tên hoặc thương hiệu"
+            className="min-w-0 flex-1 border border-slate-200 bg-white px-3 py-2 text-xs sm:w-64 rounded-lg"
             onChange={(event) => setDraftQuery(event.target.value)}
-            placeholder="Catalog key, name or brand"
+            placeholder="Mã danh mục, tên hoặc thương hiệu"
             value={draftQuery}
           />
           {query && (
-            <button type="button" onClick={() => search('')} className="border border-border px-3 py-2 text-xs font-bold text-muted hover:border-primary-teal">
-              Clear
+            <button type="button" onClick={() => search('')} className="border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-500 hover:border-slate-300 rounded-lg">
+              Xóa
             </button>
           )}
         </form>
-      </>}
-    >
+        <Button size="sm" icon="refresh" onClick={() => void shareNow()} isBusy={isSharing} className="ml-auto">
+          Thêm ngay ảnh chụp nhãn đã sẵn sàng
+        </Button>
+      </div>
       {isPreviewMode && (
         <AdminBanner
           tone="warning"
-          title="Backend not configured"
-          message="Set NEXT_PUBLIC_MEALTRACK_API_URL, or enable the admin proxy, to load the review queue."
+          title="Chưa cấu hình backend"
+          message="Hãy đặt NEXT_PUBLIC_MEALTRACK_API_URL hoặc bật admin proxy để tải hàng chờ duyệt."
         />
       )}
-      {error && <AdminBanner tone="error" title="Review queue request failed" message={error} />}
+      {error && <AdminBanner tone="error" title="Không tải được hàng chờ duyệt" message={error} />}
       {actionMessage && (
-        <AdminBanner tone={actionTone} title={actionTone === 'error' ? 'Action failed' : 'Action status'} message={actionMessage} />
+        <AdminBanner tone={actionTone} title={actionTone === 'error' ? 'Thao tác thất bại' : 'Trạng thái thao tác'} message={actionMessage} />
       )}
 
       <MealCatalogPagination
@@ -277,30 +308,30 @@ export function AdminSupplementsPageClient() {
       />
 
       {!isLoading && data.items.length === 0 && !error && (
-        <p className="border border-border bg-white p-6 text-sm text-muted">Nothing is waiting for review.</p>
+        <p className="rounded-xl border border-slate-200 bg-white p-6 text-sm text-slate-500">Không có mục nào đang chờ. Ảnh chụp nhãn mới được tự động thêm vào danh mục.</p>
       )}
       {data.items.map((item) => (
         <SupplementReviewCard key={`${item.id}:${item.reviewed_at ?? ''}:${item.updated_at ?? ''}`} item={item} isBusy={busyIds.has(item.id)} onReview={(...args) => void handleReview(...args)} onFind={find} onPhoto={(...args) => void handlePhoto(...args)} />
       ))}
-    </AdminPageShell>
+    </>
   );
 }
 
 function rejectPrompt(item: SupplementReviewItem): string {
   return item.kind === 'scan'
-    ? `Reject "${item.name}"? It stays on the person's own list but never joins the catalog. This is final.`
-    : `Reject "${item.name}"? It stays hidden from search and barcode lookups, and re-imports will not bring it back. This is final.`;
+    ? `Từ chối "${item.name}"? Sản phẩm vẫn nằm trong danh sách riêng của người dùng nhưng sẽ không vào danh mục. Không thể hoàn tác.`
+    : `Từ chối "${item.name}"? Sản phẩm sẽ bị ẩn khỏi tìm kiếm và tra mã vạch, và nhập lại cũng không đưa nó trở lại. Không thể hoàn tác.`;
 }
 
 function outcomeMessage(item: SupplementReviewItem, action: SupplementReviewAction, mergedInto: string | null): string {
   if (action === 'edit') {
     return item.review_status === 'approved'
-      ? `Saved edits to ${item.name}. Future doses use them; past doses keep their amounts.`
-      : `Saved edits to ${item.name}. It is still waiting for review.`;
+      ? `Đã lưu chỉnh sửa cho ${item.name}. Các liều sau sẽ dùng thông tin mới; liều đã ghi giữ nguyên lượng cũ.`
+      : `Đã lưu chỉnh sửa cho ${item.name}. Sản phẩm vẫn đang chờ duyệt.`;
   }
-  if (action === 'reject') return `Rejected ${item.name}.`;
-  if (mergedInto) return `${item.name} matched a shared product by barcode; the person's list and doses now use that product, and their scan was removed.`;
-  return `Approved ${item.name}. It is now in the shared catalog.`;
+  if (action === 'reject') return `Đã từ chối ${item.name}.`;
+  if (mergedInto) return `${item.name} trùng mã vạch với một sản phẩm trong danh mục; danh sách và các liều của người dùng giờ dùng sản phẩm đó, và ảnh chụp nhãn của họ đã bị xóa.`;
+  return `Đã duyệt ${item.name}. Sản phẩm đã có trong danh mục chung.`;
 }
 
 const emptyData: SupplementReviewListResponse = {

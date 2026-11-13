@@ -1,14 +1,6 @@
-import type { Metadata } from 'next';
-import { AdminSupplementsPageClient } from './admin-supplements-page-client';
+import { redirect } from 'next/navigation';
 
-export const metadata: Metadata = {
-  title: 'Admin Supplements | Nutree',
-  robots: {
-    index: false,
-    follow: false,
-  },
-};
-
+/** The review queue is now a tab of the supplement catalog. */
 export default function AdminSupplementsPage() {
-  return <AdminSupplementsPageClient />;
+  redirect('/admin/supplement-catalog?tab=review');
 }

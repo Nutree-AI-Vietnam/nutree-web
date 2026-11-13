@@ -2,6 +2,7 @@
 
 import { useEffect, useSyncExternalStore } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useLocale } from '@/lib/locale-context';
 import { privacyPath } from '@/lib/privacy-path';
 import {
@@ -14,6 +15,8 @@ import {
 
 export function CookieConsent() {
   const { t, locale } = useLocale();
+  // The admin console is a staff tool, not the marketing site: no banner there.
+  const isAdmin = usePathname()?.startsWith('/admin') ?? false;
   const { hydrated, bannerOpen } = useSyncExternalStore(
     subscribeCookieConsent,
     getCookieConsentSnapshot,
@@ -24,7 +27,7 @@ export function CookieConsent() {
     hydrateCookieConsent();
   }, []);
 
-  if (!hydrated || !bannerOpen) return null;
+  if (isAdmin || !hydrated || !bannerOpen) return null;
 
   return (
     <section

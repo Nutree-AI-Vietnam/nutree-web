@@ -15,23 +15,23 @@ export function SupplementNutrientEditor({ values, disabled, onChange }: Props) 
 
   return (
     <div className="grid gap-2">
-      <p className="text-xs font-bold uppercase text-muted">Nutrients per unit</p>
-      {Object.keys(values).length === 0 && <p className="text-sm text-muted">No tracked nutrients.</p>}
+      <p className="text-xs font-semibold uppercase text-slate-500">Dưỡng chất mỗi đơn vị</p>
+      {Object.keys(values).length === 0 && <p className="text-sm text-slate-500">Chưa có dưỡng chất nào.</p>}
       {Object.entries(values).map(([key, value]) => (
         <div key={key} className="grid grid-cols-[minmax(0,1fr)_4.5rem_auto_auto] items-center gap-2 text-sm">
-          <span className="truncate font-semibold text-foreground" title={key}>{SUPPLEMENT_NUTRIENT_NAMES[key] ?? key}</span>
+          <span className="truncate font-semibold text-slate-900" title={key}>{SUPPLEMENT_NUTRIENT_NAMES[key] ?? key}</span>
           <input
-            aria-label={`${SUPPLEMENT_NUTRIENT_NAMES[key] ?? key} per unit`}
-            className="w-full min-w-0 border border-border bg-white px-2 py-1 text-right tabular-nums"
+            aria-label={`${SUPPLEMENT_NUTRIENT_NAMES[key] ?? key} mỗi đơn vị`}
+            className="w-full min-w-0 border border-slate-200 bg-white px-2 py-1 text-right tabular-nums rounded-lg"
             disabled={disabled}
             inputMode="decimal"
             onChange={(event) => onChange({ ...values, [key]: event.target.value })}
             value={value}
           />
-          <span className="text-xs text-muted">{SUPPLEMENT_NUTRIENT_UNITS[key] ?? ''}</span>
+          <span className="text-xs text-slate-500">{SUPPLEMENT_NUTRIENT_UNITS[key] ?? ''}</span>
           <button
-            aria-label={`Remove ${SUPPLEMENT_NUTRIENT_NAMES[key] ?? key}`}
-            className="px-1 text-sm font-bold text-muted hover:text-red-700"
+            aria-label={`Xóa ${SUPPLEMENT_NUTRIENT_NAMES[key] ?? key}`}
+            className="px-1 text-sm font-semibold text-slate-500 hover:text-red-700"
             disabled={disabled}
             onClick={() => {
               const next = { ...values };
@@ -47,18 +47,18 @@ export function SupplementNutrientEditor({ values, disabled, onChange }: Props) 
       {missing.length > 0 && (
         <div className="flex items-center gap-2">
           <select
-            className="min-w-0 border border-border bg-white px-2 py-1 text-sm"
+            className="min-w-0 border border-slate-200 bg-white px-2 py-1 text-sm rounded-lg"
             disabled={disabled}
             onChange={(event) => setAdding(event.target.value)}
             value={adding}
           >
-            <option value="">Add a nutrient…</option>
+            <option value="">Thêm dưỡng chất…</option>
             {missing.map((key) => (
               <option key={key} value={key}>{SUPPLEMENT_NUTRIENT_NAMES[key] ?? key}</option>
             ))}
           </select>
           <button
-            className="border border-border px-3 py-1 text-xs font-bold text-muted hover:border-primary-teal disabled:opacity-50"
+            className="border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-500 hover:border-slate-300 disabled:opacity-50 rounded-lg"
             disabled={disabled || !adding}
             onClick={() => {
               onChange({ ...values, [adding]: '' });
@@ -66,7 +66,7 @@ export function SupplementNutrientEditor({ values, disabled, onChange }: Props) 
             }}
             type="button"
           >
-            Add
+            Thêm
           </button>
         </div>
       )}

@@ -18,9 +18,9 @@ import type {
 
 const PAGE_SIZE = 50;
 const BANNER_TITLES: Record<ActionMessage['tone'], string> = {
-  info: 'Done',
-  warning: 'Partly done',
-  error: 'Action failed',
+  info: 'Hoàn tất',
+  warning: 'Hoàn tất một phần',
+  error: 'Thao tác thất bại',
 };
 
 export function AdminAffiliateInvitesPageClient() {
@@ -117,19 +117,19 @@ export function AdminAffiliateInvitesPageClient() {
     <AdminPageShell
       admin={admin}
       current="/admin/affiliate-invites"
-      title="Affiliate invites"
-      description="Create a one-time invite link for an affiliate. Whoever opens it and signs in earns the set percent of each referred friend's first purchase."
+      title="Lời mời cộng tác viên"
+      description="Tạo link lời mời dùng một lần cho cộng tác viên. Người mở link và đăng nhập sẽ nhận phần trăm đã đặt trên lần mua đầu tiên của mỗi người bạn được giới thiệu."
     >
       {isPreviewMode && (
         <AdminBanner
           tone="warning"
-          title="Backend not configured"
-          message="Set NEXT_PUBLIC_MEALTRACK_API_URL, or enable the admin proxy, to manage invites."
+          title="Chưa cấu hình backend"
+          message="Hãy đặt NEXT_PUBLIC_MEALTRACK_API_URL hoặc bật admin proxy để quản lý lời mời."
         />
       )}
       <AffiliateInviteForm isBusy={isCreating} isDisabled={isPreviewMode} onCreate={handleCreate} />
       {created && <AffiliateInviteLink label={created.label} link={created.link} onDone={() => setCreated(null)} />}
-      {error && <AdminBanner tone="error" title="Could not load invites" message={error} />}
+      {error && <AdminBanner tone="error" title="Không tải được lời mời" message={error} />}
       {message && (
         <AdminBanner tone={message.tone} title={BANNER_TITLES[message.tone]} message={message.text} />
       )}
@@ -145,7 +145,7 @@ export function AdminAffiliateInvitesPageClient() {
         onNext={() => setPage((value) => value + 1)}
       />
       {!isLoading && data.items.length === 0 && !error ? (
-        <p className="border border-border bg-white p-6 text-sm text-muted">No invites yet.</p>
+        <p className="border border-slate-200 bg-white p-6 text-sm text-slate-500 rounded-xl">Chưa có lời mời nào.</p>
       ) : (
         <AffiliateInviteTable
           items={data.items}

@@ -1,15 +1,15 @@
 import type { AffiliateInvite, AffiliateInviteAction, AffiliateInviteStatus } from '@/types/affiliate-invite-admin';
 
 const STATUS_LABELS: Record<AffiliateInviteStatus, string> = {
-  open: 'Open',
-  claimed: 'Claimed',
-  expired: 'Expired',
-  revoked: 'Revoked',
+  open: 'Đang mở',
+  claimed: 'Đã nhận',
+  expired: 'Hết hạn',
+  revoked: 'Đã thu hồi',
 };
 
-const DATE_FORMAT = new Intl.DateTimeFormat('en-GB', { dateStyle: 'medium', timeStyle: 'short' });
+const DATE_FORMAT = new Intl.DateTimeFormat('vi-VN', { dateStyle: 'medium', timeStyle: 'short' });
 
-const BUTTON = 'whitespace-nowrap border border-border bg-white px-3 py-1.5 text-xs font-bold disabled:text-muted';
+const BUTTON = 'whitespace-nowrap border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold disabled:text-slate-400 rounded-lg';
 
 interface Props {
   items: AffiliateInvite[];
@@ -22,47 +22,47 @@ interface Props {
 /** Every invite with its state; tokens never reach this table. */
 export function AffiliateInviteTable({ items, busy, onRevoke, onRevokeAgain, onRetryPremium }: Props) {
   return (
-    <section className="overflow-x-auto border-y border-border bg-white">
+    <section className="overflow-x-auto border border-slate-200 bg-white rounded-xl">
       <table className="w-full min-w-[960px] border-collapse text-left text-sm">
-        <thead className="border-b border-border bg-background text-xs text-muted">
+        <thead className="border-b border-slate-200 bg-slate-50 text-xs text-slate-500">
           <tr>
-            <th className="px-4 py-3 font-bold">Who it is for</th>
-            <th className="px-4 py-3 font-bold">Percent</th>
-            <th className="px-4 py-3 font-bold">Status</th>
-            <th className="px-4 py-3 font-bold">Created</th>
-            <th className="px-4 py-3 font-bold">Expires</th>
-            <th className="px-4 py-3 font-bold">Claimed by</th>
-            <th className="px-4 py-3 font-bold">Claimed</th>
-            <th className="px-4 py-3 font-bold">Premium</th>
-            <th className="px-4 py-3 font-bold">
-              <span className="sr-only">Action</span>
+            <th className="px-4 py-3 font-semibold">Dành cho ai</th>
+            <th className="px-4 py-3 font-semibold">Phần trăm</th>
+            <th className="px-4 py-3 font-semibold">Trạng thái</th>
+            <th className="px-4 py-3 font-semibold">Ngày tạo</th>
+            <th className="px-4 py-3 font-semibold">Hết hạn</th>
+            <th className="px-4 py-3 font-semibold">Người nhận</th>
+            <th className="px-4 py-3 font-semibold">Ngày nhận</th>
+            <th className="px-4 py-3 font-semibold">Premium</th>
+            <th className="px-4 py-3 font-semibold">
+              <span className="sr-only">Thao tác</span>
             </th>
           </tr>
         </thead>
         <tbody>
           {items.map((invite) => (
-            <tr key={invite.id} className="border-b border-border last:border-b-0">
-              <td className="px-4 py-3 font-semibold text-foreground">{invite.label}</td>
+            <tr key={invite.id} className="border-b border-slate-200 last:border-b-0">
+              <td className="px-4 py-3 font-semibold text-slate-900">{invite.label}</td>
               <td className="px-4 py-3">{invite.commission_percent}%</td>
               <td className="px-4 py-3">
                 {STATUS_LABELS[invite.status]}
                 {invite.status === 'revoked' && invite.revoked_at && (
-                  <span className="block text-xs text-muted">{formatDate(invite.revoked_at)}</span>
+                  <span className="block text-xs text-slate-500">{formatDate(invite.revoked_at)}</span>
                 )}
               </td>
-              <td className="px-4 py-3 text-muted">{formatDate(invite.created_at)}</td>
-              <td className="px-4 py-3 text-muted">{invite.expires_at ? formatDate(invite.expires_at) : 'Never'}</td>
+              <td className="px-4 py-3 text-slate-500">{formatDate(invite.created_at)}</td>
+              <td className="px-4 py-3 text-slate-500">{invite.expires_at ? formatDate(invite.expires_at) : 'Không hết hạn'}</td>
               <td className="px-4 py-3">
                 {invite.claimed_by_user_id ? (
                   <>
-                    {invite.claimed_by_email ?? 'Deleted account'}
-                    <span className="block font-mono text-xs text-muted">{invite.claimed_by_user_id}</span>
+                    {invite.claimed_by_email ?? 'Tài khoản đã xóa'}
+                    <span className="block font-mono text-xs text-slate-500">{invite.claimed_by_user_id}</span>
                   </>
                 ) : (
-                  <span className="text-muted">Not claimed</span>
+                  <span className="text-slate-500">Chưa ai nhận</span>
                 )}
               </td>
-              <td className="px-4 py-3 text-muted">{invite.claimed_at ? formatDate(invite.claimed_at) : ''}</td>
+              <td className="px-4 py-3 text-slate-500">{invite.claimed_at ? formatDate(invite.claimed_at) : ''}</td>
               <td className="px-4 py-3">
                 {invite.claimed_by_user_id && (
                   <PremiumState
@@ -81,7 +81,7 @@ export function AffiliateInviteTable({ items, busy, onRevoke, onRevokeAgain, onR
                     onClick={() => onRevoke(invite)}
                     type="button"
                   >
-                    {busy.get(invite.id) === 'revoke' ? 'Revoking...' : 'Revoke'}
+                    {busy.get(invite.id) === 'revoke' ? 'Đang thu hồi...' : 'Thu hồi'}
                   </button>
                 )}
               </td>
@@ -104,21 +104,21 @@ interface PremiumStateProps {
 function PremiumState({ invite, action, onRevokeAgain, onRetryPremium }: PremiumStateProps) {
   const revoked = invite.status === 'revoked';
   return (
-    <div className="grid justify-items-start gap-1 text-muted">
-      <span>{invite.premium_granted_at ? `Granted ${formatDate(invite.premium_granted_at)}` : 'Not granted'}</span>
+    <div className="grid justify-items-start gap-1 text-slate-500">
+      <span>{invite.premium_granted_at ? `Đã cấp ${formatDate(invite.premium_granted_at)}` : 'Chưa cấp'}</span>
       {!revoked && !invite.premium_granted_at && (
         <button
-          className={`${BUTTON} text-primary-forest hover:border-primary-teal`}
+          className={`${BUTTON} text-slate-900 hover:border-slate-300`}
           disabled={action !== undefined}
           onClick={() => onRetryPremium(invite)}
           type="button"
         >
-          {action === 'premium' ? 'Granting...' : 'Retry Premium'}
+          {action === 'premium' ? 'Đang cấp...' : 'Cấp lại Premium'}
         </button>
       )}
       {revoked && (
         <span className={invite.premium_revoked_at ? undefined : 'text-red-800'}>
-          {invite.premium_revoked_at ? `Removed ${formatDate(invite.premium_revoked_at)}` : 'Not removed'}
+          {invite.premium_revoked_at ? `Đã gỡ ${formatDate(invite.premium_revoked_at)}` : 'Chưa gỡ'}
         </span>
       )}
       {revoked && !invite.premium_revoked_at && (
@@ -128,7 +128,7 @@ function PremiumState({ invite, action, onRevokeAgain, onRetryPremium }: Premium
           onClick={() => onRevokeAgain(invite)}
           type="button"
         >
-          {action === 'revoke' ? 'Revoking...' : 'Revoke again'}
+          {action === 'revoke' ? 'Đang thu hồi...' : 'Thu hồi lại'}
         </button>
       )}
     </div>
