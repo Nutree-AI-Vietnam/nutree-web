@@ -35,64 +35,62 @@ export function AdminLoginPanel({
   };
 
   return (
-    <section className="min-h-[calc(100vh-96px)] bg-[#EEF3F0] px-4 py-10 text-foreground">
-      <div className="mx-auto max-w-md border border-border bg-white p-5 shadow-sm">
-        <p className="text-xs font-bold uppercase text-primary-emerald">admin.nutreeai.com</p>
-        <h1 className="mt-2 text-2xl font-bold text-foreground">Admin sign in</h1>
-        <p className="mt-2 text-sm text-muted">
-          Sign in with the Firebase account that is included in the backend admin allowlist.
-        </p>
-        <div className="mt-4">
-          <AdminEnvironmentSwitcher
-            environment={environment}
-            isProxyEnabled={isProxyEnabled}
-            onChange={onEnvironmentChange}
-          />
+    <section className="flex min-h-screen items-center justify-center bg-slate-900 px-4 py-10 font-sans antialiased">
+      <div className="w-full max-w-sm">
+        <div className="mb-6 flex items-center justify-center gap-2.5">
+          <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-500 text-base font-bold text-slate-900">N</span>
+          <span className="text-lg font-semibold text-white">Nutree Admin</span>
         </div>
-
-        {!isConfigured && (
-          <div className="mt-4 border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-900">
-            Set the {environment.toUpperCase()} Firebase web API key before using email/password sign in.
+        <div className="rounded-2xl bg-white p-6 shadow-2xl">
+          <h1 className="text-lg font-semibold text-slate-900">Sign in</h1>
+          <p className="mt-1 text-sm text-slate-500">Use a Firebase account on the backend admin allowlist.</p>
+          <div className="mt-4 flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2">
+            <span className="text-xs font-medium text-slate-500">Target</span>
+            <AdminEnvironmentSwitcher environment={environment} isProxyEnabled={isProxyEnabled} onChange={onEnvironmentChange} />
           </div>
-        )}
 
-        {error && (
-          <div className="mt-4 border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-800">
-            {error}
-          </div>
-        )}
+          {!isConfigured && (
+            <p className="mt-4 rounded-lg bg-amber-50 px-3 py-2 text-sm text-amber-900 ring-1 ring-inset ring-amber-200">
+              Set the {environment.toUpperCase()} Firebase web API key before signing in.
+            </p>
+          )}
+          {error && (
+            <p role="alert" className="mt-4 rounded-lg bg-rose-50 px-3 py-2 text-sm text-rose-800 ring-1 ring-inset ring-rose-200">
+              {error}
+            </p>
+          )}
 
-        <form className="mt-5 grid gap-4" onSubmit={handleSubmit}>
-          <label className="block">
-            <span className="mb-1 block text-xs font-semibold uppercase text-muted">Email</span>
-            <input
-              autoComplete="email"
-              className="h-11 w-full border border-border bg-background px-3 text-sm text-foreground outline-none focus:border-primary-teal"
-              onChange={(event) => onEmailChange(event.target.value)}
-              type="email"
-              value={email}
-            />
-          </label>
-
-          <label className="block">
-            <span className="mb-1 block text-xs font-semibold uppercase text-muted">Password</span>
-            <input
-              autoComplete="current-password"
-              className="h-11 w-full border border-border bg-background px-3 text-sm text-foreground outline-none focus:border-primary-teal"
-              onChange={(event) => onPasswordChange(event.target.value)}
-              type="password"
-              value={password}
-            />
-          </label>
-
-          <button
-            className="h-11 border border-primary-forest bg-primary-forest px-4 text-sm font-semibold text-white transition-colors hover:bg-primary-emerald disabled:cursor-not-allowed disabled:opacity-60"
-            disabled={!isConfigured || isSigningIn}
-            type="submit"
-          >
-            {isSigningIn ? 'Signing in...' : 'Sign in'}
-          </button>
-        </form>
+          <form className="mt-5 grid gap-4" onSubmit={handleSubmit}>
+            <label className="block">
+              <span className="mb-1 block text-xs font-medium text-slate-600">Email</span>
+              <input
+                autoComplete="email"
+                className="h-10 w-full rounded-lg border border-slate-200 px-3 text-sm text-slate-900 outline-none focus:border-slate-400 focus:ring-2 focus:ring-slate-200"
+                onChange={(event) => onEmailChange(event.target.value)}
+                type="email"
+                value={email}
+              />
+            </label>
+            <label className="block">
+              <span className="mb-1 block text-xs font-medium text-slate-600">Password</span>
+              <input
+                autoComplete="current-password"
+                className="h-10 w-full rounded-lg border border-slate-200 px-3 text-sm text-slate-900 outline-none focus:border-slate-400 focus:ring-2 focus:ring-slate-200"
+                onChange={(event) => onPasswordChange(event.target.value)}
+                type="password"
+                value={password}
+              />
+            </label>
+            <button
+              className="h-10 rounded-lg bg-slate-900 px-4 text-sm font-medium text-white transition-colors hover:bg-slate-700 disabled:cursor-not-allowed disabled:bg-slate-300"
+              disabled={!isConfigured || isSigningIn}
+              type="submit"
+            >
+              {isSigningIn ? 'Signing in…' : 'Sign in'}
+            </button>
+          </form>
+        </div>
+        <p className="mt-4 text-center text-xs text-slate-500">admin.nutreeai.com · staff only</p>
       </div>
     </section>
   );
