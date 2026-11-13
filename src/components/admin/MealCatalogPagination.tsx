@@ -20,14 +20,14 @@ export function MealCatalogPagination({
   onNext,
 }: MealCatalogPaginationProps) {
   return (
-    <div className="flex items-center justify-between gap-3 text-sm text-muted">
+    <div className="flex items-center justify-between gap-3 text-sm text-slate-500">
       <p>{isLoading ? 'Loading catalog...' : `Showing ${visibleStart}-${visibleEnd} of ${total}`}</p>
       <div className="flex items-center gap-2">
         <button
           type="button"
           disabled={page === 0}
           onClick={onPrevious}
-          className="h-9 border border-border bg-white px-3 font-semibold text-foreground disabled:text-muted"
+          className="h-9 border border-slate-200 bg-white px-3 font-semibold text-slate-900 disabled:text-slate-400 rounded-lg"
         >
           Prev
         </button>
@@ -38,7 +38,7 @@ export function MealCatalogPagination({
           type="button"
           disabled={page + 1 >= totalPages}
           onClick={onNext}
-          className="h-9 border border-border bg-white px-3 font-semibold text-foreground disabled:text-muted"
+          className="h-9 border border-slate-200 bg-white px-3 font-semibold text-slate-900 disabled:text-slate-400 rounded-lg"
         >
           Next
         </button>

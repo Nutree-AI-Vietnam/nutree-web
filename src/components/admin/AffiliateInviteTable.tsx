@@ -9,7 +9,7 @@ const STATUS_LABELS: Record<AffiliateInviteStatus, string> = {
 
 const DATE_FORMAT = new Intl.DateTimeFormat('en-GB', { dateStyle: 'medium', timeStyle: 'short' });
 
-const BUTTON = 'whitespace-nowrap border border-border bg-white px-3 py-1.5 text-xs font-bold disabled:text-muted';
+const BUTTON = 'whitespace-nowrap border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold disabled:text-slate-400 rounded-lg';
 
 interface Props {
   items: AffiliateInvite[];
@@ -22,47 +22,47 @@ interface Props {
 /** Every invite with its state; tokens never reach this table. */
 export function AffiliateInviteTable({ items, busy, onRevoke, onRevokeAgain, onRetryPremium }: Props) {
   return (
-    <section className="overflow-x-auto border-y border-border bg-white">
+    <section className="overflow-x-auto border border-slate-200 bg-white rounded-xl">
       <table className="w-full min-w-[960px] border-collapse text-left text-sm">
-        <thead className="border-b border-border bg-background text-xs text-muted">
+        <thead className="border-b border-slate-200 bg-slate-50 text-xs text-slate-500">
           <tr>
-            <th className="px-4 py-3 font-bold">Who it is for</th>
-            <th className="px-4 py-3 font-bold">Percent</th>
-            <th className="px-4 py-3 font-bold">Status</th>
-            <th className="px-4 py-3 font-bold">Created</th>
-            <th className="px-4 py-3 font-bold">Expires</th>
-            <th className="px-4 py-3 font-bold">Claimed by</th>
-            <th className="px-4 py-3 font-bold">Claimed</th>
-            <th className="px-4 py-3 font-bold">Premium</th>
-            <th className="px-4 py-3 font-bold">
+            <th className="px-4 py-3 font-semibold">Who it is for</th>
+            <th className="px-4 py-3 font-semibold">Percent</th>
+            <th className="px-4 py-3 font-semibold">Status</th>
+            <th className="px-4 py-3 font-semibold">Created</th>
+            <th className="px-4 py-3 font-semibold">Expires</th>
+            <th className="px-4 py-3 font-semibold">Claimed by</th>
+            <th className="px-4 py-3 font-semibold">Claimed</th>
+            <th className="px-4 py-3 font-semibold">Premium</th>
+            <th className="px-4 py-3 font-semibold">
               <span className="sr-only">Action</span>
             </th>
           </tr>
         </thead>
         <tbody>
           {items.map((invite) => (
-            <tr key={invite.id} className="border-b border-border last:border-b-0">
-              <td className="px-4 py-3 font-semibold text-foreground">{invite.label}</td>
+            <tr key={invite.id} className="border-b border-slate-200 last:border-b-0">
+              <td className="px-4 py-3 font-semibold text-slate-900">{invite.label}</td>
               <td className="px-4 py-3">{invite.commission_percent}%</td>
               <td className="px-4 py-3">
                 {STATUS_LABELS[invite.status]}
                 {invite.status === 'revoked' && invite.revoked_at && (
-                  <span className="block text-xs text-muted">{formatDate(invite.revoked_at)}</span>
+                  <span className="block text-xs text-slate-500">{formatDate(invite.revoked_at)}</span>
                 )}
               </td>
-              <td className="px-4 py-3 text-muted">{formatDate(invite.created_at)}</td>
-              <td className="px-4 py-3 text-muted">{invite.expires_at ? formatDate(invite.expires_at) : 'Never'}</td>
+              <td className="px-4 py-3 text-slate-500">{formatDate(invite.created_at)}</td>
+              <td className="px-4 py-3 text-slate-500">{invite.expires_at ? formatDate(invite.expires_at) : 'Never'}</td>
               <td className="px-4 py-3">
                 {invite.claimed_by_user_id ? (
                   <>
                     {invite.claimed_by_email ?? 'Deleted account'}
-                    <span className="block font-mono text-xs text-muted">{invite.claimed_by_user_id}</span>
+                    <span className="block font-mono text-xs text-slate-500">{invite.claimed_by_user_id}</span>
                   </>
                 ) : (
-                  <span className="text-muted">Not claimed</span>
+                  <span className="text-slate-500">Not claimed</span>
                 )}
               </td>
-              <td className="px-4 py-3 text-muted">{invite.claimed_at ? formatDate(invite.claimed_at) : ''}</td>
+              <td className="px-4 py-3 text-slate-500">{invite.claimed_at ? formatDate(invite.claimed_at) : ''}</td>
               <td className="px-4 py-3">
                 {invite.claimed_by_user_id && (
                   <PremiumState
@@ -104,11 +104,11 @@ interface PremiumStateProps {
 function PremiumState({ invite, action, onRevokeAgain, onRetryPremium }: PremiumStateProps) {
   const revoked = invite.status === 'revoked';
   return (
-    <div className="grid justify-items-start gap-1 text-muted">
+    <div className="grid justify-items-start gap-1 text-slate-500">
       <span>{invite.premium_granted_at ? `Granted ${formatDate(invite.premium_granted_at)}` : 'Not granted'}</span>
       {!revoked && !invite.premium_granted_at && (
         <button
-          className={`${BUTTON} text-primary-forest hover:border-primary-teal`}
+          className={`${BUTTON} text-slate-900 hover:border-slate-300`}
           disabled={action !== undefined}
           onClick={() => onRetryPremium(invite)}
           type="button"

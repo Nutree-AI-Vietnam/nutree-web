@@ -202,8 +202,8 @@ export function AdminMealCatalogPageClient() {
       title="Meal Catalog"
       description="Review every catalog meal, spot missing images, and generate images once the backend endpoint is ready."
       toolbar={<>
-        <button type="button" onClick={() => setActiveView('catalog')} className={`border px-3 py-2 text-xs font-bold ${activeView === 'catalog' ? 'border-primary-forest bg-primary-forest text-white' : 'border-border text-muted hover:border-primary-teal'}`}>Catalog viewer</button>
-        <button type="button" onClick={() => { setActiveView('import'); setImportError(null); }} className={`border px-3 py-2 text-xs font-bold ${activeView === 'import' ? 'border-primary-forest bg-primary-forest text-white' : 'border-border text-muted hover:border-primary-teal'}`}>Import &amp; resolve</button>
+        <button type="button" onClick={() => setActiveView('catalog')} className={`rounded-lg border px-3 py-2 text-xs font-semibold ${activeView === 'catalog' ? 'border-slate-900 bg-slate-900 text-white' : 'border-slate-200 text-slate-500 hover:border-slate-300'}`}>Catalog viewer</button>
+        <button type="button" onClick={() => { setActiveView('import'); setImportError(null); }} className={`rounded-lg border px-3 py-2 text-xs font-semibold ${activeView === 'import' ? 'border-slate-900 bg-slate-900 text-white' : 'border-slate-200 text-slate-500 hover:border-slate-300'}`}>Import &amp; resolve</button>
       </>}
     >
         {isPreviewMode && (

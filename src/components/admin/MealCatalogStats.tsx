@@ -29,15 +29,15 @@ interface StatProps {
 
 function Stat({ label, value, tone = 'default', textValue = false }: StatProps) {
   return (
-    <div className="border-b border-border bg-white px-4 py-3">
-      <p className="text-xs font-semibold uppercase text-muted">{label}</p>
+    <div className="rounded-xl border border-slate-200 bg-white px-5 py-4 shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+      <p className="text-xs font-medium text-slate-500">{label}</p>
       <p
         className={
           tone === 'warning'
-            ? 'mt-1 text-2xl font-bold text-energy-orange'
+            ? 'mt-1 text-2xl font-semibold text-amber-700'
             : textValue
-              ? 'mt-1 text-lg font-bold text-primary-forest'
-              : 'mt-1 text-2xl font-bold text-foreground'
+              ? 'mt-1 text-lg font-semibold text-slate-900'
+              : 'mt-1 text-2xl font-semibold text-slate-900'
         }
       >
         {value}

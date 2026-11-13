@@ -45,42 +45,42 @@ export function SupplementReviewCard({ item, isBusy, onReview, onFind, onPhoto }
   const live = item.review_status === 'approved';
 
   return (
-    <article className="grid gap-4 border border-border bg-white p-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1.1fr)]">
+    <article className="grid gap-4 border border-slate-200 bg-white p-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1.1fr)] rounded-xl">
       <section className="grid content-start gap-3">
-        <div className="flex flex-wrap items-center gap-2 text-xs font-bold uppercase">
-          <span className="border border-border px-2 py-1 text-muted">{live ? 'Live in the catalog' : item.kind === 'scan' ? 'Label scan' : 'Held-back catalog row'}</span>
-          {item.origin_country && <span className="text-muted">{item.origin_country}</span>}
-          {item.catalog_key && <span className="font-mono normal-case text-muted">{item.catalog_key}</span>}
+        <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase">
+          <span className="border border-slate-200 px-2 py-1 text-slate-500 rounded-lg">{live ? 'Live in the catalog' : item.kind === 'scan' ? 'Label scan' : 'Held-back catalog row'}</span>
+          {item.origin_country && <span className="text-slate-500">{item.origin_country}</span>}
+          {item.catalog_key && <span className="font-mono normal-case text-slate-500">{item.catalog_key}</span>}
         </div>
         {item.label_image_url ? (
-          <a href={item.label_image_url} target="_blank" rel="noreferrer" className="block border border-border bg-background">
+          <a href={item.label_image_url} target="_blank" rel="noreferrer" className="block border border-slate-200 bg-slate-50 rounded-lg">
             <img src={item.label_image_url} alt={`Label photo of ${item.name}`} className="max-h-96 w-full object-contain" loading="lazy" />
           </a>
         ) : item.source_url ? (
-          <a href={item.source_url} target="_blank" rel="noreferrer" className="break-all text-sm font-semibold text-primary-emerald underline">
+          <a href={item.source_url} target="_blank" rel="noreferrer" className="break-all text-sm font-semibold text-emerald-600 underline">
             {item.source_name || 'Source'}: {item.source_url}
           </a>
         ) : (
-          <p className="text-sm text-muted">No source link or label photo.</p>
+          <p className="text-sm text-slate-500">No source link or label photo.</p>
         )}
         <SupplementPhotoEditor item={item} disabled={isBusy} onChange={(file) => onPhoto(item, file)} />
         {item.reasons.length > 0 && (
-          <ul className="grid gap-1 border border-energy-orange/40 bg-energy-orange-soft p-3 text-sm text-foreground">
+          <ul className="grid gap-1 border border-amber-200 bg-amber-50 p-3 text-sm text-slate-900 rounded-xl">
             {item.reasons.map((reason) => <li key={reason}>{reason}</li>)}
           </ul>
         )}
-        {item.barcodes.length > 0 && <p className="font-mono text-xs text-muted">{item.barcodes.join(', ')}</p>}
+        {item.barcodes.length > 0 && <p className="font-mono text-xs text-slate-500">{item.barcodes.join(', ')}</p>}
         {item.barcode_match && <BarcodeMatchNote match={item.barcode_match} onFind={onFind} />}
-        {item.reviewed_by && <p className="text-xs text-muted">Last edited by {item.reviewed_by}</p>}
+        {item.reviewed_by && <p className="text-xs text-slate-500">Last edited by {item.reviewed_by}</p>}
       </section>
 
       <section className="grid content-start gap-2">
-        <p className="text-xs font-bold uppercase text-muted">Label as read ({item.units_per_serving} {item.unit_label} per serving)</p>
-        {item.label_rows.length === 0 && <p className="text-sm text-muted">No label rows.</p>}
+        <p className="text-xs font-semibold uppercase text-slate-500">Label as read ({item.units_per_serving} {item.unit_label} per serving)</p>
+        {item.label_rows.length === 0 && <p className="text-sm text-slate-500">No label rows.</p>}
         <table className="w-full text-sm">
           <tbody>
             {item.label_rows.map((row, index) => (
-              <tr key={`${row.name}-${index}`} className="border-b border-border/60 align-top">
+              <tr key={`${row.name}-${index}`} className="border-b border-slate-100 align-top">
                 <td className="py-1 pr-2">{row.name}</td>
                 <td className="whitespace-nowrap py-1 text-right tabular-nums">{row.amount ?? ''} {row.unit ?? ''}</td>
               </tr>
@@ -93,9 +93,9 @@ export function SupplementReviewCard({ item, isBusy, onReview, onFind, onPhoto }
         <div className="grid gap-2 sm:grid-cols-2">
           <Field label="Brand" value={draft.brand} disabled={isBusy} onChange={(brand) => setDraft({ ...draft, brand })} />
           <Field label="Name" value={draft.name} disabled={isBusy} onChange={(name) => setDraft({ ...draft, name })} />
-          <label className="grid gap-1 text-xs font-bold uppercase text-muted">
+          <label className="grid gap-1 text-xs font-semibold uppercase text-slate-500">
             Form
-            <select className="w-full min-w-0 border border-border bg-white px-2 py-1 text-sm font-normal normal-case text-foreground" disabled={isBusy} value={draft.form} onChange={(event) => setDraft({ ...draft, form: event.target.value as SupplementForm })}>
+            <select className="w-full min-w-0 border border-slate-200 bg-white px-2 py-1 text-sm font-normal normal-case text-slate-900 rounded-lg" disabled={isBusy} value={draft.form} onChange={(event) => setDraft({ ...draft, form: event.target.value as SupplementForm })}>
               {SUPPLEMENT_FORMS.map((form) => <option key={form} value={form}>{form}</option>)}
             </select>
           </label>
@@ -116,7 +116,7 @@ export function SupplementReviewCard({ item, isBusy, onReview, onFind, onPhoto }
         <SupplementNutrientEditor values={draft.nutrients} disabled={isBusy} onChange={(nutrients) => setDraft({ ...draft, nutrients })} />
         {invalid && <p className="text-sm font-semibold text-red-700">{invalid}</p>}
         {live && (
-          <p className="text-xs text-muted">Live in the catalog. Edits apply to future doses; past doses keep their amounts.</p>
+          <p className="text-xs text-slate-500">Live in the catalog. Edits apply to future doses; past doses keep their amounts.</p>
         )}
         <div className="flex flex-wrap gap-2 pt-1">
           {!live && <button
@@ -124,18 +124,18 @@ export function SupplementReviewCard({ item, isBusy, onReview, onFind, onPhoto }
             disabled={disabled || waitsForCatalogRow}
             title={waitsForCatalogRow ? 'Decide the held-back catalog row with this barcode first.' : undefined}
             onClick={() => onReview(item, 'approve', changes)}
-            className="bg-primary-forest px-4 py-2 text-xs font-bold text-white disabled:opacity-50"
+            className="bg-slate-900 px-4 py-2 text-xs font-semibold text-white disabled:opacity-50"
           >
             {approveLabel(Boolean(changes), match?.review_status === 'approved')}
           </button>}
-          <button type="button" disabled={disabled || !changes} onClick={() => onReview(item, 'edit', changes)} className="border border-border px-4 py-2 text-xs font-bold text-muted hover:border-primary-teal disabled:opacity-50">
+          <button type="button" disabled={disabled || !changes} onClick={() => onReview(item, 'edit', changes)} className="border border-slate-200 px-4 py-2 text-xs font-semibold text-slate-500 hover:border-slate-300 disabled:opacity-50 rounded-lg">
             Save edits
           </button>
-          {!live && <button type="button" disabled={isBusy} onClick={() => onReview(item, 'reject', null)} className="border border-red-300 px-4 py-2 text-xs font-bold text-red-800 hover:bg-red-50 disabled:opacity-50">
+          {!live && <button type="button" disabled={isBusy} onClick={() => onReview(item, 'reject', null)} className="border border-red-300 px-4 py-2 text-xs font-semibold text-red-800 hover:bg-red-50 disabled:opacity-50 rounded-lg">
             Reject
           </button>}
           {changes && (
-            <button type="button" disabled={isBusy} onClick={() => setDraft(toDraft(item))} className="px-2 text-xs font-bold text-muted hover:text-foreground">
+            <button type="button" disabled={isBusy} onClick={() => setDraft(toDraft(item))} className="px-2 text-xs font-semibold text-slate-500 hover:text-foreground">
               Undo edits
             </button>
           )}
@@ -149,13 +149,13 @@ function BarcodeMatchNote({ match, onFind }: { match: SupplementBarcodeMatch; on
   const label = [match.brand, match.name].filter(Boolean).join(' ');
   const where = match.catalog_key ? ` (${match.catalog_key})` : '';
   return match.review_status === 'approved' ? (
-    <p className="border border-primary-teal/40 bg-primary-teal/10 p-3 text-sm text-foreground">
+    <p className="border border-sky-200 bg-sky-50 p-3 text-sm text-slate-900 rounded-xl">
       Already in the catalog as {label}{where}. Approving moves this person&apos;s list and doses there and removes their scan.
     </p>
   ) : (
-    <div className="grid gap-2 border border-energy-orange/40 bg-energy-orange-soft p-3 text-sm text-foreground">
+    <div className="grid gap-2 border border-amber-200 bg-amber-50 p-3 text-sm text-slate-900 rounded-xl">
       <p>Held-back catalog row {label}{where} has this barcode. Approve or reject that row first.</p>
-      <button type="button" onClick={() => onFind(match.catalog_key ?? match.name)} className="justify-self-start text-xs font-bold text-primary-emerald underline">
+      <button type="button" onClick={() => onFind(match.catalog_key ?? match.name)} className="justify-self-start text-xs font-semibold text-emerald-600 underline">
         Show that row
       </button>
     </div>
@@ -169,9 +169,9 @@ function approveLabel(hasChanges: boolean, merges: boolean): string {
 
 function Field({ label, value, disabled, onChange }: { label: string; value: string; disabled: boolean; onChange: (value: string) => void }) {
   return (
-    <label className="grid gap-1 text-xs font-bold uppercase text-muted">
+    <label className="grid gap-1 text-xs font-semibold uppercase text-slate-500">
       {label}
-      <input className="w-full min-w-0 border border-border bg-white px-2 py-1 text-sm font-normal normal-case text-foreground" disabled={disabled} value={value} onChange={(event) => onChange(event.target.value)} />
+      <input className="w-full min-w-0 border border-slate-200 bg-white px-2 py-1 text-sm font-normal normal-case text-slate-900 rounded-lg" disabled={disabled} value={value} onChange={(event) => onChange(event.target.value)} />
     </label>
   );
 }

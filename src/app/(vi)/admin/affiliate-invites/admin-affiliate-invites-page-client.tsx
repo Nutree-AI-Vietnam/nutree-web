@@ -145,7 +145,7 @@ export function AdminAffiliateInvitesPageClient() {
         onNext={() => setPage((value) => value + 1)}
       />
       {!isLoading && data.items.length === 0 && !error ? (
-        <p className="border border-border bg-white p-6 text-sm text-muted">No invites yet.</p>
+        <p className="border border-slate-200 bg-white p-6 text-sm text-slate-500 rounded-xl">No invites yet.</p>
       ) : (
         <AffiliateInviteTable
           items={data.items}

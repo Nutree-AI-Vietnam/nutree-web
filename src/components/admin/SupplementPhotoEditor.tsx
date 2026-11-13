@@ -15,19 +15,19 @@ export function SupplementPhotoEditor({ item, disabled, onChange }: Props) {
   const input = useRef<HTMLInputElement>(null);
   // A scan waiting for review is still its owner's row, and may merge away.
   if (item.kind === 'scan' && item.review_status !== 'approved') {
-    return <p className="text-xs text-muted">Approve the scan to add a product photo.</p>;
+    return <p className="text-xs text-slate-500">Approve the scan to add a product photo.</p>;
   }
 
   return (
     <div className="grid gap-2">
-      <p className="text-xs font-bold uppercase text-muted">Product photo</p>
+      <p className="text-xs font-semibold uppercase text-slate-500">Product photo</p>
       <div className="flex items-center gap-3">
         {item.image_url ? (
-          <a href={item.image_url} target="_blank" rel="noreferrer" className="shrink-0 border border-border bg-white">
+          <a href={item.image_url} target="_blank" rel="noreferrer" className="shrink-0 border border-slate-200 bg-white rounded-lg">
             <img src={item.image_url} alt={`Photo of ${item.name}`} className="h-20 w-20 object-contain" loading="lazy" />
           </a>
         ) : (
-          <div className="flex h-20 w-20 shrink-0 items-center justify-center border border-dashed border-border text-xs text-muted">
+          <div className="flex h-20 w-20 shrink-0 items-center justify-center border border-dashed border-slate-200 text-xs text-slate-500 rounded-lg">
             No photo
           </div>
         )}
@@ -35,7 +35,7 @@ export function SupplementPhotoEditor({ item, disabled, onChange }: Props) {
           type="button"
           disabled={disabled}
           onClick={() => input.current?.click()}
-          className="border border-border px-3 py-2 text-xs font-bold text-muted hover:border-primary-teal disabled:opacity-50"
+          className="border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-500 hover:border-slate-300 disabled:opacity-50 rounded-lg"
         >
           {item.image_url ? 'Replace photo' : 'Add photo'}
         </button>
@@ -44,7 +44,7 @@ export function SupplementPhotoEditor({ item, disabled, onChange }: Props) {
             type="button"
             disabled={disabled}
             onClick={() => onChange(null)}
-            className="px-2 text-xs font-bold text-muted hover:text-foreground disabled:opacity-50"
+            className="px-2 text-xs font-semibold text-slate-500 hover:text-foreground disabled:opacity-50"
           >
             Remove
           </button>

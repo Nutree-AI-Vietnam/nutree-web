@@ -36,34 +36,34 @@ export function MealCatalogFilters({
   onRefresh,
 }: MealCatalogFiltersProps) {
   return (
-    <section className="border-y border-border bg-white">
+    <section className="border border-slate-200 bg-white rounded-xl overflow-hidden">
       <div className="grid gap-3 p-4 lg:grid-cols-[1.5fr_1fr_1fr_1fr_1fr_auto]">
         <label className="block">
-          <span className="mb-1 block text-xs font-semibold uppercase text-muted">Search</span>
+          <span className="mb-1 block text-xs font-semibold uppercase text-slate-500">Search</span>
           <input
             value={q}
             onChange={(event) => onQChange(event.target.value)}
             placeholder="Name, cuisine, key"
-            className="h-11 w-full border border-border bg-background px-3 text-sm text-foreground outline-none focus:border-primary-teal"
+            className="h-9 w-full border border-slate-200 bg-slate-50 px-3 text-sm text-slate-900 outline-none focus:border-slate-400 focus:ring-2 focus:ring-slate-200 rounded-lg"
           />
         </label>
 
         <label className="block">
-          <span className="mb-1 block text-xs font-semibold uppercase text-muted">Cuisine</span>
+          <span className="mb-1 block text-xs font-semibold uppercase text-slate-500">Cuisine</span>
           <input
             value={cuisine}
             onChange={(event) => onCuisineChange(event.target.value)}
             placeholder="vietnamese"
-            className="h-11 w-full border border-border bg-background px-3 text-sm text-foreground outline-none focus:border-primary-teal"
+            className="h-9 w-full border border-slate-200 bg-slate-50 px-3 text-sm text-slate-900 outline-none focus:border-slate-400 focus:ring-2 focus:ring-slate-200 rounded-lg"
           />
         </label>
 
         <label className="block">
-          <span className="mb-1 block text-xs font-semibold uppercase text-muted">Meal type</span>
+          <span className="mb-1 block text-xs font-semibold uppercase text-slate-500">Meal type</span>
           <select
             value={mealType}
             onChange={(event) => onMealTypeChange(event.target.value as MealType | '')}
-            className="h-11 w-full border border-border bg-background px-3 text-sm text-foreground outline-none focus:border-primary-teal"
+            className="h-9 w-full border border-slate-200 bg-slate-50 px-3 text-sm text-slate-900 outline-none focus:border-slate-400 focus:ring-2 focus:ring-slate-200 rounded-lg"
           >
             {mealTypes.map((option) => (
               <option key={option.label} value={option.value}>
@@ -74,11 +74,11 @@ export function MealCatalogFilters({
         </label>
 
         <label className="block">
-          <span className="mb-1 block text-xs font-semibold uppercase text-muted">Image</span>
+          <span className="mb-1 block text-xs font-semibold uppercase text-slate-500">Image</span>
           <select
             value={hasImage}
             onChange={(event) => onHasImageChange(event.target.value as HasImageFilter)}
-            className="h-11 w-full border border-border bg-background px-3 text-sm text-foreground outline-none focus:border-primary-teal"
+            className="h-9 w-full border border-slate-200 bg-slate-50 px-3 text-sm text-slate-900 outline-none focus:border-slate-400 focus:ring-2 focus:ring-slate-200 rounded-lg"
           >
             <option value="all">All meals</option>
             <option value="false">Missing image</option>
@@ -87,11 +87,11 @@ export function MealCatalogFilters({
         </label>
 
         <label className="block">
-          <span className="mb-1 block text-xs font-semibold uppercase text-muted">Active</span>
+          <span className="mb-1 block text-xs font-semibold uppercase text-slate-500">Active</span>
           <select
             value={isActive}
             onChange={(event) => onIsActiveChange(event.target.value as 'all' | 'true' | 'false')}
-            className="h-11 w-full border border-border bg-background px-3 text-sm text-foreground outline-none focus:border-primary-teal"
+            className="h-9 w-full border border-slate-200 bg-slate-50 px-3 text-sm text-slate-900 outline-none focus:border-slate-400 focus:ring-2 focus:ring-slate-200 rounded-lg"
           >
             <option value="true">Active</option>
             <option value="all">All</option>
@@ -102,7 +102,7 @@ export function MealCatalogFilters({
         <button
           type="button"
           onClick={onRefresh}
-          className="mt-5 h-11 border border-primary-forest bg-primary-forest px-4 text-sm font-semibold text-white transition-colors hover:bg-primary-emerald"
+          className="mt-5 h-9 border border-slate-900 bg-slate-900 px-4 text-sm font-semibold text-white transition-colors hover:bg-slate-700 rounded-lg"
         >
           Refresh
         </button>
