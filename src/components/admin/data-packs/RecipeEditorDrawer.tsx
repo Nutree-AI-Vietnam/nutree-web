@@ -6,6 +6,7 @@ import { cn } from '@/lib/cn';
 import type { PackRecipe } from '@/types/data-pack-admin';
 
 const MEALS = ['breakfast', 'lunch', 'dinner', 'snack'] as const;
+const MEAL_LABELS: Record<(typeof MEALS)[number], string> = { breakfast: 'Sáng', lunch: 'Trưa', dinner: 'Tối', snack: 'Ăn vặt' };
 const UNITS = ['g', 'ml', 'serving'] as const;
 
 interface Ingredient {
@@ -79,7 +80,7 @@ function Editor({ recipe, isNew, description, isProd, isBusy, onClose, onSave, o
     <Drawer
       open
       width="max-w-2xl"
-      title={isNew ? 'New recipe' : recipe.name || recipe.id}
+      title={isNew ? 'Công thức mới' : recipe.name || recipe.id}
       description={description}
       onClose={onClose}
       footer={
@@ -87,17 +88,17 @@ function Editor({ recipe, isNew, description, isProd, isBusy, onClose, onSave, o
           {!isNew ? (
             confirmDelete ? (
               <div className="flex items-center gap-2">
-                <span className="text-xs text-rose-700">Remove from the pack?</span>
+                <span className="text-xs text-rose-700">Xoá khỏi thư viện?</span>
                 <Button size="sm" variant="danger" isBusy={isBusy} onClick={() => onDelete(recipe)}>
-                  Remove
+                  Xoá
                 </Button>
                 <Button size="sm" variant="ghost" onClick={() => setConfirmDelete(false)}>
-                  Keep
+                  Giữ lại
                 </Button>
               </div>
             ) : (
               <Button size="sm" variant="ghost" icon="trash" className="text-rose-600" onClick={() => setConfirmDelete(true)}>
-                Remove recipe
+                Xoá công thức
               </Button>
             )
           ) : (
@@ -105,10 +106,10 @@ function Editor({ recipe, isNew, description, isProd, isBusy, onClose, onSave, o
           )}
           <div className="flex gap-2">
             <Button variant="ghost" onClick={onClose}>
-              Cancel
+              Huỷ
             </Button>
             <Button variant={isProd ? 'warning' : 'primary'} icon="check" isBusy={isBusy} onClick={save}>
-              Save and publish
+              Lưu và phát hành
             </Button>
           </div>
         </div>
@@ -119,8 +120,8 @@ function Editor({ recipe, isNew, description, isProd, isBusy, onClose, onSave, o
           value={mode}
           onChange={switchMode}
           items={[
-            { value: 'form', label: 'Form' },
-            { value: 'json', label: 'Advanced (JSON)' },
+            { value: 'form', label: 'Biểu mẫu' },
+            { value: 'json', label: 'Nâng cao (JSON)' },
           ]}
         />
         <span />
@@ -130,7 +131,7 @@ function Editor({ recipe, isNew, description, isProd, isBusy, onClose, onSave, o
 
       {mode === 'json' ? (
         <textarea
-          aria-label="Recipe JSON"
+          aria-label="JSON công thức"
           spellCheck={false}
           className="h-[60vh] w-full rounded-lg border border-slate-200 bg-slate-950 p-4 font-mono text-xs leading-relaxed text-slate-100 outline-none focus:ring-2 focus:ring-slate-300"
           value={json}
@@ -138,20 +139,20 @@ function Editor({ recipe, isNew, description, isProd, isBusy, onClose, onSave, o
         />
       ) : (
         <div className="space-y-6">
-          <Section title="Basics">
-            <Field label="Name">
+          <Section title="Thông tin chung">
+            <Field label="Tên món">
               <input className={inputClass} value={draft.name ?? ''} onChange={(event) => set({ name: event.target.value })} />
             </Field>
             <div className="grid grid-cols-2 gap-3">
-              <Field label="Prep time (min)">
+              <Field label="Thời gian nấu (phút)">
                 <NumberInput value={draft.prep_time_minutes as number | undefined} onChange={(value) => set({ prep_time_minutes: value })} />
               </Field>
-              <Field label="Image URL">
+              <Field label="Link ảnh">
                 <input className={inputClass} value={draft.image_url ?? ''} onChange={(event) => set({ image_url: event.target.value || null })} />
               </Field>
             </div>
             <div>
-              <span className="mb-1.5 block text-xs font-medium text-slate-600">Meals</span>
+              <span className="mb-1.5 block text-xs font-medium text-slate-600">Bữa ăn</span>
               <div className="flex flex-wrap gap-2">
                 {MEALS.map((meal) => {
                   const on = meals.has(meal);
@@ -162,11 +163,11 @@ function Editor({ recipe, isNew, description, isProd, isBusy, onClose, onSave, o
                       aria-pressed={on}
                       onClick={() => set({ meal_types: MEALS.filter((m) => (m === meal ? !on : meals.has(m))) })}
                       className={cn(
-                        'rounded-full px-3 py-1 text-xs font-medium capitalize ring-1 ring-inset transition-colors',
+                        'rounded-full px-3 py-1 text-xs font-medium ring-1 ring-inset transition-colors',
                         on ? 'bg-slate-900 text-white ring-slate-900' : 'bg-white text-slate-600 ring-slate-200 hover:ring-slate-300'
                       )}
                     >
-                      {meal}
+                      {MEAL_LABELS[meal]}
                     </button>
                   );
                 })}
@@ -174,16 +175,16 @@ function Editor({ recipe, isNew, description, isProd, isBusy, onClose, onSave, o
             </div>
           </Section>
 
-          <Section title="Nutrition per serving">
+          <Section title="Dinh dưỡng mỗi khẩu phần">
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-              <Field label="Calories (kcal)">
+              <Field label="Năng lượng (kcal)">
                 <NumberInput value={draft.calories} onChange={(value) => set({ calories: value })} />
               </Field>
               {(
                 [
-                  ['protein_g', 'Protein (g)'],
-                  ['carbs_g', 'Carbs (g)'],
-                  ['fat_g', 'Fat (g)'],
+                  ['protein_g', 'Đạm (g)'],
+                  ['carbs_g', 'Tinh bột (g)'],
+                  ['fat_g', 'Chất béo (g)'],
                 ] as const
               ).map(([key, label]) => (
                 <Field key={key} label={label}>
@@ -191,31 +192,31 @@ function Editor({ recipe, isNew, description, isProd, isBusy, onClose, onSave, o
                 </Field>
               ))}
             </div>
-            <p className="text-[11px] text-slate-400">Calories are not recalculated from ingredients. Update them when amounts change.</p>
+            <p className="text-[11px] text-slate-400">Năng lượng không tự tính lại theo nguyên liệu. Nhớ cập nhật khi đổi lượng.</p>
           </Section>
 
           <Section
-            title="Ingredients"
+            title="Nguyên liệu"
             action={
               <Button size="sm" variant="ghost" icon="plus" onClick={() => set({ ingredients: [...ingredients, { display_name: '', quantity: 0, unit: 'g', food_reference_id: null }] })}>
-                Add
+                Thêm
               </Button>
             }
           >
             {ingredients.length === 0 ? (
-              <p className="text-xs text-slate-400">No ingredients.</p>
+              <p className="text-xs text-slate-400">Chưa có nguyên liệu.</p>
             ) : (
               <div className="overflow-hidden rounded-lg border border-slate-200">
                 {ingredients.map((item, index) => (
                   <div key={index} className="flex items-center gap-2 border-b border-slate-100 px-2 py-1.5 last:border-b-0">
                     <input
-                      aria-label={`Ingredient ${index + 1} name`}
+                      aria-label={`Tên nguyên liệu ${index + 1}`}
                       className="h-8 min-w-0 flex-1 rounded-md px-2 text-sm outline-none focus:bg-slate-50"
                       value={item.display_name}
                       onChange={(event) => setIngredient(index, { display_name: event.target.value })}
                     />
                     <input
-                      aria-label={`Ingredient ${index + 1} amount`}
+                      aria-label={`Lượng nguyên liệu ${index + 1}`}
                       type="number"
                       step="any"
                       className="h-8 w-20 rounded-md border border-slate-200 px-2 text-right text-sm outline-none focus:border-slate-400"
@@ -223,7 +224,7 @@ function Editor({ recipe, isNew, description, isProd, isBusy, onClose, onSave, o
                       onChange={(event) => setIngredient(index, { quantity: Number(event.target.value) })}
                     />
                     <select
-                      aria-label={`Ingredient ${index + 1} unit`}
+                      aria-label={`Đơn vị nguyên liệu ${index + 1}`}
                       className="h-8 rounded-md border border-slate-200 bg-white px-1.5 text-sm"
                       value={item.unit}
                       onChange={(event) => setIngredient(index, { unit: event.target.value })}
@@ -234,7 +235,7 @@ function Editor({ recipe, isNew, description, isProd, isBusy, onClose, onSave, o
                     </select>
                     <button
                       type="button"
-                      aria-label={`Remove ingredient ${index + 1}`}
+                      aria-label={`Xoá nguyên liệu ${index + 1}`}
                       className="rounded-md p-1.5 text-slate-400 hover:bg-rose-50 hover:text-rose-600"
                       onClick={() => set({ ingredients: ingredients.filter((_, at) => at !== index) })}
                     >
@@ -246,8 +247,8 @@ function Editor({ recipe, isNew, description, isProd, isBusy, onClose, onSave, o
             )}
           </Section>
 
-          <Section title="Steps">
-            <Field label="One step per line">
+          <Section title="Các bước">
+            <Field label="Mỗi dòng một bước">
               <textarea
                 className="min-h-32 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:border-slate-400 focus:ring-2 focus:ring-slate-200"
                 value={steps}
@@ -286,7 +287,7 @@ function NumberInput({ value, onChange }: { value: number | undefined; onChange:
 }
 
 function validate(draft: PackRecipe): PackRecipe | string {
-  if (!String(draft.name ?? '').trim()) return 'The recipe needs a name.';
+  if (!String(draft.name ?? '').trim()) return 'Công thức cần có tên.';
   const steps = ((draft.steps as string[] | undefined) ?? []).map((step) => step.trim()).filter(Boolean);
   const ingredients = ((draft.ingredients as Ingredient[] | undefined) ?? []).filter((item) => item.display_name.trim());
   return { ...draft, name: String(draft.name).trim(), steps, ingredients, ingredient_count: ingredients.length };
@@ -297,11 +298,11 @@ function parseJson(text: string, original: PackRecipe, isNew: boolean): PackReci
   try {
     parsed = JSON.parse(text);
   } catch {
-    return 'This is not valid JSON.';
+    return 'JSON không hợp lệ.';
   }
-  if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return 'A recipe is one JSON object.';
+  if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return 'Một công thức là một đối tượng JSON.';
   const id = String((parsed as PackRecipe).id ?? '').trim();
-  if (!id) return 'The recipe needs an id.';
-  if (!isNew && id !== original.id) return 'The id cannot change. Add a new recipe instead.';
+  if (!id) return 'Công thức cần có id.';
+  if (!isNew && id !== original.id) return 'Không đổi được id. Hãy thêm công thức mới.';
   return { ...(parsed as PackRecipe), id };
 }

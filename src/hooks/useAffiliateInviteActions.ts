@@ -84,7 +84,7 @@ export function useAffiliateInviteActions({
       void run(invite, 'premium', async (token) => {
         const response = await retryAffiliatePremium(invite.id, token, environment);
         onUpdated(response.invite);
-        return { tone: 'info', text: `Premium granted to ${response.invite.claimed_by_email ?? invite.label}.` };
+        return { tone: 'info', text: `Đã cấp Premium cho ${response.invite.claimed_by_email ?? invite.label}.` };
       });
     },
     [environment, onUpdated, run]
@@ -95,29 +95,29 @@ export function useAffiliateInviteActions({
 
 function revokePrompt(invite: AffiliateInvite): string {
   return invite.claimed_by_user_id
-    ? `Revoke the invite for "${invite.label}"? Their code stops working for new friends and their free Premium is taken back. Friends who already used the code still earn them ${invite.commission_percent}%. This is final.`
-    : `Revoke the invite for "${invite.label}"? The link stops working. This is final.`;
+    ? `Thu hồi lời mời của "${invite.label}"? Mã của họ sẽ không dùng được cho bạn bè mới và Premium miễn phí của họ sẽ bị gỡ. Bạn bè đã dùng mã vẫn mang lại cho họ ${invite.commission_percent}%. Không thể hoàn tác.`
+    : `Thu hồi lời mời của "${invite.label}"? Link sẽ ngừng hoạt động. Không thể hoàn tác.`;
 }
 
 function revokeOutcome(invite: AffiliateInvite, response: AffiliateInviteRevokedResponse): ActionMessage {
-  const code = response.disabled_code ? ` Code ${response.disabled_code} no longer works for new friends.` : '';
+  const code = response.disabled_code ? ` Mã ${response.disabled_code} không còn dùng được cho bạn bè mới.` : '';
   if (response.premium === 'failed') {
     return {
       tone: 'warning',
-      text: `Revoked the invite for ${invite.label}.${code} RevenueCat did not take the Premium back; use Revoke again.`,
+      text: `Đã thu hồi lời mời của ${invite.label}.${code} RevenueCat chưa gỡ Premium; hãy bấm Thu hồi lại.`,
     };
   }
-  const premium = response.premium === 'removed' ? ' Premium removed.' : '';
-  return { tone: 'info', text: `Revoked the invite for ${invite.label}.${code}${premium}` };
+  const premium = response.premium === 'removed' ? ' Đã gỡ Premium.' : '';
+  return { tone: 'info', text: `Đã thu hồi lời mời của ${invite.label}.${code}${premium}` };
 }
 
 function actionError(action: AffiliateInviteAction, error: unknown): string {
   const status = error instanceof MealTrackAdminApiError ? error.status : undefined;
   if (action === 'premium' && status === 409 && adminErrorMessage(error) === 'invite_revoked') {
-    return 'This invite is revoked, so it cannot get Premium.';
+    return 'Lời mời này đã bị thu hồi nên không thể cấp Premium.';
   }
   if (action === 'premium' && status === 502) {
-    return 'RevenueCat did not take the Premium grant. Try again later.';
+    return 'RevenueCat chưa nhận lệnh cấp Premium. Hãy thử lại sau.';
   }
   return adminErrorMessage(error);
 }

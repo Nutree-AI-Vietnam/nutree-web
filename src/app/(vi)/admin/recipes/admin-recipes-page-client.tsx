@@ -12,21 +12,21 @@ export function AdminRecipesPageClient() {
   return (
     <ContentPage<PackRecipe>
       current="/admin/recipes"
-      title="Recipe library"
-      description="The recipes people browse and swap in the meal planner, one library per language. Phones get changes on their next check."
+      title="Thư viện công thức"
+      description="Các công thức người dùng xem và đổi trong kế hoạch bữa ăn, mỗi ngôn ngữ một thư viện. Điện thoại nhận thay đổi ở lần kiểm tra tiếp theo."
       icon="catalog"
       packIds={RECIPE_PACKS}
       preferredPackId="recipes_vi"
-      noun={{ one: 'recipe', many: 'recipes' }}
-      packNoun="library"
+      noun={{ one: 'công thức', many: 'công thức' }}
+      packNoun="thư viện"
       releases={{
-        title: 'Recipe libraries',
-        description: 'A language without its own library shows the English (US) one. Upload a library to add a language.',
-        unit: { one: 'language', many: 'languages' },
+        title: 'Thư viện theo ngôn ngữ',
+        description: 'Ngôn ngữ chưa có thư viện riêng sẽ dùng thư viện tiếng Anh (Mỹ). Tải lên một thư viện để thêm ngôn ngữ.',
+        unit: { one: 'ngôn ngữ', many: 'ngôn ngữ' },
       }}
       columns={[
         {
-          label: 'Recipe',
+          label: 'Công thức',
           render: (recipe) => (
             <div className="flex items-center gap-3">
               {recipe.image_url ? (
@@ -37,23 +37,23 @@ export function AdminRecipesPageClient() {
                   <Icon name="catalog" className="h-4 w-4" />
                 </span>
               )}
-              <span className="font-medium text-slate-900">{recipe.name || 'Untitled'}</span>
+              <span className="font-medium text-slate-900">{recipe.name || 'Chưa đặt tên'}</span>
             </div>
           ),
         },
         {
-          label: 'Meals',
+          label: 'Bữa ăn',
           render: (recipe) => (
             <div className="flex flex-wrap gap-1">
               {(recipe.meal_types ?? []).map((meal) => (
-                <Badge key={meal}>{meal}</Badge>
+                <Badge key={meal}>{({ breakfast: 'Sáng', lunch: 'Trưa', dinner: 'Tối', snack: 'Ăn vặt' } as Record<string, string>)[meal] ?? meal}</Badge>
               ))}
             </div>
           ),
         },
         { label: 'kcal', align: 'right', render: (recipe) => recipe.calories ?? '—' },
         {
-          label: 'P / C / F',
+          label: 'Đạm / Tinh bột / Béo',
           align: 'right',
           render: (recipe) => {
             const macros = (recipe.macros as Record<string, number> | undefined) ?? {};

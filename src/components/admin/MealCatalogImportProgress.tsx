@@ -6,7 +6,7 @@ export type MealCatalogWorkflowStep = {
 
 export function MealCatalogImportProgress({ steps }: { steps: MealCatalogWorkflowStep[] }) {
   return (
-    <ol className="grid gap-2 rounded-xl border border-slate-200 bg-slate-50 p-3 sm:grid-cols-5" aria-label="Catalog import workflow">
+    <ol className="grid gap-2 rounded-xl border border-slate-200 bg-slate-50 p-3 sm:grid-cols-5" aria-label="Quy trình nhập danh mục">
       {steps.map((step, index) => (
         <li key={step.label} className="flex min-w-0 items-start gap-2">
           <span className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-semibold ${stepStyle(step.status)}`}>

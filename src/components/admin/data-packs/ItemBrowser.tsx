@@ -58,7 +58,7 @@ export function ItemBrowser<T extends PackItem>({
       <div className="flex flex-wrap items-center gap-3 border-b border-slate-100 px-5 py-4">
         {packIds.length > 1 && (
           <select
-            aria-label="Language"
+            aria-label="Ngôn ngữ"
             className="h-9 rounded-lg border border-slate-200 bg-white px-3 text-sm"
             value={packId}
             onChange={(event) => onPackChange(event.target.value)}
@@ -79,30 +79,30 @@ export function ItemBrowser<T extends PackItem>({
         >
           <Icon name="search" className="pointer-events-none absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
           <input
-            aria-label={`Search ${noun.many}`}
+            aria-label={`Tìm ${noun.many}`}
             className={`${inputClass} pl-9`}
-            placeholder={`Search ${noun.many} by name, then press Enter`}
+            placeholder={`Tìm ${noun.many} theo tên rồi nhấn Enter`}
             value={query}
             onChange={(event) => setQuery(event.target.value)}
           />
         </form>
-        {data && <Badge>Version {data.version}</Badge>}
+        {data && <Badge>Phiên bản {data.version}</Badge>}
         <Button variant="primary" icon="plus" onClick={onAdd} disabled={!isPublished}>
-          Add {noun.one}
+          Thêm {noun.one}
         </Button>
       </div>
 
       {!isPublished ? (
-        <EmptyState icon={icon} title={packIds.length > 1 ? `No ${packLabel(packId)} ${noun.many} here yet` : `No ${noun.many} here yet`}>
-          <p>Set it up under Versions & releases first.</p>
+        <EmptyState icon={icon} title={packIds.length > 1 ? `Chưa có ${noun.many} ${packLabel(packId)} ở đây` : `Chưa có ${noun.many} ở đây`}>
+          <p>Hãy thiết lập ở tab “Phiên bản & phát hành” trước.</p>
           <Button size="sm" className="mt-3" onClick={onSetUp}>
-            Go to Versions & releases
+            Tới Phiên bản & phát hành
           </Button>
         </EmptyState>
       ) : isLoading && !data ? (
-        <EmptyState icon="refresh" title={`Loading ${noun.many}…`} />
+        <EmptyState icon="refresh" title={`Đang tải ${noun.many}…`} />
       ) : !data || data.items.length === 0 ? (
-        <EmptyState icon="search" title={`No ${noun.many} match`} />
+        <EmptyState icon="search" title={`Không có ${noun.many} phù hợp`} />
       ) : (
         <>
           <div className="overflow-x-auto">
@@ -133,14 +133,14 @@ export function ItemBrowser<T extends PackItem>({
           </div>
           <div className="flex items-center justify-between border-t border-slate-100 px-5 py-3 text-xs text-slate-500">
             <span>
-              {page * pageSize + 1}–{Math.min((page + 1) * pageSize, total)} of {total.toLocaleString('en-US')}
+              {page * pageSize + 1}–{Math.min((page + 1) * pageSize, total)} / {total.toLocaleString('vi-VN')}
             </span>
             <div className="flex gap-2">
               <Button size="sm" disabled={page === 0} onClick={() => onPage(page - 1)}>
-                Previous
+                Trước
               </Button>
               <Button size="sm" disabled={page + 1 >= pages} onClick={() => onPage(page + 1)}>
-                Next
+                Sau
               </Button>
             </div>
           </div>

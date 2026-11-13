@@ -21,7 +21,7 @@ export function MealCatalogPagination({
 }: MealCatalogPaginationProps) {
   return (
     <div className="flex items-center justify-between gap-3 text-sm text-slate-500">
-      <p>{isLoading ? 'Loading catalog...' : `Showing ${visibleStart}-${visibleEnd} of ${total}`}</p>
+      <p>{isLoading ? 'Đang tải...' : `Hiển thị ${visibleStart}–${visibleEnd} / ${total}`}</p>
       <div className="flex items-center gap-2">
         <button
           type="button"
@@ -29,7 +29,7 @@ export function MealCatalogPagination({
           onClick={onPrevious}
           className="h-9 border border-slate-200 bg-white px-3 font-semibold text-slate-900 disabled:text-slate-400 rounded-lg"
         >
-          Prev
+          Trước
         </button>
         <span className="min-w-20 text-center">
           {page + 1} / {totalPages}
@@ -40,7 +40,7 @@ export function MealCatalogPagination({
           onClick={onNext}
           className="h-9 border border-slate-200 bg-white px-3 font-semibold text-slate-900 disabled:text-slate-400 rounded-lg"
         >
-          Next
+          Sau
         </button>
       </div>
     </div>

@@ -17,7 +17,7 @@ const PAGE_SIZE = 25;
 export interface EditorProps<T extends PackItem> {
   item: T | null;
   isNew: boolean;
-  /** "Vietnamese library · saving creates version 4 in testing" */
+  /** "thư viện Tiếng Việt · lưu sẽ tạo phiên bản 4 trên SIT" */
   description: string;
   isProd: boolean;
   isBusy: boolean;
@@ -35,7 +35,7 @@ interface Props<T extends PackItem> {
   /** The pack to open first, when it is published. */
   preferredPackId?: string;
   noun: { one: string; many: string };
-  /** What a pack is called: "library", "database", "catalog". */
+  /** What a pack is called: "thư viện", "cơ sở dữ liệu", "danh mục". */
   packNoun: string;
   releases: { title: string; description: string; unit: { one: string; many: string } };
   columns: ItemColumn<T>[];
@@ -106,10 +106,10 @@ export function ContentPage<T extends PackItem>(props: Props<T>) {
   }, [tab, environment, getValidToken, isPreviewMode, session, packId, isPublished, query, page, reloadKey, packs.data]);
 
   const base = items?.pack_id === packId ? items.version : packs.versionOf(packId);
-  const where = packs.isProd ? 'live for users' : 'in testing';
-  const name = packIds.length > 1 ? `${packLabel(packId)} ${packNoun}` : packLabel(packId);
+  const where = packs.isProd ? 'đã tới người dùng' : 'đang trên SIT';
+  const name = packIds.length > 1 ? `${packNoun} ${packLabel(packId)}` : packLabel(packId);
   const change = async (verb: string, item: T, action: (token: string) => Promise<unknown>) => {
-    const ok = await packs.run(packId, action, `${verb} “${itemName(item) || noun.one}”. ${name} version ${base + 1} is now ${where}.`);
+    const ok = await packs.run(packId, action, `${verb} “${itemName(item) || noun.one}”. Phiên bản ${base + 1} của ${name} ${where}.`);
     if (ok) setEditing(null);
   };
 
@@ -121,7 +121,7 @@ export function ContentPage<T extends PackItem>(props: Props<T>) {
       description={description}
       actions={
         <Button icon="refresh" onClick={packs.reload} isBusy={packs.isLoading && !packs.error}>
-          Refresh
+          Làm mới
         </Button>
       }
       toolbar={
@@ -129,8 +129,8 @@ export function ContentPage<T extends PackItem>(props: Props<T>) {
           value={tab}
           onChange={setTab}
           items={[
-            { value: 'versions', label: 'Versions & releases' },
-            { value: 'edit', label: `Edit ${noun.many}` },
+            { value: 'versions', label: 'Phiên bản & phát hành' },
+            { value: 'edit', label: `Sửa ${noun.many}` },
             ...extraTabs.map(({ value, label }) => ({ value, label })),
           ]}
         />
@@ -142,9 +142,9 @@ export function ContentPage<T extends PackItem>(props: Props<T>) {
       ) : (
         <>
           {packs.message && (
-            <AdminBanner tone={packs.message.tone} title={packs.message.tone === 'error' ? 'That did not work' : 'Saved'} message={packs.message.text} />
+            <AdminBanner tone={packs.message.tone} title={packs.message.tone === 'error' ? 'Không thực hiện được' : 'Đã lưu'} message={packs.message.text} />
           )}
-          {loadError && <AdminBanner tone="error" title={`Could not load ${noun.many}`} message={loadError} />}
+          {loadError && <AdminBanner tone="error" title={`Không tải được ${noun.many}`} message={loadError} />}
           <ItemBrowser<T>
             noun={noun}
             icon={icon}
@@ -176,12 +176,12 @@ export function ContentPage<T extends PackItem>(props: Props<T>) {
       {editor({
         item: editing?.item ?? null,
         isNew: editing?.isNew ?? false,
-        description: `${name} · saving creates version ${base + 1} ${packs.isProd ? 'for users' : 'in testing'}`,
+        description: `${name} · lưu sẽ tạo phiên bản ${base + 1} ${packs.isProd ? 'cho người dùng' : 'trên SIT'}`,
         isProd: packs.isProd,
         isBusy: packs.busy !== null,
         onClose: () => setEditing(null),
-        onSave: (item) => void change('Saved', item, (token) => savePackItem(packId, item, base, token, environment)),
-        onDelete: (item) => void change('Removed', item, (token) => deletePackItem(packId, item.id, base, token, environment)),
+        onSave: (item) => void change('Đã lưu', item, (token) => savePackItem(packId, item, base, token, environment)),
+        onDelete: (item) => void change('Đã xoá', item, (token) => deletePackItem(packId, item.id, base, token, environment)),
       })}
     </AdminPageShell>
   );

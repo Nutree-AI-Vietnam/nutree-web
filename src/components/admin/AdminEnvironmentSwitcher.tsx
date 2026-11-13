@@ -18,13 +18,13 @@ export function AdminEnvironmentSwitcher({ environment, isProxyEnabled, onChange
   const [isConfirmingProd, setIsConfirmingProd] = useState(false);
 
   if (!isProxyEnabled) {
-    return <span className="text-xs text-slate-400">Target switch needs the admin proxy</span>;
+    return <span className="text-xs text-slate-400">Cần bật admin proxy để đổi môi trường</span>;
   }
 
   if (isConfirmingProd && environment !== 'prod') {
     return (
-      <div role="alertdialog" aria-label="Switch to PROD" className="flex items-center gap-2 rounded-lg bg-rose-50 py-1 pl-3 pr-1 ring-1 ring-rose-200">
-        <span className="text-xs font-medium text-rose-800">Switch to PROD (live data)?</span>
+      <div role="alertdialog" aria-label="Chuyển sang PROD" className="flex items-center gap-2 rounded-lg bg-rose-50 py-1 pl-3 pr-1 ring-1 ring-rose-200">
+        <span className="text-xs font-medium text-rose-800">Chuyển sang PROD (dữ liệu thật)?</span>
         <button
           type="button"
           autoFocus
@@ -34,21 +34,21 @@ export function AdminEnvironmentSwitcher({ environment, isProxyEnabled, onChange
           }}
           className="h-7 rounded-md bg-rose-600 px-3 text-xs font-medium text-white hover:bg-rose-700"
         >
-          Switch
+          Chuyển
         </button>
         <button
           type="button"
           onClick={() => setIsConfirmingProd(false)}
           className="h-7 rounded-md px-2 text-xs font-medium text-rose-800 hover:bg-rose-100"
         >
-          Cancel
+          Huỷ
         </button>
       </div>
     );
   }
 
   return (
-    <div className="inline-flex rounded-lg bg-slate-100 p-0.5" role="group" aria-label="Target environment">
+    <div className="inline-flex rounded-lg bg-slate-100 p-0.5" role="group" aria-label="Môi trường">
       <Segment active={environment === 'sit'} onClick={() => onChange('sit')} tone="sit">
         SIT
       </Segment>

@@ -11,23 +11,23 @@ import type { AdminSession } from '@/hooks/useAdminSession';
 
 const NAV: { group: string; pages: { href: AdminPageHref; label: string; icon: IconName }[] }[] = [
   {
-    group: 'Recipes',
+    group: 'Công thức',
     pages: [
-      { href: '/admin/recipes', label: 'Recipe library', icon: 'catalog' },
-      { href: '/admin/meal-catalog', label: 'Meal catalog', icon: 'package' },
+      { href: '/admin/recipes', label: 'Thư viện công thức', icon: 'catalog' },
+      { href: '/admin/meal-catalog', label: 'Danh mục món ăn', icon: 'package' },
     ],
   },
   {
-    group: 'Foods',
-    pages: [{ href: '/admin/foods', label: 'Food database', icon: 'globe' }],
+    group: 'Thực phẩm',
+    pages: [{ href: '/admin/foods', label: 'Cơ sở dữ liệu thực phẩm', icon: 'globe' }],
   },
   {
-    group: 'Supplements',
-    pages: [{ href: '/admin/supplement-catalog', label: 'Supplement catalog', icon: 'pill' }],
+    group: 'Thực phẩm chức năng',
+    pages: [{ href: '/admin/supplement-catalog', label: 'Danh mục TPCN', icon: 'pill' }],
   },
   {
-    group: 'Growth',
-    pages: [{ href: '/admin/affiliate-invites', label: 'Affiliate invites', icon: 'link' }],
+    group: 'Tăng trưởng',
+    pages: [{ href: '/admin/affiliate-invites', label: 'Lời mời cộng tác viên', icon: 'link' }],
   },
 ];
 
@@ -79,12 +79,12 @@ export function AdminPageShell({ admin, current, title, description, toolbar, ac
 
   const isProd = admin.isProxyEnabled && admin.environment === 'prod';
   const targetLabel = admin.isPreviewMode
-    ? 'Preview — no backend'
+    ? 'Xem trước — chưa có backend'
     : !admin.isProxyEnabled
-      ? 'Direct API'
+      ? 'API trực tiếp'
       : isProd
-        ? 'PROD · live data'
-        : 'SIT · test data';
+        ? 'PROD · dữ liệu thật'
+        : 'SIT · dữ liệu thử';
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900 antialiased">
@@ -101,7 +101,7 @@ export function AdminPageShell({ admin, current, title, description, toolbar, ac
           <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500 text-sm font-bold text-slate-900">N</span>
           <div className="leading-tight">
             <p className="text-sm font-semibold text-white">Nutree Admin</p>
-            <p className="text-[11px] text-slate-400">Console</p>
+            <p className="text-[11px] text-slate-400">Quản trị</p>
           </div>
         </div>
         <nav className="flex-1 space-y-6 overflow-y-auto px-3 py-5">
@@ -142,8 +142,8 @@ export function AdminPageShell({ admin, current, title, description, toolbar, ac
               <button
                 type="button"
                 onClick={admin.signOut}
-                title="Sign out"
-                aria-label="Sign out"
+                title="Đăng xuất"
+                aria-label="Đăng xuất"
                 className="rounded-md p-1.5 text-slate-400 hover:bg-white/10 hover:text-white"
               >
                 <Icon name="logout" className="h-4 w-4" />
@@ -153,7 +153,7 @@ export function AdminPageShell({ admin, current, title, description, toolbar, ac
         )}
       </aside>
       {isNavOpen && (
-        <button type="button" aria-label="Close menu" className="fixed inset-0 z-30 bg-slate-900/40 lg:hidden" onClick={() => setIsNavOpen(false)} />
+        <button type="button" aria-label="Đóng menu" className="fixed inset-0 z-30 bg-slate-900/40 lg:hidden" onClick={() => setIsNavOpen(false)} />
       )}
 
       <div className="lg:pl-60">
@@ -162,7 +162,7 @@ export function AdminPageShell({ admin, current, title, description, toolbar, ac
           <div className="flex items-center gap-2">
             <button
               type="button"
-              aria-label="Open menu"
+              aria-label="Mở menu"
               onClick={() => setIsNavOpen(true)}
               className="rounded-md p-1.5 text-slate-500 hover:bg-slate-100 lg:hidden"
             >

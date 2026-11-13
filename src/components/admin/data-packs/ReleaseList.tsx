@@ -41,29 +41,29 @@ export function ReleaseList({ title, description, icon, isProd, packIds, byId, b
               </div>
 
               <dl className="grid grid-cols-3 gap-x-6 text-xs md:w-[300px]">
-                <Stat label="Version" value={current ? String(current.version) : '—'} strong />
-                <Stat label="Size" value={current ? formatSize(current.size) : '—'} />
-                <Stat label="Updated" value={current ? formatRelative(current.published_at) : '—'} />
+                <Stat label="Phiên bản" value={current ? String(current.version) : '—'} strong />
+                <Stat label="Dung lượng" value={current ? formatSize(current.size) : '—'} />
+                <Stat label="Cập nhật" value={current ? formatRelative(current.published_at) : '—'} />
               </dl>
 
               <div className="flex flex-wrap items-center gap-2 md:w-[400px] md:flex-nowrap md:justify-end">
                 {status === 'missing' && (
                   <Button size="sm" icon="refresh" onClick={() => onTrack(packId)} isBusy={isBusy} disabled={isLocked}>
-                    Start tracking
+                    Bắt đầu theo dõi
                   </Button>
                 )}
                 {isProd && pack && (status === 'sit-ahead' || status === 'sit-only') && (
                   <Button size="sm" variant="warning" icon="rocket" onClick={() => onRelease(pack)} isBusy={isBusy} disabled={isLocked}>
-                    Release to users
+                    Phát hành cho người dùng
                   </Button>
                 )}
                 {pack && (pack.current || pack.history.length > 0) && (
                   <Button size="sm" variant="ghost" icon="history" onClick={() => onVersions(pack)} disabled={isLocked}>
-                    Versions
+                    Phiên bản
                   </Button>
                 )}
                 <Button size="sm" variant="ghost" icon="upload" onClick={() => onUpload(packId)} disabled={isLocked}>
-                  Upload new
+                  Tải bản mới
                 </Button>
               </div>
             </li>
@@ -77,13 +77,13 @@ export function ReleaseList({ title, description, icon, isProd, packIds, byId, b
 function describe(status: PackStatus, isProd: boolean): string {
   switch (status) {
     case 'missing':
-      return 'Phones use the original file. Start tracking to manage its versions here.';
+      return 'Điện thoại đang dùng file gốc. Bấm "Bắt đầu theo dõi" để quản lý phiên bản tại đây.';
     case 'sit-only':
-      return 'Tested but not released: users do not have it yet.';
+      return 'Đã thử nghiệm nhưng chưa phát hành: người dùng chưa nhận được.';
     case 'sit-ahead':
-      return 'A newer version is waiting in testing.';
+      return 'Có phiên bản mới đang chờ trong môi trường thử nghiệm.';
     default:
-      return isProd ? 'What users have now.' : 'What test phones have now.';
+      return isProd ? 'Bản người dùng đang dùng.' : 'Bản máy thử đang dùng.';
   }
 }
 
@@ -92,23 +92,23 @@ function StatusBadge({ status, isProd, sitVersion }: { status: PackStatus; isPro
     case 'live':
       return (
         <Badge tone="green" dot>
-          {isProd ? 'Live for users' : 'Live in testing'}
+          {isProd ? 'Đang dùng thật' : 'Đang thử nghiệm'}
         </Badge>
       );
     case 'sit-ahead':
       return (
         <Badge tone="amber" dot>
-          Version {sitVersion} ready in testing
+          Bản {sitVersion} đã sẵn sàng trên SIT
         </Badge>
       );
     case 'sit-only':
       return (
         <Badge tone="violet" dot>
-          Only in testing
+          Chỉ có trên SIT
         </Badge>
       );
     default:
-      return <Badge>Not tracked yet</Badge>;
+      return <Badge>Chưa theo dõi</Badge>;
   }
 }
 

@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { AdminRecipesPageClient } from './admin-recipes-page-client';
 
 export const metadata: Metadata = {
-  title: 'Admin Recipe library | Nutree',
+  title: 'Quản trị thư viện công thức | Nutree',
   robots: {
     index: false,
     follow: false,

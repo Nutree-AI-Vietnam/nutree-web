@@ -15,13 +15,13 @@ export function SupplementNutrientEditor({ values, disabled, onChange }: Props) 
 
   return (
     <div className="grid gap-2">
-      <p className="text-xs font-semibold uppercase text-slate-500">Nutrients per unit</p>
-      {Object.keys(values).length === 0 && <p className="text-sm text-slate-500">No tracked nutrients.</p>}
+      <p className="text-xs font-semibold uppercase text-slate-500">Dưỡng chất mỗi đơn vị</p>
+      {Object.keys(values).length === 0 && <p className="text-sm text-slate-500">Chưa có dưỡng chất nào.</p>}
       {Object.entries(values).map(([key, value]) => (
         <div key={key} className="grid grid-cols-[minmax(0,1fr)_4.5rem_auto_auto] items-center gap-2 text-sm">
           <span className="truncate font-semibold text-slate-900" title={key}>{SUPPLEMENT_NUTRIENT_NAMES[key] ?? key}</span>
           <input
-            aria-label={`${SUPPLEMENT_NUTRIENT_NAMES[key] ?? key} per unit`}
+            aria-label={`${SUPPLEMENT_NUTRIENT_NAMES[key] ?? key} mỗi đơn vị`}
             className="w-full min-w-0 border border-slate-200 bg-white px-2 py-1 text-right tabular-nums rounded-lg"
             disabled={disabled}
             inputMode="decimal"
@@ -30,7 +30,7 @@ export function SupplementNutrientEditor({ values, disabled, onChange }: Props) 
           />
           <span className="text-xs text-slate-500">{SUPPLEMENT_NUTRIENT_UNITS[key] ?? ''}</span>
           <button
-            aria-label={`Remove ${SUPPLEMENT_NUTRIENT_NAMES[key] ?? key}`}
+            aria-label={`Xóa ${SUPPLEMENT_NUTRIENT_NAMES[key] ?? key}`}
             className="px-1 text-sm font-semibold text-slate-500 hover:text-red-700"
             disabled={disabled}
             onClick={() => {
@@ -52,7 +52,7 @@ export function SupplementNutrientEditor({ values, disabled, onChange }: Props) 
             onChange={(event) => setAdding(event.target.value)}
             value={adding}
           >
-            <option value="">Add a nutrient…</option>
+            <option value="">Thêm dưỡng chất…</option>
             {missing.map((key) => (
               <option key={key} value={key}>{SUPPLEMENT_NUTRIENT_NAMES[key] ?? key}</option>
             ))}
@@ -66,7 +66,7 @@ export function SupplementNutrientEditor({ values, disabled, onChange }: Props) 
             }}
             type="button"
           >
-            Add
+            Thêm
           </button>
         </div>
       )}

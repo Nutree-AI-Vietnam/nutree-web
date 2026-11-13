@@ -27,16 +27,16 @@ import type {
 const PAGE_SIZE = 20;
 type QueueView = SupplementReviewKind | 'all' | 'approved';
 const VIEWS: { value: QueueView; label: string }[] = [
-  { value: 'all', label: 'Everything waiting' },
-  { value: 'scan', label: 'Label scans' },
-  { value: 'catalog', label: 'Held-back catalog rows' },
+  { value: 'all', label: 'Tất cả đang chờ' },
+  { value: 'scan', label: 'Ảnh chụp nhãn' },
+  { value: 'catalog', label: 'Sản phẩm bị giữ lại khi nhập' },
   // Live products, to correct one; past doses keep their own amounts.
-  { value: 'approved', label: 'Already in catalog' },
+  { value: 'approved', label: 'Đã có trong danh mục' },
 ];
 const PHOTO_FILTERS: { value: SupplementPhotoFilter; label: string }[] = [
-  { value: 'all', label: 'Any photo' },
-  { value: 'missing', label: 'Missing photo' },
-  { value: 'with', label: 'Has photo' },
+  { value: 'all', label: 'Mọi ảnh' },
+  { value: 'missing', label: 'Thiếu ảnh' },
+  { value: 'with', label: 'Có ảnh' },
 ];
 
 /**
@@ -81,9 +81,9 @@ export function SupplementReviewPanel({ admin, onCatalogChanged }: { admin: Admi
       setActionTone('info');
       setActionMessage(
         result.shared + result.merged === 0
-          ? 'No label scans were ready to add.'
-          : `Added ${result.shared} new product${result.shared === 1 ? '' : 's'} to the catalog and merged ${result.merged} into existing ones.` +
-              (result.skipped ? ` ${result.skipped} still need a look below.` : '')
+          ? 'Không có ảnh chụp nhãn nào sẵn sàng để thêm.'
+          : `Đã thêm ${result.shared} sản phẩm mới vào danh mục và gộp ${result.merged} sản phẩm vào sản phẩm có sẵn.` +
+              (result.skipped ? ` Còn ${result.skipped} mục cần xem bên dưới.` : '')
       );
       reload();
       onCatalogChanged?.();
@@ -186,7 +186,7 @@ export function SupplementReviewPanel({ admin, onCatalogChanged }: { admin: Admi
 
   const handlePhoto = useCallback(
     async (item: SupplementReviewItem, file: File | null) => {
-      if (!file && !window.confirm(`Remove the photo of "${item.name}"? The app shows the plain mark again.`)) return;
+      if (!file && !window.confirm(`Xóa ảnh của "${item.name}"? Ứng dụng sẽ hiện lại biểu tượng mặc định.`)) return;
       setBusy(item.id, true);
       setActionMessage(null);
       try {
@@ -202,7 +202,7 @@ export function SupplementReviewPanel({ admin, onCatalogChanged }: { admin: Admi
         // its unsaved edits) and replaces any fetch read before the change.
         reload();
         setActionTone('info');
-        setActionMessage(file ? `Saved the photo of ${item.name}.` : `Removed the photo of ${item.name}.`);
+        setActionMessage(file ? `Đã lưu ảnh của ${item.name}.` : `Đã xóa ảnh của ${item.name}.`);
       } catch (requestError) {
         setActionTone('error');
         setActionMessage(adminErrorMessage(requestError));
@@ -233,7 +233,7 @@ export function SupplementReviewPanel({ admin, onCatalogChanged }: { admin: Admi
   return (
     <>
       <p className="text-sm text-slate-500">
-        Label scans with a brand and readable nutrients join the catalog on their own within a minute. What stays here: products held back on import, and scans that clash with a product still waiting. Approving adds a product to the catalog as a new version.
+        Ảnh chụp nhãn có thương hiệu và dưỡng chất đọc được sẽ tự vào danh mục trong vòng một phút. Ở lại đây gồm: sản phẩm bị giữ lại khi nhập và ảnh chụp nhãn trùng với một sản phẩm đang chờ. Khi duyệt, sản phẩm được thêm vào danh mục dưới dạng phiên bản mới.
       </p>
       <div className="flex flex-wrap items-center gap-2">
         {VIEWS.map((option) => (
@@ -250,7 +250,7 @@ export function SupplementReviewPanel({ admin, onCatalogChanged }: { admin: Admi
           </button>
         ))}
         <select
-          aria-label="Filter by product photo"
+          aria-label="Lọc theo ảnh sản phẩm"
           value={photo}
           onChange={(event) => {
             setPhoto(event.target.value as SupplementPhotoFilter);
@@ -268,32 +268,32 @@ export function SupplementReviewPanel({ admin, onCatalogChanged }: { admin: Admi
           }}
         >
           <input
-            aria-label="Find by catalog key, name or brand"
+            aria-label="Tìm theo mã danh mục, tên hoặc thương hiệu"
             className="min-w-0 flex-1 border border-slate-200 bg-white px-3 py-2 text-xs sm:w-64 rounded-lg"
             onChange={(event) => setDraftQuery(event.target.value)}
-            placeholder="Catalog key, name or brand"
+            placeholder="Mã danh mục, tên hoặc thương hiệu"
             value={draftQuery}
           />
           {query && (
             <button type="button" onClick={() => search('')} className="border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-500 hover:border-slate-300 rounded-lg">
-              Clear
+              Xóa
             </button>
           )}
         </form>
         <Button size="sm" icon="refresh" onClick={() => void shareNow()} isBusy={isSharing} className="ml-auto">
-          Add ready scans now
+          Thêm ngay ảnh chụp nhãn đã sẵn sàng
         </Button>
       </div>
       {isPreviewMode && (
         <AdminBanner
           tone="warning"
-          title="Backend not configured"
-          message="Set NEXT_PUBLIC_MEALTRACK_API_URL, or enable the admin proxy, to load the review queue."
+          title="Chưa cấu hình backend"
+          message="Hãy đặt NEXT_PUBLIC_MEALTRACK_API_URL hoặc bật admin proxy để tải hàng chờ duyệt."
         />
       )}
-      {error && <AdminBanner tone="error" title="Review queue request failed" message={error} />}
+      {error && <AdminBanner tone="error" title="Không tải được hàng chờ duyệt" message={error} />}
       {actionMessage && (
-        <AdminBanner tone={actionTone} title={actionTone === 'error' ? 'Action failed' : 'Action status'} message={actionMessage} />
+        <AdminBanner tone={actionTone} title={actionTone === 'error' ? 'Thao tác thất bại' : 'Trạng thái thao tác'} message={actionMessage} />
       )}
 
       <MealCatalogPagination
@@ -308,7 +308,7 @@ export function SupplementReviewPanel({ admin, onCatalogChanged }: { admin: Admi
       />
 
       {!isLoading && data.items.length === 0 && !error && (
-        <p className="rounded-xl border border-slate-200 bg-white p-6 text-sm text-slate-500">Nothing is waiting. New label scans are added to the catalog automatically.</p>
+        <p className="rounded-xl border border-slate-200 bg-white p-6 text-sm text-slate-500">Không có mục nào đang chờ. Ảnh chụp nhãn mới được tự động thêm vào danh mục.</p>
       )}
       {data.items.map((item) => (
         <SupplementReviewCard key={`${item.id}:${item.reviewed_at ?? ''}:${item.updated_at ?? ''}`} item={item} isBusy={busyIds.has(item.id)} onReview={(...args) => void handleReview(...args)} onFind={find} onPhoto={(...args) => void handlePhoto(...args)} />
@@ -319,19 +319,19 @@ export function SupplementReviewPanel({ admin, onCatalogChanged }: { admin: Admi
 
 function rejectPrompt(item: SupplementReviewItem): string {
   return item.kind === 'scan'
-    ? `Reject "${item.name}"? It stays on the person's own list but never joins the catalog. This is final.`
-    : `Reject "${item.name}"? It stays hidden from search and barcode lookups, and re-imports will not bring it back. This is final.`;
+    ? `Từ chối "${item.name}"? Sản phẩm vẫn nằm trong danh sách riêng của người dùng nhưng sẽ không vào danh mục. Không thể hoàn tác.`
+    : `Từ chối "${item.name}"? Sản phẩm sẽ bị ẩn khỏi tìm kiếm và tra mã vạch, và nhập lại cũng không đưa nó trở lại. Không thể hoàn tác.`;
 }
 
 function outcomeMessage(item: SupplementReviewItem, action: SupplementReviewAction, mergedInto: string | null): string {
   if (action === 'edit') {
     return item.review_status === 'approved'
-      ? `Saved edits to ${item.name}. Future doses use them; past doses keep their amounts.`
-      : `Saved edits to ${item.name}. It is still waiting for review.`;
+      ? `Đã lưu chỉnh sửa cho ${item.name}. Các liều sau sẽ dùng thông tin mới; liều đã ghi giữ nguyên lượng cũ.`
+      : `Đã lưu chỉnh sửa cho ${item.name}. Sản phẩm vẫn đang chờ duyệt.`;
   }
-  if (action === 'reject') return `Rejected ${item.name}.`;
-  if (mergedInto) return `${item.name} matched a shared product by barcode; the person's list and doses now use that product, and their scan was removed.`;
-  return `Approved ${item.name}. It is now in the shared catalog.`;
+  if (action === 'reject') return `Đã từ chối ${item.name}.`;
+  if (mergedInto) return `${item.name} trùng mã vạch với một sản phẩm trong danh mục; danh sách và các liều của người dùng giờ dùng sản phẩm đó, và ảnh chụp nhãn của họ đã bị xóa.`;
+  return `Đã duyệt ${item.name}. Sản phẩm đã có trong danh mục chung.`;
 }
 
 const emptyData: SupplementReviewListResponse = {

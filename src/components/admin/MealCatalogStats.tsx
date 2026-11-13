@@ -12,10 +12,10 @@ export function MealCatalogStats({ items, total, isPreviewMode }: MealCatalogSta
 
   return (
     <section className="grid gap-3 md:grid-cols-4">
-      <Stat label="Total catalog meals" value={total} />
-      <Stat label="Visible with image" value={visibleWithImage} />
-      <Stat label="Visible missing image" value={visibleMissing} tone="warning" />
-      <Stat label="Data source" value={isPreviewMode ? 'Preview' : 'MealTrack'} textValue />
+      <Stat label="Tổng món ăn trong danh mục" value={total} />
+      <Stat label="Đang hiển thị có ảnh" value={visibleWithImage} />
+      <Stat label="Đang hiển thị thiếu ảnh" value={visibleMissing} tone="warning" />
+      <Stat label="Nguồn dữ liệu" value={isPreviewMode ? 'Dữ liệu mẫu' : 'MealTrack'} textValue />
     </section>
   );
 }

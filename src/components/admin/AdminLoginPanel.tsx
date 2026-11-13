@@ -42,16 +42,16 @@ export function AdminLoginPanel({
           <span className="text-lg font-semibold text-white">Nutree Admin</span>
         </div>
         <div className="rounded-2xl bg-white p-6 shadow-2xl">
-          <h1 className="text-lg font-semibold text-slate-900">Sign in</h1>
-          <p className="mt-1 text-sm text-slate-500">Use a Firebase account on the backend admin allowlist.</p>
+          <h1 className="text-lg font-semibold text-slate-900">Đăng nhập</h1>
+          <p className="mt-1 text-sm text-slate-500">Dùng tài khoản Firebase có trong danh sách admin của backend.</p>
           <div className="mt-4 flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2">
-            <span className="text-xs font-medium text-slate-500">Target</span>
+            <span className="text-xs font-medium text-slate-500">Môi trường</span>
             <AdminEnvironmentSwitcher environment={environment} isProxyEnabled={isProxyEnabled} onChange={onEnvironmentChange} />
           </div>
 
           {!isConfigured && (
             <p className="mt-4 rounded-lg bg-amber-50 px-3 py-2 text-sm text-amber-900 ring-1 ring-inset ring-amber-200">
-              Set the {environment.toUpperCase()} Firebase web API key before signing in.
+              Cần cấu hình {environment.toUpperCase()} Firebase web API key trước khi đăng nhập.
             </p>
           )}
           {error && (
@@ -72,7 +72,7 @@ export function AdminLoginPanel({
               />
             </label>
             <label className="block">
-              <span className="mb-1 block text-xs font-medium text-slate-600">Password</span>
+              <span className="mb-1 block text-xs font-medium text-slate-600">Mật khẩu</span>
               <input
                 autoComplete="current-password"
                 className="h-10 w-full rounded-lg border border-slate-200 px-3 text-sm text-slate-900 outline-none focus:border-slate-400 focus:ring-2 focus:ring-slate-200"
@@ -86,11 +86,11 @@ export function AdminLoginPanel({
               disabled={!isConfigured || isSigningIn}
               type="submit"
             >
-              {isSigningIn ? 'Signing in…' : 'Sign in'}
+              {isSigningIn ? 'Đang đăng nhập…' : 'Đăng nhập'}
             </button>
           </form>
         </div>
-        <p className="mt-4 text-center text-xs text-slate-500">admin.nutreeai.com · staff only</p>
+        <p className="mt-4 text-center text-xs text-slate-500">admin.nutreeai.com · chỉ dành cho nhân viên</p>
       </div>
     </section>
   );

@@ -12,34 +12,34 @@ const SUPPLEMENT_PACKS = packIdsOf('supplements', KNOWN_DATA_PACKS);
 
 const SECTIONS: FormSection[] = [
   {
-    title: 'Product',
+    title: 'Sản phẩm',
     fields: [
-      { key: 'name', label: 'Name', type: 'text', required: true, wide: true },
-      { key: 'brand', label: 'Brand', type: 'text' },
-      { key: 'name_original', label: 'Name on the label', type: 'text', hint: 'If different, e.g. in English.' },
-      { key: 'image_url', label: 'Photo URL', type: 'text', wide: true },
-      { key: 'barcodes', label: 'Barcodes', type: 'list', hint: 'Separate several with commas.' },
+      { key: 'name', label: 'Tên', type: 'text', required: true, wide: true },
+      { key: 'brand', label: 'Thương hiệu', type: 'text' },
+      { key: 'name_original', label: 'Tên in trên nhãn', type: 'text', hint: 'Nếu khác, VD tên tiếng Anh.' },
+      { key: 'image_url', label: 'Link ảnh sản phẩm', type: 'text', wide: true },
+      { key: 'barcodes', label: 'Mã vạch', type: 'list', hint: 'Nhiều mã thì cách nhau bằng dấu phẩy.' },
     ],
   },
   {
-    title: 'Dose',
+    title: 'Liều dùng',
     columns: 3,
     fields: [
-      { key: 'form', label: 'Form', type: 'select', options: SUPPLEMENT_FORMS, required: true },
-      { key: 'unit_label', label: 'Unit', type: 'text', required: true, hint: 'e.g. capsule, ml, scoop' },
-      { key: 'units_per_serving', label: 'Units per serving', type: 'number', required: true },
+      { key: 'form', label: 'Dạng', type: 'select', options: SUPPLEMENT_FORMS, required: true },
+      { key: 'unit_label', label: 'Đơn vị', type: 'text', required: true, hint: 'VD: viên, ml, muỗng' },
+      { key: 'units_per_serving', label: 'Số đơn vị mỗi lần dùng', type: 'number', required: true },
     ],
   },
   {
-    title: 'Nutrients per unit',
-    fields: [{ key: 'nutrients_json', label: 'Amounts', type: 'amounts', hint: 'Keys like vitamin_d or epa_mg, as on the label.' }],
+    title: 'Hoạt chất mỗi đơn vị',
+    fields: [{ key: 'nutrients_json', label: 'Hàm lượng', type: 'amounts', hint: 'Tên như vitamin_d hay epa_mg, theo nhãn.' }],
   },
   {
-    title: 'Where it shows',
+    title: 'Hiển thị',
     fields: [
-      { key: 'sold_in_vn', label: 'Sold in Vietnam', type: 'toggle', hint: 'Ranked first in search for Vietnamese users.' },
-      { key: 'macro_bearing', label: 'Logs as food', type: 'toggle', hint: 'Protein powder, gainer or shake: logged as a meal, not a dose.' },
-      { key: 'popular_rank', label: 'Popular list position', type: 'number', hint: 'Empty keeps it off the popular list.' },
+      { key: 'sold_in_vn', label: 'Có bán ở Việt Nam', type: 'toggle', hint: 'Ưu tiên lên đầu khi người dùng Việt Nam tìm kiếm.' },
+      { key: 'macro_bearing', label: 'Ghi như thực phẩm', type: 'toggle', hint: 'Bột protein, sữa tăng cân, shake: ghi như bữa ăn, không phải liều dùng.' },
+      { key: 'popular_rank', label: 'Vị trí trong mục Hay dùng', type: 'number', hint: 'Để trống thì không hiện trong Hay dùng.' },
     ],
   },
 ];
@@ -48,20 +48,20 @@ export function AdminSupplementCatalogPageClient() {
   return (
     <ContentPage<PackSupplement>
       current="/admin/supplement-catalog"
-      title="Supplement catalog"
-      description="The supplement catalog phones download for search, barcode lookup and the popular list. Good label scans from users join it on their own; edit products here and check what is waiting."
+      title="Danh mục thực phẩm chức năng"
+      description="Danh mục điện thoại tải về để tìm kiếm, quét mã vạch và mục Hay dùng. Ảnh chụp nhãn đạt yêu cầu của người dùng tự vào danh mục; sửa sản phẩm và xem mục đang chờ tại đây."
       icon="pill"
       packIds={SUPPLEMENT_PACKS}
-      noun={{ one: 'product', many: 'products' }}
-      packNoun="catalog"
+      noun={{ one: 'sản phẩm', many: 'sản phẩm' }}
+      packNoun="danh mục"
       releases={{
-        title: 'Catalog file',
-        description: 'One catalog for every language. Test a change first, then release it to users from the PROD target.',
-        unit: { one: 'catalog', many: 'catalogs' },
+        title: 'File danh mục',
+        description: 'Một danh mục cho mọi ngôn ngữ. Thử thay đổi trên SIT trước, rồi phát hành cho người dùng ở PROD.',
+        unit: { one: 'danh mục', many: 'danh mục' },
       }}
       columns={[
         {
-          label: 'Product',
+          label: 'Sản phẩm',
           render: (product) => (
             <div>
               <p className="font-medium text-slate-900">{product.name}</p>
@@ -69,12 +69,12 @@ export function AdminSupplementCatalogPageClient() {
             </div>
           ),
         },
-        { label: 'Form', render: (product) => <Badge>{product.form}</Badge> },
+        { label: 'Dạng', render: (product) => <Badge>{product.form}</Badge> },
         {
-          label: 'In Vietnam',
-          render: (product) => (product.sold_in_vn ? <Badge tone="green">Sold in VN</Badge> : <span className="text-slate-300">—</span>),
+          label: 'Ở Việt Nam',
+          render: (product) => (product.sold_in_vn ? <Badge tone="green">Có bán ở VN</Badge> : <span className="text-slate-300">—</span>),
         },
-        { label: 'Barcodes', align: 'right', render: (product) => product.barcodes.length },
+        { label: 'Mã vạch', align: 'right', render: (product) => product.barcodes.length },
       ]}
       newItem={() =>
         ({
@@ -97,7 +97,7 @@ export function AdminSupplementCatalogPageClient() {
       extraTabs={[
         {
           value: 'review',
-          label: 'Waiting',
+          label: 'Đang chờ',
           render: ({ admin, reloadReleases }) => <SupplementReviewPanel admin={admin} onCatalogChanged={reloadReleases} />,
         },
       ]}
@@ -105,7 +105,7 @@ export function AdminSupplementCatalogPageClient() {
         <FieldFormDrawer
           item={item}
           {...rest}
-          title={(product: PackItem) => String(product.name ?? 'Product')}
+          title={(product: PackItem) => String(product.name ?? 'Sản phẩm')}
           sections={SECTIONS}
           onSave={(product) => rest.onSave(product as PackSupplement)}
           onDelete={(product) => rest.onDelete(product as PackSupplement)}

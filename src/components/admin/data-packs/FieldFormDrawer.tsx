@@ -47,7 +47,7 @@ function Editor({ item, isNew, title, description, sections, isProd, isBusy, onC
     for (const section of sections) {
       for (const field of section.fields) {
         if ('required' in field && field.required && (draft[field.key] === null || draft[field.key] === undefined || draft[field.key] === '')) {
-          setError(`${field.label} is required.`);
+          setError(`Cần nhập ${field.label}.`);
           return;
         }
       }
@@ -60,7 +60,7 @@ function Editor({ item, isNew, title, description, sections, isProd, isBusy, onC
     <Drawer
       open
       width="max-w-2xl"
-      title={isNew ? 'New item' : title(item)}
+      title={isNew ? 'Mục mới' : title(item)}
       description={description}
       onClose={onClose}
       footer={
@@ -68,17 +68,17 @@ function Editor({ item, isNew, title, description, sections, isProd, isBusy, onC
           {!isNew ? (
             confirmDelete ? (
               <div className="flex items-center gap-2">
-                <span className="text-xs text-rose-700">Remove it?</span>
+                <span className="text-xs text-rose-700">Xoá mục này?</span>
                 <Button size="sm" variant="danger" isBusy={isBusy} onClick={() => onDelete(item)}>
-                  Remove
+                  Xoá
                 </Button>
                 <Button size="sm" variant="ghost" onClick={() => setConfirmDelete(false)}>
-                  Keep
+                  Giữ lại
                 </Button>
               </div>
             ) : (
               <Button size="sm" variant="ghost" icon="trash" className="text-rose-600" onClick={() => setConfirmDelete(true)}>
-                Remove
+                Xoá
               </Button>
             )
           ) : (
@@ -86,10 +86,10 @@ function Editor({ item, isNew, title, description, sections, isProd, isBusy, onC
           )}
           <div className="flex gap-2">
             <Button variant="ghost" onClick={onClose}>
-              Cancel
+              Huỷ
             </Button>
             <Button variant={isProd ? 'warning' : 'primary'} icon="check" isBusy={isBusy} onClick={save}>
-              Save and publish
+              Lưu và phát hành
             </Button>
           </div>
         </div>
@@ -177,7 +177,7 @@ function Amounts({ label, hint, value, onChange }: { label: string; hint?: strin
           <div key={key} className="flex items-center gap-2 border-b border-slate-100 px-3 py-1.5 last:border-b-0">
             <span className="min-w-0 flex-1 truncate text-sm text-slate-700">{key.replace(/_/g, ' ')}</span>
             <input
-              aria-label={`${key} amount`}
+              aria-label={`Lượng ${key}`}
               type="number"
               step="any"
               className="h-8 w-24 rounded-md border border-slate-200 px-2 text-right text-sm"
@@ -186,7 +186,7 @@ function Amounts({ label, hint, value, onChange }: { label: string; hint?: strin
             />
             <button
               type="button"
-              aria-label={`Remove ${key}`}
+              aria-label={`Xoá ${key}`}
               className="rounded-md p-1.5 text-slate-400 hover:bg-rose-50 hover:text-rose-600"
               onClick={() => onChange(Object.fromEntries(entries.filter(([other]) => other !== key)))}
             >
@@ -196,8 +196,8 @@ function Amounts({ label, hint, value, onChange }: { label: string; hint?: strin
         ))}
         <div className="flex items-center gap-2 bg-slate-50 px-3 py-1.5">
           <input
-            aria-label="New nutrient key"
-            placeholder="e.g. vitamin_c_mg"
+            aria-label="Tên chất mới"
+            placeholder="VD: vitamin_c_mg"
             className="h-8 min-w-0 flex-1 rounded-md border border-slate-200 bg-white px-2 text-sm"
             value={newKey}
             onChange={(event) => setNewKey(event.target.value)}
@@ -211,7 +211,7 @@ function Amounts({ label, hint, value, onChange }: { label: string; hint?: strin
               setNewKey('');
             }}
           >
-            Add
+            Thêm
           </Button>
         </div>
       </div>

@@ -57,7 +57,7 @@ export function MealCatalogImportWorkspace(props: Props) {
   }
 
   function chooseFile(file: File): void {
-    void file.text().then((text) => updateManifest(text)).catch(() => setInputError('Could not read that file.'));
+    void file.text().then((text) => updateManifest(text)).catch(() => setInputError('Không đọc được tệp này.'));
   }
 
   async function approveCandidate(issue: MealCatalogResolutionIssue, candidate: MealCatalogResolutionCandidate): Promise<void> {
@@ -70,7 +70,7 @@ export function MealCatalogImportWorkspace(props: Props) {
     }
     const nextMap = { ...parsed.resolverMap, [issue.normalized_name]: candidate.food_reference_id };
     updateResolverMap(JSON.stringify(nextMap, null, 2));
-    setMappingMessage(`${candidate.is_verified ? 'Mapped' : 'Verified and mapped'} “${issue.normalized_name}” to ${candidate.name}. Re-run resolve before importing.`);
+    setMappingMessage(`${candidate.is_verified ? 'Đã ánh xạ' : 'Đã xác minh và ánh xạ'} “${issue.normalized_name}” sang ${candidate.name}. Hãy đối chiếu lại trước khi nhập.`);
   }
 
   async function approveExactMatches(
@@ -83,13 +83,13 @@ export function MealCatalogImportWorkspace(props: Props) {
     const uniqueMatches = Array.from(
       new Map(matches.map((match) => [`${match.issue.normalized_name}:${match.candidate.food_reference_id}`, match])).values()
     );
-    if (!window.confirm(`Confirm that you reviewed the ${uniqueMatches.length} exact ingredient matches. This will verify and map them all.`)) return;
+    if (!window.confirm(`Xác nhận bạn đã xem ${uniqueMatches.length} nguyên liệu khớp chính xác. Thao tác này sẽ xác minh và ánh xạ tất cả.`)) return;
     await props.onApproveFoodReferences(uniqueMatches.map((match) => match.candidate.food_reference_id));
     const nextMap = { ...parsed.resolverMap };
     uniqueMatches.forEach(({ issue, candidate }) => { nextMap[issue.normalized_name] = candidate.food_reference_id; });
     updateResolverMap(JSON.stringify(nextMap, null, 2));
     setResolvedRevision(draftRevision + 1);
-    setMappingMessage(`Verified and mapped ${uniqueMatches.length} exact ingredient match${uniqueMatches.length === 1 ? '' : 'es'}. Rechecking the complete manifest now.`);
+    setMappingMessage(`Đã xác minh và ánh xạ ${uniqueMatches.length} nguyên liệu khớp chính xác. Đang kiểm tra lại toàn bộ manifest.`);
     props.onResolve({ ...options, dry_run: false, manifest: parsed.manifest, resolver_map: nextMap });
   }
 
@@ -120,7 +120,7 @@ export function MealCatalogImportWorkspace(props: Props) {
     if (!removedReferences && !removedMappings) return;
     updateManifest(JSON.stringify({ ...parsed.manifest, recipes }, null, 2));
     if (removedMappings) updateResolverMap(JSON.stringify(nextResolverMap, null, 2));
-    setMappingMessage(`Cleared ${removedReferences} pinned ID${removedReferences === 1 ? '' : 's'} and ${removedMappings} blocked mapping${removedMappings === 1 ? '' : 's'}. Resolve ingredients to review verified candidates.`);
+    setMappingMessage(`Đã xóa ${removedReferences} ID được ghim và ${removedMappings} ánh xạ bị chặn. Hãy đối chiếu nguyên liệu để xem các ứng viên đã xác minh.`);
   }
 
   function updateManifest(value: string): void { setManifestText(value); setDraftRevision((value) => value + 1); }
@@ -150,29 +150,29 @@ export function MealCatalogImportWorkspace(props: Props) {
       <MealCatalogImportProgress steps={steps} />
       <div className="grid gap-4 lg:grid-cols-[minmax(0,1.1fr)_minmax(22rem,0.9fr)]">
       <div className="border border-slate-200 bg-white p-4 md:p-5 rounded-xl">
-        <p className="text-xs font-semibold uppercase tracking-wider text-emerald-600">Catalog operations</p>
-        <h2 className="mt-1 text-xl font-semibold">Review and publish a manifest</h2>
-        <p className="mt-1 max-w-xl text-sm text-slate-500">Resolve ingredients, explicitly approve any unverified reference, then preview and publish the exact reviewed manifest.</p>
+        <p className="text-xs font-semibold uppercase tracking-wider text-emerald-600">Thao tác danh mục</p>
+        <h2 className="mt-1 text-xl font-semibold">Duyệt và đăng manifest</h2>
+        <p className="mt-1 max-w-xl text-sm text-slate-500">Đối chiếu nguyên liệu, duyệt rõ từng tham chiếu chưa xác minh, sau đó xem trước và đăng đúng manifest đã duyệt.</p>
         <label className="mt-5 block">
           <span className="mb-1 flex items-center justify-between text-xs font-semibold uppercase text-slate-500">Manifest JSON <FilePicker onFile={chooseFile} /></span>
           <textarea value={manifestText} onChange={(event) => updateManifest(event.target.value)} className="min-h-[22rem] w-full border border-slate-200 bg-slate-50 p-3 font-mono text-xs text-slate-900 outline-none focus:border-slate-400 rounded-xl" spellCheck={false} />
         </label>
         <label className="mt-4 block">
-          <span className="mb-1 block text-xs font-semibold uppercase text-slate-500">Approved resolver map</span>
+          <span className="mb-1 block text-xs font-semibold uppercase text-slate-500">Bảng ánh xạ đã duyệt</span>
           <textarea value={resolverText} onChange={(event) => updateResolverMap(event.target.value)} className="min-h-28 w-full border border-slate-200 bg-slate-50 p-3 font-mono text-xs text-slate-900 outline-none focus:border-slate-400 rounded-xl" spellCheck={false} />
         </label>
         {inputError && <p className="mt-2 text-sm font-semibold text-red-700">{inputError}</p>}
         {mappingMessage && <p className="mt-2 text-sm font-semibold text-slate-900">{mappingMessage}</p>}
         <ImportOptions options={options} onChange={updateOptions} />
-        {!props.isConnected && <p className="mt-4 border border-amber-200 bg-amber-50 p-3 text-sm text-amber-700 rounded-xl">Connect the MealTrack backend to run catalog operations.</p>}
+        {!props.isConnected && <p className="mt-4 border border-amber-200 bg-amber-50 p-3 text-sm text-amber-700 rounded-xl">Kết nối backend MealTrack để thao tác với danh mục.</p>}
         <div className="mt-5 flex flex-wrap gap-2">
-          <ActionButton variant={!props.result || hasPendingMapping || props.lastAction === 'enrich' ? 'primary' : 'secondary'} disabled={!props.isConnected || props.isBusy || !hasManifest} onClick={() => requestAction('resolve')}>Resolve ingredients</ActionButton>
-          <ActionButton variant={canEnrich ? 'primary' : 'secondary'} disabled={!props.isConnected || props.isBusy || !canEnrich} onClick={() => requestAction('enrich')}>Enrich missing names</ActionButton>
-          <ActionButton variant={resolvedCleanly ? 'primary' : 'secondary'} disabled={!props.isConnected || props.isBusy || !resolvedCleanly} onClick={() => requestAction('preview')}>Preview import</ActionButton>
-          <ActionButton variant="danger" disabled={!props.isConnected || props.isBusy || !previewCleanly} onClick={() => { if (window.confirm('Apply this exact reviewed manifest to the meal catalog?')) requestAction('import'); }}>Apply import</ActionButton>
+          <ActionButton variant={!props.result || hasPendingMapping || props.lastAction === 'enrich' ? 'primary' : 'secondary'} disabled={!props.isConnected || props.isBusy || !hasManifest} onClick={() => requestAction('resolve')}>Đối chiếu nguyên liệu</ActionButton>
+          <ActionButton variant={canEnrich ? 'primary' : 'secondary'} disabled={!props.isConnected || props.isBusy || !canEnrich} onClick={() => requestAction('enrich')}>Bổ sung tên còn thiếu</ActionButton>
+          <ActionButton variant={resolvedCleanly ? 'primary' : 'secondary'} disabled={!props.isConnected || props.isBusy || !resolvedCleanly} onClick={() => requestAction('preview')}>Xem trước khi nhập</ActionButton>
+          <ActionButton variant="danger" disabled={!props.isConnected || props.isBusy || !previewCleanly} onClick={() => { if (window.confirm('Áp dụng đúng manifest đã duyệt này vào danh mục món ăn?')) requestAction('import'); }}>Nhập vào danh mục</ActionButton>
         </div>
-        {(props.result?.unverified_references?.length ?? 0) > 0 && <button type="button" disabled={props.isBusy} onClick={removeUnverifiedReferenceIds} className="mt-3 border border-amber-300 px-3 py-2 text-xs font-semibold text-amber-700 hover:bg-amber-50 disabled:cursor-not-allowed disabled:border-slate-200 disabled:text-slate-400 rounded-lg">Clear blocked IDs &amp; mappings, then resolve</button>}
-        <p className="mt-3 text-xs text-slate-500">Publish stays locked until the current JSON and resolver map complete a clean preview.</p>
+        {(props.result?.unverified_references?.length ?? 0) > 0 && <button type="button" disabled={props.isBusy} onClick={removeUnverifiedReferenceIds} className="mt-3 border border-amber-300 px-3 py-2 text-xs font-semibold text-amber-700 hover:bg-amber-50 disabled:cursor-not-allowed disabled:border-slate-200 disabled:text-slate-400 rounded-lg">Xóa ID bị chặn &amp; ánh xạ, rồi đối chiếu</button>}
+        <p className="mt-3 text-xs text-slate-500">Nút đăng sẽ bị khóa cho đến khi JSON và bảng ánh xạ hiện tại xem trước không có lỗi.</p>
       </div>
       <MealCatalogImportResults enrichment={props.enrichment} error={props.error} isBusy={props.isBusy} result={props.result} selectedMappings={'error' in parsed ? {} : parsed.resolverMap} onApproveCandidate={approveCandidate} onApproveExactMatches={approveExactMatches} />
       </div>
@@ -181,18 +181,18 @@ export function MealCatalogImportWorkspace(props: Props) {
 }
 
 function FilePicker({ onFile }: { onFile: (file: File) => void }) {
-  return <label className="cursor-pointer border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-900 hover:border-slate-300 rounded-lg">Load file<input className="sr-only" type="file" accept="application/json,.json" onChange={(event) => event.target.files?.[0] && onFile(event.target.files[0])} /></label>;
+  return <label className="cursor-pointer border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-900 hover:border-slate-300 rounded-lg">Tải tệp lên<input className="sr-only" type="file" accept="application/json,.json" onChange={(event) => event.target.files?.[0] && onFile(event.target.files[0])} /></label>;
 }
 
 function ImportOptions({ options, onChange }: { options: MealCatalogImportOptions; onChange: (options: MealCatalogImportOptions) => void }) {
   const update = (patch: Partial<MealCatalogImportOptions>) => onChange({ ...options, ...patch });
   return <div className="mt-4 grid gap-3 border-t border-slate-200 pt-4 sm:grid-cols-2">
-    <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={options.partial} onChange={(event) => update({ partial: event.target.checked })} /> Partial import</label>
-    <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={options.skip_exact_cuisine_count} onChange={(event) => update({ skip_exact_cuisine_count: event.target.checked })} /> Skip exact cuisine counts</label>
-    <NumberField label="Expected recipes" value={options.expected_recipe_count} onChange={(value) => update({ expected_recipe_count: value })} />
-    <NumberField label="Fuzzy threshold" value={options.auto_resolve_threshold ?? 0} min={0} max={1} step={0.01} onChange={(value) => update({ auto_resolve_threshold: value })} />
-    <NumberField label="Min per cuisine/type" value={options.min_per_cuisine_meal_type} onChange={(value) => update({ min_per_cuisine_meal_type: value })} />
-    <label className="flex items-center gap-2 text-sm sm:col-span-2"><input type="checkbox" checked={options.resolve_all_best_effort} onChange={(event) => update({ resolve_all_best_effort: event.target.checked })} /> Best-effort resolution <span className="text-xs text-slate-500">(requires careful review)</span></label>
+    <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={options.partial} onChange={(event) => update({ partial: event.target.checked })} /> Nhập một phần</label>
+    <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={options.skip_exact_cuisine_count} onChange={(event) => update({ skip_exact_cuisine_count: event.target.checked })} /> Bỏ qua kiểm tra số món theo ẩm thực</label>
+    <NumberField label="Số công thức dự kiến" value={options.expected_recipe_count} onChange={(value) => update({ expected_recipe_count: value })} />
+    <NumberField label="Ngưỡng khớp gần đúng" value={options.auto_resolve_threshold ?? 0} min={0} max={1} step={0.01} onChange={(value) => update({ auto_resolve_threshold: value })} />
+    <NumberField label="Tối thiểu mỗi ẩm thực/bữa" value={options.min_per_cuisine_meal_type} onChange={(value) => update({ min_per_cuisine_meal_type: value })} />
+    <label className="flex items-center gap-2 text-sm sm:col-span-2"><input type="checkbox" checked={options.resolve_all_best_effort} onChange={(event) => update({ resolve_all_best_effort: event.target.checked })} /> Đối chiếu tối đa có thể <span className="text-xs text-slate-500">(cần duyệt kỹ)</span></label>
   </div>;
 }
 
@@ -209,14 +209,14 @@ function parseInputs(manifestText: string, resolverText: string): ParsedManifest
   try {
     const manifest = JSON.parse(manifestText) as Record<string, unknown>;
     const resolverMap = JSON.parse(resolverText) as Record<string, unknown>;
-    if (!resolverMap || Array.isArray(resolverMap) || typeof resolverMap !== 'object') throw new Error('Resolver map must be a JSON object of ingredient names to IDs.');
+    if (!resolverMap || Array.isArray(resolverMap) || typeof resolverMap !== 'object') throw new Error('Bảng ánh xạ phải là đối tượng JSON gồm tên nguyên liệu và ID.');
     const mappedEntries = Object.entries(resolverMap).map(([name, id]) => {
-      if (typeof id !== 'number' || !Number.isInteger(id)) throw new Error(`Resolver ID for “${name}” must be an integer.`);
+      if (typeof id !== 'number' || !Number.isInteger(id)) throw new Error(`ID ánh xạ của “${name}” phải là số nguyên.`);
       return [name, id] as const;
     });
     return { manifest, resolverMap: Object.fromEntries(mappedEntries) };
   } catch (error) {
-    return { error: error instanceof Error ? error.message : 'Invalid JSON.' };
+    return { error: error instanceof Error ? error.message : 'JSON không hợp lệ.' };
   }
 }
 
@@ -229,10 +229,10 @@ const defaultOptions: MealCatalogImportOptions = { partial: true, skip_exact_cui
 function workflowSteps({ hasManifest, lastAction, resultHasBlockers, resolvedCleanly, previewCleanly, hasPendingMapping }: { hasManifest: boolean; lastAction: Props['lastAction']; resultHasBlockers: boolean; resolvedCleanly: boolean; previewCleanly: boolean; hasPendingMapping: boolean }): MealCatalogWorkflowStep[] {
   const reviewStatus = resultHasBlockers ? 'blocked' : hasPendingMapping ? 'current' : resolvedCleanly ? 'complete' : 'pending';
   return [
-    { label: 'Load', detail: hasManifest ? 'Manifest ready' : 'Paste or upload JSON', status: hasManifest ? 'complete' : 'current' },
-    { label: 'Resolve', detail: lastAction === 'resolve' ? 'Resolution report ready' : 'Check ingredient matches', status: lastAction === 'resolve' ? 'complete' : hasManifest ? 'current' : 'pending' },
-    { label: 'Review', detail: resultHasBlockers ? 'Fix blockers or map candidates' : hasPendingMapping ? 'Resolve again after edits' : 'Approve mappings if needed', status: reviewStatus },
-    { label: 'Preview', detail: previewCleanly ? 'Clean preview recorded' : 'Required before publish', status: previewCleanly ? 'complete' : resolvedCleanly ? 'current' : 'pending' },
-    { label: 'Publish', detail: lastAction === 'import' ? 'Catalog updated' : 'Enabled after a clean preview', status: lastAction === 'import' ? 'complete' : previewCleanly ? 'current' : 'pending' },
+    { label: 'Tải lên', detail: hasManifest ? 'Manifest đã sẵn sàng' : 'Dán hoặc tải JSON lên', status: hasManifest ? 'complete' : 'current' },
+    { label: 'Đối chiếu', detail: lastAction === 'resolve' ? 'Đã có báo cáo đối chiếu' : 'Kiểm tra nguyên liệu khớp', status: lastAction === 'resolve' ? 'complete' : hasManifest ? 'current' : 'pending' },
+    { label: 'Duyệt', detail: resultHasBlockers ? 'Sửa lỗi chặn hoặc ánh xạ ứng viên' : hasPendingMapping ? 'Đối chiếu lại sau khi sửa' : 'Duyệt ánh xạ nếu cần', status: reviewStatus },
+    { label: 'Xem trước', detail: previewCleanly ? 'Xem trước không có lỗi' : 'Bắt buộc trước khi đăng', status: previewCleanly ? 'complete' : resolvedCleanly ? 'current' : 'pending' },
+    { label: 'Đăng', detail: lastAction === 'import' ? 'Đã cập nhật danh mục' : 'Mở sau khi xem trước không lỗi', status: lastAction === 'import' ? 'complete' : previewCleanly ? 'current' : 'pending' },
   ];
 }

@@ -164,14 +164,14 @@ export function Drawer({
   if (!open) return null;
   return (
     <div className="fixed inset-0 z-50 flex justify-end">
-      <button type="button" aria-label="Close" className="absolute inset-0 bg-slate-900/30" onClick={onClose} />
+      <button type="button" aria-label="Đóng" className="absolute inset-0 bg-slate-900/30" onClick={onClose} />
       <aside role="dialog" aria-modal="true" className={cn('relative flex h-full w-full flex-col bg-white shadow-2xl', width)}>
         <header className="flex items-start justify-between gap-4 border-b border-slate-100 px-6 py-4">
           <div className="min-w-0">
             <h2 className="truncate text-base font-semibold text-slate-900">{title}</h2>
             {description && <p className="mt-0.5 text-xs text-slate-500">{description}</p>}
           </div>
-          <Button variant="ghost" size="sm" icon="close" onClick={onClose} aria-label="Close panel" />
+          <Button variant="ghost" size="sm" icon="close" onClick={onClose} aria-label="Đóng" />
         </header>
         <div className="flex-1 overflow-y-auto px-6 py-5">{children}</div>
         {footer && <footer className="border-t border-slate-100 bg-slate-50/70 px-6 py-3">{footer}</footer>}
@@ -197,11 +197,11 @@ export function Modal({
   if (!open) return null;
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <button type="button" aria-label="Close" className="absolute inset-0 bg-slate-900/40" onClick={onClose} />
+      <button type="button" aria-label="Đóng" className="absolute inset-0 bg-slate-900/40" onClick={onClose} />
       <div role="dialog" aria-modal="true" className="relative w-full max-w-lg rounded-2xl bg-white shadow-2xl">
         <header className="flex items-center justify-between border-b border-slate-100 px-5 py-4">
           <h2 className="text-base font-semibold text-slate-900">{title}</h2>
-          <Button variant="ghost" size="sm" icon="close" onClick={onClose} aria-label="Close dialog" />
+          <Button variant="ghost" size="sm" icon="close" onClick={onClose} aria-label="Đóng" />
         </header>
         <div className="px-5 py-4">{children}</div>
         {footer && <footer className="flex justify-end gap-2 border-t border-slate-100 px-5 py-3">{footer}</footer>}

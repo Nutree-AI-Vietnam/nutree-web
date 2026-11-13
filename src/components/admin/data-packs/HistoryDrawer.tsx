@@ -17,8 +17,8 @@ export function HistoryDrawer({ pack, isBusy, onClose, onRollback }: Props) {
   return (
     <Drawer
       open={pack !== null}
-      title={pack ? `Versions · ${packLabel(pack.pack_id)}` : ''}
-      description="Restoring an older version publishes its content again as a new version, so every phone picks it up."
+      title={pack ? `Phiên bản · ${packLabel(pack.pack_id)}` : ''}
+      description="Khôi phục bản cũ sẽ phát hành lại nội dung đó thành một phiên bản mới, để mọi điện thoại đều nhận được."
       onClose={onClose}
     >
       <ol className="relative space-y-1 border-l border-slate-200 pl-5">
@@ -36,8 +36,8 @@ export function HistoryDrawer({ pack, isBusy, onClose, onRollback }: Props) {
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
                   <div className="flex items-center gap-2">
-                    <p className="text-sm font-semibold text-slate-900">Version {entry.version}</p>
-                    {isCurrent && <Badge tone="green">In use</Badge>}
+                    <p className="text-sm font-semibold text-slate-900">Phiên bản {entry.version}</p>
+                    {isCurrent && <Badge tone="green">Đang dùng</Badge>}
                   </div>
                   <p className="mt-0.5 text-sm text-slate-600">{friendlyNote(entry.note)}</p>
                   <p className="mt-1 text-[11px] text-slate-400">
@@ -46,7 +46,7 @@ export function HistoryDrawer({ pack, isBusy, onClose, onRollback }: Props) {
                 </div>
                 {!isCurrent && pack && (
                   <Button size="sm" icon="history" disabled={isBusy} onClick={() => onRollback(pack, entry)}>
-                    Restore
+                    Khôi phục
                   </Button>
                 )}
               </div>

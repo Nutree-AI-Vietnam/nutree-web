@@ -34,28 +34,28 @@ export function ReleaseWorkspace({ packs, packIds, title, description, icon, uni
     .filter((value): value is string => Boolean(value))
     .sort()
     .at(-1);
-  const count = (n: number) => `${n} ${n === 1 ? unit.one : unit.many}`;
+  const count = (n: number) => `${n} ${unit.many}`;
 
   return (
     <>
-      {packs.error && <AdminBanner tone="error" title="Could not load" message={packs.error} />}
+      {packs.error && <AdminBanner tone="error" title="Không tải được dữ liệu" message={packs.error} />}
       {packs.message && (
-        <AdminBanner tone={packs.message.tone} title={packs.message.tone === 'error' ? 'That did not work' : 'Done'} message={packs.message.text} />
+        <AdminBanner tone={packs.message.tone} title={packs.message.tone === 'error' ? 'Không thực hiện được' : 'Đã xong'} message={packs.message.text} />
       )}
 
       {packIds.length > 0 && (
         <div className="grid gap-3 sm:grid-cols-3">
           <Summary
-            label={isProd ? 'Live for users' : 'Live in testing'}
-            value={`${live} of ${packIds.length}`}
-            hint={lastUpdate ? `Last change ${formatRelative(lastUpdate)}` : 'Nothing published yet'}
+            label={isProd ? 'Đang dùng thật' : 'Đang thử nghiệm'}
+            value={`${live} / ${packIds.length}`}
+            hint={lastUpdate ? `Thay đổi gần nhất ${formatRelative(lastUpdate)}` : 'Chưa phát hành gì'}
           />
           {isProd ? (
-            <Summary label="Ready to release" value={String(waiting)} hint={waiting ? `${count(waiting)} tested and waiting` : 'Users have everything tested'} tone={waiting ? 'amber' : 'neutral'} />
+            <Summary label="Chờ phát hành" value={String(waiting)} hint={waiting ? `${count(waiting)} đã thử nghiệm, đang chờ` : 'Người dùng đã có mọi bản đã thử'} tone={waiting ? 'amber' : 'neutral'} />
           ) : (
-            <Summary label="You are in testing" value="Safe" hint="Changes here reach test phones only" tone="blue" />
+            <Summary label="Bạn đang ở môi trường thử" value="An toàn" hint="Thay đổi ở đây chỉ tới máy thử" tone="blue" />
           )}
-          <Summary label="Not tracked yet" value={String(missing)} hint={missing ? 'Start tracking to manage versions' : `Every ${unit.one} has versions`} />
+          <Summary label="Chưa theo dõi" value={String(missing)} hint={missing ? 'Bấm "Bắt đầu theo dõi" để quản lý phiên bản' : `Mọi ${unit.one} đều đã có phiên bản`} />
         </div>
       )}
 

@@ -54,10 +54,10 @@ export function useDataPacks(admin: AdminSession, reloadKey: number) {
 
   const byId = useMemo(() => new Map(data.packs.map((pack) => [pack.pack_id, pack])), [data]);
   const isProd = data.channel === 'prod';
-  const where = isProd ? 'live for users' : 'in testing';
+  const where = isProd ? 'đã tới người dùng' : 'đang trên SIT';
   const reach = isProd
-    ? 'Phones pick it up within a few hours.'
-    : 'Test phones pick it up within a few hours. Release it to users from the PROD target when it looks right.';
+    ? 'Điện thoại sẽ nhận trong vài giờ.'
+    : 'Máy thử sẽ nhận trong vài giờ. Khi ổn, chuyển sang PROD để phát hành cho người dùng.';
   const versionOf = useCallback((packId: string) => byId.get(packId)?.current?.version ?? 0, [byId]);
   const reload = useCallback(() => setLocalReload((value) => value + 1), []);
 
@@ -96,25 +96,25 @@ export function useDataPacks(admin: AdminSession, reloadKey: number) {
       run(
         packId,
         (token) => uploadDataPack(packId, file, note, versionOf(packId), token, environment),
-        `${packLabel(packId)}: version ${versionOf(packId) + 1} is now ${where}. ${reach}`
+        `${packLabel(packId)}: phiên bản ${versionOf(packId) + 1} ${where}. ${reach}`
       ),
     restore: (pack: DataPack, entry: DataPackEntry) =>
       run(
         pack.pack_id,
         (token) => rollbackDataPack(pack.pack_id, entry.version, pack.current?.version ?? 0, token, environment),
-        `${packLabel(pack.pack_id)}: restored the content of version ${entry.version}. ${reach}`
+        `${packLabel(pack.pack_id)}: đã khôi phục nội dung phiên bản ${entry.version}. ${reach}`
       ),
     release: (pack: DataPack) =>
       run(
         pack.pack_id,
         (token) => promoteDataPack(pack.pack_id, pack.current?.version ?? 0, token, environment),
-        `${packLabel(pack.pack_id)}: the tested version is now live for users.`
+        `${packLabel(pack.pack_id)}: bản đã thử nghiệm giờ đã tới người dùng.`
       ),
     track: (packId: string) =>
       run(
         packId,
         (token) => adoptLegacyDataPack(packId, token, environment),
-        `${packLabel(packId)}: now tracked as version 1 (the content phones already have).`
+        `${packLabel(packId)}: đã bắt đầu theo dõi, phiên bản 1 là nội dung điện thoại đang dùng.`
       ),
   };
 }
