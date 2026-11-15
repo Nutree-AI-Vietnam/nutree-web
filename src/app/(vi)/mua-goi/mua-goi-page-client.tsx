@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { BankTransferCheckout } from '@/components/sections/BankTransferCheckout';
 import { PricingCard } from '@/components/sections/PricingCard';
+import { PurchaseCheckout } from '@/components/sections/PurchaseCheckout';
 import { appStoreUrl, quizEntryUrl, SITE_CONFIG } from '@/lib/constants';
 import { useLocale } from '@/lib/locale-context';
 import { payPageContent } from '@/lib/pay-page-content';
@@ -16,6 +16,7 @@ export function MuaGoiPageClient({ serverLocale }: { serverLocale: Locale }) {
   const displayLocale = preferenceReady ? locale : serverLocale;
   const copy = payPageContent[displayLocale];
   const showVietQr = displayLocale !== 'en';
+  const momoEnabled = showVietQr && process.env.NEXT_PUBLIC_MOMO_ENABLED === 'true';
   const [isCheckout, setIsCheckout] = useState(false);
 
   // Old /pay?plan=yearly links redirect here and still open checkout. The monthly plan is no longer
@@ -46,7 +47,14 @@ export function MuaGoiPageClient({ serverLocale }: { serverLocale: Locale }) {
       {showVietQr && isCheckout ? (
         <>
           <h1 className="sr-only">{copy.title}</h1>
-          <BankTransferCheckout plan={copy.plan} copy={copy.checkout} onBack={() => showCheckout(false)} />
+          <PurchaseCheckout
+            plan={copy.plan}
+            copy={copy.checkout}
+            momo={copy.momo}
+            momoEnabled={momoEnabled}
+            locale={displayLocale}
+            onBack={() => showCheckout(false)}
+          />
         </>
       ) : (
         <>
@@ -57,12 +65,17 @@ export function MuaGoiPageClient({ serverLocale }: { serverLocale: Locale }) {
             {copy.title}
           </h1>
           {showVietQr ? (
-            <p className="mx-auto mt-4 max-w-xl text-center text-base text-muted md:text-lg">{copy.subtitle}</p>
+            <p className="mx-auto mt-4 max-w-xl text-center text-base text-muted md:text-lg">
+              {momoEnabled ? copy.momo.intro : copy.subtitle}
+            </p>
           ) : null}
           {showVietQr ? (
             <>
               <div className="mt-12">
-                <PricingCard plan={copy.plan} onSelect={() => showCheckout(true)} />
+                <PricingCard
+                  plan={momoEnabled ? { ...copy.plan, cta: copy.momo.choose } : copy.plan}
+                  onSelect={() => showCheckout(true)}
+                />
               </div>
               <p className="mt-6 text-center text-sm text-muted">{copy.footnote}</p>
             </>
