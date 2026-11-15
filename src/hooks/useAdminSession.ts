@@ -7,6 +7,13 @@ import {
   isMealTrackAdminProxyEnabled,
 } from '@/lib/mealtrack-admin-api';
 import {
+  clearAdminSession,
+  readAdminEnvironment,
+  readAdminSession,
+  writeAdminEnvironment,
+  writeAdminSession,
+} from '@/lib/admin-session-store';
+import {
   type AdminAuthSession,
   FirebaseAdminAuthError,
   refreshAdminSession,
@@ -14,13 +21,8 @@ import {
 } from '@/lib/firebase-admin-auth';
 import type { MealTrackAdminEnvironment } from '@/types/meal-catalog';
 
-// Older builds kept the session here; it is only ever cleared now.
-const LEGACY_SESSION_STORAGE_KEY = 'nutree-admin-auth-session';
-const ENVIRONMENT_STORAGE_KEY = 'nutree-admin-target-environment';
-const ENVIRONMENTS: MealTrackAdminEnvironment[] = ['sit', 'prod'];
-
-// Admin tokens live in memory only, never in web storage: moving between admin
-// pages keeps them, while a reload or a new tab signs in again.
+// Same-tab navigation reads this first. localStorage is the copy that survives
+// a reload, a new tab, and reopening the browser until the user signs out.
 const sessions = new Map<MealTrackAdminEnvironment, AdminAuthSession>();
 
 interface Options {
@@ -46,15 +48,50 @@ export function useAdminSession({ onReset, onReload }: Options = {}) {
   const isProxyEnabled = isMealTrackAdminProxyEnabled();
 
   useEffect(() => {
-    clearLegacySessions();
+    let cancelled = false;
     const restoredEnvironment = readStoredEnvironment();
+    storeEnvironment(restoredEnvironment);
+    setEnvironment(restoredEnvironment);
+
     const restored = readStoredSession(restoredEnvironment);
-    if (restored) {
+    if (!restored) {
+      setIsRestoringSession(false);
+      return;
+    }
+
+    if (Date.now() < restored.expiresAt - 60_000) {
       setSession(restored);
       setLoginEmail(restored.email);
+      setIsRestoringSession(false);
+      return;
     }
-    setEnvironment(restoredEnvironment);
-    setIsRestoringSession(false);
+
+    refreshAdminSession(restored.refreshToken, restoredEnvironment)
+      .then((refreshed) => {
+        if (cancelled) return;
+        const nextSession = { ...refreshed, email: restored.email || refreshed.email };
+        storeSession(nextSession, restoredEnvironment);
+        setSession(nextSession);
+        setLoginEmail(nextSession.email);
+      })
+      .catch((error: unknown) => {
+        if (cancelled) return;
+        if (error instanceof FirebaseAdminAuthError) {
+          forgetSession(restoredEnvironment);
+          setLoginEmail(restored.email);
+          setLoginError('Phiên đăng nhập đã hết. Đăng nhập lại.');
+          return;
+        }
+        setSession(restored);
+        setLoginEmail(restored.email);
+      })
+      .finally(() => {
+        if (!cancelled) setIsRestoringSession(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const getValidToken = useCallback(async (): Promise<string> => {
@@ -96,7 +133,7 @@ export function useAdminSession({ onReset, onReload }: Options = {}) {
   }, [environment, loginEmail, loginPassword, onReload]);
 
   const signOut = useCallback(() => {
-    sessions.delete(environment);
+    forgetSession(environment);
     setSession(null);
     onReset?.();
   }, [environment, onReset]);
@@ -104,7 +141,7 @@ export function useAdminSession({ onReset, onReload }: Options = {}) {
   const changeEnvironment = useCallback((nextEnvironment: MealTrackAdminEnvironment) => {
     // AdminEnvironmentSwitcher asks before PROD, on the page.
     if (nextEnvironment === environment) return;
-    sessionStorage.setItem(ENVIRONMENT_STORAGE_KEY, nextEnvironment);
+    storeEnvironment(nextEnvironment);
     const restoredSession = readStoredSession(nextEnvironment);
     setEnvironment(nextEnvironment);
     setSession(restoredSession);
@@ -146,23 +183,49 @@ export function adminErrorMessage(error: unknown): string {
 }
 
 function readStoredSession(environment: MealTrackAdminEnvironment): AdminAuthSession | null {
-  return sessions.get(environment) ?? null;
+  const cached = sessions.get(environment);
+  if (cached) return cached;
+  const storages = browserStorages();
+  const stored = readAdminSession(environment, storages);
+  if (!stored) return null;
+  sessions.set(environment, stored);
+  const [primary] = storages;
+  if (primary) writeAdminSession(environment, stored, primary);
+  return stored;
 }
 
 function storeSession(session: AdminAuthSession, environment: MealTrackAdminEnvironment): void {
   sessions.set(environment, session);
+  const [primary] = browserStorages();
+  if (primary) writeAdminSession(environment, session, primary);
 }
 
-function clearLegacySessions(): void {
-  try {
-    for (const environment of ENVIRONMENTS) {
-      sessionStorage.removeItem(`${LEGACY_SESSION_STORAGE_KEY}:${environment}`);
-    }
-  } catch {
-    // Storage blocked: nothing was stored there either.
-  }
+function forgetSession(environment: MealTrackAdminEnvironment): void {
+  sessions.delete(environment);
+  clearAdminSession(environment, browserStorages());
 }
 
 function readStoredEnvironment(): MealTrackAdminEnvironment {
-  return sessionStorage.getItem(ENVIRONMENT_STORAGE_KEY) === 'prod' ? 'prod' : 'sit';
+  return readAdminEnvironment(browserStorages());
+}
+
+function storeEnvironment(environment: MealTrackAdminEnvironment): void {
+  const [primary] = browserStorages();
+  if (primary) writeAdminEnvironment(environment, primary);
+}
+
+function browserStorages(): Storage[] {
+  if (typeof window === 'undefined') return [];
+  return [window.localStorage, window.sessionStorage].filter(isUsableStorage);
+}
+
+function isUsableStorage(storage: Storage): boolean {
+  try {
+    const key = '__nutree_admin_storage__';
+    storage.setItem(key, '1');
+    storage.removeItem(key);
+    return true;
+  } catch {
+    return false;
+  }
 }
