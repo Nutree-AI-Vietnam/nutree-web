@@ -10,8 +10,6 @@ interface BankTransferCheckoutProps {
   plan: PayPlanCopy;
   copy: PayCheckoutCopy;
   onBack: () => void;
-  /** The parent checkout already shows Back when the buyer can switch to MoMo. */
-  hideBack?: boolean;
 }
 
 function CopyRow({
@@ -76,23 +74,21 @@ function CopyRow({
   );
 }
 
-export function BankTransferCheckout({ plan, copy, onBack, hideBack = false }: BankTransferCheckoutProps) {
+export function BankTransferCheckout({ plan, copy, onBack }: BankTransferCheckoutProps) {
   const amount = formatVnd(PAY_AMOUNTS[plan.id]);
 
   return (
     <section className="mx-auto max-w-xl">
-      {hideBack ? null : (
-        <button
-          type="button"
-          onClick={onBack}
-          className="mb-6 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-primary-forest transition-colors hover:text-primary-teal focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-teal focus-visible:ring-offset-2"
-        >
-          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" className="h-4 w-4">
-            <path d="M16 10H4m5 5-5-5 5-5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-          {copy.back}
-        </button>
-      )}
+      <button
+        type="button"
+        onClick={onBack}
+        className="mb-6 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-primary-forest transition-colors hover:text-primary-teal focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-teal focus-visible:ring-offset-2"
+      >
+        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" className="h-4 w-4">
+          <path d="M16 10H4m5 5-5-5 5-5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+        {copy.back}
+      </button>
 
       <h2 className="font-display text-2xl font-extrabold text-primary-forest md:text-3xl">{copy.title}</h2>
       <p className="mt-2 text-muted">{copy.scanHint}</p>
