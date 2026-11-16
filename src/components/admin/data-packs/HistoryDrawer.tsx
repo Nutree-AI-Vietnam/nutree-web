@@ -1,14 +1,36 @@
 'use client';
 
 import { Badge, Button, Drawer } from '@/components/admin/ui/AdminUi';
-import { formatDate, formatSize, friendlyNote, packLabel } from '@/components/admin/data-packs/pack-meta';
+import {
+  formatDate,
+  formatSize,
+  friendlyNote,
+  mobilePackObjectPrefix,
+  packLabel,
+} from '@/components/admin/data-packs/pack-meta';
 import type { DataPack, DataPackEntry } from '@/types/data-pack-admin';
+import { DATA_PACK_CDN_ORIGIN } from '@/types/data-pack-admin';
 
 interface Props {
   pack: DataPack | null;
   isBusy: boolean;
   onClose: () => void;
   onRollback: (pack: DataPack, entry: DataPackEntry) => void;
+}
+
+/** Public CDN URL for a pack object path (mobile_packs layout or legacy packs/). */
+function packCdnUrl(path: string): string {
+  if (path.startsWith('mobile_packs/')) {
+    return `${DATA_PACK_CDN_ORIGIN}/${path}`;
+  }
+  if (
+    path.startsWith('foods/') ||
+    path.startsWith('recipes/') ||
+    path.startsWith('supplements/')
+  ) {
+    return `${DATA_PACK_CDN_ORIGIN}/mobile_packs/${path}`;
+  }
+  return `${DATA_PACK_CDN_ORIGIN}/packs/${path}`;
 }
 
 /** Versions of one pack on this channel, newest first, with rollback. */
@@ -42,6 +64,13 @@ export function HistoryDrawer({ pack, isBusy, onClose, onRollback }: Props) {
                   <p className="mt-0.5 text-sm text-slate-600">{friendlyNote(entry.note)}</p>
                   <p className="mt-1 text-[11px] text-slate-400">
                     {formatDate(entry.published_at)} · {formatSize(entry.size)}
+                  </p>
+                  <p className="mt-1 break-all font-mono text-[10px] text-slate-400">
+                    {entry.path
+                      ? packCdnUrl(entry.path)
+                      : pack
+                        ? `${DATA_PACK_CDN_ORIGIN}/${mobilePackObjectPrefix(pack.pack_id)}`
+                        : null}
                   </p>
                 </div>
                 {!isCurrent && pack && (

@@ -58,7 +58,7 @@ export function promoteDataPack(
   });
 }
 
-/** One time: lists the pack's pre-manifest file as version 1. */
+/** One time: adopt a legacy v1/ or recipes/v1/ file as version 1 on the channel. */
 export function adoptLegacyDataPack(
   packId: string,
   token: string,
