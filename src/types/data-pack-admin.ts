@@ -69,7 +69,19 @@ export interface PackSupplement extends PackItem {
   image_url: string | null;
 }
 
-/** Every pack the app reads; the manifest may not list all of them yet. */
+/**
+ * Every pack the phone catalog reads.
+ * Layout on the public food-packs CDN (next app release):
+ *   mobile_packs/manifest.json
+ *   mobile_packs/recipes/<code>/<version>-<hash>.sqlite.gz
+ *   mobile_packs/foods/<code>/<version>-<hash>.sqlite.gz
+ *   mobile_packs/supplements/<version>-<hash>.sqlite.gz
+ * Legacy installs still use packs/, v1/, and recipes/v1/.
+ */
+export const DATA_PACK_CDN_ORIGIN =
+  'https://pub-b66d05049d224555a2942d7e35458ecc.r2.dev';
+export const MOBILE_PACKS_MANIFEST_URL = `${DATA_PACK_CDN_ORIGIN}/mobile_packs/manifest.json`;
+
 export const KNOWN_DATA_PACKS = [
   'recipes_en',
   'recipes_en_AU',
@@ -81,5 +93,11 @@ export const KNOWN_DATA_PACKS = [
   'recipes_vi',
   'food_vi',
   'food_en',
+  'food_en_AU',
+  'food_en_GB',
+  'food_en_CA',
+  'food_de',
+  'food_es',
+  'food_ko',
   'supplements',
 ] as const;

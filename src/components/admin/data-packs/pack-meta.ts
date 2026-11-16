@@ -12,9 +12,27 @@ const LABELS: Record<string, string> = {
   recipes_ko: 'Tiếng Hàn',
   recipes_vi: 'Tiếng Việt',
   food_vi: 'Tiếng Việt',
-  food_en: 'Tiếng Anh',
+  food_en: 'Tiếng Anh · Mỹ và các nước khác',
+  food_en_AU: 'Tiếng Anh · Úc',
+  food_en_GB: 'Tiếng Anh · Anh',
+  food_en_CA: 'Tiếng Anh · Canada',
+  food_de: 'Tiếng Đức',
+  food_es: 'Tiếng Tây Ban Nha',
+  food_ko: 'Tiếng Hàn',
   supplements: 'Danh mục TPCN',
 };
+
+/** R2 object path under mobile_packs/ for a pack id (next-app layout). */
+export function mobilePackObjectPrefix(packId: string): string {
+  if (packId === 'supplements') return 'mobile_packs/supplements/';
+  if (packId.startsWith('recipes_')) {
+    return `mobile_packs/recipes/${packId.slice('recipes_'.length)}/`;
+  }
+  if (packId.startsWith('food_')) {
+    return `mobile_packs/foods/${packId.slice('food_'.length)}/`;
+  }
+  return `mobile_packs/${packId}/`;
+}
 
 export function packKind(packId: string): PackKind {
   if (packId.startsWith('recipes_')) return 'recipes';
