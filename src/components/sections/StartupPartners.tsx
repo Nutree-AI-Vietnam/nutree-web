@@ -8,6 +8,14 @@ import { useLocale } from '@/lib/locale-context';
 // sit next to the partner name; wide wordmarks render alone at their own ratio.
 const partners = [
   {
+    name: 'AWS Startups',
+    href: 'https://aws.amazon.com/startups/',
+    logo: '/partners/aws.svg',
+    width: 240,
+    height: 150,
+    wideClass: 'w-20',
+  },
+  {
     name: 'Anthropic',
     href: 'https://claude.com/programs/startups',
     logo: '/partners/anthropic.svg',
@@ -85,7 +93,7 @@ export function StartupPartners() {
         ref={ref}
         data-paused={isInView ? undefined : true}
         className="marquee"
-        style={{ '--gap': '3.5rem', '--marquee-duration': '40s' } as React.CSSProperties}
+        style={{ '--gap': '3.5rem', '--marquee-duration': '46s' } as React.CSSProperties}
       >
         {[0, 1].map((copy) => (
           <ul key={copy} aria-hidden={copy === 1 || undefined} className="marquee-track items-center py-2">
