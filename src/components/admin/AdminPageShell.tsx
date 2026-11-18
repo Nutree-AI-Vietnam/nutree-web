@@ -27,7 +27,10 @@ const NAV: { group: string; pages: { href: AdminPageHref; label: string; icon: I
   },
   {
     group: 'Tăng trưởng',
-    pages: [{ href: '/admin/affiliate-invites', label: 'Lời mời cộng tác viên', icon: 'link' }],
+    pages: [
+      { href: '/admin/affiliate-invites', label: 'Lời mời cộng tác viên', icon: 'link' },
+      { href: '/admin/premium-grant', label: 'Cấp Premium', icon: 'check' },
+    ],
   },
 ];
 
@@ -36,7 +39,8 @@ export type AdminPageHref =
   | '/admin/meal-catalog'
   | '/admin/foods'
   | '/admin/supplement-catalog'
-  | '/admin/affiliate-invites';
+  | '/admin/affiliate-invites'
+  | '/admin/premium-grant';
 
 interface Props {
   admin: AdminSession;
