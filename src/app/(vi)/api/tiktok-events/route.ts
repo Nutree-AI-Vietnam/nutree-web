@@ -83,7 +83,11 @@ export async function POST(request: NextRequest) {
     cache: 'no-store',
   });
 
-  const result = await response.json().catch(() => null);
+  const result = (await response.json().catch(() => null)) as {
+    code?: number;
+    message?: string;
+    request_id?: string;
+  } | null;
 
   if (!response.ok || result?.code !== 0) {
     console.error('TikTok Events API rejected an event', {

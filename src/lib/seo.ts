@@ -76,7 +76,9 @@ export function createPageMetadata({
       alternates: {
         ...(path && { canonical: path }),
         ...(languages && { languages }),
-        ...(feed && { types: { 'application/rss+xml': [feed] } }),
+        // A string URL. vinext resolves alternate targets with String methods, so the
+        // { url, title } form crashes the English blog, whose metadata is static.
+        ...(feed && { types: { 'application/rss+xml': feed.url } }),
       },
     }),
     openGraph: article

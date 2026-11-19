@@ -1,3 +1,6 @@
+import { createRequire } from 'node:module';
+
+const require = createRequire(import.meta.url);
 const withPostHog = require('@posthog/nextjs-config').withPostHogConfig;
 
 const hasPostHogSourceMapConfig =
@@ -5,7 +8,6 @@ const hasPostHogSourceMapConfig =
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'standalone',
   // Blog picture sources are only read by the image scripts, so keep them out of the server bundles.
   outputFileTracingExcludes: {
     '*': ['content/blog/images/**'],
@@ -49,9 +51,18 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ['framer-motion'],
   },
+  // Public values pulled from the Vercel project. A build without those env vars
+  // still points the admin proxy at the same hosts. Secrets stay out of this file.
+  env: {
+    MEALTRACK_PROD_API_URL: process.env.MEALTRACK_PROD_API_URL || 'https://api.nutreeai.com/',
+    MEALTRACK_SIT_API_URL: process.env.MEALTRACK_SIT_API_URL || 'https://mealtrack-backend-main.onrender.com',
+    NEXT_PUBLIC_MEALTRACK_API_URL:
+      process.env.NEXT_PUBLIC_MEALTRACK_API_URL || 'https://mealtrack-backend-main.onrender.com',
+    NEXT_PUBLIC_MEALTRACK_ADMIN_USE_PROXY: process.env.NEXT_PUBLIC_MEALTRACK_ADMIN_USE_PROXY || 'true',
+  },
 };
 
-module.exports = hasPostHogSourceMapConfig
+export default hasPostHogSourceMapConfig
   ? withPostHog(nextConfig, {
       personalApiKey: process.env.POSTHOG_PERSONAL_API_KEY,
       envId: process.env.POSTHOG_ENV_ID,
