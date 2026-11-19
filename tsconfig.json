@@ -15,9 +15,11 @@
     "incremental": true,
     "plugins": [{ "name": "next" }],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "nutree-blog-source": ["./src/lib/blog-source.ts"],
+      "nutree-blog-render": ["./src/lib/blog-render.ts"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "src/nutree-blog-files.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", ".cloudflare/types/**/*.ts"],
   "exclude": ["node_modules"]
 }

@@ -1,6 +1,5 @@
-import fs from 'node:fs';
-import path from 'node:path';
 import { parse as parseYaml } from 'yaml';
+import { listMdxFileNames, readMdxFile, readPublicImage } from 'nutree-blog-source';
 import { BLOG_CATEGORIES, getCategory, type BlogCategory } from './blog-categories';
 import {
   BLOG_LOCALES,
@@ -9,7 +8,6 @@ import {
   otherLocale,
   type BlogLocale,
 } from './blog-locales';
-import { getImageSize } from './image-size';
 
 /**
  * Vietnamese articles live in content/blog/<slug>.mdx and English ones in content/blog/en/<slug>.mdx;
@@ -111,7 +109,7 @@ function loadPosts(): PostsByLocale {
   for (const locale of BLOG_LOCALE_LIST) {
     const { contentDir } = BLOG_LOCALES[locale];
     const parsed: ParsedFile[] = [];
-    for (const fileName of listPostFiles(contentDir)) {
+    for (const fileName of listMdxFileNames(contentDir)) {
       const file = `${contentDir}/${fileName}`;
       const result = parsePostFile(locale, fileName);
       if (result.errors.length > 0) {
@@ -302,28 +300,6 @@ export function toIsoDateTime(date: string): string {
   return `${date}T00:00:00+07:00`;
 }
 
-/**
- * Every language's posts live under this folder. Next bundles the files a server function may read by
- * following the paths written in this module, so the literal root must come first: joining
- * process.cwd() with a variable folder pulled the whole repo (node_modules and the build cache) into
- * the blog functions, past Vercel's 250 MB limit.
- */
-const BLOG_CONTENT_ROOT = path.join(process.cwd(), 'content', 'blog');
-
-/** Absolute path of a language's contentDir, which is relative to the repo root. */
-function contentDirPath(contentDir: string): string {
-  return path.join(BLOG_CONTENT_ROOT, path.relative(path.join('content', 'blog'), contentDir));
-}
-
-function listPostFiles(contentDir: string): string[] {
-  const dir = contentDirPath(contentDir);
-  if (!fs.existsSync(dir)) return [];
-  return fs
-    .readdirSync(dir)
-    .filter((fileName) => fileName.endsWith('.mdx'))
-    .sort();
-}
-
 function parsePostFile(
   locale: BlogLocale,
   fileName: string
@@ -344,7 +320,7 @@ function parsePostFile(
     errors.push(`"${slug}" is reserved by a blog route; choose another file name`);
   }
 
-  const raw = fs.readFileSync(path.join(contentDirPath(config.contentDir), fileName), 'utf8').replace(/^\uFEFF/, '');
+  const raw = readMdxFile(config.contentDir, fileName);
   const match = /^---\r?\n([\s\S]*?)\r?\n---[ \t]*(?:\r?\n|$)/.exec(raw);
   if (!match) {
     errors.push('file must start with a YAML frontmatter block between two "---" lines');
@@ -609,26 +585,24 @@ function readImageFile(folders: string[], src: unknown, label: string, errors: s
     );
     return undefined;
   }
-  const file = path.join(process.cwd(), 'public', src);
-  if (!fs.existsSync(file)) {
+  const file = readPublicImage(src);
+  if (file.status === 'missing') {
     errors.push(`${label} ${src} does not exist; save it as public${src}`);
     return undefined;
   }
-  const data = fs.readFileSync(file);
-  const size = getImageSize(data);
-  if (!size) {
+  if (file.status === 'unreadable') {
     errors.push(`${label} ${src} is not a readable JPEG, PNG or WebP image`);
     return undefined;
   }
-  if (size.width < MIN_IMAGE_WIDTH) {
-    errors.push(`${label} ${src} is ${size.width} px wide; images must be at least ${MIN_IMAGE_WIDTH} px wide`);
+  if (file.width < MIN_IMAGE_WIDTH) {
+    errors.push(`${label} ${src} is ${file.width} px wide; images must be at least ${MIN_IMAGE_WIDTH} px wide`);
   }
-  if (data.length > MAX_IMAGE_BYTES) {
+  if (file.byteLength > MAX_IMAGE_BYTES) {
     errors.push(
-      `${label} ${src} is ${Math.round(data.length / 1024)} KB; keep images under ${MAX_IMAGE_BYTES / 1024} KB (npm run blog:image compresses them)`
+      `${label} ${src} is ${Math.round(file.byteLength / 1024)} KB; keep images under ${MAX_IMAGE_BYTES / 1024} KB (npm run blog:image compresses them)`
     );
   }
-  return { src, ...size };
+  return { src, width: file.width, height: file.height };
 }
 
 function readAltText(value: unknown, label: string, errors: string[]): string | undefined {
