@@ -7,6 +7,7 @@ import { MealCatalogFilters } from '@/components/admin/MealCatalogFilters';
 import { MealCatalogPagination } from '@/components/admin/MealCatalogPagination';
 import { MealCatalogStats } from '@/components/admin/MealCatalogStats';
 import { MealCatalogTable } from '@/components/admin/MealCatalogTable';
+import { MealCatalogEditor } from '@/components/admin/MealCatalogEditor';
 import { MealCatalogImportWorkspace } from '@/components/admin/MealCatalogImportWorkspace';
 import { adminErrorMessage as toErrorMessage, useAdminSession } from '@/hooks/useAdminSession';
 import {
@@ -16,6 +17,8 @@ import {
   importMealCatalogManifest,
   approveMealCatalogFoodReference,
   resolveMealCatalogManifest,
+  updateMealCatalog,
+  type MealCatalogUpdate,
 } from '@/lib/mealtrack-admin-api';
 import type {
   HasImageFilter,
@@ -43,6 +46,8 @@ export function AdminMealCatalogPageClient() {
   const [error, setError] = useState<string | null>(null);
   const [actionMessage, setActionMessage] = useState<string | null>(null);
   const [generatingId, setGeneratingId] = useState<string | null>(null);
+  const [editing, setEditing] = useState<MealCatalogItem | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
   const [activeView, setActiveView] = useState<'catalog' | 'import'>('catalog');
   const [importResult, setImportResult] = useState<MealCatalogImportResponse | null>(null);
   const [enrichmentResult, setEnrichmentResult] = useState<MealCatalogEnrichmentResponse | null>(null);
@@ -103,24 +108,53 @@ export function AdminMealCatalogPageClient() {
     callback();
   }, []);
 
+  useEffect(() => {
+    const image = new URLSearchParams(window.location.search).get('has_image');
+    if (image === 'true' || image === 'false') setHasImage(image);
+  }, []);
+
   const handleGenerateImage = useCallback(
-    async (item: MealCatalogItem) => {
+    async (item: MealCatalogItem, force = false) => {
+      if (force && !window.confirm(`Tạo lại ảnh cho “${item.name}”? Ảnh hiện tại sẽ bị thay.`)) return;
       setGeneratingId(item.id);
       setActionMessage(null);
       try {
         const token = await getValidToken();
-        const response = await generateMealCatalogImage(item.id, token, environment);
+        const response = await generateMealCatalogImage(item.id, token, environment, force);
         setData((current) => ({
           ...current,
           items: current.items.map((currentItem) =>
             currentItem.id === item.id ? response.item : currentItem
           ),
         }));
-        setActionMessage(`Đã tạo ảnh cho ${item.name}.`);
+        setActionMessage(force ? `Đã tạo lại ảnh cho ${item.name}.` : `Đã tạo ảnh cho ${item.name}.`);
+        setEditing((current) => (current?.id === item.id ? response.item : current));
       } catch (requestError) {
         setActionMessage(toErrorMessage(requestError));
       } finally {
         setGeneratingId(null);
+      }
+    },
+    [environment, getValidToken]
+  );
+
+  const handleSave = useCallback(
+    async (item: MealCatalogItem, changes: MealCatalogUpdate) => {
+      setIsSaving(true);
+      setActionMessage(null);
+      try {
+        const token = await getValidToken();
+        const saved = await updateMealCatalog(item.id, changes, token, environment);
+        setData((current) => ({
+          ...current,
+          items: current.items.map((row) => (row.id === item.id ? saved : row)),
+        }));
+        setEditing(null);
+        setActionMessage(`Đã lưu ${saved.name}. Nhập lại file seed sau này có thể ghi đè tên, bữa ăn và nguyên liệu.`);
+      } catch (requestError) {
+        setActionMessage(toErrorMessage(requestError));
+      } finally {
+        setIsSaving(false);
       }
     },
     [environment, getValidToken]
@@ -200,7 +234,7 @@ export function AdminMealCatalogPageClient() {
       admin={admin}
       current="/admin/meal-catalog"
       title="Danh mục món ăn"
-      description="Xem toàn bộ món ăn trong danh mục, tìm món thiếu ảnh và tạo ảnh khi backend đã sẵn sàng."
+      description="Catalog máy chủ dùng để lập kế hoạch bữa ăn. Thư viện công thức là file điện thoại tải về, và hai bên không tự cập nhật cho nhau. Sửa một món ở đây; nhập lại file seed có thể ghi đè tên, bữa ăn và nguyên liệu."
       toolbar={<>
         <button type="button" onClick={() => setActiveView('catalog')} className={`rounded-lg border px-3 py-2 text-xs font-semibold ${activeView === 'catalog' ? 'border-slate-900 bg-slate-900 text-white' : 'border-slate-200 text-slate-500 hover:border-slate-300'}`}>Xem danh mục</button>
         <button type="button" onClick={() => { setActiveView('import'); setImportError(null); }} className={`rounded-lg border px-3 py-2 text-xs font-semibold ${activeView === 'import' ? 'border-slate-900 bg-slate-900 text-white' : 'border-slate-200 text-slate-500 hover:border-slate-300'}`}>Nhập &amp; đối chiếu</button>
@@ -265,7 +299,9 @@ export function AdminMealCatalogPageClient() {
           generatingId={generatingId}
           isPreviewMode={isPreviewMode}
           onGenerateImage={handleGenerateImage}
+          onEdit={setEditing}
         />
+        <MealCatalogEditor item={editing} isBusy={isSaving} onClose={() => setEditing(null)} onSave={(item, changes) => void handleSave(item, changes)} />
         </>}
     </AdminPageShell>
   );

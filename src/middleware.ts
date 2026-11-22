@@ -11,7 +11,7 @@ import { localePreferenceCookie, readLocaleCookie } from '@/lib/locale-preferenc
 import { pageLanguageDependsOnCookie } from '@/lib/route-locale';
 
 const ADMIN_HOST = 'admin.nutreeai.com';
-const ADMIN_HOME_PATH = '/admin/meal-catalog';
+const ADMIN_HOME_PATH = '/admin';
 const PATHNAME_HEADER = 'x-nutree-pathname';
 
 function hostnameFromRequest(request: NextRequest) {

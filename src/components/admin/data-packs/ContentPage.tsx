@@ -9,7 +9,7 @@ import { packLabel } from '@/components/admin/data-packs/pack-meta';
 import { Button, Tabs, type IconName } from '@/components/admin/ui/AdminUi';
 import { adminErrorMessage, useAdminSession, type AdminSession } from '@/hooks/useAdminSession';
 import { useDataPacks } from '@/hooks/useDataPacks';
-import { deletePackItem, fetchPackItems, savePackItem } from '@/lib/data-pack-admin-api';
+import { applyPackEdits, deletePackItem, fetchPackItems, savePackItem } from '@/lib/data-pack-admin-api';
 import type { PackItem, PackItemListResponse } from '@/types/data-pack-admin';
 
 const PAGE_SIZE = 25;
@@ -79,7 +79,11 @@ export function ContentPage<T extends PackItem>(props: Props<T>) {
   const [isLoadingItems, setIsLoadingItems] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [editing, setEditing] = useState<{ item: T; isNew: boolean } | null>(null);
+  const [batching, setBatching] = useState(false);
+  const [draftSaves, setDraftSaves] = useState<T[]>([]);
+  const [draftDeletes, setDraftDeletes] = useState<string[]>([]);
   const latest = useRef(0);
+  const pending = draftSaves.length + draftDeletes.length;
 
   const isPublished = Boolean(packs.byId.get(packId)?.current);
   useEffect(() => {
@@ -108,9 +112,49 @@ export function ContentPage<T extends PackItem>(props: Props<T>) {
   const base = items?.pack_id === packId ? items.version : packs.versionOf(packId);
   const where = packs.isProd ? 'đã tới người dùng' : 'đang trên SIT';
   const name = packIds.length > 1 ? `${packNoun} ${packLabel(packId)}` : packLabel(packId);
+  const discardDrafts = () => {
+    setDraftSaves([]);
+    setDraftDeletes([]);
+  };
+  const confirmDiscard = () => pending === 0 || window.confirm('Bỏ các sửa chưa phát hành?');
+  const queueSave = (item: T) => {
+    setDraftDeletes((current) => current.filter((id) => id !== item.id));
+    setDraftSaves((current) => [...current.filter((row) => row.id !== item.id), item]);
+    setEditing(null);
+  };
+  const queueDelete = (item: T) => {
+    const onServer = items?.pack_id === packId && items.items.some((row) => row.id === item.id);
+    setDraftSaves((current) => current.filter((row) => row.id !== item.id));
+    if (onServer) {
+      setDraftDeletes((current) => (current.includes(item.id) ? current : [...current, item.id]));
+    }
+    setEditing(null);
+  };
   const change = async (verb: string, item: T, action: (token: string) => Promise<unknown>) => {
     const ok = await packs.run(packId, action, `${verb} “${itemName(item) || noun.one}”. Phiên bản ${base + 1} của ${name} ${where}.`);
     if (ok) setEditing(null);
+  };
+  const visibleItems = (() => {
+    if (!items || items.pack_id !== packId) return null;
+    const removed = new Set(draftDeletes);
+    const saved = new Map(draftSaves.map((item) => [item.id, item]));
+    const pageItems = items.items.filter((item) => !removed.has(item.id)).map((item) => saved.get(item.id) ?? item);
+    const extras = draftSaves.filter((item) => !items.items.some((row) => row.id === item.id) && !removed.has(item.id));
+    return { ...items, items: [...extras, ...pageItems] };
+  })();
+  const publishDraft = async () => {
+    const ok = await packs.run(
+      packId,
+      (token) =>
+        applyPackEdits(
+          packId,
+          { baseVersion: base, saves: draftSaves, deletes: draftDeletes },
+          token,
+          environment
+        ),
+      `Đã phát hành ${pending} thay đổi. Phiên bản ${base + 1} của ${name} ${where}.`
+    );
+    if (ok) discardDrafts();
   };
 
   return (
@@ -145,18 +189,42 @@ export function ContentPage<T extends PackItem>(props: Props<T>) {
             <AdminBanner tone={packs.message.tone} title={packs.message.tone === 'error' ? 'Không thực hiện được' : 'Đã lưu'} message={packs.message.text} />
           )}
           {loadError && <AdminBanner tone="error" title={`Không tải được ${noun.many}`} message={loadError} />}
+          <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3">
+            <label className="flex items-center gap-2 text-sm text-slate-700">
+              <input
+                type="checkbox"
+                checked={batching}
+                onChange={(event) => {
+                  if (!event.target.checked && !confirmDiscard()) return;
+                  if (!event.target.checked) discardDrafts();
+                  setBatching(event.target.checked);
+                }}
+              />
+              Gom nhiều sửa thành một phiên bản
+            </label>
+            {batching && (
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-slate-500">{pending === 0 ? 'Chưa có thay đổi' : `${pending} thay đổi chưa phát hành`}</span>
+                <Button size="sm" variant="primary" icon="rocket" disabled={pending === 0} isBusy={packs.busy !== null} onClick={() => void publishDraft()}>
+                  Phát hành
+                </Button>
+              </div>
+            )}
+          </div>
           <ItemBrowser<T>
             noun={noun}
             icon={icon}
             packIds={packIds}
             packId={packId}
             isPublished={isPublished}
-            data={items?.pack_id === packId ? items : null}
+            data={visibleItems}
             isLoading={isLoadingItems || packs.isLoading}
             page={page}
             pageSize={PAGE_SIZE}
             columns={columns}
             onPackChange={(id) => {
+              if (id === packId || !confirmDiscard()) return;
+              discardDrafts();
               setPackId(id);
               setPage(0);
               setItems(null);
@@ -176,12 +244,14 @@ export function ContentPage<T extends PackItem>(props: Props<T>) {
       {editor({
         item: editing?.item ?? null,
         isNew: editing?.isNew ?? false,
-        description: `${name} · lưu sẽ tạo phiên bản ${base + 1} ${packs.isProd ? 'cho người dùng' : 'trên SIT'}`,
+        description: batching
+          ? `${name} · lưu vào bản nháp, phát hành một lần khi xong`
+          : `${name} · lưu sẽ tạo phiên bản ${base + 1} ${packs.isProd ? 'cho người dùng' : 'trên SIT'}`,
         isProd: packs.isProd,
         isBusy: packs.busy !== null,
         onClose: () => setEditing(null),
-        onSave: (item) => void change('Đã lưu', item, (token) => savePackItem(packId, item, base, token, environment)),
-        onDelete: (item) => void change('Đã xoá', item, (token) => deletePackItem(packId, item.id, base, token, environment)),
+        onSave: (item) => (batching ? queueSave(item) : void change('Đã lưu', item, (token) => savePackItem(packId, item, base, token, environment))),
+        onDelete: (item) => (batching ? queueDelete(item) : void change('Đã xoá', item, (token) => deletePackItem(packId, item.id, base, token, environment))),
       })}
     </AdminPageShell>
   );

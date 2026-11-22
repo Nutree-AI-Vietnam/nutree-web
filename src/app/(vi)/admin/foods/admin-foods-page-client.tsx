@@ -55,7 +55,7 @@ export function AdminFoodsPageClient() {
     <ContentPage<PackFood>
       current="/admin/foods"
       title="Cơ sở dữ liệu thực phẩm"
-      description="Thực phẩm người dùng tìm khi tự ghi bữa ăn, mỗi ngôn ngữ một cơ sở dữ liệu. Điện thoại giữ một bản để tìm offline và nhận thay đổi ở lần kiểm tra tiếp theo."
+      description="Cơ sở dữ liệu thực phẩm điện thoại tải về để tìm khi tự ghi bữa ăn, mỗi ngôn ngữ một file. Đây không phải catalog món ăn máy chủ dùng để lập kế hoạch."
       icon="globe"
       packIds={FOOD_PACKS}
       preferredPackId="food_vi"

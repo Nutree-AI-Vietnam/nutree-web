@@ -83,6 +83,33 @@ export function removeSupplementPhoto(
   });
 }
 
+export interface SupplementImportResult {
+  applied: boolean;
+  received: number;
+  held_back: number;
+  inserted: number;
+  updated: number;
+  unchanged: number;
+  kept_reviewed: number;
+  kept_approved: number;
+  kept_approved_keys: string[];
+  invalid: { record: string; error: string }[];
+  barcode_skips: { catalog_key: string; barcode: string; reason: string }[];
+}
+
+/** Upsert curated records. At most 500 per call; ``dryRun`` writes nothing. */
+export function importSupplements(
+  records: unknown[],
+  dryRun: boolean,
+  token: string,
+  environment: MealTrackAdminEnvironment
+): Promise<SupplementImportResult> {
+  return requestAdminJson('/supplements/import', token, environment, {
+    method: 'POST',
+    body: { records, dry_run: dryRun },
+  });
+}
+
 /** Adds every label scan that is ready to the catalog now (it also runs after scans). */
 export function shareWaitingScans(
   token: string,

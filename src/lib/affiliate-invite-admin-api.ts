@@ -9,11 +9,13 @@ import type {
 } from '@/types/affiliate-invite-admin';
 
 export function fetchAffiliateInvites(
-  params: { limit: number; offset: number },
+  params: { limit: number; offset: number; q?: string; status?: string },
   token: string,
   environment: MealTrackAdminEnvironment
 ): Promise<AffiliateInviteListResponse> {
   const search = new URLSearchParams({ limit: String(params.limit), offset: String(params.offset) });
+  if (params.q?.trim()) search.set('q', params.q.trim());
+  if (params.status && params.status !== 'all') search.set('status', params.status);
   return requestAdminJson(`/affiliate-invites?${search.toString()}`, token, environment);
 }
 

@@ -11,6 +11,10 @@ import type { AdminSession } from '@/hooks/useAdminSession';
 
 const NAV: { group: string; pages: { href: AdminPageHref; label: string; icon: IconName }[] }[] = [
   {
+    group: 'Tổng quan',
+    pages: [{ href: '/admin', label: 'Việc cần làm', icon: 'inbox' }],
+  },
+  {
     group: 'Công thức',
     pages: [
       { href: '/admin/recipes', label: 'Thư viện công thức', icon: 'catalog' },
@@ -30,17 +34,20 @@ const NAV: { group: string; pages: { href: AdminPageHref; label: string; icon: I
     pages: [
       { href: '/admin/affiliate-invites', label: 'Lời mời cộng tác viên', icon: 'link' },
       { href: '/admin/premium-grant', label: 'Cấp Premium', icon: 'check' },
+      { href: '/admin/promo-codes', label: 'Mã khuyến mãi', icon: 'code' },
     ],
   },
 ];
 
 export type AdminPageHref =
+  | '/admin'
   | '/admin/recipes'
   | '/admin/meal-catalog'
   | '/admin/foods'
   | '/admin/supplement-catalog'
   | '/admin/affiliate-invites'
-  | '/admin/premium-grant';
+  | '/admin/premium-grant'
+  | '/admin/promo-codes';
 
 interface Props {
   admin: AdminSession;

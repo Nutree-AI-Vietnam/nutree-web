@@ -8,6 +8,7 @@ import type {
   MealCatalogImportResponse,
   MealCatalogEnrichmentResponse,
   MealCatalogApproveFoodReferenceResponse,
+  MealType,
   MealTrackAdminEnvironment,
 } from '@/types/meal-catalog';
 
@@ -55,14 +56,16 @@ export async function fetchMealCatalog(
 export async function generateMealCatalogImage(
   catalogId: string,
   token: string,
-  environment: MealTrackAdminEnvironment
+  environment: MealTrackAdminEnvironment,
+  force = false
 ): Promise<GenerateMealImageResponse> {
   if (!USE_PROXY && !API_BASE_URL) {
     throw new MealTrackAdminApiError('Preview mode: backend generate endpoint is not configured.');
   }
 
+  const search = force ? '?force=true' : '';
   const response = await fetch(
-    `${adminBasePath()}/meal-catalog/${encodeURIComponent(catalogId)}/generate-image`,
+    `${adminBasePath()}/meal-catalog/${encodeURIComponent(catalogId)}/generate-image${search}`,
     {
       method: 'POST',
       headers: buildHeaders(token, environment),
@@ -74,6 +77,28 @@ export async function generateMealCatalogImage(
   }
 
   return response.json() as Promise<GenerateMealImageResponse>;
+}
+
+export interface MealCatalogUpdate {
+  name?: string;
+  description?: string | null;
+  is_active?: boolean;
+  popularity_rank?: number | null;
+  meal_types?: MealType[];
+  image_url?: string | null;
+}
+
+/** Display edits for one server catalog meal. A later seed import can replace them. */
+export function updateMealCatalog(
+  catalogId: string,
+  changes: MealCatalogUpdate,
+  token: string,
+  environment: MealTrackAdminEnvironment
+): Promise<MealCatalogItem> {
+  return requestAdminJson(`/meal-catalog/${encodeURIComponent(catalogId)}`, token, environment, {
+    method: 'PATCH',
+    body: changes,
+  });
 }
 
 export async function resolveMealCatalogManifest(
@@ -118,7 +143,7 @@ export async function requestAdminJson<T>(
   path: string,
   token: string,
   environment: MealTrackAdminEnvironment,
-  init: { method?: 'GET' | 'POST' | 'PUT' | 'DELETE'; body?: unknown; form?: FormData } = {}
+  init: { method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'; body?: unknown; form?: FormData } = {}
 ): Promise<T> {
   if (!USE_PROXY && !API_BASE_URL) {
     throw new MealTrackAdminApiError('Preview mode: the MealTrack admin API is not configured.');

@@ -13,7 +13,7 @@ export function AdminRecipesPageClient() {
     <ContentPage<PackRecipe>
       current="/admin/recipes"
       title="Thư viện công thức"
-      description="Các công thức người dùng xem và đổi trong kế hoạch bữa ăn, mỗi ngôn ngữ một thư viện. Điện thoại nhận thay đổi ở lần kiểm tra tiếp theo."
+      description="File công thức điện thoại tải về, mỗi ngôn ngữ một thư viện. Danh mục món ăn ở menu bên cạnh là catalog máy chủ dùng để lập kế hoạch, và hai bên không tự cập nhật cho nhau."
       icon="catalog"
       packIds={RECIPE_PACKS}
       preferredPackId="recipes_vi"
