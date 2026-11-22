@@ -95,6 +95,24 @@ export function savePackItem(
   });
 }
 
+/** Several row edits, published as one version. */
+export function applyPackEdits(
+  packId: string,
+  edits: { baseVersion: number; saves: PackItem[]; deletes: string[]; note?: string },
+  token: string,
+  environment: MealTrackAdminEnvironment
+): Promise<DataPackEntry> {
+  return requestAdminJson(`${pack(packId)}/items/batch`, token, environment, {
+    method: 'POST',
+    body: {
+      base_version: edits.baseVersion,
+      saves: edits.saves,
+      deletes: edits.deletes,
+      note: edits.note ?? '',
+    },
+  });
+}
+
 export function deletePackItem(
   packId: string,
   itemId: string,

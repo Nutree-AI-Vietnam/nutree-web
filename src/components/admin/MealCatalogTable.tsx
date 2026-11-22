@@ -5,7 +5,8 @@ interface MealCatalogTableProps {
   items: MealCatalogItem[];
   generatingId: string | null;
   isPreviewMode: boolean;
-  onGenerateImage: (item: MealCatalogItem) => void;
+  onGenerateImage: (item: MealCatalogItem, force: boolean) => void;
+  onEdit: (item: MealCatalogItem) => void;
 }
 
 export function MealCatalogTable({
@@ -13,6 +14,7 @@ export function MealCatalogTable({
   generatingId,
   isPreviewMode,
   onGenerateImage,
+  onEdit,
 }: MealCatalogTableProps) {
   if (items.length === 0) {
     return (
@@ -45,6 +47,7 @@ export function MealCatalogTable({
                 isGenerating={generatingId === item.id}
                 isPreviewMode={isPreviewMode}
                 onGenerateImage={onGenerateImage}
+                onEdit={onEdit}
               />
             ))}
           </tbody>
@@ -59,6 +62,7 @@ export function MealCatalogTable({
             isGenerating={generatingId === item.id}
             isPreviewMode={isPreviewMode}
             onGenerateImage={onGenerateImage}
+            onEdit={onEdit}
           />
         ))}
       </div>
@@ -70,10 +74,11 @@ interface RowProps {
   item: MealCatalogItem;
   isGenerating: boolean;
   isPreviewMode: boolean;
-  onGenerateImage: (item: MealCatalogItem) => void;
+  onGenerateImage: (item: MealCatalogItem, force: boolean) => void;
+  onEdit: (item: MealCatalogItem) => void;
 }
 
-function TableRow({ item, isGenerating, isPreviewMode, onGenerateImage }: RowProps) {
+function TableRow({ item, isGenerating, isPreviewMode, onGenerateImage, onEdit }: RowProps) {
   return (
     <tr className="border-b border-slate-200 last:border-b-0">
       <td className="max-w-[28rem] px-4 py-4 align-top">
@@ -95,18 +100,13 @@ function TableRow({ item, isGenerating, isPreviewMode, onGenerateImage }: RowPro
         <IngredientSummary item={item} />
       </td>
       <td className="px-4 py-4 align-top">
-        <GenerateButton
-          item={item}
-          isGenerating={isGenerating}
-          isPreviewMode={isPreviewMode}
-          onGenerateImage={onGenerateImage}
-        />
+        <RowActions item={item} isGenerating={isGenerating} isPreviewMode={isPreviewMode} onGenerateImage={onGenerateImage} onEdit={onEdit} />
       </td>
     </tr>
   );
 }
 
-function MealCard({ item, isGenerating, isPreviewMode, onGenerateImage }: RowProps) {
+function MealCard({ item, isGenerating, isPreviewMode, onGenerateImage, onEdit }: RowProps) {
   return (
     <article className="border border-slate-200 bg-slate-50 p-3 rounded-xl">
       <div className="flex gap-3">
@@ -123,12 +123,7 @@ function MealCard({ item, isGenerating, isPreviewMode, onGenerateImage }: RowPro
         <IngredientSummary item={item} />
       </div>
       <div className="mt-3">
-        <GenerateButton
-          item={item}
-          isGenerating={isGenerating}
-          isPreviewMode={isPreviewMode}
-          onGenerateImage={onGenerateImage}
-        />
+        <RowActions item={item} isGenerating={isGenerating} isPreviewMode={isPreviewMode} onGenerateImage={onGenerateImage} onEdit={onEdit} />
       </div>
     </article>
   );
@@ -182,16 +177,25 @@ function IngredientSummary({ item }: { item: MealCatalogItem }) {
   );
 }
 
-function GenerateButton({ item, isGenerating, isPreviewMode, onGenerateImage }: RowProps) {
-  const disabled = Boolean(item.image_url) || isGenerating || isPreviewMode;
+function RowActions({ item, isGenerating, isPreviewMode, onGenerateImage, onEdit }: RowProps) {
+  const label = item.image_url ? 'Tạo lại ảnh' : isPreviewMode ? 'Chờ backend' : isGenerating ? 'Đang tạo...' : 'Tạo ảnh';
   return (
-    <button
-      type="button"
-      disabled={disabled}
-      onClick={() => onGenerateImage(item)}
-      className="h-10 min-w-[8.5rem] border border-slate-900 px-3 text-sm font-semibold text-slate-900 transition-colors hover:bg-slate-900 hover:text-white disabled:border-slate-200 disabled:text-slate-400 disabled:hover:bg-transparent rounded-lg"
-    >
-      {item.image_url ? 'Đã có ảnh' : isPreviewMode ? 'Chờ backend' : isGenerating ? 'Đang tạo...' : 'Tạo ảnh'}
-    </button>
+    <div className="flex flex-col items-start gap-2">
+      <button
+        type="button"
+        onClick={() => onEdit(item)}
+        className="h-10 min-w-[8.5rem] border border-slate-200 px-3 text-sm font-semibold text-slate-700 hover:border-slate-300 rounded-lg"
+      >
+        Sửa
+      </button>
+      <button
+        type="button"
+        disabled={isGenerating || isPreviewMode}
+        onClick={() => onGenerateImage(item, Boolean(item.image_url))}
+        className="h-10 min-w-[8.5rem] border border-slate-900 px-3 text-sm font-semibold text-slate-900 transition-colors hover:bg-slate-900 hover:text-white disabled:border-slate-200 disabled:text-slate-400 disabled:hover:bg-transparent rounded-lg"
+      >
+        {label}
+      </button>
+    </div>
   );
 }

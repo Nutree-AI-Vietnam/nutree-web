@@ -100,6 +100,8 @@ export function friendlyNote(note: string): string {
   if (promoted) return `Đã phát hành cho người dùng (bản thử nghiệm ${promoted[1]})`;
   const rollback = note.match(/^rollback to v(\d+)$/);
   if (rollback) return `Đã khôi phục phiên bản ${rollback[1]}`;
+  const batch = note.match(/^edit (\d+) items$/);
+  if (batch) return `Đã sửa ${batch[1]} mục trong một phiên bản`;
   if (note.startsWith('edit ')) return 'Đã sửa một mục';
   if (note.startsWith('delete ')) return 'Đã xoá một mục';
   return note;

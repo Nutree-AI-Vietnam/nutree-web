@@ -3,6 +3,7 @@
 import { ContentPage } from '@/components/admin/data-packs/ContentPage';
 import { FieldFormDrawer, type FormSection } from '@/components/admin/data-packs/FieldFormDrawer';
 import { packIdsOf } from '@/components/admin/data-packs/pack-meta';
+import { SupplementImportPanel } from '@/components/admin/supplements/SupplementImportPanel';
 import { SupplementReviewPanel } from '@/components/admin/supplements/SupplementReviewPanel';
 import { Badge } from '@/components/admin/ui/AdminUi';
 import { KNOWN_DATA_PACKS, type PackItem, type PackSupplement } from '@/types/data-pack-admin';
@@ -49,7 +50,7 @@ export function AdminSupplementCatalogPageClient() {
     <ContentPage<PackSupplement>
       current="/admin/supplement-catalog"
       title="Danh mục thực phẩm chức năng"
-      description="Danh mục điện thoại tải về để tìm kiếm, quét mã vạch và mục Hay dùng. Ảnh chụp nhãn đạt yêu cầu của người dùng tự vào danh mục; sửa sản phẩm và xem mục đang chờ tại đây."
+      description="File danh mục là bản điện thoại tải về. Tab Đang chờ và Nhập file ghi vào catalog máy chủ. Hai kho không tự đồng bộ cho nhau."
       icon="pill"
       packIds={SUPPLEMENT_PACKS}
       noun={{ one: 'sản phẩm', many: 'sản phẩm' }}
@@ -99,6 +100,11 @@ export function AdminSupplementCatalogPageClient() {
           value: 'review',
           label: 'Đang chờ',
           render: ({ admin, reloadReleases }) => <SupplementReviewPanel admin={admin} onCatalogChanged={reloadReleases} />,
+        },
+        {
+          value: 'import',
+          label: 'Nhập file',
+          render: ({ admin, reloadReleases }) => <SupplementImportPanel admin={admin} onImported={reloadReleases} />,
         },
       ]}
       editor={({ item, ...rest }) => (

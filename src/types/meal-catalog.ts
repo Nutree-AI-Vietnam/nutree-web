@@ -17,6 +17,7 @@ export interface MealCatalogItem {
   cuisine: string;
   description: string | null;
   image_url: string | null;
+  popularity_rank?: number | null;
   meal_types: MealType[];
   calories: number;
   protein_g: number;

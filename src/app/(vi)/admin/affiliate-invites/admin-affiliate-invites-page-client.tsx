@@ -17,6 +17,13 @@ import type {
 } from '@/types/affiliate-invite-admin';
 
 const PAGE_SIZE = 50;
+const STATUSES = [
+  { value: 'all', label: 'Mọi trạng thái' },
+  { value: 'open', label: 'Đang mở' },
+  { value: 'claimed', label: 'Đã nhận' },
+  { value: 'expired', label: 'Hết hạn' },
+  { value: 'revoked', label: 'Đã thu hồi' },
+] as const;
 const BANNER_TITLES: Record<ActionMessage['tone'], string> = {
   info: 'Hoàn tất',
   warning: 'Hoàn tất một phần',
@@ -24,6 +31,8 @@ const BANNER_TITLES: Record<ActionMessage['tone'], string> = {
 };
 
 export function AdminAffiliateInvitesPageClient() {
+  const [q, setQ] = useState('');
+  const [status, setStatus] = useState<(typeof STATUSES)[number]['value']>('all');
   const [page, setPage] = useState(0);
   const [reloadKey, setReloadKey] = useState(0);
   const [data, setData] = useState<AffiliateInviteListResponse>(emptyData);
@@ -56,14 +65,18 @@ export function AdminAffiliateInvitesPageClient() {
     setError(null);
     try {
       const token = await getValidToken();
-      const response = await fetchAffiliateInvites({ limit: PAGE_SIZE, offset: page * PAGE_SIZE }, token, environment);
+      const response = await fetchAffiliateInvites(
+        { limit: PAGE_SIZE, offset: page * PAGE_SIZE, q, status },
+        token,
+        environment
+      );
       if (request === latestRequest.current) setData(response);
     } catch (requestError) {
       if (request === latestRequest.current) setError(adminErrorMessage(requestError));
     } finally {
       if (request === latestRequest.current) setIsLoading(false);
     }
-  }, [environment, getValidToken, isPreviewMode, page, session]);
+  }, [environment, getValidToken, isPreviewMode, page, q, session, status]);
 
   useEffect(() => {
     void loadInvites();
@@ -128,6 +141,31 @@ export function AdminAffiliateInvitesPageClient() {
         />
       )}
       <AffiliateInviteForm isBusy={isCreating} isDisabled={isPreviewMode} onCreate={handleCreate} />
+      <div className="flex flex-wrap gap-2">
+        <input
+          className="h-9 max-w-xs rounded-lg border border-slate-200 bg-white px-3 text-sm"
+          placeholder="Tìm theo tên hoặc email"
+          value={q}
+          onChange={(event) => {
+            setPage(0);
+            setQ(event.target.value);
+          }}
+        />
+        <select
+          className="h-9 rounded-lg border border-slate-200 bg-white px-3 text-sm"
+          value={status}
+          onChange={(event) => {
+            setPage(0);
+            setStatus(event.target.value as (typeof STATUSES)[number]['value']);
+          }}
+        >
+          {STATUSES.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+      </div>
       {created && <AffiliateInviteLink label={created.label} link={created.link} onDone={() => setCreated(null)} />}
       {error && <AdminBanner tone="error" title="Không tải được lời mời" message={error} />}
       {message && (
