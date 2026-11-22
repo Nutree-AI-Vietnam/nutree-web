@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { createContext, createElement, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from 'react';
 import {
   MealTrackAdminApiError,
   hasMealTrackApiUrl,
@@ -32,10 +32,48 @@ interface Options {
   onReload?: () => void;
 }
 
-export type AdminSession = ReturnType<typeof useAdminSession>;
+export type AdminSession = {
+  session: AdminAuthSession | null;
+  environment: MealTrackAdminEnvironment;
+  isPreviewMode: boolean;
+  isProxyEnabled: boolean;
+  isRestoringSession: boolean;
+  loginEmail: string;
+  setLoginEmail: (email: string) => void;
+  loginPassword: string;
+  setLoginPassword: (password: string) => void;
+  loginError: string | null;
+  isSigningIn: boolean;
+  getValidToken: () => Promise<string>;
+  signIn: () => Promise<void>;
+  signOut: () => void;
+  changeEnvironment: (environment: MealTrackAdminEnvironment) => void;
+};
 
-/** Admin sign-in, token refresh and SIT/PROD target, shared by every admin page. */
-export function useAdminSession({ onReset, onReload }: Options = {}) {
+type AdminSessionContextValue = AdminSession & {
+  subscribe: (listener: Options) => () => void;
+};
+
+const AdminSessionContext = createContext<AdminSessionContextValue | null>(null);
+
+/**
+ * The one session for the admin layout. Pages read it through `useAdminSession`
+ * so a menu click does not rebuild the sign-in or the sidebar.
+ */
+export function useAdminSessionState(): AdminSessionContextValue {
+  const listeners = useRef(new Set<Options>());
+  const subscribe = useCallback((listener: Options) => {
+    listeners.current.add(listener);
+    return () => {
+      listeners.current.delete(listener);
+    };
+  }, []);
+  const emit = useCallback((kind: 'reset' | 'reload') => {
+    for (const listener of listeners.current) {
+      if (kind === 'reset') listener.onReset?.();
+      else listener.onReload?.();
+    }
+  }, []);
   const [session, setSession] = useState<AdminAuthSession | null>(null);
   const [environment, setEnvironment] = useState<MealTrackAdminEnvironment>('sit');
   const [loginEmail, setLoginEmail] = useState('');
@@ -124,19 +162,19 @@ export function useAdminSession({ onReset, onReload }: Options = {}) {
       storeSession(nextSession, environment);
       setSession(nextSession);
       setLoginPassword('');
-      onReload?.();
+      emit('reload');
     } catch (requestError) {
       setLoginError(adminErrorMessage(requestError));
     } finally {
       setIsSigningIn(false);
     }
-  }, [environment, loginEmail, loginPassword, onReload]);
+  }, [emit, environment, loginEmail, loginPassword]);
 
   const signOut = useCallback(() => {
     forgetSession(environment);
     setSession(null);
-    onReset?.();
-  }, [environment, onReset]);
+    emit('reset');
+  }, [emit, environment]);
 
   const changeEnvironment = useCallback((nextEnvironment: MealTrackAdminEnvironment) => {
     // AdminEnvironmentSwitcher asks before PROD, on the page.
@@ -149,11 +187,12 @@ export function useAdminSession({ onReset, onReload }: Options = {}) {
       setLoginEmail(restoredSession.email);
     }
     setLoginPassword('');
-    onReset?.();
-    onReload?.();
-  }, [environment, onReload, onReset]);
+    emit('reset');
+    emit('reload');
+  }, [emit, environment]);
 
   return {
+    subscribe,
     session,
     environment,
     isPreviewMode,
@@ -170,6 +209,27 @@ export function useAdminSession({ onReset, onReload }: Options = {}) {
     signOut,
     changeEnvironment,
   };
+}
+
+/** The layout's session, plus this page's reset and reload when the target changes. */
+export function useAdminSession({ onReset, onReload }: Options = {}): AdminSession {
+  const value = useContext(AdminSessionContext);
+  if (!value) {
+    throw new Error('useAdminSession must be used inside the admin layout.');
+  }
+  const { subscribe, ...admin } = value;
+  useEffect(() => subscribe({ onReset, onReload }), [subscribe, onReset, onReload]);
+  return admin;
+}
+
+export function AdminSessionProvider({
+  value,
+  children,
+}: {
+  value: AdminSessionContextValue;
+  children: ReactNode;
+}) {
+  return createElement(AdminSessionContext.Provider, { value }, children);
 }
 
 export function adminErrorMessage(error: unknown): string {
