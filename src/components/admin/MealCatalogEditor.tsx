@@ -100,7 +100,7 @@ function Editor({
           />
         </Field>
         <fieldset>
-          <legend className="mb-1 text-xs font-medium text-slate-600">Bữa ăn</legend>
+          <legend className="mb-1 text-[11px] font-medium uppercase tracking-[0.08em] text-[#6B756F]">Bữa ăn</legend>
           <div className="flex flex-wrap gap-2">
             {MEALS.map((meal) => {
               const on = meals.includes(meal.value);
@@ -114,7 +114,7 @@ function Editor({
                       on ? current.filter((value) => value !== meal.value) : [...current, meal.value]
                     )
                   }
-                  className={`rounded-lg border px-3 py-1.5 text-sm ${on ? 'border-slate-900 bg-slate-900 text-white' : 'border-slate-200 text-slate-600'}`}
+                  className={`border px-3 py-1.5 text-sm ${on ? 'border-[#1B4336] bg-[#1B4336] text-[#F4F1EA]' : 'border-[#D5CFC3] text-[#3E4A43]'}`}
                 >
                   {meal.label}
                 </button>
@@ -122,7 +122,7 @@ function Editor({
             })}
           </div>
         </fieldset>
-        <label className="flex items-center gap-2 text-sm text-slate-700">
+        <label className="flex items-center gap-2 text-sm text-[#1A2820]">
           <input type="checkbox" checked={isActive} onChange={(event) => setIsActive(event.target.checked)} />
           Đang dùng trong kế hoạch bữa ăn
         </label>

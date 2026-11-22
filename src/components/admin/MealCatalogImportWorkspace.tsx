@@ -149,7 +149,7 @@ export function MealCatalogImportWorkspace(props: Props) {
     <section className="grid gap-4">
       <MealCatalogImportProgress steps={steps} />
       <div className="grid gap-4 lg:grid-cols-[minmax(0,1.1fr)_minmax(22rem,0.9fr)]">
-      <div className="border border-slate-200 bg-white p-4 md:p-5 rounded-xl">
+      <div className="border border-[#E3DDD2] bg-[#FBF9F4] p-4 md:p-5">
         <p className="text-xs font-semibold uppercase tracking-wider text-emerald-600">Thao tác danh mục</p>
         <h2 className="mt-1 text-xl font-semibold">Duyệt và đăng manifest</h2>
         <p className="mt-1 max-w-xl text-sm text-slate-500">Đối chiếu nguyên liệu, duyệt rõ từng tham chiếu chưa xác minh, sau đó xem trước và đăng đúng manifest đã duyệt.</p>
@@ -201,7 +201,7 @@ function NumberField({ label, value, onChange, min = 0, max, step = 1 }: { label
 }
 
 function ActionButton({ children, disabled, onClick, variant = 'primary' }: { children: React.ReactNode; disabled: boolean; onClick: () => void; variant?: 'primary' | 'secondary' | 'danger' }) {
-  const styles = variant === 'danger' ? 'border-red-700 bg-red-700 text-white hover:bg-red-800' : variant === 'secondary' ? 'border-slate-900 text-slate-900 hover:bg-slate-900 hover:text-white' : 'border-sky-600 bg-sky-600 text-white hover:bg-slate-700';
+  const styles = variant === 'danger' ? 'border-[#8E2F2F] bg-[#8E2F2F] text-[#F4F1EA] hover:bg-[#742626]' : variant === 'secondary' ? 'border-[#1B4336] text-[#1B4336] hover:bg-[#1B4336] hover:text-[#F4F1EA]' : 'border-[#1B4336] bg-[#1B4336] text-[#F4F1EA] hover:bg-[#14352B]';
   return <button type="button" disabled={disabled} onClick={onClick} className={`h-9 border px-4 text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:border-slate-200 disabled:bg-transparent disabled:text-slate-400 ${styles} rounded-lg`}>{children}</button>;
 }
 

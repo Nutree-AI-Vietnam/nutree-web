@@ -71,12 +71,12 @@ export function AdminFoodsPageClient() {
           label: 'Thực phẩm',
           render: (food) => (
             <div>
-              <p className="font-medium text-slate-900">{food.name}</p>
-              {food.brand && <p className="text-xs text-slate-400">{food.brand}</p>}
+              <p className="font-medium text-[#1A2820]">{food.name}</p>
+              {food.brand && <p className="text-xs text-[#8A8478]">{food.brand}</p>}
             </div>
           ),
         },
-        { label: 'Khẩu phần', render: (food) => <span className="text-slate-600">{food.serving_label}</span> },
+        { label: 'Khẩu phần', render: (food) => <span className="text-[#3E4A43]">{food.serving_label}</span> },
         { label: 'kcal / 100 g', align: 'right', render: (food) => round(food.calories_per_100g) },
         {
           label: 'Đạm / Tinh bột / Béo',

@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { AdminBanner } from '@/components/admin/AdminBanner';
-import { Button } from '@/components/admin/ui/AdminUi';
+import { Button, inputClass } from '@/components/admin/ui/AdminUi';
 import { MealCatalogPagination } from '@/components/admin/MealCatalogPagination';
 import { SupplementReviewCard } from '@/components/admin/SupplementReviewCard';
 import { adminErrorMessage, type AdminSession } from '@/hooks/useAdminSession';
@@ -232,7 +232,7 @@ export function SupplementReviewPanel({ admin, onCatalogChanged }: { admin: Admi
 
   return (
     <>
-      <p className="text-sm text-slate-500">
+      <p className="max-w-3xl text-sm leading-relaxed text-[#5C6B62]">
         Ảnh chụp nhãn có thương hiệu và dưỡng chất đọc được sẽ tự vào danh mục trong vòng một phút. Ở lại đây gồm: sản phẩm bị giữ lại khi nhập và ảnh chụp nhãn trùng với một sản phẩm đang chờ. Khi duyệt, sản phẩm được thêm vào danh mục dưới dạng phiên bản mới.
       </p>
       <div className="flex flex-wrap items-center gap-2">
@@ -244,7 +244,7 @@ export function SupplementReviewPanel({ admin, onCatalogChanged }: { admin: Admi
               setKind(option.value);
               setPage(0);
             }}
-            className={`rounded-lg border px-3 py-2 text-xs font-semibold ${kind === option.value ? 'border-slate-900 bg-slate-900 text-white' : 'border-slate-200 text-slate-500 hover:border-slate-300'}`}
+            className={`border px-3 py-2 text-xs font-medium ${kind === option.value ? 'border-[#1B4336] bg-[#1B4336] text-[#F4F1EA]' : 'border-[#D5CFC3] text-[#5C6B62] hover:border-[#1B4336]'}`}
           >
             {option.label}
           </button>
@@ -256,7 +256,7 @@ export function SupplementReviewPanel({ admin, onCatalogChanged }: { admin: Admi
             setPhoto(event.target.value as SupplementPhotoFilter);
             setPage(0);
           }}
-          className="border border-slate-200 bg-white px-2 py-2 text-xs font-semibold text-slate-500 rounded-lg"
+          className={`${inputClass} w-auto text-xs`}
         >
           {PHOTO_FILTERS.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
         </select>
@@ -269,13 +269,13 @@ export function SupplementReviewPanel({ admin, onCatalogChanged }: { admin: Admi
         >
           <input
             aria-label="Tìm theo mã danh mục, tên hoặc thương hiệu"
-            className="min-w-0 flex-1 border border-slate-200 bg-white px-3 py-2 text-xs sm:w-64 rounded-lg"
+            className={`${inputClass} min-w-0 flex-1 text-xs sm:w-64`}
             onChange={(event) => setDraftQuery(event.target.value)}
             placeholder="Mã danh mục, tên hoặc thương hiệu"
             value={draftQuery}
           />
           {query && (
-            <button type="button" onClick={() => search('')} className="border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-500 hover:border-slate-300 rounded-lg">
+            <button type="button" onClick={() => search('')} className="border border-[#D5CFC3] px-3 py-2 text-xs font-medium text-[#5C6B62] hover:border-[#1B4336]">
               Xóa
             </button>
           )}
@@ -308,7 +308,7 @@ export function SupplementReviewPanel({ admin, onCatalogChanged }: { admin: Admi
       />
 
       {!isLoading && data.items.length === 0 && !error && (
-        <p className="rounded-xl border border-slate-200 bg-white p-6 text-sm text-slate-500">Không có mục nào đang chờ. Ảnh chụp nhãn mới được tự động thêm vào danh mục.</p>
+        <p className="border border-[#E3DDD2] bg-[#FBF9F4] p-6 text-sm text-[#5C6B62]">Không có mục nào đang chờ. Ảnh chụp nhãn mới được tự động thêm vào danh mục.</p>
       )}
       {data.items.map((item) => (
         <SupplementReviewCard key={`${item.id}:${item.reviewed_at ?? ''}:${item.updated_at ?? ''}`} item={item} isBusy={busyIds.has(item.id)} onReview={(...args) => void handleReview(...args)} onFind={find} onPhoto={(...args) => void handlePhoto(...args)} />

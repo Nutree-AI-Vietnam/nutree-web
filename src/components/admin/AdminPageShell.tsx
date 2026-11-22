@@ -32,8 +32,8 @@ export function AdminPageShell({ title, description, toolbar, actions, children 
     <div className="mx-auto max-w-[1280px] px-4 py-6 md:px-8 md:py-8">
       <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight text-slate-900">{title}</h1>
-          <p className="mt-1 max-w-2xl text-sm text-slate-500">{description}</p>
+          <h1 className="text-[28px] font-medium leading-none tracking-[-0.03em] text-[#1A2820]">{title}</h1>
+          <p className="mt-2 max-w-xl text-[13px] leading-relaxed text-[#5C6B62]">{description}</p>
         </div>
         {actions && <div className="flex flex-wrap items-center gap-2">{actions}</div>}
       </div>

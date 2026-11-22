@@ -18,13 +18,13 @@ export function AdminEnvironmentSwitcher({ environment, isProxyEnabled, onChange
   const [isConfirmingProd, setIsConfirmingProd] = useState(false);
 
   if (!isProxyEnabled) {
-    return <span className="text-xs text-slate-400">Cần bật admin proxy để đổi môi trường</span>;
+    return <span className="hidden text-xs text-[#8A8478] sm:inline">Cần bật admin proxy để đổi môi trường</span>;
   }
 
   if (isConfirmingProd && environment !== 'prod') {
     return (
-      <div role="alertdialog" aria-label="Chuyển sang PROD" className="flex items-center gap-2 rounded-lg bg-rose-50 py-1 pl-3 pr-1 ring-1 ring-rose-200">
-        <span className="text-xs font-medium text-rose-800">Chuyển sang PROD (dữ liệu thật)?</span>
+      <div role="alertdialog" aria-label="Chuyển sang PROD" className="flex items-center gap-2 border border-[#E4C8C4] bg-[#FBF9F4] py-1 pl-3 pr-1">
+        <span className="text-xs font-medium text-[#8E2F2F]">Chuyển sang PROD (dữ liệu thật)?</span>
         <button
           type="button"
           autoFocus
@@ -32,14 +32,14 @@ export function AdminEnvironmentSwitcher({ environment, isProxyEnabled, onChange
             setIsConfirmingProd(false);
             onChange('prod');
           }}
-          className="h-7 rounded-md bg-rose-600 px-3 text-xs font-medium text-white hover:bg-rose-700"
+          className="h-7 bg-[#8E2F2F] px-3 text-xs font-medium text-[#F4F1EA] hover:bg-[#742626]"
         >
           Chuyển
         </button>
         <button
           type="button"
           onClick={() => setIsConfirmingProd(false)}
-          className="h-7 rounded-md px-2 text-xs font-medium text-rose-800 hover:bg-rose-100"
+          className="h-7 px-2 text-xs font-medium text-[#8E2F2F] hover:bg-[#F8EBE8]"
         >
           Huỷ
         </button>
@@ -48,7 +48,7 @@ export function AdminEnvironmentSwitcher({ environment, isProxyEnabled, onChange
   }
 
   return (
-    <div className="inline-flex rounded-lg bg-slate-100 p-0.5" role="group" aria-label="Môi trường">
+    <div className="inline-flex border border-[#D5CFC3] bg-[#FBF9F4] p-0.5" role="group" aria-label="Môi trường">
       <Segment active={environment === 'sit'} onClick={() => onChange('sit')} tone="sit">
         SIT
       </Segment>
@@ -82,12 +82,12 @@ function Segment({
       onClick={onClick}
       aria-pressed={active}
       className={cn(
-        'h-7 rounded-md px-3 text-xs font-semibold transition-colors',
+        'h-7 px-3 text-xs font-medium transition-colors',
         active
           ? tone === 'prod'
-            ? 'bg-rose-600 text-white shadow-sm'
-            : 'bg-white text-sky-700 shadow-sm'
-          : 'text-slate-500 hover:text-slate-800'
+            ? 'bg-[#8E2F2F] text-[#F4F1EA]'
+            : 'bg-[#1B4336] text-[#F4F1EA]'
+          : 'text-[#6B756F] hover:text-[#1A2820]'
       )}
     >
       {children}

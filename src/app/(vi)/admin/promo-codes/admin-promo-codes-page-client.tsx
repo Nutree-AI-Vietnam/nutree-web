@@ -196,7 +196,7 @@ function CreateForm({
 
   return (
     <form
-      className="grid gap-3 rounded-xl border border-slate-200 bg-white p-4 md:grid-cols-3"
+      className="grid gap-3 border border-[#E3DDD2] bg-[#FBF9F4] p-4 md:grid-cols-3"
       onSubmit={async (event) => {
         event.preventDefault();
         const created = await onCreate({ code, maxUses, description, expires, offering, source });
@@ -237,12 +237,12 @@ function CreateForm({
 
 function PromoTable({ items, onToggle }: { items: PromoCode[]; onToggle: (promo: PromoCode) => void }) {
   if (items.length === 0) {
-    return <p className="rounded-xl border border-slate-200 bg-white p-6 text-sm text-slate-500">Chưa có mã nào.</p>;
+    return <p className="border border-[#E3DDD2] bg-[#FBF9F4] p-6 text-sm text-[#5C6B62]">Chưa có mã nào.</p>;
   }
   return (
-    <section className="overflow-x-auto rounded-xl border border-slate-200 bg-white">
+    <section className="overflow-x-auto border border-[#E3DDD2] bg-[#FBF9F4]">
       <table className="w-full min-w-[880px] border-collapse text-left text-sm">
-        <thead className="border-b border-slate-200 bg-slate-50 text-xs text-slate-500">
+        <thead className="border-b border-[#E3DDD2] text-[11px] uppercase tracking-[0.08em] text-[#6B756F]">
           <tr>
             <th className="px-4 py-3">Mã</th>
             <th className="px-4 py-3">Lượt</th>
@@ -255,17 +255,17 @@ function PromoTable({ items, onToggle }: { items: PromoCode[]; onToggle: (promo:
         </thead>
         <tbody>
           {items.map((promo) => (
-            <tr key={promo.id} className="border-b border-slate-100 last:border-b-0">
-              <td className="px-4 py-3 font-semibold text-slate-900">
+            <tr key={promo.id} className="border-b border-[#EDE8DE] last:border-b-0">
+              <td className="px-4 py-3 font-medium text-[#1A2820]">
                 {promo.code}
-                {promo.description && <span className="block text-xs font-normal text-slate-500">{promo.description}</span>}
+                {promo.description && <span className="block text-xs font-normal text-[#5C6B62]">{promo.description}</span>}
               </td>
               <td className="px-4 py-3">
                 {promo.current_uses} / {promo.max_uses}
               </td>
               <td className="px-4 py-3">{promo.rc_offering_id}</td>
               <td className="px-4 py-3">{promo.source_offering_id ?? 'Mọi gói'}</td>
-              <td className="px-4 py-3 text-slate-500">{promo.expires_at ? new Date(promo.expires_at).toLocaleString('vi-VN') : 'Không'}</td>
+              <td className="px-4 py-3 text-[#5C6B62]">{promo.expires_at ? new Date(promo.expires_at).toLocaleString('vi-VN') : 'Không'}</td>
               <td className="px-4 py-3">{promo.is_active ? 'Đang bật' : 'Đã tắt'}</td>
               <td className="px-4 py-3 text-right">
                 <Button size="sm" variant={promo.is_active ? 'danger' : 'secondary'} onClick={() => onToggle(promo)}>

@@ -236,8 +236,8 @@ export function AdminMealCatalogPageClient() {
       title="Danh mục món ăn"
       description="Catalog máy chủ dùng để lập kế hoạch bữa ăn. Thư viện công thức là file điện thoại tải về, và hai bên không tự cập nhật cho nhau. Sửa một món ở đây; nhập lại file seed có thể ghi đè tên, bữa ăn và nguyên liệu."
       toolbar={<>
-        <button type="button" onClick={() => setActiveView('catalog')} className={`rounded-lg border px-3 py-2 text-xs font-semibold ${activeView === 'catalog' ? 'border-slate-900 bg-slate-900 text-white' : 'border-slate-200 text-slate-500 hover:border-slate-300'}`}>Xem danh mục</button>
-        <button type="button" onClick={() => { setActiveView('import'); setImportError(null); }} className={`rounded-lg border px-3 py-2 text-xs font-semibold ${activeView === 'import' ? 'border-slate-900 bg-slate-900 text-white' : 'border-slate-200 text-slate-500 hover:border-slate-300'}`}>Nhập &amp; đối chiếu</button>
+        <button type="button" onClick={() => setActiveView('catalog')} className={`border px-3 py-2 text-xs font-medium ${activeView === 'catalog' ? 'border-[#1B4336] bg-[#1B4336] text-[#F4F1EA]' : 'border-[#D5CFC3] text-[#5C6B62] hover:border-[#1B4336]'}`}>Xem danh mục</button>
+        <button type="button" onClick={() => { setActiveView('import'); setImportError(null); }} className={`border px-3 py-2 text-xs font-medium ${activeView === 'import' ? 'border-[#1B4336] bg-[#1B4336] text-[#F4F1EA]' : 'border-[#D5CFC3] text-[#5C6B62] hover:border-[#1B4336]'}`}>Nhập &amp; đối chiếu</button>
       </>}
     >
         {isPreviewMode && (

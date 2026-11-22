@@ -18,18 +18,18 @@ export function MealCatalogTable({
 }: MealCatalogTableProps) {
   if (items.length === 0) {
     return (
-      <div className="border border-slate-200 bg-white p-10 text-center rounded-xl">
-        <p className="text-lg font-semibold text-slate-900">Không có món ăn nào phù hợp.</p>
-        <p className="mt-2 text-sm text-slate-500">Thử xóa từ khóa tìm kiếm hoặc bộ lọc ảnh.</p>
+      <div className="border border-[#E3DDD2] bg-[#FBF9F4] p-10 text-center">
+        <p className="text-lg font-medium text-[#1A2820]">Không có món ăn nào phù hợp.</p>
+        <p className="mt-2 text-sm text-[#5C6B62]">Thử xóa từ khóa tìm kiếm hoặc bộ lọc ảnh.</p>
       </div>
     );
   }
 
   return (
-    <section className="overflow-hidden border border-slate-200 bg-white rounded-xl">
+    <section className="overflow-hidden border border-[#E3DDD2] bg-[#FBF9F4]">
       <div className="hidden overflow-x-auto lg:block">
         <table className="w-full min-w-[1080px] border-collapse text-left text-sm">
-          <thead className="border-b border-slate-200 bg-slate-50 text-xs uppercase text-slate-500">
+          <thead className="border-b border-[#E3DDD2] text-[11px] uppercase tracking-[0.08em] text-[#6B756F]">
             <tr>
               <th className="px-4 py-3">Món ăn</th>
               <th className="px-4 py-3">Ảnh</th>
@@ -80,12 +80,12 @@ interface RowProps {
 
 function TableRow({ item, isGenerating, isPreviewMode, onGenerateImage, onEdit }: RowProps) {
   return (
-    <tr className="border-b border-slate-200 last:border-b-0">
+    <tr className="border-b border-[#EDE8DE] last:border-b-0">
       <td className="max-w-[28rem] px-4 py-4 align-top">
-        <p className="font-semibold text-slate-900">{item.name}</p>
-        <p className="mt-1 text-xs text-slate-500">{item.catalog_key}</p>
-        <p className="mt-2 line-clamp-2 text-sm text-slate-500">{item.description || 'Chưa có mô tả'}</p>
-        <p className="mt-2 text-xs font-semibold uppercase text-emerald-600">{item.cuisine}</p>
+        <p className="font-medium text-[#1A2820]">{item.name}</p>
+        <p className="mt-1 text-xs text-[#5C6B62]">{item.catalog_key}</p>
+        <p className="mt-2 line-clamp-2 text-sm text-[#5C6B62]">{item.description || 'Chưa có mô tả'}</p>
+        <p className="mt-2 text-[11px] uppercase tracking-[0.08em] text-[#1B4336]">{item.cuisine}</p>
       </td>
       <td className="px-4 py-4 align-top">
         <ImagePreview item={item} />
@@ -108,16 +108,16 @@ function TableRow({ item, isGenerating, isPreviewMode, onGenerateImage, onEdit }
 
 function MealCard({ item, isGenerating, isPreviewMode, onGenerateImage, onEdit }: RowProps) {
   return (
-    <article className="border border-slate-200 bg-slate-50 p-3 rounded-xl">
+    <article className="border border-[#E3DDD2] bg-[#FBF9F4] p-3">
       <div className="flex gap-3">
         <ImagePreview item={item} />
         <div className="min-w-0 flex-1">
-          <p className="font-semibold text-slate-900">{item.name}</p>
-          <p className="mt-1 text-xs text-slate-500">{item.cuisine} · {item.catalog_key}</p>
+          <p className="font-medium text-[#1A2820]">{item.name}</p>
+          <p className="mt-1 text-xs text-[#5C6B62]">{item.cuisine} · {item.catalog_key}</p>
           <TypePills types={item.meal_types} />
         </div>
       </div>
-      <p className="mt-3 text-sm text-slate-500">{item.description || 'Chưa có mô tả'}</p>
+      <p className="mt-3 text-sm text-[#5C6B62]">{item.description || 'Chưa có mô tả'}</p>
       <div className="mt-3 grid gap-3 sm:grid-cols-2">
         <MacroList item={item} />
         <IngredientSummary item={item} />
@@ -132,14 +132,14 @@ function MealCard({ item, isGenerating, isPreviewMode, onGenerateImage, onEdit }
 function ImagePreview({ item }: { item: MealCatalogItem }) {
   if (!item.image_url) {
     return (
-      <div className="flex h-20 w-28 items-center justify-center border border-dashed border-amber-300 bg-amber-50 text-xs font-semibold text-amber-700 rounded-lg">
+      <div className="flex h-20 w-28 items-center justify-center border border-dashed border-[#C4A574] bg-[#F4EBD4] text-xs font-medium text-[#6B4E12]">
         Thiếu ảnh
       </div>
     );
   }
 
   return (
-    <a href={item.image_url} target="_blank" rel="noreferrer" className="block h-20 w-28 overflow-hidden border border-slate-200 bg-slate-50 rounded-lg">
+    <a href={item.image_url} target="_blank" rel="noreferrer" className="block h-20 w-28 overflow-hidden border border-[#E3DDD2] bg-[#F4F1EA]">
       <img src={item.image_url} alt={item.name} className="h-full w-full object-cover" loading="lazy" />
     </a>
   );
@@ -149,7 +149,7 @@ function TypePills({ types }: { types: string[] }) {
   return (
     <div className="flex flex-wrap gap-1.5">
       {types.map((type) => (
-        <span key={type} className="border border-sky-200 bg-sky-50 px-2 py-1 text-xs font-semibold text-slate-900 rounded-lg">
+        <span key={type} className="bg-[#E5F0EA] px-1.5 py-0.5 text-[11px] font-medium text-[#1B4336]">
           {type}
         </span>
       ))}
@@ -159,8 +159,8 @@ function TypePills({ types }: { types: string[] }) {
 
 function MacroList({ item }: { item: MealCatalogItem }) {
   return (
-    <div className="text-xs text-slate-500">
-      <p className="font-semibold text-slate-900">{item.calories} kcal</p>
+    <div className="text-xs text-[#5C6B62]">
+      <p className="font-medium text-[#1A2820]">{item.calories} kcal</p>
       <p>Đạm {item.protein_g}g · Tinh bột {item.carbs_g}g · Béo {item.fat_g}g</p>
       <p>Chất xơ {item.fiber_g}g</p>
     </div>
@@ -170,8 +170,8 @@ function MacroList({ item }: { item: MealCatalogItem }) {
 function IngredientSummary({ item }: { item: MealCatalogItem }) {
   const names = item.ingredients?.map((ingredient) => ingredient.display_name).slice(0, 3);
   return (
-    <div className="text-xs text-slate-500">
-      <p className="font-semibold text-slate-900">{item.ingredient_count} nguyên liệu</p>
+    <div className="text-xs text-[#5C6B62]">
+      <p className="font-medium text-[#1A2820]">{item.ingredient_count} nguyên liệu</p>
       <p>{names && names.length > 0 ? names.join(', ') : 'Chưa có tóm tắt nguyên liệu'}</p>
     </div>
   );
@@ -184,7 +184,7 @@ function RowActions({ item, isGenerating, isPreviewMode, onGenerateImage, onEdit
       <button
         type="button"
         onClick={() => onEdit(item)}
-        className="h-10 min-w-[8.5rem] border border-slate-200 px-3 text-sm font-semibold text-slate-700 hover:border-slate-300 rounded-lg"
+        className="h-9 min-w-[8.5rem] border border-[#D5CFC3] bg-[#FBF9F4] px-3 text-sm font-medium text-[#1A2820] hover:border-[#1B4336]"
       >
         Sửa
       </button>
@@ -192,7 +192,7 @@ function RowActions({ item, isGenerating, isPreviewMode, onGenerateImage, onEdit
         type="button"
         disabled={isGenerating || isPreviewMode}
         onClick={() => onGenerateImage(item, Boolean(item.image_url))}
-        className="h-10 min-w-[8.5rem] border border-slate-900 px-3 text-sm font-semibold text-slate-900 transition-colors hover:bg-slate-900 hover:text-white disabled:border-slate-200 disabled:text-slate-400 disabled:hover:bg-transparent rounded-lg"
+        className="h-9 min-w-[8.5rem] border border-[#1B4336] px-3 text-sm font-medium text-[#1B4336] transition-colors hover:bg-[#1B4336] hover:text-[#F4F1EA] disabled:border-[#D5CFC3] disabled:text-[#A39E93] disabled:hover:bg-transparent"
       >
         {label}
       </button>
