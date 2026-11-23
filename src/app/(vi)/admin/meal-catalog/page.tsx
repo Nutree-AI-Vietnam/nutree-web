@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { AdminMealCatalogPageClient } from './admin-meal-catalog-page-client';
 
 export const metadata: Metadata = {
-  title: 'Quản trị danh mục món ăn | Nutree',
+  title: 'Danh mục món đã bỏ | Nutree',
   robots: {
     index: false,
     follow: false,

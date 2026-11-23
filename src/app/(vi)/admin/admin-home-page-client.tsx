@@ -59,7 +59,7 @@ export function AdminHomePageClient() {
       admin={admin}
       current="/admin"
       title="Việc cần làm"
-      description="Hai việc nội dung hay kẹt: TPCN đang chờ duyệt, và file điện thoại đã thử trên SIT nhưng chưa phát hành. Danh mục món máy chủ sắp bỏ."
+      description="Hai việc nội dung hay kẹt: TPCN đang chờ duyệt, và file điện thoại đã thử trên SIT nhưng chưa phát hành. Danh mục món máy chủ đã bỏ."
     >
       {admin.isPreviewMode && (
         <AdminBanner tone="warning" title="Chưa cấu hình backend" message="Các số bên dưới chỉ hiện khi đã nối MealTrack." />
@@ -69,8 +69,8 @@ export function AdminHomePageClient() {
         <TaskCard
           href="/admin/meal-catalog"
           label="Danh mục món máy chủ"
-          value="Sắp bỏ"
-          hint="Đừng nhập món, sửa, hay tạo ảnh. Món mới đưa vào thư viện công thức."
+          value="Đã bỏ"
+          hint="Không còn nhập, sửa, hay tạo ảnh. Món mới đưa vào thư viện công thức."
         />
         <TaskCard href="/admin/supplement-catalog?tab=review" label="TPCN đang chờ" value={counts.pendingSupplements} hint="Ảnh chụp nhãn và sản phẩm bị giữ khi nhập." />
         <TaskCard
