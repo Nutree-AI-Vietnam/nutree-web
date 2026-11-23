@@ -20,7 +20,7 @@ const NAV: { group: string; pages: { href: AdminPageHref; label: string; icon: I
     group: 'Công thức',
     pages: [
       { href: '/admin/recipes', label: 'Thư viện công thức', icon: 'catalog' },
-      { href: '/admin/meal-catalog', label: 'Danh mục món (sắp bỏ)', icon: 'package' },
+      { href: '/admin/meal-catalog', label: 'Danh mục món (đã bỏ)', icon: 'package' },
     ],
   },
   {
