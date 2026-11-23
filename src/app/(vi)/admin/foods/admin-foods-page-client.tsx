@@ -72,7 +72,7 @@ export function AdminFoodsPageClient() {
           render: (food) => (
             <div>
               <p className="font-medium text-[#1A2820]">{food.name}</p>
-              {food.brand && <p className="text-xs text-[#8A8478]">{food.brand}</p>}
+              {food.brand && <p className="text-xs text-[#53635B]">{food.brand}</p>}
             </div>
           ),
         },

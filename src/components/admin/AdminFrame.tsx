@@ -108,7 +108,7 @@ function Frame({
         : 'SIT · dữ liệu thử';
 
   return (
-    <div className="min-h-screen bg-[#F4F1EA] font-body text-[#1A2820] antialiased">
+    <div className="min-h-screen touch-manipulation bg-[#F4F1EA] font-body text-[#1A2820] antialiased">
       <div className={cn('w-full', isProd ? 'h-[3px] bg-[#8E2F2F]' : 'h-0.5 bg-[#1B4336]')} />
       <aside
         className={cn(
@@ -116,16 +116,16 @@ function Frame({
           isNavOpen ? 'translate-x-0' : '-translate-x-full'
         )}
       >
-        <div className="flex h-16 items-end border-b border-white/10 px-5 pb-3">
+        <div className="flex h-14 items-end border-b border-white/10 px-5 pb-2">
           <div className="leading-tight">
             <p className="font-body text-[15px] font-semibold tracking-[-0.02em] text-[#F4F1EA]">Nutree</p>
-            <p className="mt-1 text-[10px] uppercase tracking-[0.18em] text-[#8AA396]">Quản trị</p>
+            <p className="mt-1 text-xs uppercase tracking-[0.18em] text-[#8AA396]">Quản trị</p>
           </div>
         </div>
         <nav className="flex-1 space-y-6 overflow-y-auto px-3 py-5">
           {NAV.map((section) => (
             <div key={section.group}>
-              <p className="px-2 text-[10px] uppercase tracking-[0.16em] text-[#7E9086]">{section.group}</p>
+              <p className="px-2 text-xs uppercase tracking-[0.16em] text-[#7E9086]">{section.group}</p>
               <ul className="mt-2 space-y-0.5">
                 {section.pages.map((page) => {
                   const active = isCurrent(pathname, page.href);
@@ -137,7 +137,7 @@ function Frame({
                         aria-current={active ? 'page' : undefined}
                         onClick={() => setIsNavOpen(false)}
                         className={cn(
-                          'flex items-center gap-2.5 rounded-[4px] px-2.5 py-2 text-[13px] transition-colors',
+                          'flex min-h-11 cursor-pointer items-center gap-2.5 rounded-[4px] px-2.5 text-sm transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C4A574] motion-reduce:transition-none',
                           active ? 'bg-[#1C3329] font-medium text-white shadow-[inset_2px_0_0_#C4A574]' : 'text-[#C5D0C8] hover:bg-white/5 hover:text-white'
                         )}
                       >
@@ -154,7 +154,7 @@ function Frame({
         {!admin.isPreviewMode && admin.session && (
           <div className="border-t border-white/10 p-3">
             <div className="flex items-center gap-2.5 px-2 py-2">
-              <span className="flex h-7 w-7 shrink-0 items-center justify-center bg-[#1C3329] text-[11px] font-medium uppercase text-[#F4F1EA]">
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center bg-[#1C3329] text-xs font-medium uppercase text-[#F4F1EA]">
                 {admin.session.email.slice(0, 1)}
               </span>
               <p className="min-w-0 flex-1 truncate text-xs text-[#C5D0C8]">{admin.session.email}</p>
@@ -163,7 +163,7 @@ function Frame({
                 onClick={admin.signOut}
                 title="Đăng xuất"
                 aria-label="Đăng xuất"
-                className="rounded-[4px] p-1.5 text-[#8AA396] hover:bg-white/10 hover:text-white"
+                className="inline-flex h-11 w-11 cursor-pointer items-center justify-center rounded-[4px] text-[#8AA396] hover:bg-white/10 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C4A574]"
               >
                 <Icon name="logout" className="h-4 w-4" />
               </button>
@@ -175,13 +175,13 @@ function Frame({
         <button type="button" aria-label="Đóng menu" className="fixed inset-0 z-30 bg-[#12241C]/40 lg:hidden" onClick={() => setIsNavOpen(false)} />
       )}
       <div className="lg:pl-60">
-        <div className="sticky top-0 z-20 flex h-12 items-center justify-between gap-3 border-b border-[#E3DDD2] bg-[#F4F1EA] px-4 md:px-8">
+        <div className="sticky top-0 z-20 flex h-14 items-center justify-between gap-3 border-b border-[#E3DDD2] bg-[#F4F1EA] px-4 md:px-8">
           <div className="flex min-w-0 items-center gap-3">
             <button
               type="button"
               aria-label="Mở menu"
               onClick={() => setIsNavOpen(true)}
-              className="shrink-0 rounded-[4px] p-1.5 text-[#3E4A43] hover:bg-[#E7E1D6] lg:hidden"
+              className="inline-flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-[4px] text-[#3E4A43] hover:bg-[#E7E1D6] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4336] lg:hidden"
             >
               <Icon name="menu" className="h-5 w-5" />
             </button>

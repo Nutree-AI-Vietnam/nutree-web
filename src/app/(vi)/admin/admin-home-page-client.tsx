@@ -89,10 +89,10 @@ export function AdminHomePageClient() {
 
 function TaskCard({ href, label, value, hint }: { href: string; label: string; value: number | null; hint: string }) {
   return (
-    <Link href={href} className="border border-[#E3DDD2] bg-[#FBF9F4] p-5 transition-colors hover:border-[#1B4336]">
+    <Link href={href} className="border border-[#E3DDD2] bg-[#FBF9F4] p-5 transition-colors duration-200 hover:border-[#1B4336] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4336]">
       <p className="text-[13px] text-[#5C6B62]">{label}</p>
       <p className="mt-3 font-body text-[32px] font-medium leading-none tracking-[-0.03em] text-[#1A2820]">{value === null ? '—' : value}</p>
-      <p className="mt-3 text-[12px] leading-relaxed text-[#6B756F]">{hint}</p>
+      <p className="mt-3 text-sm leading-relaxed text-[#53635B]">{hint}</p>
     </Link>
   );
 }

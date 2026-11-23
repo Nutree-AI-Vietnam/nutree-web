@@ -202,7 +202,7 @@ function NumberField({ label, value, onChange, min = 0, max, step = 1 }: { label
 
 function ActionButton({ children, disabled, onClick, variant = 'primary' }: { children: React.ReactNode; disabled: boolean; onClick: () => void; variant?: 'primary' | 'secondary' | 'danger' }) {
   const styles = variant === 'danger' ? 'border-[#8E2F2F] bg-[#8E2F2F] text-[#F4F1EA] hover:bg-[#742626]' : variant === 'secondary' ? 'border-[#1B4336] text-[#1B4336] hover:bg-[#1B4336] hover:text-[#F4F1EA]' : 'border-[#1B4336] bg-[#1B4336] text-[#F4F1EA] hover:bg-[#14352B]';
-  return <button type="button" disabled={disabled} onClick={onClick} className={`h-9 border px-4 text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:border-slate-200 disabled:bg-transparent disabled:text-slate-400 ${styles} rounded-lg`}>{children}</button>;
+  return <button type="button" disabled={disabled} onClick={onClick} className={`h-11 cursor-pointer border px-4 text-sm font-medium transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4336] disabled:cursor-not-allowed disabled:border-slate-200 disabled:bg-transparent disabled:text-slate-400 ${styles}`}>{children}</button>;
 }
 
 function parseInputs(manifestText: string, resolverText: string): ParsedManifest {

@@ -77,7 +77,7 @@ export function ItemBrowser<T extends PackItem>({
             onSearch(query.trim());
           }}
         >
-          <Icon name="search" className="pointer-events-none absolute left-3 top-2.5 h-4 w-4 text-[#8A8478]" />
+          <Icon name="search" className="pointer-events-none absolute left-3 top-3.5 h-4 w-4 text-[#53635B]" />
           <input
             aria-label={`Tìm ${noun.many}`}
             className={`${inputClass} pl-9`}
@@ -107,7 +107,7 @@ export function ItemBrowser<T extends PackItem>({
         <>
           <div className="overflow-x-auto">
             <table className="w-full min-w-[640px] text-left text-sm">
-              <thead className="text-[11px] uppercase tracking-[0.08em] text-[#6B756F]">
+              <thead className="text-xs uppercase tracking-[0.08em] text-[#53635B]">
                 <tr>
                   {columns.map((column) => (
                     <th key={column.label} className={`px-5 py-2.5 font-medium ${column.align === 'right' ? 'text-right' : ''}`}>

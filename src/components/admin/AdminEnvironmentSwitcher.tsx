@@ -18,7 +18,7 @@ export function AdminEnvironmentSwitcher({ environment, isProxyEnabled, onChange
   const [isConfirmingProd, setIsConfirmingProd] = useState(false);
 
   if (!isProxyEnabled) {
-    return <span className="hidden text-xs text-[#8A8478] sm:inline">Cần bật admin proxy để đổi môi trường</span>;
+    return <span className="hidden text-xs text-[#53635B] sm:inline">Cần bật admin proxy để đổi môi trường</span>;
   }
 
   if (isConfirmingProd && environment !== 'prod') {
@@ -32,14 +32,14 @@ export function AdminEnvironmentSwitcher({ environment, isProxyEnabled, onChange
             setIsConfirmingProd(false);
             onChange('prod');
           }}
-          className="h-7 bg-[#8E2F2F] px-3 text-xs font-medium text-[#F4F1EA] hover:bg-[#742626]"
+          className="h-11 cursor-pointer bg-[#8E2F2F] px-3 text-sm font-medium text-[#F4F1EA] hover:bg-[#742626] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4336]"
         >
           Chuyển
         </button>
         <button
           type="button"
           onClick={() => setIsConfirmingProd(false)}
-          className="h-7 px-2 text-xs font-medium text-[#8E2F2F] hover:bg-[#F8EBE8]"
+          className="h-11 cursor-pointer px-3 text-sm font-medium text-[#8E2F2F] hover:bg-[#F8EBE8] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4336]"
         >
           Huỷ
         </button>
@@ -82,12 +82,12 @@ function Segment({
       onClick={onClick}
       aria-pressed={active}
       className={cn(
-        'h-7 px-3 text-xs font-medium transition-colors',
+        'h-11 cursor-pointer px-3 text-sm font-medium transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4336] motion-reduce:transition-none',
         active
           ? tone === 'prod'
             ? 'bg-[#8E2F2F] text-[#F4F1EA]'
             : 'bg-[#1B4336] text-[#F4F1EA]'
-          : 'text-[#6B756F] hover:text-[#1A2820]'
+          : 'text-[#53635B] hover:text-[#1A2820]'
       )}
     >
       {children}

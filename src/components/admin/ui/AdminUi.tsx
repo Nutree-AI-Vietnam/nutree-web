@@ -38,8 +38,9 @@ export function Button({
       type={type}
       disabled={disabled || isBusy}
       className={cn(
-        'inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-[4px] font-medium transition-colors disabled:cursor-not-allowed',
-        size === 'sm' ? 'h-8 px-2.5 text-xs' : 'h-9 px-3.5 text-sm',
+        'inline-flex min-h-11 cursor-pointer items-center justify-center gap-1.5 whitespace-nowrap rounded-[4px] font-medium transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4336] disabled:cursor-not-allowed motion-reduce:transition-none',
+        size === 'sm' ? 'px-3 text-sm' : 'px-3.5 text-sm',
+        !children && 'min-w-11 px-0',
         BUTTON_VARIANTS[variant],
         className
       )}
@@ -99,7 +100,7 @@ const BADGE_TONES: Record<BadgeTone, string> = {
 
 export function Badge({ tone = 'neutral', children, dot = false }: { tone?: BadgeTone; children: ReactNode; dot?: boolean }) {
   return (
-    <span className={cn('inline-flex items-center gap-1 px-1.5 py-0.5 text-[11px] font-medium', BADGE_TONES[tone])}>
+    <span className={cn('inline-flex items-center gap-1 px-1.5 py-0.5 text-xs font-medium', BADGE_TONES[tone])}>
       {dot && <span className="h-1.5 w-1.5 rounded-full bg-current" />}
       {children}
     </span>
@@ -125,13 +126,13 @@ export function Tabs<T extends string>({
           aria-selected={value === item.value}
           onClick={() => onChange(item.value)}
           className={cn(
-            '-mb-px flex items-center gap-2 border-b-2 px-3 py-2 text-sm transition-colors',
+            '-mb-px flex min-h-11 cursor-pointer items-center gap-2 border-b-2 px-3 text-sm transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4336] motion-reduce:transition-none',
             value === item.value ? 'border-[#1B4336] font-medium text-[#1A2820]' : 'border-transparent text-[#5C6B62] hover:text-[#1A2820]'
           )}
         >
           {item.label}
           {item.count !== undefined && (
-            <span className="text-[11px] text-[#8A8478]">{item.count}</span>
+            <span className="text-xs text-[#53635B]">{item.count}</span>
           )}
         </button>
       ))}
@@ -221,15 +222,15 @@ function useEscape(open: boolean, onClose: () => void) {
 export function Field({ label, hint, children, className }: { label: string; hint?: string; children: ReactNode; className?: string }) {
   return (
     <label className={cn('block', className)}>
-      <span className="mb-1 block text-[11px] font-medium uppercase tracking-[0.08em] text-[#6B756F]">{label}</span>
+      <span className="mb-1 block text-xs font-medium uppercase tracking-[0.08em] text-[#53635B]">{label}</span>
       {children}
-      {hint && <span className="mt-1 block text-[12px] leading-snug text-[#8A8478]">{hint}</span>}
+      {hint && <span className="mt-1 block text-xs leading-snug text-[#53635B]">{hint}</span>}
     </label>
   );
 }
 
 export const inputClass =
-  'h-9 w-full rounded-[4px] border border-[#D5CFC3] bg-white px-3 text-sm text-[#1A2820] outline-none transition-colors placeholder:text-[#A39E93] focus:border-[#1B4336] focus:ring-1 focus:ring-[#1B4336]/25';
+  'h-11 w-full rounded-[4px] border border-[#D5CFC3] bg-white px-3 text-base text-[#1A2820] outline-none transition-colors duration-200 placeholder:text-[#53635B] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4336] motion-reduce:transition-none md:text-sm';
 
 export function EmptyState({ icon = 'inbox', title, children }: { icon?: IconName; title: string; children?: ReactNode }) {
   return (

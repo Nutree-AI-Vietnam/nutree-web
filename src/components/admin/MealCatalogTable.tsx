@@ -29,7 +29,7 @@ export function MealCatalogTable({
     <section className="overflow-hidden border border-[#E3DDD2] bg-[#FBF9F4]">
       <div className="hidden overflow-x-auto lg:block">
         <table className="w-full min-w-[1080px] border-collapse text-left text-sm">
-          <thead className="border-b border-[#E3DDD2] text-[11px] uppercase tracking-[0.08em] text-[#6B756F]">
+          <thead className="border-b border-[#E3DDD2] text-xs uppercase tracking-[0.08em] text-[#53635B]">
             <tr>
               <th className="px-4 py-3">Món ăn</th>
               <th className="px-4 py-3">Ảnh</th>
@@ -85,7 +85,7 @@ function TableRow({ item, isGenerating, isPreviewMode, onGenerateImage, onEdit }
         <p className="font-medium text-[#1A2820]">{item.name}</p>
         <p className="mt-1 text-xs text-[#5C6B62]">{item.catalog_key}</p>
         <p className="mt-2 line-clamp-2 text-sm text-[#5C6B62]">{item.description || 'Chưa có mô tả'}</p>
-        <p className="mt-2 text-[11px] uppercase tracking-[0.08em] text-[#1B4336]">{item.cuisine}</p>
+        <p className="mt-2 text-xs uppercase tracking-[0.08em] text-[#1B4336]">{item.cuisine}</p>
       </td>
       <td className="px-4 py-4 align-top">
         <ImagePreview item={item} />
@@ -149,7 +149,7 @@ function TypePills({ types }: { types: string[] }) {
   return (
     <div className="flex flex-wrap gap-1.5">
       {types.map((type) => (
-        <span key={type} className="bg-[#E5F0EA] px-1.5 py-0.5 text-[11px] font-medium text-[#1B4336]">
+        <span key={type} className="bg-[#E5F0EA] px-1.5 py-0.5 text-xs font-medium text-[#1B4336]">
           {type}
         </span>
       ))}
@@ -184,7 +184,7 @@ function RowActions({ item, isGenerating, isPreviewMode, onGenerateImage, onEdit
       <button
         type="button"
         onClick={() => onEdit(item)}
-        className="h-9 min-w-[8.5rem] border border-[#D5CFC3] bg-[#FBF9F4] px-3 text-sm font-medium text-[#1A2820] hover:border-[#1B4336]"
+        className="h-11 min-w-[8.5rem] cursor-pointer border border-[#D5CFC3] bg-[#FBF9F4] px-3 text-sm font-medium text-[#1A2820] hover:border-[#1B4336] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4336]"
       >
         Sửa
       </button>
@@ -192,7 +192,7 @@ function RowActions({ item, isGenerating, isPreviewMode, onGenerateImage, onEdit
         type="button"
         disabled={isGenerating || isPreviewMode}
         onClick={() => onGenerateImage(item, Boolean(item.image_url))}
-        className="h-9 min-w-[8.5rem] border border-[#1B4336] px-3 text-sm font-medium text-[#1B4336] transition-colors hover:bg-[#1B4336] hover:text-[#F4F1EA] disabled:border-[#D5CFC3] disabled:text-[#A39E93] disabled:hover:bg-transparent"
+        className="h-11 min-w-[8.5rem] cursor-pointer border border-[#1B4336] px-3 text-sm font-medium text-[#1B4336] transition-colors duration-200 hover:bg-[#1B4336] hover:text-[#F4F1EA] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4336] disabled:cursor-not-allowed disabled:border-[#D5CFC3] disabled:text-[#A39E93] disabled:hover:bg-transparent"
       >
         {label}
       </button>

@@ -66,7 +66,7 @@ export function AdminSupplementCatalogPageClient() {
           render: (product) => (
             <div>
               <p className="font-medium text-[#1A2820]">{product.name}</p>
-              {product.brand && <p className="text-xs text-[#8A8478]">{product.brand}</p>}
+              {product.brand && <p className="text-xs text-[#53635B]">{product.brand}</p>}
             </div>
           ),
         },

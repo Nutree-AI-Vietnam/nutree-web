@@ -1,7 +1,7 @@
 import { inputClass } from '@/components/admin/ui/AdminUi';
 import type { HasImageFilter, MealType } from '@/types/meal-catalog';
 
-const labelClass = 'mb-1 block text-[11px] font-medium uppercase tracking-[0.08em] text-[#6B756F]';
+const labelClass = 'mb-1 block text-xs font-medium uppercase tracking-[0.08em] text-[#53635B]';
 
 interface MealCatalogFiltersProps {
   q: string;
@@ -105,7 +105,7 @@ export function MealCatalogFilters({
         <button
           type="button"
           onClick={onRefresh}
-          className="mt-5 h-9 bg-[#1B4336] px-4 text-sm font-medium text-[#F4F1EA] transition-colors hover:bg-[#14352B]"
+          className="mt-5 h-11 cursor-pointer bg-[#1B4336] px-4 text-sm font-medium text-[#F4F1EA] transition-colors duration-200 hover:bg-[#14352B] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4336]"
         >
           Làm mới
         </button>

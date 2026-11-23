@@ -244,7 +244,7 @@ export function SupplementReviewPanel({ admin, onCatalogChanged }: { admin: Admi
               setKind(option.value);
               setPage(0);
             }}
-            className={`border px-3 py-2 text-xs font-medium ${kind === option.value ? 'border-[#1B4336] bg-[#1B4336] text-[#F4F1EA]' : 'border-[#D5CFC3] text-[#5C6B62] hover:border-[#1B4336]'}`}
+            className={`h-11 cursor-pointer border px-3 text-sm font-medium focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4336] ${kind === option.value ? 'border-[#1B4336] bg-[#1B4336] text-[#F4F1EA]' : 'border-[#D5CFC3] text-[#53635B] hover:border-[#1B4336]'}`}
           >
             {option.label}
           </button>

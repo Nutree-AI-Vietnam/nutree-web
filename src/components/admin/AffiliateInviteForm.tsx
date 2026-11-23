@@ -41,10 +41,10 @@ export function AffiliateInviteForm({ isBusy, isDisabled, onCreate }: Props) {
         }
       }}
     >
-      <label className="grid gap-1 text-[11px] font-medium uppercase tracking-[0.08em] text-[#6B756F]">
+      <label className="grid gap-1 text-xs font-medium uppercase tracking-[0.08em] text-[#53635B]">
         Dành cho ai
         <input
-          className="rounded-[4px] border border-[#D5CFC3] bg-white px-3 py-2 text-sm font-normal normal-case tracking-normal text-[#1A2820]"
+          className="h-11 rounded-[4px] border border-[#D5CFC3] bg-white px-3 text-base font-normal normal-case tracking-normal text-[#1A2820] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4336] md:text-sm"
           maxLength={120}
           onChange={(event) => setLabel(event.target.value)}
           placeholder="Tên hoặc kênh"
@@ -52,10 +52,10 @@ export function AffiliateInviteForm({ isBusy, isDisabled, onCreate }: Props) {
           value={label}
         />
       </label>
-      <label className="grid gap-1 text-[11px] font-medium uppercase tracking-[0.08em] text-[#6B756F]">
+      <label className="grid gap-1 text-xs font-medium uppercase tracking-[0.08em] text-[#53635B]">
         Phần trăm
         <input
-          className="rounded-[4px] border border-[#D5CFC3] bg-white px-3 py-2 text-sm font-normal normal-case tracking-normal text-[#1A2820]"
+          className="h-11 rounded-[4px] border border-[#D5CFC3] bg-white px-3 text-base font-normal normal-case tracking-normal text-[#1A2820] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4336] md:text-sm"
           inputMode="numeric"
           max={100}
           min={1}
@@ -65,10 +65,10 @@ export function AffiliateInviteForm({ isBusy, isDisabled, onCreate }: Props) {
           value={percent}
         />
       </label>
-      <label className="grid gap-1 text-[11px] font-medium uppercase tracking-[0.08em] text-[#6B756F]">
+      <label className="grid gap-1 text-xs font-medium uppercase tracking-[0.08em] text-[#53635B]">
         Hết hạn sau (ngày)
         <input
-          className="rounded-[4px] border border-[#D5CFC3] bg-white px-3 py-2 text-sm font-normal normal-case tracking-normal text-[#1A2820]"
+          className="h-11 rounded-[4px] border border-[#D5CFC3] bg-white px-3 text-base font-normal normal-case tracking-normal text-[#1A2820] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4336] md:text-sm"
           inputMode="numeric"
           max={3650}
           min={1}
@@ -79,7 +79,7 @@ export function AffiliateInviteForm({ isBusy, isDisabled, onCreate }: Props) {
         />
       </label>
       <button
-        className="bg-[#1B4336] px-4 py-2 text-sm font-medium text-[#F4F1EA] disabled:bg-[#C9C3B6]"
+        className="h-11 cursor-pointer bg-[#1B4336] px-4 text-sm font-medium text-[#F4F1EA] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4336] disabled:cursor-not-allowed disabled:bg-[#C9C3B6]"
         disabled={!isValid || isBusy || isDisabled}
         type="submit"
       >

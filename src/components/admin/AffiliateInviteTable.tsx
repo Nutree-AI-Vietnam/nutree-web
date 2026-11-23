@@ -24,7 +24,7 @@ export function AffiliateInviteTable({ items, busy, onRevoke, onRevokeAgain, onR
   return (
     <section className="overflow-x-auto border border-[#E3DDD2] bg-[#FBF9F4]">
       <table className="w-full min-w-[960px] border-collapse text-left text-sm">
-        <thead className="border-b border-[#E3DDD2] text-[11px] uppercase tracking-[0.08em] text-[#6B756F]">
+        <thead className="border-b border-[#E3DDD2] text-xs uppercase tracking-[0.08em] text-[#53635B]">
           <tr>
             <th className="px-4 py-3 font-semibold">Dành cho ai</th>
             <th className="px-4 py-3 font-semibold">Phần trăm</th>

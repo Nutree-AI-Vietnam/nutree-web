@@ -100,7 +100,7 @@ function Editor({
           />
         </Field>
         <fieldset>
-          <legend className="mb-1 text-[11px] font-medium uppercase tracking-[0.08em] text-[#6B756F]">Bữa ăn</legend>
+          <legend className="mb-1 text-xs font-medium uppercase tracking-[0.08em] text-[#53635B]">Bữa ăn</legend>
           <div className="flex flex-wrap gap-2">
             {MEALS.map((meal) => {
               const on = meals.includes(meal.value);
@@ -114,7 +114,7 @@ function Editor({
                       on ? current.filter((value) => value !== meal.value) : [...current, meal.value]
                     )
                   }
-                  className={`border px-3 py-1.5 text-sm ${on ? 'border-[#1B4336] bg-[#1B4336] text-[#F4F1EA]' : 'border-[#D5CFC3] text-[#3E4A43]'}`}
+                  className={`h-11 cursor-pointer border px-3 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4336] ${on ? 'border-[#1B4336] bg-[#1B4336] text-[#F4F1EA]' : 'border-[#D5CFC3] text-[#3E4A43]'}`}
                 >
                   {meal.label}
                 </button>

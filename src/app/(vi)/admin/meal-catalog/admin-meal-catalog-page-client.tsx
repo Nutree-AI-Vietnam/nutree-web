@@ -236,8 +236,8 @@ export function AdminMealCatalogPageClient() {
       title="Danh mục món ăn"
       description="Catalog máy chủ dùng để lập kế hoạch bữa ăn. Thư viện công thức là file điện thoại tải về, và hai bên không tự cập nhật cho nhau. Sửa một món ở đây; nhập lại file seed có thể ghi đè tên, bữa ăn và nguyên liệu."
       toolbar={<>
-        <button type="button" onClick={() => setActiveView('catalog')} className={`border px-3 py-2 text-xs font-medium ${activeView === 'catalog' ? 'border-[#1B4336] bg-[#1B4336] text-[#F4F1EA]' : 'border-[#D5CFC3] text-[#5C6B62] hover:border-[#1B4336]'}`}>Xem danh mục</button>
-        <button type="button" onClick={() => { setActiveView('import'); setImportError(null); }} className={`border px-3 py-2 text-xs font-medium ${activeView === 'import' ? 'border-[#1B4336] bg-[#1B4336] text-[#F4F1EA]' : 'border-[#D5CFC3] text-[#5C6B62] hover:border-[#1B4336]'}`}>Nhập &amp; đối chiếu</button>
+        <button type="button" onClick={() => setActiveView('catalog')} className={`h-11 cursor-pointer border px-3 text-sm font-medium focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4336] ${activeView === 'catalog' ? 'border-[#1B4336] bg-[#1B4336] text-[#F4F1EA]' : 'border-[#D5CFC3] text-[#53635B] hover:border-[#1B4336]'}`}>Xem danh mục</button>
+        <button type="button" onClick={() => { setActiveView('import'); setImportError(null); }} className={`h-11 cursor-pointer border px-3 text-sm font-medium focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4336] ${activeView === 'import' ? 'border-[#1B4336] bg-[#1B4336] text-[#F4F1EA]' : 'border-[#D5CFC3] text-[#53635B] hover:border-[#1B4336]'}`}>Nhập &amp; đối chiếu</button>
       </>}
     >
         {isPreviewMode && (
