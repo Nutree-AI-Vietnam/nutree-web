@@ -234,7 +234,16 @@ export function AdminMealCatalogPageClient() {
       admin={admin}
       current="/admin/meal-catalog"
       title="Danh mục món ăn"
-      description="Catalog máy chủ dùng để lập kế hoạch bữa ăn. Thư viện công thức là file điện thoại tải về, và hai bên không tự cập nhật cho nhau. Sửa một món ở đây; nhập lại file seed có thể ghi đè tên, bữa ăn và nguyên liệu."
+      description="Bảng này sắp được gỡ. Dữ liệu đang có vẫn nuôi tuần ăn cho đến khi server đọc file công thức."
+      alert={
+        <div role="status" className="border border-[#8E2F2F] bg-[#F8EBE8] px-4 py-4">
+          <p className="text-xs font-medium uppercase tracking-[0.14em] text-[#8E2F2F]">Sắp bỏ</p>
+          <p className="mt-1 text-lg font-medium text-[#1A2820]">Đừng nhập, sửa, hay tạo ảnh ở trang này.</p>
+          <p className="mt-2 max-w-3xl text-sm leading-relaxed text-[#1A2820]">
+            Danh mục món máy chủ trùng thư viện công thức điện thoại tải về. Món mới chỉ đưa vào thư viện công thức. Tuần ăn hiện tại vẫn đọc các món đang có trong bảng cho đến khi server chuyển sang file đó.
+          </p>
+        </div>
+      }
       toolbar={<>
         <button type="button" onClick={() => setActiveView('catalog')} className={`h-11 cursor-pointer border px-3 text-sm font-medium focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4336] ${activeView === 'catalog' ? 'border-[#1B4336] bg-[#1B4336] text-[#F4F1EA]' : 'border-[#D5CFC3] text-[#53635B] hover:border-[#1B4336]'}`}>Xem danh mục</button>
         <button type="button" onClick={() => { setActiveView('import'); setImportError(null); }} className={`h-11 cursor-pointer border px-3 text-sm font-medium focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4336] ${activeView === 'import' ? 'border-[#1B4336] bg-[#1B4336] text-[#F4F1EA]' : 'border-[#D5CFC3] text-[#53635B] hover:border-[#1B4336]'}`}>Nhập &amp; đối chiếu</button>
