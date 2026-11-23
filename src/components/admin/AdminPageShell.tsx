@@ -19,6 +19,8 @@ interface Props {
   current: AdminPageHref;
   title: string;
   description: string;
+  /** A full-width notice between the title and the toolbar. */
+  alert?: ReactNode;
   /** Tabs or controls under the title. */
   toolbar?: ReactNode;
   /** Buttons at the right of the title. */
@@ -27,7 +29,7 @@ interface Props {
 }
 
 /** Page title inside the admin frame. The sidebar lives in the layout and stays put. */
-export function AdminPageShell({ title, description, toolbar, actions, children }: Props) {
+export function AdminPageShell({ title, description, alert, toolbar, actions, children }: Props) {
   return (
     <div className="mx-auto max-w-[1280px] px-4 py-6 md:px-8 md:py-8">
       <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
@@ -37,6 +39,7 @@ export function AdminPageShell({ title, description, toolbar, actions, children 
         </div>
         {actions && <div className="flex flex-wrap items-center gap-2">{actions}</div>}
       </div>
+      {alert && <div className="mb-5">{alert}</div>}
       {toolbar && <div className="mb-5 flex flex-wrap gap-2">{toolbar}</div>}
       <div className="grid gap-5">{children}</div>
     </div>
