@@ -3,17 +3,16 @@
 import { useEffect, type ButtonHTMLAttributes, type ReactNode } from 'react';
 import { cn } from '@/lib/cn';
 
-/* Admin console primitives. Deliberately not the marketing look: neutral
-   slate surfaces, rounded cards, compact type, one accent per state. */
+/* Ops console. Paper and forest, small radius, no card shadows. */
 
 type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger' | 'warning';
 
 const BUTTON_VARIANTS: Record<ButtonVariant, string> = {
-  primary: 'bg-slate-900 text-white hover:bg-slate-700 disabled:bg-slate-300',
-  secondary: 'border border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50 disabled:text-slate-400',
-  ghost: 'text-slate-600 hover:bg-slate-100 hover:text-slate-900 disabled:text-slate-300',
-  danger: 'border border-red-200 bg-white text-red-700 hover:bg-red-50 disabled:text-red-300',
-  warning: 'bg-rose-600 text-white hover:bg-rose-700 disabled:bg-rose-300',
+  primary: 'bg-[#1B4336] text-[#F4F1EA] hover:bg-[#14352B] disabled:bg-[#C9C3B6]',
+  secondary: 'border border-[#D5CFC3] bg-[#FBF9F4] text-[#1A2820] hover:border-[#1B4336] disabled:text-[#A39E93]',
+  ghost: 'text-[#3E4A43] hover:bg-[#E7E1D6] hover:text-[#1A2820] disabled:text-[#C9C3B6]',
+  danger: 'border border-[#E4C8C4] bg-[#FBF9F4] text-[#8E2F2F] hover:bg-[#F8EBE8] disabled:text-[#E4C8C4]',
+  warning: 'bg-[#8E2F2F] text-[#F4F1EA] hover:bg-[#742626] disabled:bg-[#E4C8C4]',
 };
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -39,8 +38,9 @@ export function Button({
       type={type}
       disabled={disabled || isBusy}
       className={cn(
-        'inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-lg font-medium transition-colors disabled:cursor-not-allowed',
-        size === 'sm' ? 'h-8 px-2.5 text-xs' : 'h-9 px-3.5 text-sm',
+        'inline-flex min-h-11 cursor-pointer items-center justify-center gap-1.5 whitespace-nowrap rounded-[4px] font-medium transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4336] disabled:cursor-not-allowed motion-reduce:transition-none',
+        size === 'sm' ? 'px-3 text-sm' : 'px-3.5 text-sm',
+        !children && 'min-w-11 px-0',
         BUTTON_VARIANTS[variant],
         className
       )}
@@ -52,12 +52,10 @@ export function Button({
   );
 }
 
+export const panelClass = 'rounded-[4px] border border-[#E3DDD2] bg-[#FBF9F4]';
+
 export function Card({ className, children }: { className?: string; children: ReactNode }) {
-  return (
-    <section className={cn('rounded-xl border border-slate-200 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]', className)}>
-      {children}
-    </section>
-  );
+  return <section className={cn(panelClass, className)}>{children}</section>;
 }
 
 export function CardHeader({
@@ -72,16 +70,16 @@ export function CardHeader({
   icon?: IconName;
 }) {
   return (
-    <header className="flex flex-wrap items-start justify-between gap-3 border-b border-slate-100 px-5 py-4">
+    <header className="flex flex-wrap items-start justify-between gap-3 border-b border-[#E3DDD2] px-5 py-4">
       <div className="flex min-w-0 items-start gap-3">
         {icon && (
-          <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-600">
+          <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center text-[#1B4336]">
             <Icon name={icon} className="h-4 w-4" />
           </span>
         )}
         <div className="min-w-0">
-          <h2 className="text-sm font-semibold text-slate-900">{title}</h2>
-          {description && <p className="mt-0.5 text-xs text-slate-500">{description}</p>}
+          <h2 className="text-sm font-medium text-[#1A2820]">{title}</h2>
+          {description && <p className="mt-0.5 text-xs leading-relaxed text-[#5C6B62]">{description}</p>}
         </div>
       </div>
       {actions && <div className="flex flex-wrap items-center gap-2">{actions}</div>}
@@ -92,17 +90,17 @@ export function CardHeader({
 export type BadgeTone = 'neutral' | 'green' | 'blue' | 'amber' | 'red' | 'violet';
 
 const BADGE_TONES: Record<BadgeTone, string> = {
-  neutral: 'bg-slate-100 text-slate-600 ring-slate-200',
-  green: 'bg-emerald-50 text-emerald-700 ring-emerald-200',
-  blue: 'bg-sky-50 text-sky-700 ring-sky-200',
-  amber: 'bg-amber-50 text-amber-800 ring-amber-200',
-  red: 'bg-rose-50 text-rose-700 ring-rose-200',
-  violet: 'bg-violet-50 text-violet-700 ring-violet-200',
+  neutral: 'bg-[#EFEBE3] text-[#3E4A43]',
+  green: 'bg-[#E5F0EA] text-[#1B4336]',
+  blue: 'bg-[#E7EEF2] text-[#245066]',
+  amber: 'bg-[#F4EBD4] text-[#6B4E12]',
+  red: 'bg-[#F6E6E3] text-[#8E2F2F]',
+  violet: 'bg-[#EFE8F2] text-[#5A3D66]',
 };
 
 export function Badge({ tone = 'neutral', children, dot = false }: { tone?: BadgeTone; children: ReactNode; dot?: boolean }) {
   return (
-    <span className={cn('inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-medium ring-1 ring-inset', BADGE_TONES[tone])}>
+    <span className={cn('inline-flex items-center gap-1 px-1.5 py-0.5 text-xs font-medium', BADGE_TONES[tone])}>
       {dot && <span className="h-1.5 w-1.5 rounded-full bg-current" />}
       {children}
     </span>
@@ -119,7 +117,7 @@ export function Tabs<T extends string>({
   items: { value: T; label: string; count?: number }[];
 }) {
   return (
-    <div role="tablist" className="inline-flex rounded-lg bg-slate-100 p-1">
+    <div role="tablist" className="inline-flex gap-1 border-b border-[#E3DDD2]">
       {items.map((item) => (
         <button
           key={item.value}
@@ -128,13 +126,13 @@ export function Tabs<T extends string>({
           aria-selected={value === item.value}
           onClick={() => onChange(item.value)}
           className={cn(
-            'flex items-center gap-2 rounded-md px-3 py-1.5 text-sm font-medium transition-colors',
-            value === item.value ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-800'
+            '-mb-px flex min-h-11 cursor-pointer items-center gap-2 border-b-2 px-3 text-sm transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4336] motion-reduce:transition-none',
+            value === item.value ? 'border-[#1B4336] font-medium text-[#1A2820]' : 'border-transparent text-[#5C6B62] hover:text-[#1A2820]'
           )}
         >
           {item.label}
           {item.count !== undefined && (
-            <span className="rounded-full bg-slate-200/70 px-1.5 text-[11px] text-slate-600">{item.count}</span>
+            <span className="text-xs text-[#53635B]">{item.count}</span>
           )}
         </button>
       ))}
@@ -164,17 +162,17 @@ export function Drawer({
   if (!open) return null;
   return (
     <div className="fixed inset-0 z-50 flex justify-end">
-      <button type="button" aria-label="Đóng" className="absolute inset-0 bg-slate-900/30" onClick={onClose} />
-      <aside role="dialog" aria-modal="true" className={cn('relative flex h-full w-full flex-col bg-white shadow-2xl', width)}>
-        <header className="flex items-start justify-between gap-4 border-b border-slate-100 px-6 py-4">
+      <button type="button" aria-label="Đóng" className="absolute inset-0 bg-[#12241C]/40" onClick={onClose} />
+      <aside role="dialog" aria-modal="true" className={cn('relative flex h-full w-full flex-col bg-[#FBF9F4]', width)}>
+        <header className="flex items-start justify-between gap-4 border-b border-[#E3DDD2] px-6 py-4">
           <div className="min-w-0">
-            <h2 className="truncate text-base font-semibold text-slate-900">{title}</h2>
-            {description && <p className="mt-0.5 text-xs text-slate-500">{description}</p>}
+            <h2 className="truncate text-base font-medium text-[#1A2820]">{title}</h2>
+            {description && <p className="mt-0.5 text-xs leading-relaxed text-[#5C6B62]">{description}</p>}
           </div>
           <Button variant="ghost" size="sm" icon="close" onClick={onClose} aria-label="Đóng" />
         </header>
         <div className="flex-1 overflow-y-auto px-6 py-5">{children}</div>
-        {footer && <footer className="border-t border-slate-100 bg-slate-50/70 px-6 py-3">{footer}</footer>}
+        {footer && <footer className="border-t border-[#E3DDD2] px-6 py-3">{footer}</footer>}
       </aside>
     </div>
   );
@@ -197,14 +195,14 @@ export function Modal({
   if (!open) return null;
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <button type="button" aria-label="Đóng" className="absolute inset-0 bg-slate-900/40" onClick={onClose} />
-      <div role="dialog" aria-modal="true" className="relative w-full max-w-lg rounded-2xl bg-white shadow-2xl">
-        <header className="flex items-center justify-between border-b border-slate-100 px-5 py-4">
-          <h2 className="text-base font-semibold text-slate-900">{title}</h2>
+      <button type="button" aria-label="Đóng" className="absolute inset-0 bg-[#12241C]/40" onClick={onClose} />
+      <div role="dialog" aria-modal="true" className="relative w-full max-w-lg border border-[#E3DDD2] bg-[#FBF9F4]">
+        <header className="flex items-center justify-between border-b border-[#E3DDD2] px-5 py-4">
+          <h2 className="text-base font-medium text-[#1A2820]">{title}</h2>
           <Button variant="ghost" size="sm" icon="close" onClick={onClose} aria-label="Đóng" />
         </header>
         <div className="px-5 py-4">{children}</div>
-        {footer && <footer className="flex justify-end gap-2 border-t border-slate-100 px-5 py-3">{footer}</footer>}
+        {footer && <footer className="flex justify-end gap-2 border-t border-[#E3DDD2] px-5 py-3">{footer}</footer>}
       </div>
     </div>
   );
@@ -224,24 +222,24 @@ function useEscape(open: boolean, onClose: () => void) {
 export function Field({ label, hint, children, className }: { label: string; hint?: string; children: ReactNode; className?: string }) {
   return (
     <label className={cn('block', className)}>
-      <span className="mb-1 block text-xs font-medium text-slate-600">{label}</span>
+      <span className="mb-1 block text-xs font-medium uppercase tracking-[0.08em] text-[#53635B]">{label}</span>
       {children}
-      {hint && <span className="mt-1 block text-[11px] text-slate-400">{hint}</span>}
+      {hint && <span className="mt-1 block text-xs leading-snug text-[#53635B]">{hint}</span>}
     </label>
   );
 }
 
 export const inputClass =
-  'h-9 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-900 outline-none transition-colors placeholder:text-slate-400 focus:border-slate-400 focus:ring-2 focus:ring-slate-200';
+  'h-11 w-full rounded-[4px] border border-[#D5CFC3] bg-white px-3 text-base text-[#1A2820] outline-none transition-colors duration-200 placeholder:text-[#53635B] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4336] motion-reduce:transition-none md:text-sm';
 
 export function EmptyState({ icon = 'inbox', title, children }: { icon?: IconName; title: string; children?: ReactNode }) {
   return (
     <div className="flex flex-col items-center justify-center px-6 py-12 text-center">
-      <span className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-500">
+      <span className="text-[#1B4336]">
         <Icon name={icon} className="h-5 w-5" />
       </span>
-      <p className="mt-3 text-sm font-medium text-slate-800">{title}</p>
-      {children && <div className="mt-1 max-w-sm text-xs text-slate-500">{children}</div>}
+      <p className="mt-3 text-sm font-medium text-[#1A2820]">{title}</p>
+      {children && <div className="mt-1 max-w-sm text-xs text-[#5C6B62]">{children}</div>}
     </div>
   );
 }

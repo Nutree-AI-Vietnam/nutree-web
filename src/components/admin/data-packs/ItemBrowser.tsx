@@ -55,11 +55,11 @@ export function ItemBrowser<T extends PackItem>({
 
   return (
     <Card>
-      <div className="flex flex-wrap items-center gap-3 border-b border-slate-100 px-5 py-4">
+      <div className="flex flex-wrap items-center gap-3 border-b border-[#E3DDD2] px-5 py-4">
         {packIds.length > 1 && (
           <select
             aria-label="Ngôn ngữ"
-            className="h-9 rounded-lg border border-slate-200 bg-white px-3 text-sm"
+            className={`${inputClass} w-auto`}
             value={packId}
             onChange={(event) => onPackChange(event.target.value)}
           >
@@ -77,7 +77,7 @@ export function ItemBrowser<T extends PackItem>({
             onSearch(query.trim());
           }}
         >
-          <Icon name="search" className="pointer-events-none absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
+          <Icon name="search" className="pointer-events-none absolute left-3 top-3.5 h-4 w-4 text-[#53635B]" />
           <input
             aria-label={`Tìm ${noun.many}`}
             className={`${inputClass} pl-9`}
@@ -107,7 +107,7 @@ export function ItemBrowser<T extends PackItem>({
         <>
           <div className="overflow-x-auto">
             <table className="w-full min-w-[640px] text-left text-sm">
-              <thead className="text-[11px] uppercase tracking-wider text-slate-400">
+              <thead className="text-xs uppercase tracking-[0.08em] text-[#53635B]">
                 <tr>
                   {columns.map((column) => (
                     <th key={column.label} className={`px-5 py-2.5 font-medium ${column.align === 'right' ? 'text-right' : ''}`}>
@@ -117,21 +117,21 @@ export function ItemBrowser<T extends PackItem>({
                   <th className="w-10" />
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-[#EDE8DE]">
                 {data.items.map((item) => (
-                  <tr key={item.id} className="group cursor-pointer hover:bg-slate-50" onClick={() => onOpen(item)}>
+                  <tr key={item.id} className="group cursor-pointer hover:bg-[#F4F1EA]" onClick={() => onOpen(item)}>
                     {columns.map((column) => (
-                      <td key={column.label} className={`px-5 py-3 ${column.align === 'right' ? 'text-right tabular-nums text-slate-600' : ''}`}>
+                      <td key={column.label} className={`px-5 py-3 ${column.align === 'right' ? 'text-right tabular-nums text-[#3E4A43]' : ''}`}>
                         {column.render(item)}
                       </td>
                     ))}
-                    <td className="pr-4 text-slate-300 group-hover:text-slate-500">›</td>
+                    <td className="pr-4 text-[#C9C3B6] group-hover:text-[#1B4336]">›</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-          <div className="flex items-center justify-between border-t border-slate-100 px-5 py-3 text-xs text-slate-500">
+          <div className="flex items-center justify-between border-t border-[#E3DDD2] px-5 py-3 text-xs text-[#5C6B62]">
             <span>
               {page * pageSize + 1}–{Math.min((page + 1) * pageSize, total)} / {total.toLocaleString('vi-VN')}
             </span>

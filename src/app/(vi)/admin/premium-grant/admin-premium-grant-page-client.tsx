@@ -135,7 +135,7 @@ export function AdminPremiumGrantPageClient() {
           </Button>
         </form>
         {account && (
-          <p className="border-t border-slate-100 px-4 py-3 text-sm text-slate-700">
+          <p className="border-t border-[#E3DDD2] px-4 py-3 text-sm text-[#1A2820]">
             {account.email}: {ENTITLEMENT[account.entitlement]}
             {account.firebase_uid ? ` · ${account.firebase_uid}` : ''}
           </p>

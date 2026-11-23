@@ -33,11 +33,11 @@ export function AdminRecipesPageClient() {
                 // eslint-disable-next-line @next/next/no-img-element -- remote recipe photos from many hosts
                 <img src={recipe.image_url} alt="" className="h-9 w-9 shrink-0 rounded-md object-cover" loading="lazy" />
               ) : (
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-slate-100 text-slate-400">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center bg-[#E7E1D6] text-[#53635B]">
                   <Icon name="catalog" className="h-4 w-4" />
                 </span>
               )}
-              <span className="font-medium text-slate-900">{recipe.name || 'Chưa đặt tên'}</span>
+              <span className="font-medium text-[#1A2820]">{recipe.name || 'Chưa đặt tên'}</span>
             </div>
           ),
         },

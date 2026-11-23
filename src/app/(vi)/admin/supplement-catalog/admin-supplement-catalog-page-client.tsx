@@ -65,15 +65,15 @@ export function AdminSupplementCatalogPageClient() {
           label: 'Sản phẩm',
           render: (product) => (
             <div>
-              <p className="font-medium text-slate-900">{product.name}</p>
-              {product.brand && <p className="text-xs text-slate-400">{product.brand}</p>}
+              <p className="font-medium text-[#1A2820]">{product.name}</p>
+              {product.brand && <p className="text-xs text-[#53635B]">{product.brand}</p>}
             </div>
           ),
         },
         { label: 'Dạng', render: (product) => <Badge>{product.form}</Badge> },
         {
           label: 'Ở Việt Nam',
-          render: (product) => (product.sold_in_vn ? <Badge tone="green">Có bán ở VN</Badge> : <span className="text-slate-300">—</span>),
+          render: (product) => (product.sold_in_vn ? <Badge tone="green">Có bán ở VN</Badge> : <span className="text-[#C9C3B6]">—</span>),
         },
         { label: 'Mã vạch', align: 'right', render: (product) => product.barcodes.length },
       ]}

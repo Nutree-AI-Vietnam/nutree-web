@@ -19,7 +19,7 @@ export function PremiumGrantForm({ isBusy, isDisabled, onGrant }: Props) {
 
   return (
     <form
-      className="grid gap-3 rounded-xl border border-slate-200 bg-white p-4 md:grid-cols-[minmax(0,1fr)_auto] md:items-end"
+      className="grid gap-3 border border-[#E3DDD2] bg-[#FBF9F4] p-4 md:grid-cols-[minmax(0,1fr)_auto] md:items-end"
       onSubmit={async (event) => {
         event.preventDefault();
         if (!isValid || isBusy || isDisabled) return;

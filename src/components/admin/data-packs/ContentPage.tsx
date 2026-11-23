@@ -189,8 +189,8 @@ export function ContentPage<T extends PackItem>(props: Props<T>) {
             <AdminBanner tone={packs.message.tone} title={packs.message.tone === 'error' ? 'Không thực hiện được' : 'Đã lưu'} message={packs.message.text} />
           )}
           {loadError && <AdminBanner tone="error" title={`Không tải được ${noun.many}`} message={loadError} />}
-          <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3">
-            <label className="flex items-center gap-2 text-sm text-slate-700">
+          <div className="flex flex-wrap items-center justify-between gap-3 border border-[#E3DDD2] bg-[#FBF9F4] px-4 py-3">
+            <label className="flex items-center gap-2 text-sm text-[#1A2820]">
               <input
                 type="checkbox"
                 checked={batching}
@@ -204,7 +204,7 @@ export function ContentPage<T extends PackItem>(props: Props<T>) {
             </label>
             {batching && (
               <div className="flex items-center gap-2">
-                <span className="text-xs text-slate-500">{pending === 0 ? 'Chưa có thay đổi' : `${pending} thay đổi chưa phát hành`}</span>
+                <span className="text-xs text-[#5C6B62]">{pending === 0 ? 'Chưa có thay đổi' : `${pending} thay đổi chưa phát hành`}</span>
                 <Button size="sm" variant="primary" icon="rocket" disabled={pending === 0} isBusy={packs.busy !== null} onClick={() => void publishDraft()}>
                   Phát hành
                 </Button>

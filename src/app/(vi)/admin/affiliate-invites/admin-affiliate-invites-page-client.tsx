@@ -7,6 +7,7 @@ import { AffiliateInviteForm } from '@/components/admin/AffiliateInviteForm';
 import { AffiliateInviteLink } from '@/components/admin/AffiliateInviteLink';
 import { AffiliateInviteTable } from '@/components/admin/AffiliateInviteTable';
 import { MealCatalogPagination } from '@/components/admin/MealCatalogPagination';
+import { inputClass } from '@/components/admin/ui/AdminUi';
 import { adminErrorMessage, useAdminSession } from '@/hooks/useAdminSession';
 import { type ActionMessage, useAffiliateInviteActions } from '@/hooks/useAffiliateInviteActions';
 import { createAffiliateInvite, fetchAffiliateInvites } from '@/lib/affiliate-invite-admin-api';
@@ -143,7 +144,7 @@ export function AdminAffiliateInvitesPageClient() {
       <AffiliateInviteForm isBusy={isCreating} isDisabled={isPreviewMode} onCreate={handleCreate} />
       <div className="flex flex-wrap gap-2">
         <input
-          className="h-9 max-w-xs rounded-lg border border-slate-200 bg-white px-3 text-sm"
+          className={`${inputClass} max-w-xs`}
           placeholder="Tìm theo tên hoặc email"
           value={q}
           onChange={(event) => {
@@ -152,7 +153,7 @@ export function AdminAffiliateInvitesPageClient() {
           }}
         />
         <select
-          className="h-9 rounded-lg border border-slate-200 bg-white px-3 text-sm"
+          className={`${inputClass} w-auto`}
           value={status}
           onChange={(event) => {
             setPage(0);
@@ -183,7 +184,7 @@ export function AdminAffiliateInvitesPageClient() {
         onNext={() => setPage((value) => value + 1)}
       />
       {!isLoading && data.items.length === 0 && !error ? (
-        <p className="border border-slate-200 bg-white p-6 text-sm text-slate-500 rounded-xl">Chưa có lời mời nào.</p>
+        <p className="border border-[#E3DDD2] bg-[#FBF9F4] p-6 text-sm text-[#5C6B62]">Chưa có lời mời nào.</p>
       ) : (
         <AffiliateInviteTable
           items={data.items}

@@ -9,7 +9,7 @@ const STATUS_LABELS: Record<AffiliateInviteStatus, string> = {
 
 const DATE_FORMAT = new Intl.DateTimeFormat('vi-VN', { dateStyle: 'medium', timeStyle: 'short' });
 
-const BUTTON = 'whitespace-nowrap border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold disabled:text-slate-400 rounded-lg';
+const BUTTON = 'whitespace-nowrap border border-[#D5CFC3] bg-[#FBF9F4] px-3 py-1.5 text-xs font-medium text-[#1A2820] disabled:text-[#C9C3B6]';
 
 interface Props {
   items: AffiliateInvite[];
@@ -22,9 +22,9 @@ interface Props {
 /** Every invite with its state; tokens never reach this table. */
 export function AffiliateInviteTable({ items, busy, onRevoke, onRevokeAgain, onRetryPremium }: Props) {
   return (
-    <section className="overflow-x-auto border border-slate-200 bg-white rounded-xl">
+    <section className="overflow-x-auto border border-[#E3DDD2] bg-[#FBF9F4]">
       <table className="w-full min-w-[960px] border-collapse text-left text-sm">
-        <thead className="border-b border-slate-200 bg-slate-50 text-xs text-slate-500">
+        <thead className="border-b border-[#E3DDD2] text-xs uppercase tracking-[0.08em] text-[#53635B]">
           <tr>
             <th className="px-4 py-3 font-semibold">Dành cho ai</th>
             <th className="px-4 py-3 font-semibold">Phần trăm</th>
@@ -41,28 +41,28 @@ export function AffiliateInviteTable({ items, busy, onRevoke, onRevokeAgain, onR
         </thead>
         <tbody>
           {items.map((invite) => (
-            <tr key={invite.id} className="border-b border-slate-200 last:border-b-0">
-              <td className="px-4 py-3 font-semibold text-slate-900">{invite.label}</td>
+            <tr key={invite.id} className="border-b border-[#EDE8DE] last:border-b-0">
+              <td className="px-4 py-3 font-medium text-[#1A2820]">{invite.label}</td>
               <td className="px-4 py-3">{invite.commission_percent}%</td>
               <td className="px-4 py-3">
                 {STATUS_LABELS[invite.status]}
                 {invite.status === 'revoked' && invite.revoked_at && (
-                  <span className="block text-xs text-slate-500">{formatDate(invite.revoked_at)}</span>
+                  <span className="block text-xs text-[#5C6B62]">{formatDate(invite.revoked_at)}</span>
                 )}
               </td>
-              <td className="px-4 py-3 text-slate-500">{formatDate(invite.created_at)}</td>
-              <td className="px-4 py-3 text-slate-500">{invite.expires_at ? formatDate(invite.expires_at) : 'Không hết hạn'}</td>
+              <td className="px-4 py-3 text-[#5C6B62]">{formatDate(invite.created_at)}</td>
+              <td className="px-4 py-3 text-[#5C6B62]">{invite.expires_at ? formatDate(invite.expires_at) : 'Không hết hạn'}</td>
               <td className="px-4 py-3">
                 {invite.claimed_by_user_id ? (
                   <>
                     {invite.claimed_by_email ?? 'Tài khoản đã xóa'}
-                    <span className="block font-mono text-xs text-slate-500">{invite.claimed_by_user_id}</span>
+                    <span className="block font-mono text-xs text-[#5C6B62]">{invite.claimed_by_user_id}</span>
                   </>
                 ) : (
-                  <span className="text-slate-500">Chưa ai nhận</span>
+                  <span className="text-[#5C6B62]">Chưa ai nhận</span>
                 )}
               </td>
-              <td className="px-4 py-3 text-slate-500">{invite.claimed_at ? formatDate(invite.claimed_at) : ''}</td>
+              <td className="px-4 py-3 text-[#5C6B62]">{invite.claimed_at ? formatDate(invite.claimed_at) : ''}</td>
               <td className="px-4 py-3">
                 {invite.claimed_by_user_id && (
                   <PremiumState
@@ -104,11 +104,11 @@ interface PremiumStateProps {
 function PremiumState({ invite, action, onRevokeAgain, onRetryPremium }: PremiumStateProps) {
   const revoked = invite.status === 'revoked';
   return (
-    <div className="grid justify-items-start gap-1 text-slate-500">
+    <div className="grid justify-items-start gap-1 text-[#5C6B62]">
       <span>{invite.premium_granted_at ? `Đã cấp ${formatDate(invite.premium_granted_at)}` : 'Chưa cấp'}</span>
       {!revoked && !invite.premium_granted_at && (
         <button
-          className={`${BUTTON} text-slate-900 hover:border-slate-300`}
+          className={`${BUTTON} hover:border-[#1B4336]`}
           disabled={action !== undefined}
           onClick={() => onRetryPremium(invite)}
           type="button"
