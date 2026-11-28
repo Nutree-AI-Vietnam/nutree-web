@@ -573,7 +573,7 @@ export const translations: Record<Locale, TranslationStrings> = {
             },
             {
               question: 'How do I request a refund?',
-              answer: 'Apple reviews App Store refund requests at reportaproblem.apple.com. Google Play reviews Google Play refund requests in Google Play. For Paddle web checkout, Nutree does not publish its own refund promise. Paddle is the merchant of record, and the buyer terms are at https://www.paddle.com/legal/buyer-terms. That reference does not waive a consumer right the law does not allow to be waived. VietQR does not renew automatically, and this answer does not add a Nutree refund promise for it. Help: https://m.me/1019820571221637 or nutreeaidev@gmail.com. Published steps: nutreeai.com/cancellation.',
+              answer: 'Apple reviews App Store refund requests at reportaproblem.apple.com. Within 48 hours of a Google Play charge, request a refund in Google Play, and Google decides. After 48 hours, contact Nutree, and we review each request. Cancelling a Google Play subscription stops renewals but does not refund a charge already made. For Paddle web checkout, Nutree does not publish its own refund promise. Paddle is the merchant of record, and the buyer terms are at https://www.paddle.com/legal/buyer-terms. That reference does not waive a consumer right the law does not allow to be waived. VietQR does not renew automatically, and this answer does not add a Nutree refund promise for it. Help: https://m.me/1019820571221637 or support@nutreeai.com. Published steps: nutreeai.com/cancellation.',
             },
             {
               question: 'How do I restore my purchase on a new device?',
@@ -1100,7 +1100,7 @@ export const translations: Record<Locale, TranslationStrings> = {
             },
             {
               question: 'Làm sao yêu cầu hoàn tiền?',
-              answer: 'Apple xem xét yêu cầu hoàn tiền App Store tại reportaproblem.apple.com. Google Play xem xét yêu cầu hoàn tiền trong Google Play. Với thanh toán web Paddle, Nutree không công bố cam kết hoàn tiền riêng. Paddle là đơn vị bán hàng, và điều khoản người mua nằm ở https://www.paddle.com/legal/buyer-terms. Việc dẫn điều khoản đó không từ bỏ quyền người tiêu dùng mà pháp luật không cho phép từ bỏ. VietQR không tự động gia hạn, và câu trả lời này không thêm cam kết hoàn tiền riêng của Nutree cho VietQR. Hỗ trợ: https://m.me/1019820571221637 hoặc nutreeaidev@gmail.com. Các bước đã công bố: nutreeai.com/cancellation.',
+              answer: 'Apple xem xét yêu cầu hoàn tiền App Store tại reportaproblem.apple.com. Trong 48 giờ kể từ khi Google Play trừ tiền, gửi yêu cầu hoàn tiền trong Google Play, và Google quyết định. Sau 48 giờ, liên hệ Nutree để chúng tôi xem xét từng yêu cầu. Hủy gói Google Play chỉ dừng gia hạn, không hoàn lại số tiền đã trừ. Với thanh toán web Paddle, Nutree không công bố cam kết hoàn tiền riêng. Paddle là đơn vị bán hàng, và điều khoản người mua nằm ở https://www.paddle.com/legal/buyer-terms. Việc dẫn điều khoản đó không từ bỏ quyền người tiêu dùng mà pháp luật không cho phép từ bỏ. VietQR không tự động gia hạn, và câu trả lời này không thêm cam kết hoàn tiền riêng của Nutree cho VietQR. Hỗ trợ: https://m.me/1019820571221637 hoặc support@nutreeai.com. Các bước đã công bố: nutreeai.com/cancellation.',
             },
             {
               question: 'Làm sao khôi phục gói đăng ký trên thiết bị mới?',
