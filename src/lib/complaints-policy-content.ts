@@ -39,7 +39,7 @@ export const complaintsPolicyContent: Record<Locale, LegalPageContent> = {
         title: 'Intake channels',
         body: [
           `Published company email: ${LEGAL_COMPANY.email}.`,
-          'Payment and access help uses the same contacts as the Payment Policy: [Facebook Messenger](https://m.me/1019820571221637) or nutreeaidev@gmail.com.',
+          `Payment and access help uses the same contacts as the Payment Policy: [Facebook Messenger](https://m.me/1019820571221637) or ${LEGAL_COMPANY.email}.`,
           'In-app support/feedback when available.',
           `Written mail: ${LEGAL_COMPANY.legalNameEn}, ${LEGAL_COMPANY.addressEn}.`,
           `Website: ${LEGAL_COMPANY.websiteDisplay}.`,
@@ -100,7 +100,7 @@ export const complaintsPolicyContent: Record<Locale, LegalPageContent> = {
         title: 'Kênh tiếp nhận',
         body: [
           `Email công ty đã công bố: ${LEGAL_COMPANY.email}.`,
-          'Hỗ trợ thanh toán và quyền dùng dùng cùng liên hệ với Chính sách thanh toán: [Facebook Messenger](https://m.me/1019820571221637) hoặc nutreeaidev@gmail.com.',
+          `Hỗ trợ thanh toán và quyền dùng dùng cùng liên hệ với Chính sách thanh toán: [Facebook Messenger](https://m.me/1019820571221637) hoặc ${LEGAL_COMPANY.email}.`,
           'Trong ứng dụng: mục Hỗ trợ/Phản hồi khi có.',
           `Văn bản: ${LEGAL_COMPANY.legalName}, ${LEGAL_COMPANY.address}.`,
           `Website: ${LEGAL_COMPANY.websiteDisplay}.`,

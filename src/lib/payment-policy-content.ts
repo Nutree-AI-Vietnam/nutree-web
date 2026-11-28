@@ -5,13 +5,13 @@ import { LEGAL_COMPANY } from './legal-company';
 const dates = {
   en: {
     effectiveDate: LEGAL_COMPANY.effectiveDate,
-    updatedDate: LEGAL_COMPANY.effectiveDate,
-    version: LEGAL_COMPANY.version,
+    updatedDate: '28/11/2026',
+    version: '1.1',
   },
   vi: {
     effectiveDate: LEGAL_COMPANY.effectiveDate,
-    updatedDate: LEGAL_COMPANY.effectiveDate,
-    version: LEGAL_COMPANY.version,
+    updatedDate: '28/11/2026',
+    version: '1.1',
   },
 };
 
@@ -55,7 +55,7 @@ export const paymentPolicyContent: Record<Locale, LegalPageContent> = {
         title: 'Activation and restore',
         body: [
           'A completed purchase is the entitlement for that transaction. This page does not describe a Restore action on the website, and it does not say a Paddle web checkout or a VietQR transfer restores automatically.',
-          'If access is missing, check the network and the status in the channel you paid with, then contact [Facebook Messenger](https://m.me/1019820571221637) or nutreeaidev@gmail.com with your receipt.',
+          `If access is missing, check the network and the status in the channel you paid with, then contact [Facebook Messenger](https://m.me/1019820571221637) or ${LEGAL_COMPANY.email} with your receipt.`,
         ],
       },
       {
@@ -69,13 +69,13 @@ export const paymentPolicyContent: Record<Locale, LegalPageContent> = {
         title: 'Failed, duplicate, or unrecognized charges',
         body: [
           'If a charge fails, follow the guidance on the channel you used: Apple, Google Play, or Paddle. A VietQR transfer is one-time; if it does not complete, the checkout can show the amount again. This page does not add a retry deadline.',
-          'For a duplicate or unrecognized charge, check the history in the channel that billed you. For an Apple purchase, also check the Apple account and Family Sharing if someone else manages it. Then contact [Facebook Messenger](https://m.me/1019820571221637) or nutreeaidev@gmail.com with the receipt. Do not send a full card number.',
+          `For a duplicate or unrecognized charge, check the history in the channel that billed you. For an Apple purchase, also check the Apple account and Family Sharing if someone else manages it. Then contact [Facebook Messenger](https://m.me/1019820571221637) or ${LEGAL_COMPANY.email} with the receipt. Do not send a full card number.`,
         ],
       },
       {
         title: 'Contact',
         body: [
-          'Payment help: [Facebook Messenger](https://m.me/1019820571221637) or nutreeaidev@gmail.com. See also the [Cancellation & Refund policy](/cancellation).',
+          `Payment help: [Facebook Messenger](https://m.me/1019820571221637) or ${LEGAL_COMPANY.email}. See also the [Cancellation & Refund policy](/cancellation).`,
         ],
       },
     ],
@@ -118,7 +118,7 @@ export const paymentPolicyContent: Record<Locale, LegalPageContent> = {
         title: 'Kích hoạt và khôi phục',
         body: [
           'Giao dịch đã hoàn tất là quyền dùng của giao dịch đó. Trang này không mô tả chức năng Khôi phục trên website, và không nói thanh toán web Paddle hoặc chuyển khoản VietQR tự khôi phục.',
-          'Nếu thiếu quyền dùng, kiểm tra kết nối và trạng thái trên kênh đã trả tiền, rồi nhắn [Facebook Messenger](https://m.me/1019820571221637) hoặc gửi biên nhận tới nutreeaidev@gmail.com.',
+          `Nếu thiếu quyền dùng, kiểm tra kết nối và trạng thái trên kênh đã trả tiền, rồi nhắn [Facebook Messenger](https://m.me/1019820571221637) hoặc gửi biên nhận tới ${LEGAL_COMPANY.email}.`,
         ],
       },
       {
@@ -132,13 +132,13 @@ export const paymentPolicyContent: Record<Locale, LegalPageContent> = {
         title: 'Giao dịch thất bại, trùng lặp hoặc không nhận biết',
         body: [
           'Nếu giao dịch thất bại, làm theo hướng dẫn của kênh bạn đã dùng: Apple, Google Play hoặc Paddle. VietQR là chuyển một lần; nếu chưa xong, màn hình thanh toán có thể hiện lại số tiền. Trang này không thêm hạn thử lại.',
-          'Với giao dịch trùng hoặc không nhận ra, kiểm tra lịch sử của kênh đã tính tiền. Với giao dịch Apple, cũng kiểm tra Tài khoản Apple và Chia sẻ trong gia đình nếu người khác quản lý tài khoản. Sau đó liên hệ [Facebook Messenger](https://m.me/1019820571221637) hoặc nutreeaidev@gmail.com kèm biên nhận. Không gửi đầy đủ số thẻ.',
+          `Với giao dịch trùng hoặc không nhận ra, kiểm tra lịch sử của kênh đã tính tiền. Với giao dịch Apple, cũng kiểm tra Tài khoản Apple và Chia sẻ trong gia đình nếu người khác quản lý tài khoản. Sau đó liên hệ [Facebook Messenger](https://m.me/1019820571221637) hoặc ${LEGAL_COMPANY.email} kèm biên nhận. Không gửi đầy đủ số thẻ.`,
         ],
       },
       {
         title: 'Liên hệ',
         body: [
-          'Hỗ trợ thanh toán: [Facebook Messenger](https://m.me/1019820571221637) hoặc nutreeaidev@gmail.com. Xem thêm [Chính sách hủy & hoàn tiền](/cancellation).',
+          `Hỗ trợ thanh toán: [Facebook Messenger](https://m.me/1019820571221637) hoặc ${LEGAL_COMPANY.email}. Xem thêm [Chính sách hủy & hoàn tiền](/cancellation).`,
         ],
       },
     ],

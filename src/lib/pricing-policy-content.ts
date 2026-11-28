@@ -5,13 +5,13 @@ import { LEGAL_COMPANY } from './legal-company';
 const dates = {
   en: {
     effectiveDate: LEGAL_COMPANY.effectiveDate,
-    updatedDate: LEGAL_COMPANY.effectiveDate,
-    version: LEGAL_COMPANY.version,
+    updatedDate: '28/11/2026',
+    version: '1.1',
   },
   vi: {
     effectiveDate: LEGAL_COMPANY.effectiveDate,
-    updatedDate: LEGAL_COMPANY.effectiveDate,
-    version: LEGAL_COMPANY.version,
+    updatedDate: '28/11/2026',
+    version: '1.1',
   },
 };
 
@@ -87,7 +87,7 @@ export const pricingPolicyContent: Record<Locale, LegalPageContent> = {
         title: 'If a price looks wrong',
         body: [
           'If the Nutree screen and the confirmation amount on Apple, Google Play, Paddle, or the VietQR screen differ, check the amount on that channel before you confirm.',
-          'If a completed charge looks wrong, contact [Facebook Messenger](https://m.me/1019820571221637) or nutreeaidev@gmail.com with the receipt from that channel. See [Payment](/payment) and [Cancellation & Refunds](/cancellation).',
+          `If a completed charge looks wrong, contact [Facebook Messenger](https://m.me/1019820571221637) or ${LEGAL_COMPANY.email} with the receipt from that channel. See [Payment](/payment) and [Cancellation & Refunds](/cancellation).`,
         ],
       },
       {
@@ -174,7 +174,7 @@ export const pricingPolicyContent: Record<Locale, LegalPageContent> = {
         title: 'Lỗi hiển thị hoặc sai lệch giá',
         body: [
           'Nếu màn hình Nutree và số tiền xác nhận trên Apple, Google Play, Paddle hoặc màn hình VietQR khác nhau, hãy kiểm tra số tiền trên kênh đó trước khi xác nhận.',
-          'Nếu giao dịch đã xong mà số tiền có vẻ sai, liên hệ [Facebook Messenger](https://m.me/1019820571221637) hoặc nutreeaidev@gmail.com kèm biên nhận của kênh đó. Xem [Chính sách thanh toán](/payment) và [Hủy & hoàn tiền](/cancellation).',
+          `Nếu giao dịch đã xong mà số tiền có vẻ sai, liên hệ [Facebook Messenger](https://m.me/1019820571221637) hoặc ${LEGAL_COMPANY.email} kèm biên nhận của kênh đó. Xem [Chính sách thanh toán](/payment) và [Hủy & hoàn tiền](/cancellation).`,
         ],
       },
       {

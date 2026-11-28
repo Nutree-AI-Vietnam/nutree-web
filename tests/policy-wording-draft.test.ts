@@ -57,7 +57,7 @@ test('payment draft names four channels and does not promise a Paddle refund win
         url.pathname === '/legal/buyer-terms',
     ),
   );
-  assert.ok(blob.includes('nutreeaidev@gmail.com'));
+  assert.ok(blob.includes(LEGAL_COMPANY.email));
   assert.ok(blob.includes('https://m.me/1019820571221637'));
   assert.match(blob, /VietQR is a one-time payment and does not renew automatically/);
   assert.match(blob, /VietQR là thanh toán một lần và không tự động gia hạn/);
@@ -125,10 +125,17 @@ test('store refunds, restore, and the privacy processor row stay channel-specifi
   assert.match(googleVi, /không hoàn lại số tiền đã trừ/);
   assert.equal(googleVi.includes('14 ngày'), false);
   for (const page of [cancellationPolicyContent.en, cancellationPolicyContent.vi]) {
-    const text = JSON.stringify(page);
-    assert.ok(text.includes(LEGAL_COMPANY.email));
-    assert.equal(text.includes('nutreeaidev@gmail.com'), false);
+    assert.ok(JSON.stringify(page).includes(LEGAL_COMPANY.email));
   }
+  const customerCopy = JSON.stringify({
+    cancellationPolicyContent,
+    complaintsPolicyContent,
+    paymentPolicyContent,
+    pricingPolicyContent,
+    usagePolicyContent,
+    translations,
+  });
+  assert.equal(customerCopy.includes('nutreeaidev@gmail.com'), false);
 
   const refund = translations.en.faq.sections.flatMap((section) => section.items).find((item) => item.question === 'How do I request a refund?');
   const refundVi = translations.vi.faq.sections.flatMap((section) => section.items).find((item) => item.question === 'Làm sao yêu cầu hoàn tiền?');

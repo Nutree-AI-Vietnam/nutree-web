@@ -577,7 +577,7 @@ export const translations: Record<Locale, TranslationStrings> = {
             },
             {
               question: 'How do I restore my purchase on a new device?',
-              answer: 'An Apple or Google Play subscription can be restored in the Nutree app by signing in with the same store account. This answer does not say that a Paddle web checkout or a VietQR transfer restores automatically. If access is missing, contact https://m.me/1019820571221637 or nutreeaidev@gmail.com.',
+              answer: 'An Apple or Google Play subscription can be restored in the Nutree app by signing in with the same store account. This answer does not say that a Paddle web checkout or a VietQR transfer restores automatically. If access is missing, contact https://m.me/1019820571221637 or support@nutreeai.com.',
             },
           ],
         },
@@ -1104,7 +1104,7 @@ export const translations: Record<Locale, TranslationStrings> = {
             },
             {
               question: 'Làm sao khôi phục gói đăng ký trên thiết bị mới?',
-              answer: 'Gói Apple hoặc Google Play có thể được khôi phục trong app Nutree khi bạn đăng nhập cùng tài khoản cửa hàng đã mua. Câu trả lời này không nói rằng thanh toán web Paddle hoặc chuyển khoản VietQR tự khôi phục. Nếu thiếu quyền dùng, liên hệ https://m.me/1019820571221637 hoặc nutreeaidev@gmail.com.',
+              answer: 'Gói Apple hoặc Google Play có thể được khôi phục trong app Nutree khi bạn đăng nhập cùng tài khoản cửa hàng đã mua. Câu trả lời này không nói rằng thanh toán web Paddle hoặc chuyển khoản VietQR tự khôi phục. Nếu thiếu quyền dùng, liên hệ https://m.me/1019820571221637 hoặc support@nutreeai.com.',
             },
           ],
         },
