@@ -7,7 +7,7 @@ import { BlogListing } from '@/components/blog/BlogListing';
 import { Breadcrumbs } from '@/components/blog/Breadcrumbs';
 import { PostCard } from '@/components/blog/PostCard';
 import { TableOfContents } from '@/components/blog/TableOfContents';
-import { renderPostBody } from '@/components/blog/mdx';
+import { renderPostBody } from 'nutree-blog-render';
 import { JsonLd } from '@/components/seo/JsonLd';
 import {
   formatPostDate,

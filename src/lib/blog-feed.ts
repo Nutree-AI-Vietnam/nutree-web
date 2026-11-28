@@ -1,5 +1,5 @@
-import fs from 'node:fs';
 import path from 'node:path';
+import { readPublicImage } from 'nutree-blog-source';
 import { getAllPosts, toIsoDateTime, type PostImage } from './blog';
 import { BLOG_LOCALES, type BlogLocale } from './blog-locales';
 import { SITE_CONFIG } from './constants';
@@ -27,9 +27,10 @@ function escapeXml(value: string): string {
 
 /** The cover as an RSS enclosure, which feed readers show as the item's picture. */
 function enclosure(image: PostImage): string {
-  const { size } = fs.statSync(path.join(process.cwd(), 'public', image.src));
+  const file = readPublicImage(image.src);
+  if (file.status !== 'ok') return '';
   const type = IMAGE_TYPES[path.extname(image.src)];
-  return `\n      <enclosure url="${SITE_CONFIG.url}${image.src}" length="${size}" type="${type}" />`;
+  return `\n      <enclosure url="${SITE_CONFIG.url}${image.src}" length="${file.byteLength}" type="${type}" />`;
 }
 
 /** RFC 822 date, as RSS 2.0 requires. */
