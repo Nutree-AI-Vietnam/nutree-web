@@ -5,13 +5,13 @@ import { LEGAL_COMPANY } from './legal-company';
 const dates = {
   en: {
     effectiveDate: LEGAL_COMPANY.effectiveDate,
-    updatedDate: '08/08/2026',
-    version: '1.1',
+    updatedDate: '28/11/2026',
+    version: '1.2',
   },
   vi: {
     effectiveDate: LEGAL_COMPANY.effectiveDate,
-    updatedDate: '08/08/2026',
-    version: '1.1',
+    updatedDate: '28/11/2026',
+    version: '1.2',
   },
 };
 
@@ -30,7 +30,7 @@ export const cancellationPolicyContent: Record<Locale, LegalPageContent> = {
       {
         title: 'Overview',
         body: [
-          `Nutree sells through four channels: Apple in-app purchase, Google Play in-app purchase, Paddle web checkout, and a one-time VietQR bank transfer. Provider: ${LEGAL_COMPANY.legalNameEn}. Address: ${LEGAL_COMPANY.addressEn}. Cancellation help: Facebook Messenger or nutreeaidev@gmail.com.`,
+          `Nutree sells through four channels: Apple in-app purchase, Google Play in-app purchase, Paddle web checkout, and a one-time VietQR bank transfer. Provider: ${LEGAL_COMPANY.legalNameEn}. Address: ${LEGAL_COMPANY.addressEn}. Cancellation help: Facebook Messenger or ${LEGAL_COMPANY.email}.`,
           'Apple, Google Play, and Paddle purchases can renew until cancelled in that channel. VietQR is one-time and does not renew automatically.',
           'Nutree does not publish its own refund promise for Paddle checkout. Paddle is the merchant of record. See the [Paddle Buyer Terms](https://www.paddle.com/legal/buyer-terms). This does not waive a consumer right that applicable law does not allow to be waived.',
         ],
@@ -59,15 +59,16 @@ export const cancellationPolicyContent: Record<Locale, LegalPageContent> = {
           'Purchases through Nutree’s web checkout are processed by Paddle. Paddle is the merchant of record for those purchases.',
           'Nutree does not publish its own refund promise for that checkout, and this page does not say that those purchases are non-refundable. Whether a refund is available is covered by the [Paddle Buyer Terms](https://www.paddle.com/legal/buyer-terms).',
           'This does not waive a consumer right that applicable law does not allow to be waived.',
-          'For help finding a Paddle transaction, use Facebook Messenger or email nutreeaidev@gmail.com with your Nutree account email, transaction ID, date, and amount.',
+          `For help finding a Paddle transaction, use Facebook Messenger or email ${LEGAL_COMPANY.email} with your Nutree account email, transaction ID, date, and amount.`,
         ],
       },
       {
         title: 'Google Play in-app refunds',
         body: [
-          'For a purchase processed by Google Play, request a refund in Google Play with the account that paid.',
-          'Nutree does not publish its own refund promise for that store, and this section does not say the purchase is non-refundable.',
-          'For help finding the purchase, use Facebook Messenger or email nutreeaidev@gmail.com with your Nutree account email and the Google Play receipt.',
+          'Within 48 hours of a Google Play charge, you can request a refund in Google Play with the account that paid. Google reviews and decides these requests. See [Request a refund on Google Play](https://support.google.com/googleplay/answer/15574897).',
+          'After 48 hours, contact Nutree. We review each request and can refund through Google Play, but a refund is not guaranteed.',
+          'Cancelling a Google Play subscription stops future renewals. It does not refund a charge already made.',
+          `To contact Nutree, use Facebook Messenger or email ${LEGAL_COMPANY.email} with your Nutree account email and the order number on your Google Play receipt.`,
         ],
       },
       {
@@ -75,7 +76,7 @@ export const cancellationPolicyContent: Record<Locale, LegalPageContent> = {
         body: [
           'For purchases processed by the Apple App Store, Apple processes refund requests.',
           'Visit [reportaproblem.apple.com](https://reportaproblem.apple.com), sign in with the Apple ID used for the purchase, select the Nutree transaction, and submit the refund request.',
-          'For help with activation or missing access after an App Store payment, use Facebook Messenger or email nutreeaidev@gmail.com with your Nutree account email and Apple receipt or transaction ID.',
+          `For help with activation or missing access after an App Store payment, use Facebook Messenger or email ${LEGAL_COMPANY.email} with your Nutree account email and Apple receipt or transaction ID.`,
         ],
       },
       {
@@ -89,7 +90,7 @@ export const cancellationPolicyContent: Record<Locale, LegalPageContent> = {
       {
         title: 'Contact and complaints',
         body: [
-          'Cancellation help: [Facebook Messenger](https://m.me/1019820571221637) or nutreeaidev@gmail.com.',
+          `Cancellation help: [Facebook Messenger](https://m.me/1019820571221637) or ${LEGAL_COMPANY.email}.`,
           'For formal complaints or escalations, see our [Complaints policy](/complaints).',
         ],
       },
@@ -109,7 +110,7 @@ export const cancellationPolicyContent: Record<Locale, LegalPageContent> = {
       {
         title: 'Tổng quan',
         body: [
-          `Nutree bán qua bốn kênh: mua trong ứng dụng Apple, mua trong ứng dụng Google Play, thanh toán web Paddle, và chuyển khoản VietQR một lần. Đơn vị cung cấp: ${LEGAL_COMPANY.legalName}. Địa chỉ: ${LEGAL_COMPANY.address}. Hỗ trợ hủy gói: Facebook Messenger hoặc nutreeaidev@gmail.com.`,
+          `Nutree bán qua bốn kênh: mua trong ứng dụng Apple, mua trong ứng dụng Google Play, thanh toán web Paddle, và chuyển khoản VietQR một lần. Đơn vị cung cấp: ${LEGAL_COMPANY.legalName}. Địa chỉ: ${LEGAL_COMPANY.address}. Hỗ trợ hủy gói: Facebook Messenger hoặc ${LEGAL_COMPANY.email}.`,
           'Giao dịch Apple, Google Play và Paddle có thể gia hạn cho đến khi hủy đúng kênh đó. VietQR là thanh toán một lần và không tự động gia hạn.',
           'Nutree không công bố cam kết hoàn tiền riêng cho thanh toán Paddle. Paddle là đơn vị bán hàng (merchant of record). Xem [Điều khoản người mua của Paddle](https://www.paddle.com/legal/buyer-terms). Nội dung này không từ bỏ quyền người tiêu dùng mà pháp luật áp dụng không cho phép từ bỏ.',
         ],
@@ -138,15 +139,16 @@ export const cancellationPolicyContent: Record<Locale, LegalPageContent> = {
           'Giao dịch qua thanh toán web của Nutree do Paddle xử lý. Paddle là đơn vị bán hàng (merchant of record) của các giao dịch đó.',
           'Nutree không công bố cam kết hoàn tiền riêng cho thanh toán này, và trang này không nói rằng các giao dịch đó không được hoàn tiền. Việc có hoàn tiền hay không nằm ở [Điều khoản người mua của Paddle](https://www.paddle.com/legal/buyer-terms).',
           'Nội dung này không từ bỏ quyền người tiêu dùng mà pháp luật áp dụng không cho phép từ bỏ.',
-          'Nếu cần tìm giao dịch Paddle, dùng Facebook Messenger hoặc gửi nutreeaidev@gmail.com kèm email tài khoản Nutree, mã giao dịch, ngày và số tiền.',
+          `Nếu cần tìm giao dịch Paddle, dùng Facebook Messenger hoặc gửi ${LEGAL_COMPANY.email} kèm email tài khoản Nutree, mã giao dịch, ngày và số tiền.`,
         ],
       },
       {
         title: 'Hoàn tiền trong ứng dụng Google Play',
         body: [
-          'Với giao dịch do Google Play xử lý, gửi yêu cầu hoàn tiền trong Google Play bằng tài khoản đã trả.',
-          'Nutree không công bố cam kết hoàn tiền riêng cho cửa hàng đó, và mục này không nói giao dịch không được hoàn tiền.',
-          'Nếu cần tìm giao dịch, dùng Facebook Messenger hoặc gửi nutreeaidev@gmail.com kèm email tài khoản Nutree và biên nhận Google Play.',
+          'Trong 48 giờ kể từ khi Google Play trừ tiền, bạn có thể gửi yêu cầu hoàn tiền trong Google Play bằng tài khoản đã trả. Google xem xét và quyết định các yêu cầu này. Xem [Yêu cầu hoàn tiền trên Google Play](https://support.google.com/googleplay/answer/15574897?hl=vi).',
+          'Sau 48 giờ, liên hệ Nutree. Chúng tôi xem xét từng yêu cầu và có thể hoàn tiền qua Google Play, nhưng không bảo đảm sẽ được hoàn tiền.',
+          'Hủy gói Google Play chỉ dừng các lần gia hạn tiếp theo. Việc hủy không hoàn lại số tiền đã trừ.',
+          `Khi liên hệ Nutree, dùng Facebook Messenger hoặc gửi ${LEGAL_COMPANY.email} kèm email tài khoản Nutree và mã đơn hàng trên biên nhận Google Play.`,
         ],
       },
       {
@@ -154,7 +156,7 @@ export const cancellationPolicyContent: Record<Locale, LegalPageContent> = {
         body: [
           'Đối với giao dịch do Apple App Store xử lý, Apple tiếp nhận và xử lý yêu cầu hoàn tiền.',
           'Truy cập [reportaproblem.apple.com](https://reportaproblem.apple.com), đăng nhập Tài khoản Apple đã mua, chọn giao dịch Nutree và gửi yêu cầu hoàn tiền.',
-          `Nếu cần hỗ trợ kích hoạt hoặc thiếu quyền truy cập sau thanh toán App Store, nhắn Facebook Messenger hoặc gửi nutreeaidev@gmail.com kèm email tài khoản Nutree và biên nhận hoặc mã giao dịch Apple.`,
+          `Nếu cần hỗ trợ kích hoạt hoặc thiếu quyền truy cập sau thanh toán App Store, nhắn Facebook Messenger hoặc gửi ${LEGAL_COMPANY.email} kèm email tài khoản Nutree và biên nhận hoặc mã giao dịch Apple.`,
         ],
       },
       {
@@ -168,7 +170,7 @@ export const cancellationPolicyContent: Record<Locale, LegalPageContent> = {
       {
         title: 'Liên hệ và khiếu nại',
         body: [
-          'Hỗ trợ hủy gói: [Facebook Messenger](https://m.me/1019820571221637) hoặc nutreeaidev@gmail.com.',
+          `Hỗ trợ hủy gói: [Facebook Messenger](https://m.me/1019820571221637) hoặc ${LEGAL_COMPANY.email}.`,
           'Khiếu nại chính thức: xem [Chính sách khiếu nại](/complaints).',
         ],
       },

@@ -5,13 +5,13 @@ import { LEGAL_COMPANY } from './legal-company';
 const dates = {
   en: {
     effectiveDate: '27/08/2026',
-    updatedDate: '27/08/2026',
-    version: '1.0',
+    updatedDate: '28/11/2026',
+    version: '1.1',
   },
   vi: {
     effectiveDate: '27/08/2026',
-    updatedDate: '27/08/2026',
-    version: '1.0',
+    updatedDate: '28/11/2026',
+    version: '1.1',
   },
 };
 
@@ -54,7 +54,7 @@ export const usagePolicyContent: Record<Locale, LegalPageContent> = {
         body: [
           'Follow the on-screen checkout instructions (for example bank transfer with VietQR and the exact amount shown).',
           'Transfer the exact amount and keep your payment receipt / transaction reference.',
-          'If the checkout asks you to send a receipt, send it through [Facebook Messenger](https://m.me/1019820571221637) or to nutreeaidev@gmail.com with the transfer content or order reference.',
+          `If the checkout asks you to send a receipt, send it through [Facebook Messenger](https://m.me/1019820571221637) or to ${LEGAL_COMPANY.email} with the transfer content or order reference.`,
         ],
         images: [
           {
@@ -69,7 +69,7 @@ export const usagePolicyContent: Record<Locale, LegalPageContent> = {
         body: [
           'This page does not say a website payment is followed by an activation email or a deeplink.',
           'If you receive a message about a purchase, check who sent it before you open a link. Nutree does not ask for a banking password in email or chat.',
-          'If you need help, contact [Facebook Messenger](https://m.me/1019820571221637) or nutreeaidev@gmail.com with your payment proof and the email address you used.',
+          `If you need help, contact [Facebook Messenger](https://m.me/1019820571221637) or ${LEGAL_COMPANY.email} with your payment proof and the email address you used.`,
         ],
       },
       {
@@ -98,8 +98,8 @@ export const usagePolicyContent: Record<Locale, LegalPageContent> = {
       {
         title: 'Troubleshooting',
         body: [
-          'No email from the website: this page does not say the website sends one. If you need help, contact [Facebook Messenger](https://m.me/1019820571221637) or nutreeaidev@gmail.com with payment proof.',
-          'If paid access is missing, contact the same Messenger link or nutreeaidev@gmail.com with your receipt.',
+          `No email from the website: this page does not say the website sends one. If you need help, contact [Facebook Messenger](https://m.me/1019820571221637) or ${LEGAL_COMPANY.email} with payment proof.`,
+          `If paid access is missing, contact the same Messenger link or ${LEGAL_COMPANY.email} with your receipt.`,
         ],
       },
       {
@@ -148,7 +148,7 @@ export const usagePolicyContent: Record<Locale, LegalPageContent> = {
         body: [
           'Làm theo hướng dẫn checkout trên màn hình (ví dụ chuyển khoản VietQR đúng số tiền hiển thị).',
           'Chuyển đúng số tiền và lưu biên lai / mã giao dịch.',
-          'Nếu checkout yêu cầu gửi biên lai, hãy gửi qua [Facebook Messenger](https://m.me/1019820571221637) hoặc tới nutreeaidev@gmail.com, kèm nội dung chuyển khoản hoặc mã đơn.',
+          `Nếu checkout yêu cầu gửi biên lai, hãy gửi qua [Facebook Messenger](https://m.me/1019820571221637) hoặc tới ${LEGAL_COMPANY.email}, kèm nội dung chuyển khoản hoặc mã đơn.`,
         ],
         images: [
           {
@@ -163,7 +163,7 @@ export const usagePolicyContent: Record<Locale, LegalPageContent> = {
         body: [
           'Trang này không nói thanh toán trên website được theo sau bởi email kích hoạt hoặc deeplink.',
           'Nếu bạn nhận tin nhắn về một giao dịch, hãy kiểm tra người gửi trước khi mở liên kết. Nutree không hỏi mật khẩu ngân hàng qua email hoặc chat.',
-          'Nếu cần hỗ trợ, nhắn [Facebook Messenger](https://m.me/1019820571221637) hoặc gửi tới nutreeaidev@gmail.com, kèm bằng chứng thanh toán và địa chỉ email đã dùng.',
+          `Nếu cần hỗ trợ, nhắn [Facebook Messenger](https://m.me/1019820571221637) hoặc gửi tới ${LEGAL_COMPANY.email}, kèm bằng chứng thanh toán và địa chỉ email đã dùng.`,
         ],
       },
       {
@@ -192,8 +192,8 @@ export const usagePolicyContent: Record<Locale, LegalPageContent> = {
       {
         title: 'Xử lý sự cố',
         body: [
-          'Không có email từ website: trang này không nói website gửi email đó. Nếu cần hỗ trợ, nhắn [Facebook Messenger](https://m.me/1019820571221637) hoặc gửi tới nutreeaidev@gmail.com kèm bằng chứng thanh toán.',
-          'Nếu thiếu quyền dùng đã thanh toán, hãy liên hệ cùng liên kết Messenger hoặc nutreeaidev@gmail.com và gửi biên nhận.',
+          `Không có email từ website: trang này không nói website gửi email đó. Nếu cần hỗ trợ, nhắn [Facebook Messenger](https://m.me/1019820571221637) hoặc gửi tới ${LEGAL_COMPANY.email} kèm bằng chứng thanh toán.`,
+          `Nếu thiếu quyền dùng đã thanh toán, hãy liên hệ cùng liên kết Messenger hoặc ${LEGAL_COMPANY.email} và gửi biên nhận.`,
         ],
       },
       {

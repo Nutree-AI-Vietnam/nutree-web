@@ -5,13 +5,13 @@ import { LEGAL_COMPANY } from './legal-company';
 const dates = {
   en: {
     effectiveDate: LEGAL_COMPANY.effectiveDate,
-    updatedDate: LEGAL_COMPANY.effectiveDate,
-    version: LEGAL_COMPANY.version,
+    updatedDate: '28/11/2026',
+    version: '1.1',
   },
   vi: {
     effectiveDate: LEGAL_COMPANY.effectiveDate,
-    updatedDate: LEGAL_COMPANY.effectiveDate,
-    version: LEGAL_COMPANY.version,
+    updatedDate: '28/11/2026',
+    version: '1.1',
   },
 };
 
@@ -39,7 +39,7 @@ export const complaintsPolicyContent: Record<Locale, LegalPageContent> = {
         title: 'Intake channels',
         body: [
           `Published company email: ${LEGAL_COMPANY.email}.`,
-          'Payment and access help uses the same contacts as the Payment Policy: [Facebook Messenger](https://m.me/1019820571221637) or nutreeaidev@gmail.com.',
+          `Payment and access help uses the same contacts as the Payment Policy: [Facebook Messenger](https://m.me/1019820571221637) or ${LEGAL_COMPANY.email}.`,
           'In-app support/feedback when available.',
           `Written mail: ${LEGAL_COMPANY.legalNameEn}, ${LEGAL_COMPANY.addressEn}.`,
           `Website: ${LEGAL_COMPANY.websiteDisplay}.`,
@@ -72,7 +72,7 @@ export const complaintsPolicyContent: Record<Locale, LegalPageContent> = {
       {
         title: 'Outcomes and escalation',
         body: [
-          'Outcomes may include guidance, bug fixes, entitlement help, or a written reply. Apple reviews App Store refund requests. Google Play reviews Google Play refund requests. Nutree does not publish its own refund promise for Paddle; see the Paddle Buyer Terms. This page does not add a Nutree refund promise for VietQR.',
+          'Outcomes may include guidance, bug fixes, entitlement help, or a written reply. Apple reviews App Store refund requests. Google Play reviews refund requests made within 48 hours of a charge. After that, Nutree reviews them. Nutree does not publish its own refund promise for Paddle; see the Paddle Buyer Terms. This page does not add a Nutree refund promise for VietQR.',
           'You may request reconsideration with new evidence. You may also contact consumer authorities or courts under Vietnamese law. Non-waivable consumer rights are not limited by this policy.',
         ],
       },
@@ -100,7 +100,7 @@ export const complaintsPolicyContent: Record<Locale, LegalPageContent> = {
         title: 'Kênh tiếp nhận',
         body: [
           `Email công ty đã công bố: ${LEGAL_COMPANY.email}.`,
-          'Hỗ trợ thanh toán và quyền dùng dùng cùng liên hệ với Chính sách thanh toán: [Facebook Messenger](https://m.me/1019820571221637) hoặc nutreeaidev@gmail.com.',
+          `Hỗ trợ thanh toán và quyền dùng dùng cùng liên hệ với Chính sách thanh toán: [Facebook Messenger](https://m.me/1019820571221637) hoặc ${LEGAL_COMPANY.email}.`,
           'Trong ứng dụng: mục Hỗ trợ/Phản hồi khi có.',
           `Văn bản: ${LEGAL_COMPANY.legalName}, ${LEGAL_COMPANY.address}.`,
           `Website: ${LEGAL_COMPANY.websiteDisplay}.`,
@@ -133,7 +133,7 @@ export const complaintsPolicyContent: Record<Locale, LegalPageContent> = {
       {
         title: 'Kết quả và khiếu nại tiếp',
         body: [
-          'Phương án có thể gồm hướng dẫn, sửa lỗi, hỗ trợ quyền dùng hoặc trả lời bằng văn bản. Apple xem xét yêu cầu hoàn tiền App Store. Google Play xem xét yêu cầu hoàn tiền Google Play. Nutree không công bố cam kết hoàn tiền riêng cho Paddle; xem Điều khoản người mua của Paddle. Trang này không thêm cam kết hoàn tiền riêng của Nutree cho VietQR.',
+          'Phương án có thể gồm hướng dẫn, sửa lỗi, hỗ trợ quyền dùng hoặc trả lời bằng văn bản. Apple xem xét yêu cầu hoàn tiền App Store. Google Play xem xét yêu cầu hoàn tiền gửi trong 48 giờ kể từ khi trừ tiền. Sau thời gian đó, Nutree xem xét. Nutree không công bố cam kết hoàn tiền riêng cho Paddle; xem Điều khoản người mua của Paddle. Trang này không thêm cam kết hoàn tiền riêng của Nutree cho VietQR.',
           'Có thể yêu cầu xem xét lại với chứng cứ mới. Người dùng có quyền liên hệ cơ quan bảo vệ người tiêu dùng hoặc Tòa án theo pháp luật Việt Nam. Chính sách này không hạn chế quyền bắt buộc của người tiêu dùng.',
         ],
       },

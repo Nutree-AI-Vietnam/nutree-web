@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { cancellationPolicyContent } from '../src/lib/cancellation-policy-content';
 import { complaintsPolicyContent } from '../src/lib/complaints-policy-content';
+import { LEGAL_COMPANY } from '../src/lib/legal-company';
 import { privacyContent } from '../src/lib/legal-content';
 import { paymentPolicyContent } from '../src/lib/payment-policy-content';
 import { pricingPolicyContent } from '../src/lib/pricing-policy-content';
@@ -56,7 +57,7 @@ test('payment draft names four channels and does not promise a Paddle refund win
         url.pathname === '/legal/buyer-terms',
     ),
   );
-  assert.ok(blob.includes('nutreeaidev@gmail.com'));
+  assert.ok(blob.includes(LEGAL_COMPANY.email));
   assert.ok(blob.includes('https://m.me/1019820571221637'));
   assert.match(blob, /VietQR is a one-time payment and does not renew automatically/);
   assert.match(blob, /VietQR là thanh toán một lần và không tự động gia hạn/);
@@ -114,11 +115,35 @@ test('later pricing, payment, usage, and complaint sections name the same four c
 test('store refunds, restore, and the privacy processor row stay channel-specific', () => {
   const google = sectionText(cancellationPolicyContent.en, 'Google Play in-app refunds');
   const googleVi = sectionText(cancellationPolicyContent.vi, 'Hoàn tiền trong ứng dụng Google Play');
-  assert.match(google, /request a refund in Google Play/);
-  assert.match(google, /does not publish its own refund promise/);
+  assert.match(google, /Within 48 hours of a Google Play charge, you can request a refund in Google Play/);
+  assert.match(google, /After 48 hours, contact Nutree\. We review each request/);
+  assert.match(google, /a refund is not guaranteed/);
+  assert.match(google, /does not refund a charge already made/);
   assert.equal(google.includes('14 calendar'), false);
-  assert.match(googleVi, /trong Google Play/);
+  assert.match(googleVi, /Trong 48 giờ kể từ khi Google Play trừ tiền, bạn có thể gửi yêu cầu hoàn tiền trong Google Play/);
+  assert.match(googleVi, /Sau 48 giờ, liên hệ Nutree/);
+  assert.match(googleVi, /không hoàn lại số tiền đã trừ/);
   assert.equal(googleVi.includes('14 ngày'), false);
+  for (const page of [cancellationPolicyContent.en, cancellationPolicyContent.vi]) {
+    assert.ok(JSON.stringify(page).includes(LEGAL_COMPANY.email));
+  }
+  const customerCopy = JSON.stringify({
+    cancellationPolicyContent,
+    complaintsPolicyContent,
+    paymentPolicyContent,
+    pricingPolicyContent,
+    usagePolicyContent,
+    translations,
+  });
+  assert.equal(customerCopy.includes('nutreeaidev@gmail.com'), false);
+
+  const refund = translations.en.faq.sections.flatMap((section) => section.items).find((item) => item.question === 'How do I request a refund?');
+  const refundVi = translations.vi.faq.sections.flatMap((section) => section.items).find((item) => item.question === 'Làm sao yêu cầu hoàn tiền?');
+  assert.ok(refund && refundVi);
+  assert.match(refund.answer, /Within 48 hours of a Google Play charge/);
+  assert.match(refund.answer, /After 48 hours, contact Nutree/);
+  assert.match(refundVi.answer, /Trong 48 giờ kể từ khi Google Play trừ tiền/);
+  assert.match(refundVi.answer, /Sau 48 giờ, liên hệ Nutree/);
 
   const cancel = translations.en.faq.sections.flatMap((section) => section.items).find((item) => item.question === 'How do I cancel my subscription?');
   const cancelVi = translations.vi.faq.sections.flatMap((section) => section.items).find((item) => item.question === 'Làm sao để hủy gói đăng ký?');
